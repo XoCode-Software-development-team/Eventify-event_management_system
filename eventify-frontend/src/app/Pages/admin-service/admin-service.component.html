@@ -1,0 +1,59 @@
+<!-- Header -->
+<div class="header">
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+    </div>
+</div>
+<div class="icons">
+
+</div>
+
+
+
+<!-- The flexible grid (content) -->
+<div class="row">
+    <div class="side">
+        <app-side-nav-bar></app-side-nav-bar>
+    </div>
+    <div class="main">
+        <div class="container">
+            <app-tab-card></app-tab-card>
+        </div>
+        <div class="table">
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="VendorId">
+                    <th mat-header-cell *matHeaderCellDef>VendorId</th>
+                    <td mat-cell *matCellDef="let element">{{element.VendorId}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Service">
+                    <th mat-header-cell *matHeaderCellDef>Service</th>
+                    <td mat-cell *matCellDef="let element">{{element.Service}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Rating">
+                    <th mat-header-cell *matHeaderCellDef>Rating</th>
+                    <td mat-cell *matCellDef="let element">{{element.Rating}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Avaliability">
+                    <th mat-header-cell *matHeaderCellDef>Avaliability</th>
+                    <td mat-cell *matCellDef="let element">{{element.Avaliability}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <app-footer></app-footer>
+</div>

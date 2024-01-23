@@ -1,6 +1,5 @@
 <div class="container">
     <div class="list-container">
-        <a class="element" mat-button routerLink=".">All Services</a>
-        <a class="element" mat-button routerLink=".">Delete Requests</a>
+        <a *ngFor="let item of navigationTabs" class="element" mat-button [routerLink]="item.Url">{{ item.Tag }}</a>
     </div>
 </div>

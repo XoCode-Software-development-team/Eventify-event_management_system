@@ -1,0 +1,37 @@
+.card-container {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    display: flex;
+    padding: 20px 20px;
+    margin: 0 20px 0 0;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    background: #D9D9D9;
+    cursor: pointer;
+}
+
+.card:hover {
+    background: #ababab;
+}
+
+.card:active {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+
+
+@media screen and (max-width: 700px) {
+    .card {
+        padding: 10px;
+        margin: 0 10px 10px 0;
+    }
+}
