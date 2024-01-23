@@ -1,0 +1,26 @@
+/* Footer */
+.footer {
+    text-align: center;
+    background: #1C5864;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+}
+
+.footer p {
+    color: #FFF;
+
+    font-family: Lato;
+    font-size: 20px;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.6px;
+    padding: 20px 0;
+}
+
+@media screen and (max-width: 700px) {
+    .footer p {
+        font-size: 12px;
+    }
+}
