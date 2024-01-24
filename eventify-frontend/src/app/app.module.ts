@@ -12,6 +12,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminServiceComponent } from './Pages/admin-service/admin-service.component';
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
 import { FooterComponent } from './Components/footer/footer.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { FooterComponent } from './Components/footer/footer.component';
     MatIconModule,
     HttpClientModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

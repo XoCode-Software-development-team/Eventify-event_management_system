@@ -1,16 +1,102 @@
 {
-    "posts": [
-      { "id": "1", "title": "a title" },
-      { "id": "2", "title": "another title" }
-    ],
-    "comments": [
-      { "id": "1", "text": "a comment about post 1", "postId": "1" },
-      { "id": "2", "text": "another comment about post 1", "postId": "1" }
-    ],
-    "profile": {
-      "name": "typicode"
+  "posts": [
+    { "id": "1", "title": "a title" },
+    { "id": "2", "title": "another title" }
+  ],
+  "comments": [
+    { "id": "1", "text": "a comment about post 1", "postId": "1" },
+    { "id": "2", "text": "another comment about post 1", "postId": "1" }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "Services": [
+    {
+      "VendorId": "V01",
+      "Service": "Swan boat ride",
+      "Rating": 3,
+      "Availability": true
     },
-    "Services": {
-        "name": "cook"
+    {
+      "VendorId": "V02",
+      "Service": "Paddleboard Adventure",
+      "Rating": 4,
+      "Availability": true
+    },
+    {
+      "VendorId": "V03",
+      "Service": "Canoe Excursion",
+      "Rating": 5,
+      "Availability": false
+    },
+    {
+      "VendorId": "V04",
+      "Service": "Kayak Tour",
+      "Rating": 4.5,
+      "Availability": true
+    },
+    {
+      "VendorId": "V05",
+      "Service": "Pedal Boat Fun",
+      "Rating": 3.5,
+      "Availability": false
+    },
+    {
+      "VendorId": "V06",
+      "Service": "Rowing Challenge",
+      "Rating": 4,
+      "Availability": true
+    },
+    {
+      "VendorId": "V07",
+      "Service": "Boat Cruise",
+      "Rating": 3.8,
+      "Availability": false
+    },
+    {
+      "VendorId": "V08",
+      "Service": "Jet Ski Adventure",
+      "Rating": 4.5,
+      "Availability": true
+    },
+    {
+      "VendorId": "V09",
+      "Service": "Fishing Trip",
+      "Rating": 4.0,
+      "Availability": true
+    },
+    {
+      "VendorId": "V10",
+      "Service": "Scuba Diving",
+      "Rating": 4.8,
+      "Availability": false
+    },
+    {
+      "VendorId": "V11",
+      "Service": "Surfing Lessons",
+      "Rating": 3.2,
+      "Availability": true
+    },
+    {
+      "VendorId": "V12",
+      "Service": "Snorkeling Tour",
+      "Rating": 4.5,
+      "Availability": false
+    },
+    {
+      "VendorId": "V13",
+      "Service": "Kayak Rental",
+      "Rating": 3.7,
+      "Availability": true
+    },
+    {
+      "VendorId": "V14",
+      "Service": "Sailing Excursion",
+      "Rating": 4.0,
+      "Availability": false
     }
-  }
+  ],
+  "Categories": [
+    "Entertaiment","Catering","Decoration","Photography"
+  ]
+}

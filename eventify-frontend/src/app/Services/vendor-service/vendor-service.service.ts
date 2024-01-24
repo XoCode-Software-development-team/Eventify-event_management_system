@@ -9,11 +9,11 @@ export class VendorServiceService {
 
   constructor(private _http:HttpClient) { }
 
-  addService(data:any):Observable<any> {
-    return this._http.post('http://localhost:3000/Services',data);
+  getServiceList(){
+    return this._http.get('http://localhost:3000/Services');
   }
 
-  getService() {
-    return this._http.get('http://localhost:3000/Services');
+  getCategoriesList(){
+    return this._http.get('http://localhost:3000/Categories');
   }
 }

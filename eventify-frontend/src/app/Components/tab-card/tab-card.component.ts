@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-tab-card',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./tab-card.component.scss'],
 })
 export class TabCardComponent {
-  categories = ['Entertainment', 'Catering', 'Decoration'];
+  @Input() card:any;
 }

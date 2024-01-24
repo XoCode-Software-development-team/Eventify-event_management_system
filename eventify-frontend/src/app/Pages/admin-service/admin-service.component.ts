@@ -1,55 +1,65 @@
-import { Component } from '@angular/core';
-import {DataSource} from '@angular/cdk/collections';
-import {Observable, ReplaySubject} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface PeriodicElement {
   VendorId: string;
   Service: string;
   Rating: number;
-  Avaliability: string;
+  Availability: boolean;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {VendorId:"V01",Service:"Swan boat ride",Rating:3,Avaliability:"Booked"},
-  {VendorId:"V01",Service:"Swan boat ride",Rating:3,Avaliability:"Booked"},
-  {VendorId:"V01",Service:"Swan boat ride",Rating:3,Avaliability:"Booked"},
-  {VendorId:"V01",Service:"Swan boat ride",Rating:3,Avaliability:"Booked"},
-  {VendorId:"V01",Service:"Swan boat ride",Rating:3,Avaliability:"Booked"},
-  {VendorId:"V01",Service:"Swan boat ride",Rating:3,Avaliability:"Booked"},
-  {VendorId:"V01",Service:"Swan boat ride",Rating:3,Avaliability:"Booked"}
-];
-
 
 @Component({
   selector: 'app-admin-service',
   templateUrl: './admin-service.component.html',
-  styleUrls: ['./admin-service.component.scss']
+  styleUrls: ['./admin-service.component.scss'],
 })
+export class AdminServiceComponent implements OnInit {
+  constructor(private _vendorService: VendorServiceService) {}
 
-
-export class AdminServiceComponent {
-  displayedColumns: string[] = ['VendorId', 'Service', 'Rating', 'Avaliability'];
-  dataToDisplay = [...ELEMENT_DATA];
-
-  dataSource = new ExampleDataSource(this.dataToDisplay);
-
-}
-
-class ExampleDataSource extends DataSource<PeriodicElement> {
-  private _dataStream = new ReplaySubject<PeriodicElement[]>();
-
-  constructor(initialData: PeriodicElement[]) {
-    super();
-    this.setData(initialData);
+  ngOnInit(): void {
+    this.getCategories();
+    this.getServices();
   }
 
-  connect(): Observable<PeriodicElement[]> {
-    return this._dataStream;
+  displayedColumns: string[] = [
+    'VendorId',
+    'Service',
+    'Rating',
+    'Availability',
+    'Action',
+  ];
+  dataToDisplay: PeriodicElement[] = [];
+
+  dataSource = new MatTableDataSource<PeriodicElement>([]);
+  categories: string[]=[];
+  navbar = [
+    {
+      Tag: 'All Services',
+      Url: '.',
+    },
+    {
+      Tag: 'Delete Requests',
+      Url: '.',
+    }
+  ];
+  getServices() {
+    this._vendorService.getServiceList().subscribe({
+      next: (res: any) => {
+        this.dataSource.data = res;
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
   }
 
-  disconnect() {}
-
-  setData(data: PeriodicElement[]) {
-    this._dataStream.next(data);
+  getCategories() {
+    this._vendorService.getCategoriesList().subscribe({
+      next:(res:any) => {
+        this.categories=res;
+      },
+      error:(err:any) => console.log(err)
+    })
   }
 }
