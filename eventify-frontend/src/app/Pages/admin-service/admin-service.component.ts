@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
 import { MatTableDataSource } from '@angular/material/table';
 
-export interface PeriodicElement {
+export interface Vendor {
   VendorId: string;
   Service: string;
   Rating: number;
@@ -29,18 +29,18 @@ export class AdminServiceComponent implements OnInit {
     'Availability',
     'Action',
   ];
-  dataToDisplay: PeriodicElement[] = [];
+  dataToDisplay: Vendor[] = [];
 
-  dataSource = new MatTableDataSource<PeriodicElement>([]);
+  dataSource = new MatTableDataSource<Vendor>([]);
   categories: string[]=[];
   navbar = [
     {
       Tag: 'All Services',
-      Url: '.',
+      Url: '',
     },
     {
       Tag: 'Delete Requests',
-      Url: '.',
+      Url: 'vendor/services/deleteRequests',
     }
   ];
   getServices() {

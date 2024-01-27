@@ -15,7 +15,7 @@
 
 
 <!-- The flexible grid (content) -->
-<div class="row">
+<div class="row" style="width: 100%; min-height: 64.7%;">
     <div class="side">
         <app-side-nav-bar [navigationTabs]="navbar"></app-side-nav-bar>
     </div>
@@ -25,7 +25,7 @@
         </div>
         <div class="table">
 
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table" *ngIf="dataSource.data && dataSource.data.length>0">
                 <ng-container matColumnDef="VendorId">
                     <th mat-header-cell *matHeaderCellDef>VendorId</th>
                     <td mat-cell *matCellDef="let element">{{element.VendorId}}</td>
@@ -61,11 +61,13 @@
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-
+            <div class="empty" *ngIf="!dataSource.data || dataSource.data.length == 0">
+                <img src="../../../assets/common/No data.jpg" alt="no data found image">
+                <p>No available Services</p>
+            </div>
         </div>
     </div>
 </div>
-
-<div>
+<div class="footer">
     <app-footer></app-footer>
 </div>

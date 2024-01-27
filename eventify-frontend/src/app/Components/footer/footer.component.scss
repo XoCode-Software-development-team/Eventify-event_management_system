@@ -6,11 +6,13 @@
     justify-content: center;
     align-items: center;
     gap: 7px;
+    bottom: 0;
+    width: 100%;
+    position: fiexed;
 }
 
 .footer p {
     color: #FFF;
-
     font-family: Lato;
     font-size: 20px;
     font-style: normal;

@@ -2,7 +2,6 @@
     box-sizing: border-box;
 }
 
-
 /* Header/logo Title */
 .header {
     display: flex;
@@ -59,11 +58,6 @@
     background-color: white;
     padding: 20px;
 }
-
-
-
-
-
 
 .container {
     margin-bottom: 5%;
@@ -142,6 +136,20 @@ th {
     opacity: 1;
 }
 
+.empty {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.empty img {
+    width: 50vh;
+}
+
+.empty p {
+    color: #667085;
+    display: none;
+}
 
 
 @media screen and (max-width: 700px) {
@@ -159,6 +167,14 @@ th {
 @media screen and (max-width: 450px) {
     .rating {
         display: none;
+    }
+
+    .empty img {
+        display: none;
+    }
+
+    .empty p {
+        display: contents;
     }
 
 }
