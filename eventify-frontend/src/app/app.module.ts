@@ -13,11 +13,12 @@ import { AdminServiceComponent } from './Pages/admin-service/admin-service.compo
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminDeleteRequestComponent } from './Pages/admin-delete-request/admin-delete-request/admin-delete-request.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent
     ],
   imports: [
     BrowserModule,
@@ -27,7 +28,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     MaterialModule,
     FlexLayoutModule,
-    NgbModule
+    NgbModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

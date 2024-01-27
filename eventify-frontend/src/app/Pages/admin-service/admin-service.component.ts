@@ -19,7 +19,7 @@ export class AdminServiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
-    this.getServices();
+    // this.getServices();
   }
 
   displayedColumns: string[] = [
@@ -40,7 +40,7 @@ export class AdminServiceComponent implements OnInit {
     },
     {
       Tag: 'Delete Requests',
-      Url: 'vendor/services/deleteRequests',
+      Url: 'deleteRequests',
     }
   ];
   getServices() {
@@ -56,10 +56,12 @@ export class AdminServiceComponent implements OnInit {
 
   getCategories() {
     this._vendorService.getCategoriesList().subscribe({
-      next:(res:any) => {
+      next: (res:any) => {
         this.categories=res;
-      },
-      error:(err:any) => console.log(err)
+      },error: (err:any) => {
+        console.log(err);
+      }
     })
   }
+ 
 }
