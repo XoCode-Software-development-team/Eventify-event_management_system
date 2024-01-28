@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-ser
   styleUrls: ['./admin-service.component.scss'],
 })
 export class AdminServiceComponent implements OnInit {
-  constructor(private _vendorService: VendorServiceService) {}
+  constructor(private _vendorService: VendorServiceService, private _router: Router, _route: ActivatedRoute) {}
 
   dataSource: string[] = [];
 
@@ -18,7 +19,7 @@ export class AdminServiceComponent implements OnInit {
   }
 
   displayedColumns: string[] = [
-    'Id',
+    'No',
     'Service',
     'Rating',
     'Availability',
@@ -57,5 +58,18 @@ export class AdminServiceComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+
+  deleteService(id:string) {
+    this._vendorService.deleteService(id).subscribe({
+      next: (res:any) => {
+        this.getCategories();
+        this.getServices(res.category);
+      },
+      error: (err:any) => {
+        console.log(err);
+      }
+    })
   }
 }

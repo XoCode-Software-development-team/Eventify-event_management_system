@@ -42,6 +42,7 @@
     display: flex;
     flex-wrap: wrap;
     padding: 0 20px;
+    margin: 0;
 }
 
 /* Create two unequal columns that sits next to each other */
@@ -180,6 +181,10 @@ th {
 
     .empty p {
         display: contents;
+    }
+
+    body {
+        margin: auto;
     }
 
 }

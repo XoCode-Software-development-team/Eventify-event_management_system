@@ -23,6 +23,7 @@
     "@angular/router": "^16.2.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@popperjs/core": "^2.11.6",
+    "angular-confirmation-popover": "^7.0.0",
     "bootstrap": "^5.2.3",
     "json-server": "^1.0.0-alpha.23",
     "rxjs": "~7.8.0",

@@ -53,6 +53,21 @@ namespace eventify_backend.Controllers
             return Ok(services);
         }
 
+        [HttpDelete(("/Api/[Controller]/{Id}"))]
+        public async Task<IActionResult> DeleteService([FromRoute]Guid Id)
+        {
+            var service = await _serviceDbContext.services.FindAsync(Id);
+
+            if(service == null)
+            {
+                return NotFound(Id);
+            }
+            _serviceDbContext.services.Remove(service);
+            await _serviceDbContext.SaveChangesAsync();
+            return Ok(service);
+        }
+
+
 
 
     }

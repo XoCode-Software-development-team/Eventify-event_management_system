@@ -24,9 +24,9 @@
         <div class="table">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
                 *ngIf="dataSource && dataSource.length > 0">
-                <ng-container matColumnDef="Id">
-                    <th mat-header-cell *matHeaderCellDef>Id</th>
-                    <td mat-cell *matCellDef="let element">{{element.id}}</td>
+                <ng-container matColumnDef="No">
+                    <th mat-header-cell *matHeaderCellDef>No</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="Service">
@@ -43,7 +43,7 @@
 
                 <ng-container matColumnDef="Availability">
                     <th mat-header-cell *matHeaderCellDef class="availability">Availability</th>
-                    <td mat-cell *matCellDef="let element" class="check-icon">
+                    <td mat-cell *matCellDef="let element" class="check-icon availability">
                         <mat-icon>{{element.isAvailable? 'check' : 'close'}}</mat-icon>
                     </td>
                 </ng-container>
@@ -51,8 +51,24 @@
                 <ng-container matColumnDef="Action">
                     <th mat-header-cell *matHeaderCellDef>Action</th>
                     <td class="action" mat-cell *matCellDef="let element">
-                        <mat-icon class="suspend" [ngClass]="{'sus':element.isSuspend}">{{element.isSuspend? 'report' : 'report_off'}}</mat-icon>
-                        <mat-icon class="delete">delete</mat-icon>
+                        <mat-icon class="suspend" [ngClass]="{'sus':element.isSuspend}"
+                        mwlConfirmationPopover
+                        popoverTitle="Service {{element.isSuspend ? 'Active': 'Suspend'}} Confimation"
+                        popoverMessage="Do you really want to {{element.isSuspend ? 'active': 'suspend'}}?"
+                        placement="left"
+                        confirmButtonType="{{element.isSuspend ? 'primary' : 'danger'}}"
+                        (confirm)="true"
+                        (cancel)="true">
+                        {{element.isSuspend? 'report' : 'report_off'}}</mat-icon>
+                        <mat-icon class="delete"
+                         mwlConfirmationPopover
+                         popoverTitle="Service Delete Confimation"
+                         popoverMessage="Do you really want to delete?"
+                         placement="left"
+                         (confirm)="deleteService(element.id)"
+                         (cancel)="true">
+                         delete
+                        </mat-icon>
                     </td>
                 </ng-container>
 

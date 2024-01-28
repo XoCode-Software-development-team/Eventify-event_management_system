@@ -14,6 +14,7 @@ import { TabCardComponent } from './Components/tab-card/tab-card.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminDeleteRequestComponent } from './Pages/admin-delete-request/admin-delete-request/admin-delete-request.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 
 @NgModule({
@@ -29,7 +30,10 @@ import { AdminDeleteRequestComponent } from './Pages/admin-delete-request/admin-
     MaterialModule,
     FlexLayoutModule,
     NgbModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

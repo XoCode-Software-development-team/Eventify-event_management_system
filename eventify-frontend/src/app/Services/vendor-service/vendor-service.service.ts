@@ -19,4 +19,8 @@ export class VendorServiceService {
   getCategoriesList() : Observable<string[]>{
     return this._http.get<string[]>(`${this.Url}/api/service`);
   }
+
+  deleteService(id:string): Observable<any> {
+    return this._http.delete(`${this.Url}/api/service/${id}`);
+  }
 }
