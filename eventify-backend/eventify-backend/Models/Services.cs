@@ -7,8 +7,11 @@ namespace eventify_backend.Models
         public Guid Id { get; set; }
         public string Service { get; set; } = string.Empty;
 
-        public string Categories {  get; set; } = string.Empty;
-        public int Rating { get; set; }
-        public bool Availability { get; set; }
+        public string Category {  get; set; } = string.Empty;
+        public double Rating { get; set; }
+        public bool IsAvailable { get; set; }
+
+        public bool IsSuspend { get; set; }
+        public bool IsDelete { get; set; }
     }
 }

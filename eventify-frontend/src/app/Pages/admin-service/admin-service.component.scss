@@ -116,11 +116,16 @@ th {
 }
 
 .suspend {
-    color: orange;
+    color: green;
     display: inline;
     cursor: pointer;
     opacity: 0.7;
 
+}
+
+.sus {
+    color: red;
+    opacity: 0.4;
 }
 
 .delete {

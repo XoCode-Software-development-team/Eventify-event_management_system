@@ -20,10 +20,7 @@ namespace eventify_backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()
         {
-            var categories = await _serviceDbContext.services.Select(x => x.Categories).Distinct().ToListAsync();
-
-            categories = ["Entertainment", "Catering", "Decoration"];
-
+            var categories = await _serviceDbContext.services.Select(x => x.Category).Distinct().ToListAsync();
 
             if (categories == null)
             {
@@ -32,7 +29,31 @@ namespace eventify_backend.Controllers
             return Ok(categories);
         }
 
+        [HttpGet("/Api/[Controller]/{category}")]
 
-       
-}
+        public async Task<IActionResult> GetServiceByCategory([FromRoute]string category)
+        {
+            var services = await _serviceDbContext.services.Where(s => s.Category == category).ToListAsync();
+
+            if (services == null || services.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(services);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddServicee([FromBody] Services services)
+        {
+            services.Id = Guid.NewGuid();
+            await _serviceDbContext.services.AddAsync(services);
+            await _serviceDbContext.SaveChangesAsync();
+
+            return Ok(services);
+        }
+
+
+
+    }
 }

@@ -11,8 +11,8 @@ using eventify_backend.Data;
 namespace eventifybackend.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20240127195638_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20240128173551_2nd migration")]
+    partial class _2ndmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,15 +28,21 @@ namespace eventifybackend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<bool>("Availability")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Categories")
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsSuspend")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("double");
 
                     b.Property<string>("Service")
                         .IsRequired()

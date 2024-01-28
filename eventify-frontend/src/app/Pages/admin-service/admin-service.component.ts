@@ -1,13 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
-import { MatTableDataSource } from '@angular/material/table';
-
-export interface Vendor {
-  VendorId: string;
-  Service: string;
-  Rating: number;
-  Availability: boolean;
-}
 
 @Component({
   selector: 'app-admin-service',
@@ -17,22 +9,22 @@ export interface Vendor {
 export class AdminServiceComponent implements OnInit {
   constructor(private _vendorService: VendorServiceService) {}
 
+  dataSource: string[] = [];
+
+  categories: string[] = [];
+
   ngOnInit(): void {
     this.getCategories();
-    // this.getServices();
   }
 
   displayedColumns: string[] = [
-    'VendorId',
+    'Id',
     'Service',
     'Rating',
     'Availability',
     'Action',
   ];
-  dataToDisplay: Vendor[] = [];
 
-  dataSource = new MatTableDataSource<Vendor>([]);
-  categories: string[]=[];
   navbar = [
     {
       Tag: 'All Services',
@@ -41,12 +33,14 @@ export class AdminServiceComponent implements OnInit {
     {
       Tag: 'Delete Requests',
       Url: 'deleteRequests',
-    }
+    },
   ];
-  getServices() {
-    this._vendorService.getServiceList().subscribe({
+
+  getServices(category: string) {
+    this._vendorService.getServiceListByCategory(category).subscribe({
       next: (res: any) => {
-        this.dataSource.data = res;
+        this.dataSource = res;
+        console.log(res);
       },
       error: (err: any) => {
         console.log(err);
@@ -56,12 +50,12 @@ export class AdminServiceComponent implements OnInit {
 
   getCategories() {
     this._vendorService.getCategoriesList().subscribe({
-      next: (res:any) => {
-        this.categories=res;
-      },error: (err:any) => {
+      next: (res: any) => {
+        this.categories = res;
+      },
+      error: (err: any) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
- 
 }

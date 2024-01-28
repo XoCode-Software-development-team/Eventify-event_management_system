@@ -12,8 +12,8 @@ export class VendorServiceService {
 
   private Url:string = baseApiUrl.Url;
 
-  getServiceList(){
-    return this._http.get('http://localhost:3000/services');
+  getServiceListByCategory(category:string) : Observable<any>{
+    return this._http.get<any>(this.Url+"/api/service/"+category);
   }
 
   getCategoriesList() : Observable<string[]>{
