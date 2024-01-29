@@ -6,16 +6,16 @@ import { AdminDeleteRequestComponent } from './Pages/admin-delete-request/admin-
 const routes: Routes = [
   {
     path: '',
-    component: AdminServiceComponent
+    component: AdminServiceComponent,
   },
   {
     path: 'deleteRequests',
-    component: AdminDeleteRequestComponent
-  }
+    component: AdminDeleteRequestComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

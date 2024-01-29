@@ -37,7 +37,7 @@ namespace eventify_backend.Controllers
 
             if (services == null || services.Count == 0)
             {
-                return NotFound();
+                return NotFound(false);
             }
             return Ok(services);
         }
@@ -53,19 +53,28 @@ namespace eventify_backend.Controllers
             return Ok(services);
         }
 
-        [HttpDelete(("/Api/[Controller]/{Id}"))]
-        public async Task<IActionResult> DeleteService([FromRoute]Guid Id)
+        [HttpDelete("/Api/[Controller]/{Id}")]
+        public async Task<IActionResult> DeleteService([FromRoute] Guid Id)
         {
             var service = await _serviceDbContext.services.FindAsync(Id);
 
-            if(service == null)
+            if (service == null)
             {
                 return NotFound(Id);
             }
+
+            var deletedCategory = service.Category; // Save the category before deletion
+
             _serviceDbContext.services.Remove(service);
             await _serviceDbContext.SaveChangesAsync();
-            return Ok(service);
+
+            // Count the remaining instances of the deleted category
+            var remainingCount = await _serviceDbContext.services.CountAsync(s => s.Category == deletedCategory);
+
+            // Return the count as part of the response
+            return Ok(new { DeletedService = service, RemainingCount = remainingCount });
         }
+
 
 
 

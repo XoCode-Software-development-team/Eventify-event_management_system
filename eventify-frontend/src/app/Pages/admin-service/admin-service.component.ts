@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataUpdateService } from 'src/app/Services/data-update/data-update.service';
 import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
 
 @Component({
@@ -8,7 +9,12 @@ import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-ser
   styleUrls: ['./admin-service.component.scss'],
 })
 export class AdminServiceComponent implements OnInit {
-  constructor(private _vendorService: VendorServiceService, private _router: Router, _route: ActivatedRoute) {}
+  constructor(
+    private _vendorService: VendorServiceService,
+    private _dataUpdateService: DataUpdateService,
+    private _route: ActivatedRoute,
+    private _router: Router
+  ) {}
 
   dataSource: string[] = [];
 
@@ -41,7 +47,6 @@ export class AdminServiceComponent implements OnInit {
     this._vendorService.getServiceListByCategory(category).subscribe({
       next: (res: any) => {
         this.dataSource = res;
-        console.log(res);
       },
       error: (err: any) => {
         console.log(err);
@@ -60,16 +65,19 @@ export class AdminServiceComponent implements OnInit {
     });
   }
 
-
-  deleteService(id:string) {
+  deleteService(id: string) {
     this._vendorService.deleteService(id).subscribe({
-      next: (res:any) => {
-        this.getCategories();
-        this.getServices(res.category);
+      next: (res: any) => {
+        console.log(res);
+        if (res.remainingCount > 0) {
+          this.getServices(res.deletedService.category);
+        } else {
+          location.reload();
+        }
       },
-      error: (err:any) => {
+      error: (err: any) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 }
