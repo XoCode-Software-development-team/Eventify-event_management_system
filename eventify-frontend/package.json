@@ -26,6 +26,7 @@
     "angular-confirmation-popover": "^7.0.0",
     "bootstrap": "^5.2.3",
     "json-server": "^1.0.0-alpha.23",
+    "ngx-material-timepicker": "^13.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
