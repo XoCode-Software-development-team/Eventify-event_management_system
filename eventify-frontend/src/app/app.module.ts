@@ -9,11 +9,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.component';
 import { MaterialModule } from './core/material.module'
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { AdminServiceComponent } from './Pages/admin-service/admin-service.component';
+import { TabCardComponent } from './Components/tab-card/tab-card.component';
+import { FooterComponent } from './Components/footer/footer.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminDeleteRequestComponent } from './Pages/admin-delete-request/admin-delete-request/admin-delete-request.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent
     ],
   imports: [
     BrowserModule,
@@ -22,7 +28,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatIconModule,
     HttpClientModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgbModule,
+    AppRoutingModule,
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

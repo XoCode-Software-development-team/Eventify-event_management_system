@@ -1,0 +1,190 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Header/logo Title */
+.header {
+    display: flex;
+    text-align: center;
+    background: #AFDFE9;
+    color: white;
+    height: 87px;
+    align-items: center;
+    justify-content: center;
+}
+
+.icons {
+    display: flex;
+    height: 90px;
+}
+
+/* Style the top navigation bar */
+.navbar {
+    display: flex;
+}
+
+/* Style the navigation bar links */
+.navbar a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* Change color on hover */
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Column container */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    margin: 0;
+}
+
+/* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side {
+
+    flex: 20%;
+    padding: 20px;
+}
+
+/* Main column */
+.main {
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+}
+
+.container {
+    margin-bottom: 5%;
+}
+
+
+@media screen and (max-width: 700px) {
+
+    .row,
+    .navbar {
+        flex-direction: column;
+    }
+
+    .header {
+        height: auto;
+    }
+}
+
+.mat-mdc-row,
+.mdc-data-table__content {
+    font-family: Lato;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+}
+
+.mat-mdc-row:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.table {
+    margin: 0;
+}
+
+
+
+.demo-table {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+}
+
+
+th {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.54px;
+}
+
+
+.check-icon {
+    color: green;
+    font-size: 24px;
+}
+
+.suspend {
+    color: green;
+    display: inline;
+    cursor: pointer;
+    opacity: 0.7;
+
+}
+
+.sus {
+    color: red;
+    opacity: 0.4;
+}
+
+.delete {
+    color: red;
+    margin-left: auto;
+    display: inline;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.suspend:hover,
+.delete:hover {
+    opacity: 1;
+}
+
+.empty {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.empty img {
+    width: 50vh;
+}
+
+.empty p {
+    color: #667085;
+    display: none;
+}
+
+
+@media screen and (max-width: 700px) {
+    th {
+        font-size: 12px;
+    }
+
+    .availability {
+        display: none;
+    }
+
+}
+
+
+@media screen and (max-width: 450px) {
+    .rating {
+        display: none;
+    }
+
+    .empty img {
+        display: none;
+    }
+
+    .empty p {
+        display: contents;
+    }
+
+    body {
+        margin: auto;
+    }
+
+}

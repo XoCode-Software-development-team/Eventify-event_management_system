@@ -1,13 +1,14 @@
 .container {
     width: 100%;
-    max-width: 280px;
-    height: 80%;
-    padding: 10px;
+    height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.20);
 }
 
 .list-container {
     gap: 19px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }
 
 .element {
@@ -18,4 +19,20 @@
     line-height: 24px;
     letter-spacing: 0.54px;
     text-decoration: none;
+    text-align: center;
+}
+
+.element a:active {
+    color: #21606C;
+}
+
+.active-link {
+    color: #21606C;
+}
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+    .container {
+        max-width: none;
+    }
 }
