@@ -110,14 +110,8 @@ th {
     letter-spacing: 0.54px;
 }
 
-
-.check-icon {
-    color: green;
-    font-size: 24px;
-}
-
 .suspend {
-    color: green;
+    color: blue;
     display: inline;
     cursor: pointer;
     opacity: 0.7;
@@ -125,8 +119,8 @@ th {
 }
 
 .sus {
-    color: red;
     opacity: 0.4;
+    color: #21606C;
 }
 
 .delete {
@@ -140,6 +134,10 @@ th {
 .suspend:hover,
 .delete:hover {
     opacity: 1;
+}
+
+.footer {
+    position: relative;
 }
 
 .empty {

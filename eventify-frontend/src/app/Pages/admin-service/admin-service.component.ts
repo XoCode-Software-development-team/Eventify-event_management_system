@@ -40,7 +40,7 @@ export class AdminServiceComponent implements OnInit {
     {
       Tag: 'Delete Requests',
       Url: 'deleteRequests',
-    },
+    }
   ];
 
   getServices(category: string) {

@@ -75,9 +75,5 @@ namespace eventify_backend.Controllers
             return Ok(new { DeletedService = service, RemainingCount = remainingCount });
         }
 
-
-
-
-
     }
 }

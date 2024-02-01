@@ -12,6 +12,8 @@ export class VendorServiceService {
 
   private Url:string = baseApiUrl.Url;
 
+  // admin-service-page
+
   getServiceListByCategory(category:string) : Observable<any>{
     return this._http.get<any>(this.Url+"/api/service/"+category);
   }
@@ -22,5 +24,24 @@ export class VendorServiceService {
 
   deleteService(id:string): Observable<any> {
     return this._http.delete(`${this.Url}/api/service/${id}`);
+  }
+
+  // admin-delete-request-page
+
+  getCategoriesListOfDeleteRequest() : Observable<String[]>{
+    return this._http.get<string[]>(`${this.Url}/api/deleteRequest`);
+  }
+
+  getServiceListOfDeleteRequest(category:string) : Observable<String[]>{
+    return this._http.get<string[]>(`${this.Url}/api/deleteRequest/${category}`);
+  }
+
+  deleteServiceFromVendorRequest(id:string): Observable<any> {
+    return this._http.delete(`${this.Url}/api/deleteRequest/${id}`);
+  }
+
+  removeFromSuspendList(id: string, notDelete: boolean) : Observable<any>{
+    const body = { notDelete: notDelete}
+    return this._http.put<any>(`${this.Url}/api/deleteRequest/${id}`,body);
   }
 }
