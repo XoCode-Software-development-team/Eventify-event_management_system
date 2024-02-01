@@ -4,14 +4,10 @@ import { AdminServiceComponent } from './Pages/admin-service/admin-service.compo
 import { AdminDeleteRequestComponent } from './Pages/admin-delete-request/admin-delete-request/admin-delete-request.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: AdminServiceComponent,
-  },
-  {
-    path: 'deleteRequests',
-    component: AdminDeleteRequestComponent,
-  },
+  {path: 'allServices', component: AdminServiceComponent},
+  {path: 'deleteRequests', component: AdminDeleteRequestComponent},
+  {path: '', redirectTo: '/allServices', pathMatch: 'full'}
+  // {path: '**', component:}
 ];
 
 @NgModule({

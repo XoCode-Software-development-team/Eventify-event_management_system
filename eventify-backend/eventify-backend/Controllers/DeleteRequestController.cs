@@ -63,5 +63,24 @@ namespace eventify_backend.Controllers
             return Ok(new { DeletedService = service, RemainingCount = remainingCount });
         }
 
+        [HttpPut("/Api/[Controller]/{Id}")]
+        public async Task<IActionResult> ChangeDeleteRequestState([FromRoute] Guid Id)
+        {
+            var service = await _serviceDbContext.services.FindAsync(Id);
+            if (service == null)
+            {
+                return NotFound();
+            }
+
+            service.IsDelete = false;
+
+            await _serviceDbContext.SaveChangesAsync();
+
+            var remainingCount = await _serviceDbContext.services.CountAsync(s => s.Category == service.Category && s.IsDelete == true);
+
+            return Ok(new { DeletedService = service, RemainingCount = remainingCount });
+
+        }
+
     }
 }

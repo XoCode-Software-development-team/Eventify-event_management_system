@@ -29,11 +29,11 @@ export class AdminDeleteRequestComponent {
   navbar = [
     {
       Tag: 'All Services',
-      Url: '',
+      Url: '../allServices',
     },
     {
       Tag: 'Delete Requests',
-      Url: '',
+      Url: '../deleteRequests',
     }
   ];
 
@@ -61,6 +61,22 @@ export class AdminDeleteRequestComponent {
 
   deleteService(id: string) {
     this._vendorService.deleteServiceFromVendorRequest(id).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res.remainingCount > 0) {
+          this.getServices(res.deletedService.category);
+        } else {
+          location.reload();
+        }
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+  }
+
+  removeService(id: string) {
+    this._vendorService.removeServiceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         console.log(res);
         if (res.remainingCount > 0) {

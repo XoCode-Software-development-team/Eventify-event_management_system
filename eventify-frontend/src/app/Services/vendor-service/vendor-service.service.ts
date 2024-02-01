@@ -43,4 +43,8 @@ export class VendorServiceService {
   deleteServiceFromVendorRequest(id:string): Observable<any> {
     return this._http.delete(`${this.Url}/api/deleteRequest/${id}`);
   }
+
+  removeServiceFromVendorRequest(id: string) : Observable<any>{
+    return this._http.put<any>(`${this.Url}/api/deleteRequest/${id}`,null);
+  }
 }

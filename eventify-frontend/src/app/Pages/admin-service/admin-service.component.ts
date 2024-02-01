@@ -35,11 +35,11 @@ export class AdminServiceComponent implements OnInit {
   navbar = [
     {
       Tag: 'All Services',
-      Url: '',
+      Url: '../allServices',
     },
     {
       Tag: 'Delete Requests',
-      Url: 'deleteRequests',
+      Url: '../deleteRequests',
     }
   ];
 
@@ -68,7 +68,6 @@ export class AdminServiceComponent implements OnInit {
   deleteService(id: string) {
     this._vendorService.deleteService(id).subscribe({
       next: (res: any) => {
-        console.log(res);
         if (res.remainingCount > 0) {
           this.getServices(res.deletedService.category);
         } else {
