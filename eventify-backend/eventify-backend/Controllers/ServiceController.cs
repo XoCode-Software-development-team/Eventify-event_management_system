@@ -75,5 +75,24 @@ namespace eventify_backend.Controllers
             return Ok(new { DeletedService = service, RemainingCount = remainingCount });
         }
 
+        [HttpPut("/Api/[Controller]/{Id}")]
+        public async Task<IActionResult> ChangeSuspendState([FromRoute] Guid Id)
+        {
+            var service = await _serviceDbContext.services.FindAsync(Id);
+            if(service == null)
+            {
+                return NotFound();
+            }
+
+            service.IsSuspend = !service.IsSuspend;
+
+            await _serviceDbContext.SaveChangesAsync();
+
+            var category = new { Category = service.Category };
+
+            return Ok(category);
+
+        }
+
     }
 }

@@ -56,7 +56,7 @@
                             popoverTitle="Service {{element.isSuspend ? 'Resume': 'Suspend'}} Confimation"
                             popoverMessage="Do you really want to {{element.isSuspend ? 'Resume': 'suspend'}}?"
                             placement="left" confirmButtonType="{{element.isSuspend ? 'primary' : 'danger'}}"
-                            (confirm)="true" (cancel)="true">
+                            (confirm)="changeSuspendState(element.id)" (cancel)="true">
                             {{!element.isSuspend? 'Suspend' : 'Resume'}}</div>
                             <span style="margin-left: 5px;"></span>
                         <div class="delete" mwlConfirmationPopover popoverTitle="Service Delete Confimation"

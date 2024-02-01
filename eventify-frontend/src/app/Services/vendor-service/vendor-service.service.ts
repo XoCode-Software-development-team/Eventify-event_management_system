@@ -26,6 +26,10 @@ export class VendorServiceService {
     return this._http.delete(`${this.Url}/api/service/${id}`);
   }
 
+  changeSuspendState(id: string) : Observable<any>{
+    return this._http.put<any>(`${this.Url}/api/service/${id}`,null);
+  }
+
   // admin-delete-request-page
 
   getCategoriesListOfDeleteRequest() : Observable<String[]>{
@@ -38,10 +42,5 @@ export class VendorServiceService {
 
   deleteServiceFromVendorRequest(id:string): Observable<any> {
     return this._http.delete(`${this.Url}/api/deleteRequest/${id}`);
-  }
-
-  removeFromSuspendList(id: string, notDelete: boolean) : Observable<any>{
-    const body = { notDelete: notDelete}
-    return this._http.put<any>(`${this.Url}/api/deleteRequest/${id}`,body);
   }
 }

@@ -80,4 +80,15 @@ export class AdminServiceComponent implements OnInit {
       },
     });
   }
+
+  changeSuspendState(id: string){
+    this._vendorService.changeSuspendState(id).subscribe({
+      next: (res:any) => {
+        this.getServices(res.category);
+      },
+      error: (err:any) => {
+        console.log(err);
+      }
+    })
+  }
 }

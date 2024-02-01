@@ -33,7 +33,7 @@ export class AdminDeleteRequestComponent {
     },
     {
       Tag: 'Delete Requests',
-      Url: 'deleteRequests',
+      Url: '',
     }
   ];
 
@@ -75,16 +75,5 @@ export class AdminDeleteRequestComponent {
     });
   }
 
-  removeFromSuspend(id: string){
-    this._vendorService.removeFromSuspendList(id,false).subscribe({
-      next: (res:any) => {
-        console.log(res);
-        if(res.remainingCount > 0){
-          this.getServices(res.deletedService.category);
-        } else {
-          location.reload();
-        }
-      }
-    })
-  }
+
 }
