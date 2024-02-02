@@ -1,0 +1,41 @@
+nav{
+    background-color: rgb(175, 223, 233);
+    width: 100%;
+    height: 87px;
+    max-height: 70px;
+    padding-top: 10px;
+    text-align: right;
+}
+nav li{
+    color: aliceblue;
+    padding: 10px;
+    display: inline-block;
+   
+}
+
+.container{
+   display: inline-flex;
+}
+.content{
+    padding-left: 20px;
+}
+  
+  footer{
+      background-color: rgb(175, 223, 233);
+      max-height: 50px;
+      height: 50px;
+  }
+  footer p{
+      padding: 10px;
+      color: aliceblue;
+      text-align: center;
+  }
+
+
+
+  @media screen and (min-width: 200px) and (max-width: 900px) {
+    .container{
+       display:block;
+    }
+
+  }

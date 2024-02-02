@@ -1,10 +1,13 @@
 .container {
     width: 100%;
     max-width: 280px;
+    min-width: 280px;
     height: 80%;
     padding: 10px;
     border: 1px solid rgba(0, 0, 0, 0.20);
 }
+
+
 
 .list-container {
     gap: 19px;

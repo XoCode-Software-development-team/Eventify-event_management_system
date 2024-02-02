@@ -1,8 +1,13 @@
+.event-cover{
+    width: fit-content;
+}
 .event-name{
-    font-size: 36px;
+    font-size: 30px;
     font-family:Lato;
-    margin-bottom: 12px;
-    color: hwb(206 10% 41%);
+    margin-bottom: 18px;
+    font-size: 30px;
+
+    color: rgb(17, 124, 136);
 }
 .cover-img{
     height: 312px;
@@ -51,20 +56,28 @@ a:hover{
     margin-top: 20px;
     margin-right: 70px;
     font-size: 15px;
+    width: 250px;
 
     
 
   }
 
 
-@media only screen and (min-width: 601px) and (max-width: 1024px) {
+@media only screen and (min-width: 200px) and (max-width: 1024px) {
     .cover-img {
-        width: 100%;
+        object-fit: cover;
+        width:70%;
     }
-    .section {
-        margin-right: 10px;
+    .event-cover{
+        width: fit-content;
+
     }
     .discription{
-        width: 100%;
+        width: 70%;
     }
+    .buttons button{
+        font-size: 13px;
+        width: 200px;
+    }
+
 }

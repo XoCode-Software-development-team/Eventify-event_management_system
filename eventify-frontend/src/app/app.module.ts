@@ -16,8 +16,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import { EventCreateComponent } from './Pages/event-create/event-create.component';
-import { EventViewComponent } from './Pages/event-view/event-view.component';
+import { EventPageComponent } from './Pages/event-page/event-page.component'
 
 
 
@@ -25,7 +24,7 @@ import { EventViewComponent } from './Pages/event-view/event-view.component';
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, EventCoverComponent, EventCreateFormComponent, EventCreateComponent, EventViewComponent
+    AppComponent,SideNavBarComponent, EventCoverComponent, EventCreateFormComponent, EventPageComponent, 
     ],
   imports: [
     BrowserModule,

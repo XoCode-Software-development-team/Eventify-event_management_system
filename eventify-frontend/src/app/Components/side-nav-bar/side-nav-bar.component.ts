@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./side-nav-bar.component.scss']
 })
 export class SideNavBarComponent {
+  EventCreate: string = 'Event Create';
+  EventView: string = 'Event View';
 }
