@@ -43,6 +43,21 @@ export class AdminServiceComponent implements OnInit {
     }
   ];
 
+  icons = [
+    {
+      Name: 'compare',
+      Url: '',
+    },
+    {
+      Name: 'chat_bubble_outline',
+      Url: '',
+    },
+    {
+      Name: 'notifications_none',
+      Url: '',
+    }
+  ];
+
   getServices(category: string) {
     this._vendorService.getServiceListByCategory(category).subscribe({
       next: (res: any) => {

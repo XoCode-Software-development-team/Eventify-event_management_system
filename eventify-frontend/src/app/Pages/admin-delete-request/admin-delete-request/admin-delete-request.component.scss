@@ -15,7 +15,18 @@
 
 .icons {
     display: flex;
-    height: 90px;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.left-side {
+    flex: 50%;
+}
+
+.right-side {
+    flex: 50%;
+    align-items: center;
+    margin: 0;
 }
 
 /* Style the top navigation bar */
@@ -43,6 +54,7 @@
     flex-wrap: wrap;
     padding: 0 20px;
     margin: 0;
+    flex-grow: 1;
 }
 
 /* Create two unequal columns that sits next to each other */
@@ -139,6 +151,7 @@ th {
 
 .footer {
     position: relative;
+    margin-top: auto;
 }
 
 .empty {
@@ -182,4 +195,10 @@ th {
         margin: auto;
     }
 
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure at least full viewport height */
 }

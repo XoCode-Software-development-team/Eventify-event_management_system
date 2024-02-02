@@ -1,15 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
 
 @Component({
   selector: 'app-admin-delete-request',
   templateUrl: './admin-delete-request.component.html',
-  styleUrls: ['./admin-delete-request.component.scss']
+  styleUrls: ['./admin-delete-request.component.scss'],
 })
 export class AdminDeleteRequestComponent {
-  constructor(
-    private _vendorService: VendorServiceService,
-  ) {}
+
+  constructor(private _vendorService: VendorServiceService) {}
 
   dataSource: string[] = [];
 
@@ -19,12 +18,7 @@ export class AdminDeleteRequestComponent {
     this.getCategoriesOfDeleteRequest();
   }
 
-  displayedColumns: string[] = [
-    'No',
-    'Service',
-    'Rating',
-    'Action',
-  ];
+  displayedColumns: string[] = ['No', 'Service', 'Rating', 'Action'];
 
   navbar = [
     {
@@ -34,6 +28,21 @@ export class AdminDeleteRequestComponent {
     {
       Tag: 'Delete Requests',
       Url: '../deleteRequests',
+    },
+  ];
+
+  icons = [
+    {
+      Name: 'compare',
+      Url: '',
+    },
+    {
+      Name: 'chat_bubble_outline',
+      Url: '',
+    },
+    {
+      Name: 'notifications_none',
+      Url: '',
     }
   ];
 
@@ -90,6 +99,4 @@ export class AdminDeleteRequestComponent {
       },
     });
   }
-
-
 }

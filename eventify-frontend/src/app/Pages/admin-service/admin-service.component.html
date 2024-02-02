@@ -9,7 +9,10 @@
     </div>
 </div>
 <div class="icons">
-
+    <div class="left-side"></div>
+    <div class="right-side">
+        <app-nav-icon [iconList]="icons"></app-nav-icon>
+    </div>
 </div>
 
 <!-- The flexible grid (content) -->
@@ -58,7 +61,7 @@
                             placement="left" confirmButtonType="{{element.isSuspend ? 'primary' : 'danger'}}"
                             (confirm)="changeSuspendState(element.id)" (cancel)="true">
                             {{!element.isSuspend? 'Suspend' : 'Resume'}}</div>
-                            <span style="margin-left: 5px;"></span>
+                        <span style="margin-left: 5px;"></span>
                         <div class="delete" mwlConfirmationPopover popoverTitle="Service Delete Confimation"
                             popoverMessage="Do you really want to delete?" placement="left"
                             (confirm)="deleteService(element.id)" (cancel)="true">
