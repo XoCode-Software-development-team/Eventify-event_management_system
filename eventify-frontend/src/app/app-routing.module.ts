@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminServiceComponent } from './Pages/admin-service/admin-service.component';
-import { AdminDeleteRequestComponent } from './Pages/admin-delete-request/admin-delete-request/admin-delete-request.component';
+import { AdminServiceComponent } from './Pages/admin/admin-service/admin-service.component';
+import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request/admin-delete-request.component';
 
 const routes: Routes = [
-  {path: 'allServices', component: AdminServiceComponent},
-  {path: 'deleteRequests', component: AdminDeleteRequestComponent},
-  {path: '', redirectTo: '/allServices', pathMatch: 'full'}
+  {path: 'admin/allServices', component: AdminServiceComponent},
+  {path: 'admin/deleteRequests', component: AdminDeleteRequestComponent},
+  {path: '', redirectTo: '/admin/allServices', pathMatch: 'full'},
   // {path: '**', component:}
 ];
 
