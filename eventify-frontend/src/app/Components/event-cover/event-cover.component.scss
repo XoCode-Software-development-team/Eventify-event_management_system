@@ -57,23 +57,38 @@ a:hover{
     margin-right: 70px;
     font-size: 15px;
     width: 250px;
-
-    
-
   }
+
+  .servicecards{
+    margin-top: 50px;
+  }
+  .add a{
+    color: rgb(28, 88, 100);
+    text-decoration: none;
+  }
+  .add:hover{
+    color: black;
+  }
+
+  
+
+
+
+
 
 
 @media only screen and (min-width: 200px) and (max-width: 1024px) {
     .cover-img {
         object-fit: cover;
-        width:70%;
+        width:95%;
+        
     }
     .event-cover{
         width: fit-content;
 
     }
     .discription{
-        width: 70%;
+        width: 80%;
     }
     .buttons button{
         font-size: 13px;

@@ -22,4 +22,11 @@ export class EventCoverComponent {
     console.log('View checklist!');
 
   }
+
+  cards: any[] = [1];
+
+
+  hasEventServiceCards(): boolean {
+    return this.cards && this.cards.length > 0;
+  }
 }

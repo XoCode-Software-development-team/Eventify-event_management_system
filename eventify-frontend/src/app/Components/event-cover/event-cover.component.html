@@ -37,3 +37,20 @@
 
  
 </div>
+
+
+<div class="servicecards">
+
+    <ng-container *ngIf="hasEventServiceCards(); else noCards">
+        Your services ({{ cards.length }})
+    </ng-container>
+    <ng-template #noCards>
+       There are no Services({{ cards.length }})
+    </ng-template>
+    <div class="Card">
+    <app-event-service-res-card *ngFor="let card of cards"></app-event-service-res-card>
+    </div>
+    <div class="add">
+        <p><a href="">Add more Services <b>  +</b></a></p>
+    </div>
+</div>

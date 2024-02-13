@@ -1,16 +1,37 @@
 {
-    "posts": [
-      { "id": "1", "title": "a title" },
-      { "id": "2", "title": "another title" }
-    ],
-    "comments": [
-      { "id": "1", "text": "a comment about post 1", "postId": "1" },
-      { "id": "2", "text": "another comment about post 1", "postId": "1" }
-    ],
-    "profile": {
-      "name": "typicode"
+  "events": [
+    {
+      "id": "d02e",
+      "eventName": "derd",
+      "eventDate": "2024-02-14T18:30:00.000Z",
+      "startTime": "8:00 AM",
+      "endTime": "",
+      "location": "wef",
+      "description": "wer",
+      "guestCount": 12,
+      "image": null
     },
-    "Services": {
-        "name": "cook"
+    {
+      "id": "7a02",
+      "eventName": "event1",
+      "eventDate": "2024-02-19T18:30:00.000Z",
+      "startTime": "11:00 AM",
+      "endTime": "",
+      "location": "wefwef",
+      "description": "wefwe",
+      "guestCount": 9,
+      "image": null
+    },
+    {
+      "id": "662b",
+      "eventName": "event1",
+      "eventDate": "2024-02-19T18:30:00.000Z",
+      "startTime": "11:00 AM",
+      "endTime": "",
+      "location": "wefwef",
+      "description": "wefwe",
+      "guestCount": 9,
+      "image": null
     }
-  }
+  ]
+}

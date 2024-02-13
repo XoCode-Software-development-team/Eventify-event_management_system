@@ -4,9 +4,9 @@ import { EventCoverComponent } from './Components/event-cover/event-cover.compon
 import { EventCreateFormComponent } from './Components/event-create-form/event-create-form.component';
 
 const routes: Routes = [
-  { path: 'page1', component: EventCreateFormComponent },
-  { path: 'page2', component: EventCoverComponent },
-  { path: '', redirectTo: '/page1', pathMatch: 'full' },
+  { path: 'Eventcreate', component: EventCreateFormComponent },
+  { path: 'Eventview', component: EventCoverComponent },
+  { path: '', redirectTo: '/Create', pathMatch: 'full' },
 ];
 
 @NgModule({

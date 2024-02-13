@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class EventCreateFormComponent implements OnInit {
   successMessageVisible = false;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
@@ -36,19 +37,33 @@ export class EventCreateFormComponent implements OnInit {
   }
 
 
-  onSubmit(){
-    if (this.form.valid){
+  onSubmit() {
+    if (this.form.valid) {
       const formData = this.form.value;
-      console.log(formData);
-      this.showSuccessMessage();
-    }else {
+
+      // Send data to JSON Server for testing
+      this.http.post('http://localhost:3000/events', formData)
+        .subscribe(
+          (response) => {
+            console.log('Data sent to JSON Server. Check http://localhost:3000/events', response);
+            this.showSuccessMessage();
+          },
+          (error) => {
+            console.error('Error sending data to JSON Server:', error);
+            this.errorMessage = 'Error sending data to JSON Server.';
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 3000);
+          }
+        );
+    } else {
       this.errorMessage = 'Please fill in all required fields.';
       setTimeout(() => {
-        this.errorMessage='';
+        this.errorMessage = '';
       }, 3000);
     }
-
   }
+
   
 
   showSuccessMessage() {
