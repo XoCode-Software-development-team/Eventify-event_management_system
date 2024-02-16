@@ -6,7 +6,7 @@ import { EventCreateFormComponent } from './Components/event-create-form/event-c
 const routes: Routes = [
   { path: 'Eventcreate', component: EventCreateFormComponent },
   { path: 'Eventview', component: EventCoverComponent },
-  { path: '', redirectTo: '/Create', pathMatch: 'full' },
+  { path: '', redirectTo: '/Eventcreate', pathMatch: 'full' },
 ];
 
 @NgModule({
