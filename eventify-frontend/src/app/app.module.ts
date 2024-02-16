@@ -25,7 +25,7 @@ import { EventServiceResCardComponent } from './Components/event-service-res-car
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, EventCoverComponent, EventCreateFormComponent, EventPageComponent, EventServiceResCardComponent, 
+    AppComponent,SideNavBarComponent, EventCoverComponent, EventCreateFormComponent, EventPageComponent, EventServiceResCardComponent,
     ],
   imports: [
     BrowserModule,
