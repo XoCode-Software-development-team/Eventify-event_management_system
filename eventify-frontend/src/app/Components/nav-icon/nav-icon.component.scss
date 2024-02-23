@@ -1,13 +1,12 @@
 .icon-list-container {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    justify-content:flex-end;
     padding-right: 20px;
     margin-right: 20px;
     border-radius: 20px;
-    padding: 20px;
+    padding: 20px 0;
   }
-  
+
   .icon-item {
     margin-left: 20px;
     cursor: pointer;
@@ -29,6 +28,7 @@
     fill: currentColor;
     height: 44px;
     width: 44px;
+    
   }
   
 

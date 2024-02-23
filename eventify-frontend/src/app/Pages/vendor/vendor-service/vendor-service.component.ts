@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataUpdateService } from 'src/app/Services/data-update/data-update.service';
 import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
 
 @Component({
@@ -10,9 +9,7 @@ import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-ser
 })
 export class VendorServiceComponent {
   constructor(
-    private _vendorService: VendorServiceService,
-    private _route: ActivatedRoute,
-    private _router: Router
+    private _vendorService: VendorServiceService
   ) {}
 
   dataSource: string[] = [];
@@ -26,35 +23,8 @@ export class VendorServiceComponent {
   displayedColumns: string[] = [
     'No',
     'Service',
-    'Rating',
     'Availability',
     'Action',
-  ];
-
-  navbar = [
-    {
-      Tag: 'All Services',
-      Url: '../admin/allServices',
-    },
-    {
-      Tag: 'Delete Requests',
-      Url: '../deleteRequests',
-    }
-  ];
-
-  icons = [
-    {
-      Name: 'compare',
-      Url: '',
-    },
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: '',
-    }
   ];
 
   getServices(category: string) {

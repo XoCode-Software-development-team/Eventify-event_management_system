@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DataUpdateService } from 'src/app/Services/data-update/data-update.service';
 import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
 
 @Component({
@@ -10,14 +8,11 @@ import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-ser
 })
 export class AdminServiceComponent implements OnInit {
   constructor(
-    private _vendorService: VendorServiceService,
-    private _dataUpdateService: DataUpdateService,
-    private _route: ActivatedRoute,
-    private _router: Router
-  ) {}
+    private _vendorService: VendorServiceService
+  ) // private _dataUpdateService: DataUpdateService,
+  {}
 
   dataSource: string[] = [];
-
   categories: string[] = [];
 
   ngOnInit(): void {
@@ -30,32 +25,6 @@ export class AdminServiceComponent implements OnInit {
     'Rating',
     'Availability',
     'Action',
-  ];
-
-  navbar = [
-    {
-      Tag: 'All Services',
-      Url: '../allServices',
-    },
-    {
-      Tag: 'Delete Requests',
-      Url: '../deleteRequests',
-    }
-  ];
-
-  icons = [
-    {
-      Name: 'compare',
-      Url: '',
-    },
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: '',
-    }
   ];
 
   getServices(category: string) {
@@ -95,14 +64,14 @@ export class AdminServiceComponent implements OnInit {
     });
   }
 
-  changeSuspendState(id: string){
+  changeSuspendState(id: string) {
     this._vendorService.changeSuspendState(id).subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         this.getServices(res.category);
       },
-      error: (err:any) => {
+      error: (err: any) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 }

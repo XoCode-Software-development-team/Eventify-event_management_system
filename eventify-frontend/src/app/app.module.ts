@@ -17,11 +17,17 @@ import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NavIconComponent } from './Components/nav-icon/nav-icon.component';
 import { VendorServiceComponent } from './Pages/vendor/vendor-service/vendor-service.component';
+import { BasicButtonComponent } from './Components/buttons/basic-button/basic-button.component';
+import VendorBookedServicesComponent from './Pages/vendor/vendor-booked-services/vendor-booked-services.component';
+import { VendorBookingRequestsComponent } from './Pages/vendor/vendor-booking-requests/vendor-booking-requests.component';
+import { VendorAddNewServiceComponent } from './Pages/vendor/vendor-add-new-service/vendor-add-new-service.component';
+import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layout.component';
+import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent
     ],
   imports: [
     BrowserModule,
