@@ -23,11 +23,14 @@ import { VendorBookingRequestsComponent } from './Pages/vendor/vendor-booking-re
 import { VendorAddNewServiceComponent } from './Pages/vendor/vendor-add-new-service/vendor-add-new-service.component';
 import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layout.component';
 import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { PrimaryButtonComponent } from './Components/buttons/primary-button/primary-button.component';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent
     ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.co
     AppRoutingModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger'
-    })
+    }),
+    NgxDropzoneModule
   ],
   providers: [],
   bootstrap: [AppComponent]

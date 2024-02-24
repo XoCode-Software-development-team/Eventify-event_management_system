@@ -1,1 +1,145 @@
-<p>vendor-add-new-service works!</p>
+<div class="container-fluid mb-5">
+    <form class="example-form">
+        <h5 class="mb-4">1. Service Details</h5>
+
+        <div class="part mb-5">
+
+            <table class="example-full-width" cellspacing="0">
+                <tr>
+                    <td class="first-td"><mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Service name</mat-label>
+                            <input matInput class="input-data">
+                        </mat-form-field></td>
+                    <td><mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Select category</mat-label>
+                            <mat-select>
+                                <mat-option *ngFor="let food of foods"
+                                    [value]="food.value">{{food.viewValue}}</mat-option>
+                            </mat-select>
+                        </mat-form-field></td>
+                </tr>
+                <tr>
+                    <td class="first-td"><mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Maximum capacity</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field></td>
+
+                    <td><mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Facilities & features</mat-label>
+                            <input matInput>
+                        </mat-form-field></td>
+                </tr>
+            </table>
+            <div>
+                <mat-form-field class="form-field" appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <textarea rows="5" matInput placeholder="Add Description"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <h5 class="my-4">2. Service Locations</h5>
+        <div class="part mb-5">
+            <mat-label>Pick the location</mat-label>
+            <div class="d-flex">
+                <div class="first-td example-full-width l-side">
+                    <img src="../../../../assets/map.png" style="border-radius: 6px; width: 100%;" alt="">
+                </div>
+
+                <div>
+                    <table class="example-full-width" cellspacing="0">
+                        <tr>
+                            <td class="first-td"><mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Country</mat-label>
+                                    <input matInput class="input-data">
+                                </mat-form-field></td>
+                            <td><mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>State</mat-label>
+                                    <input matInput class="input-data">
+                                </mat-form-field></td>
+                        </tr>
+                        <tr>
+                            <td class="first-td"><mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Area</mat-label>
+                                    <input matInput class="input-data">
+                                </mat-form-field></td>
+                            <td><mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>District</mat-label>
+                                    <input matInput class="input-data">
+                                </mat-form-field></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p>
+                                    <mat-form-field class="form-field" appearance="outline">
+                                        <mat-label>House number, street & road</mat-label>
+                                        <textarea rows="1" matInput placeholder="Add Description"></textarea>
+                                    </mat-form-field>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <a mat-button class="btn1" routerLink=''>
+                <mat-icon class="icon">add</mat-icon>
+                Add new
+            </a>
+        </div>
+        <h5 class="my-4">3. Pricing & Packages</h5>
+        <div class="part mb-5">
+
+            <table class="example-full-width" cellspacing="0">
+                <tr class="d-flex justify-content-between gap-3">
+                    <td class="w-100"><mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Package name</mat-label>
+                            <input matInput class="input-data">
+                        </mat-form-field></td>
+                    <td class="w-100"><mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Pricing Model</mat-label>
+                            <mat-select>
+                                <mat-option *ngFor="let food of foods"
+                                    [value]="food.value">{{food.viewValue}}</mat-option>
+                            </mat-select>
+                        </mat-form-field></td>
+                        <td class="w-100"><mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Base price</mat-label>
+                            <input matInput type="number">
+                        </mat-form-field></td>
+                </tr>
+            </table>
+            <a mat-button class="btn1" routerLink=''>
+                <mat-icon class="icon">add</mat-icon>
+                Add new
+            </a>
+        </div>
+        <h5 class="my-4">4. Images & Videos</h5>
+        <div class="part mb-5 d-flex justify-content-start gap-3 flex-column">
+            <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event,imageFiles)" [expandable]="true" [disableClick]="true">
+                <ngx-dropzone-label>
+                    <div class="">
+                        <img class="img-fluid" src="../../../../assets/icons/add_photo_alternate.svg" width="48px">
+                        <p class=".btn1 p-2">Drag and drop images</p>
+                    </div>
+                </ngx-dropzone-label>
+                <div class="d-flex justify-content-around flex-sm-wrap">
+                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imageFiles" [file]="f" [removable]="true" (removed)="onRemove(f,imageFiles)">
+                    </ngx-dropzone-image-preview>
+                </div>
+            </div>
+            <div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onSelect($event,videoFiles)" [expandable]="true" [disableClick]="true">
+                <ngx-dropzone-label>
+                    <div class="">
+                        <img class="img-fluid" src="../../../../assets/icons/collection.png" width="48px">
+                        <p class=".btn1 p-2">Drag and drop videos</p>
+                    </div>
+                </ngx-dropzone-label>
+                <div class="d-flex justify-content-around flex-sm-wrap">
+                    <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videoFiles" [file]="f" [removable]="true" (removed)="onRemove(f,videoFiles)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                      </ngx-dropzone-video-preview>
+                </div>
+            </div>
+        </div>
+        <app-primary-button [button]="button"></app-primary-button>
+    </form>
+</div>

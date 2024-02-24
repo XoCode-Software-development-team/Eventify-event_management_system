@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
 
+interface Button {
+  icon: string;
+  text: string;
+  url: string;
+  style: string;
+}
+
 @Component({
   selector: 'app-vendor-layout',
   templateUrl: './vendor-layout.component.html',
@@ -33,10 +40,15 @@ export class VendorLayoutComponent {
     }
   ];
 
-  button =
+  buttonToggle: boolean = false;
+
+  button: Button =
     {
-      Icon: 'add',
-      Text: 'Add New Services',
-      Url: 'addNewService'
+      icon: 'add',
+      text: 'Add New Services',
+      url: 'addNewService',
+      style: 'btn1'
     };
 }
+
+
