@@ -25,12 +25,16 @@ import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layou
 import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { PrimaryButtonComponent } from './Components/buttons/primary-button/primary-button.component';
+import { ClientServiceComponent } from './Pages/client/client-service/client-service.component';
+import { SliderComponent } from './Components/slider/slider.component';
+import { CategoryComponent } from './Components/category/category.component';
+import { FilterRatingComponent } from './Components/filter-rating/filter-rating.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, ClientServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent
     ],
   imports: [
     BrowserModule,

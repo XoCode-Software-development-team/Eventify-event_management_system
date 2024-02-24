@@ -1,0 +1,13 @@
+<div class="container mt-4">
+    <h5>Rating</h5>
+
+    <mat-radio-group class="radio-group">
+        <mat-radio-button class="radio-button">
+            All ratings (200)</mat-radio-button>
+        <mat-radio-button *ngFor="let season of seasons" class="radio-button" [value]="season"><span
+                style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5" [rate]="4"
+                    [readonly]="true"></ngb-rating>
+            </span> & up (51)
+        </mat-radio-button>
+    </mat-radio-group>
+</div>

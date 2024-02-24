@@ -1,0 +1,13 @@
+<div class="container">
+    <h5>Category</h5>
+    <ul>
+        <li> <mat-checkbox color="primary">
+            All
+            </mat-checkbox></li>
+        <li *ngFor="let task of tasks; let i = index">
+            <mat-checkbox color="primary">
+                {{ task.name }}
+            </mat-checkbox>
+        </li>
+    </ul>
+</div>

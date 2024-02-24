@@ -8,11 +8,20 @@ import { VendorBookingRequestsComponent } from './Pages/vendor/vendor-booking-re
 import { VendorAddNewServiceComponent } from './Pages/vendor/vendor-add-new-service/vendor-add-new-service.component';
 import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layout.component';
 import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
+import { ClientServiceComponent } from './Pages/client/client-service/client-service.component';
 
 const routes: Routes = [
   // {path: '', redirectTo: '/admin/allServices', pathMatch: 'full'},
 
   // {path: '**', component:},
+  {
+    path: 'client/allServices',
+    component: ClientServiceComponent,
+    children: [
+      // {path: '',component: },
+      // {path: '',component: }
+    ]
+  },
   {
     path: 'vendor',
     component: VendorLayoutComponent,
