@@ -8,6 +8,7 @@ import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-ser
   styleUrls: ['./vendor-booked-services.component.scss'],
 })
 export default class VendorBookedServicesComponent {
+
   constructor(private _vendorService: VendorServiceService) {}
 
   dataSource: string[] = [];

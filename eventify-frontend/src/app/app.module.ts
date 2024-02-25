@@ -31,12 +31,13 @@ import { CategoryComponent } from './Components/category/category.component';
 import { FilterRatingComponent } from './Components/filter-rating/filter-rating.component';
 import { SortComponent } from './Components/sort/sort.component';
 import { SearchComponent } from './Components/search/search.component';
+import { ItemCardComponent } from './Components/item-card/item-card.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, ClientServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, ClientServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent
     ],
   imports: [
     BrowserModule,

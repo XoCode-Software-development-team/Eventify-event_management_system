@@ -22,10 +22,13 @@
         <app-filter-rating></app-filter-rating>
     </div>
     <div class="main">
-       <div class="d-flex flex-row justify-content-between sort-search-box">
-        <app-sort></app-sort>
-        <app-search></app-search>
-       </div>
+        <div class="d-flex flex-row justify-content-between sort-search-box">
+            <app-sort></app-sort>
+            <app-search></app-search>
+        </div>
+        <div *ngFor="let _ of [1, 2, 3]">
+            <app-item-card></app-item-card>
+        </div>
     </div>
 </div>
 <div class="footer">
