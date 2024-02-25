@@ -25,19 +25,22 @@ import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layou
 import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { PrimaryButtonComponent } from './Components/buttons/primary-button/primary-button.component';
-import { ClientServiceComponent } from './Pages/client/client-service/client-service.component';
+import { AllServiceComponent } from './Pages/common/all-service/all-service.component';
 import { SliderComponent } from './Components/slider/slider.component';
 import { CategoryComponent } from './Components/category/category.component';
 import { FilterRatingComponent } from './Components/filter-rating/filter-rating.component';
 import { SortComponent } from './Components/sort/sort.component';
 import { SearchComponent } from './Components/search/search.component';
 import { ItemCardComponent } from './Components/item-card/item-card.component';
-
+import { ServiceDetailsComponent } from './Pages/common/service-details/service-details.component';
+import { ImageViewComponent } from './Components/image-view/image-view.component';
+import { SecondaryButtonComponent } from './Components/buttons/secondary-button/secondary-button.component';
+import { ReviewCardComponent } from './Components/review-card/review-card.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, ClientServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent,
     ],
   imports: [
     BrowserModule,

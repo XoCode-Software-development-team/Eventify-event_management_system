@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-client-service',
-  templateUrl: './client-service.component.html',
-  styleUrls: ['./client-service.component.scss']
+  selector: 'app-all-service',
+  templateUrl: './all-service.component.html',
+  styleUrls: ['./all-service.component.scss']
 })
-export class ClientServiceComponent {
+export class AllServiceComponent {
   navbar = [
     {
       Tag: 'All Services',

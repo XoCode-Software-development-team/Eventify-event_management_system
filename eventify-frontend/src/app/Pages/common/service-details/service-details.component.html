@@ -1,0 +1,62 @@
+<!-- Header -->
+<div class="header">
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+        <a href="#">Link</a>
+    </div>
+</div>
+<div class="icons">
+    <div class="left-side d-flex align-items-center">
+        <app-basic-button [button]="backButton"></app-basic-button>
+    </div>
+    <div class="right-side">
+        <app-nav-icon [iconList]="icons"></app-nav-icon>
+    </div>
+</div>
+
+
+<div class="row mb-5 w-100">
+    <div class="d-flex flex-row justify-content-between my-4 mb-5">
+        <h1>Swan Boat Ride</h1>
+        <div class="d-flex flex-row justify-content-between gap-3">
+            <app-primary-button [button]="compareButton"></app-primary-button>
+            <app-primary-button [button]="followButton"></app-primary-button>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-between gap-4">
+        <div class="left">
+            <app-image-view></app-image-view>
+        </div>
+        <div class="right">
+            <div class="d-flex justify-content-between gap-5">
+                <p class="fs-2">from AquaVista Cruises
+                </p>
+                <app-primary-button [button]="chatButton"></app-primary-button>
+            </div>
+            <div class="d-flex gap-4 col-9">
+                <p>$100/hour</p>
+                <p>100 Capacity</p>
+            </div>
+            <p class="col-9 mb-5">
+                Embark on Unforgettable Journeys through the Mystical and Enchanting Waters
+                During a swan boat ride, individuals or groups can leisurely paddle or pedal the boat through the water.
+                The primary aim is usually relaxation and enjoyment, taking in the natural surroundings and the peaceful
+                atmosphere. Swan boat rides are popular in locations where there's a focus on providing a gentle and
+                pleasant experience on the water.
+            </p>
+            <app-secondary-button [button]="bookButton"></app-secondary-button>
+        </div>
+    </div>
+    <div>
+        <h5 class="my-4">User reviews</h5>
+        <div class="d-flex flex-row justify-content-start gap-3 flex-wrap">
+            <app-review-card *ngFor="let _ of [1, 2, 3, 4]"></app-review-card>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <app-footer></app-footer>
+</div>
