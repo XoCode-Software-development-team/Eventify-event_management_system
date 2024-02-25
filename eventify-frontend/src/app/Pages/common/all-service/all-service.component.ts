@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
+import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
 
 @Component({
   selector: 'app-all-service',
@@ -6,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./all-service.component.scss']
 })
 export class AllServiceComponent {
+  constructor(private dialog:MatDialog) {}
   navbar = [
     {
       Tag: 'All Services',
@@ -28,7 +31,7 @@ export class AllServiceComponent {
     },
     {
       Name: 'notifications_none',
-      Url: '',
+      Url: 'popUpNotification()',
     },
   ];
 
@@ -70,4 +73,16 @@ export class AllServiceComponent {
       completed: false,
     },
   ];
+
+  popUpNotification() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.position = {
+        top: '170px',
+        left: '950px'
+    };
+
+    this.dialog.open(NotificationBoxComponent, dialogConfig);
+  }
 }
