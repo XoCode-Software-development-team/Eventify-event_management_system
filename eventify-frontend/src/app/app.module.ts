@@ -30,12 +30,13 @@ import { SliderComponent } from './Components/slider/slider.component';
 import { CategoryComponent } from './Components/category/category.component';
 import { FilterRatingComponent } from './Components/filter-rating/filter-rating.component';
 import { SortComponent } from './Components/sort/sort.component';
+import { SearchComponent } from './Components/search/search.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, ClientServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, ClientServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent
     ],
   imports: [
     BrowserModule,
