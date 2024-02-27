@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,15 +17,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { EventPageComponent } from './Pages/event-page/event-page.component';
-import { EventServiceResCardComponent } from './Components/event-service-res-card/event-service-res-card.component'
-
-
-
-
+import { EventServiceResCardComponent } from './Components/event-service-res-card/event-service-res-card.component';
+import { NgxStarsModule } from 'ngx-stars';
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, EventCoverComponent, EventCreateFormComponent, EventPageComponent, EventServiceResCardComponent, 
+    AppComponent,SideNavBarComponent, AppComponent,SideNavBarComponent, EventCoverComponent, EventCreateFormComponent,EventServiceResCardComponent,EventPageComponent
     ],
   imports: [
     BrowserModule,
@@ -33,6 +30,7 @@ import { EventServiceResCardComponent } from './Components/event-service-res-car
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MatIconModule,
+    FormsModule,
     HttpClientModule,
     MaterialModule,
     FlexLayoutModule,
@@ -40,8 +38,9 @@ import { EventServiceResCardComponent } from './Components/event-service-res-car
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-    NgxMaterialTimepickerModule
-  
+    NgxMaterialTimepickerModule,
+    NgxStarsModule
+    
 
   ],
   providers: [],

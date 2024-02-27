@@ -1,7 +1,7 @@
 
 <div class="event-cover" >
     <p class="event-name">{{EventName}}</p>
-    <img src="../../../assets/Images/coverimg.png" class="cover-img"/>
+    <img src="../../../assets/Images/party.jpg" class="cover-img"/>
     
     <div class="event-detail-panel">
 
@@ -19,7 +19,7 @@
             <a routerLink="#"><img src="../../../assets/Images/location.png" class="location" height="27px" width="24px"/></a>
             <p class="location" >{{EventLocation}}</p>
         </div>
-
+  
         <div class="discription">
             <p class="topic">Discription</p>
             <p class="text">{{EventDescription}}</p>
@@ -42,15 +42,33 @@
 <div class="servicecards">
 
     <ng-container *ngIf="hasEventServiceCards(); else noCards">
-        Your services ({{ cards.length }})
+        Your services ({{ Ecards.length }})
     </ng-container>
     <ng-template #noCards>
-       There are no Services({{ cards.length }})
+       There are no Services({{ Ecards.length }})
     </ng-template>
     <div class="Card">
-    <app-event-service-res-card *ngFor="let card of cards"></app-event-service-res-card>
+    <app-event-service-res-card *ngFor="let card of Ecards"></app-event-service-res-card>
     </div>
     <div class="add">
         <p><a href="">Add more Services <b>  +</b></a></p>
     </div>
 </div>
+
+<div class="resourcecards">
+
+    <ng-container *ngIf="hasEventResourceCards(); else noCards">
+        Your Resources ({{ Rcards.length }})
+    </ng-container>
+    <ng-template #noCards>
+       There are no Resources({{ Rcards.length }})
+    </ng-template>
+    <div class="Card">
+    <app-event-service-res-card *ngFor="let card of Rcards"></app-event-service-res-card>
+    </div>
+    <div class="add">
+        <p><a href="">Add more Resources <b>  +</b></a></p>
+    </div>
+</div>
+
+

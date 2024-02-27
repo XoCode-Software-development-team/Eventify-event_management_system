@@ -1,15 +1,30 @@
 
 <mat-card class="event-service-res-card">
+
     <mat-card-header>
-        <img mat-card-sm-image src="../../../assets/Images/Djservice.jpg" >
+        <img  mat-card-sm-image src="../../../assets/Images/Djservice.jpg" >
       <mat-card-title-group>
         <mat-card-title>Electro Groove Sound</mat-card-title>
-        <mat-card-subtitle>from SonicMix Pro</mat-card-subtitle> 
+
+        <mat-card-subtitle>
+          <ngx-stars  starCount="5"  color="#f0ad4e" value="4" [readonly]="true"></ngx-stars> 
+        </mat-card-subtitle>
+
+        <mat-card-content>
+        <mat-card-title *ngIf="acceptVendor; else pendingSubtitle">
+          <img src="../../../assets/Images/accepted.png" alt="Accepted" >
+        </mat-card-title>
+        <ng-template #pendingSubtitle>
+          <mat-card-subtitle class="pending">Pending...</mat-card-subtitle>
+        </ng-template>
+      </mat-card-content>
+      
+        <mat-card-subtitle>from SonicMix Pro</mat-card-subtitle>
+
       </mat-card-title-group>
     </mat-card-header>
-    <mat-card-content>
-      <!-- {{type here}} -->
-    </mat-card-content>
+    
+
   </mat-card>
   
   
