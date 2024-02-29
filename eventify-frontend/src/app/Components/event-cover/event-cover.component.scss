@@ -50,7 +50,8 @@ a:hover{
 
 
 .buttons button{
-    border: rgb(132, 132, 132) solid 1px;
+    background-color: rgb(255, 255, 255);
+    border: rgb(53, 53, 53) solid 1px;
     padding: 10px 50px; 
     margin-top: 20px;
     margin-right: 70px;
@@ -62,7 +63,7 @@ a:hover{
     margin-top: 50px;
   }
   .add a{
-    color: rgb(28, 88, 100);
+    color: rgb(31, 127, 146);
     text-decoration: none;
   }
   .add:hover{
@@ -71,9 +72,16 @@ a:hover{
   .resourcecards{
     margin-top: 50px;
   }
-  
+  button:hover{
+    transition: box-shadow 0.3s, transform 0.3s;
+    box-shadow: 0 6px 12px rgba(119, 119, 119, 0.15);
+    transform: scale(1.02);
+    cursor: pointer;
+  }
 
-
+.mat-line{
+    margin-top: 40px;
+}
 
 
 

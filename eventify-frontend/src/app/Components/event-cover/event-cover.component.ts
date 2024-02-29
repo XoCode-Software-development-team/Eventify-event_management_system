@@ -23,12 +23,12 @@ export class EventCoverComponent {
 
   }
 
-  Ecards: any[] = [1];
+  Scards: any[] = [1];
   Rcards: any[] = [1];
 
 
   hasEventServiceCards(): boolean {
-    return this.Ecards && this.Ecards.length > 0;
+    return this.Scards && this.Scards.length > 0;
   }
   hasEventResourceCards(): boolean {
     return this.Rcards && this.Rcards.length > 0;

@@ -7,16 +7,17 @@ nav{
     text-align: right;
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    
 }
 nav li{
     color: rgb(40, 41, 42);
     padding: 10px;
     display: inline-block;
     font-size: 20px;
-    font-weight: 400;
-    
-   
+    font-weight: 400; 
+}
+nav img{
+    padding-left: 20px;
 }
 
 .container{

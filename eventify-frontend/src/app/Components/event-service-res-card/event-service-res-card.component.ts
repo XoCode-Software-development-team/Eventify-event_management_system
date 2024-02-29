@@ -10,8 +10,6 @@ import { Component } from '@angular/core';
 
 export class EventServiceResCardComponent {
   acceptVendor: boolean = true;
-
-
 }
 
 

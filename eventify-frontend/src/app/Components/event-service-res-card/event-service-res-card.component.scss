@@ -1,6 +1,8 @@
 mat-card{
     max-height: 140px;
     height: 140px;
+    max-width: 850px;
+    width: 100%;
 }
 .event-service-res-card{
     margin-top: 30px;
@@ -31,3 +33,14 @@ mat-card-content img{
 mat-card-title-group{
     display: flex;
 }
+
+.event-service-res-card {
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  
+  .event-service-res-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+    cursor: pointer;
+  }
+  

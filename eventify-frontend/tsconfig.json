@@ -23,7 +23,7 @@
       "ES2022",
       "dom"
     ],
-    "types": ["@angular/forms"]
+    "types": ["@angular/forms","jest"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

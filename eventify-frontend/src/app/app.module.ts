@@ -10,7 +10,6 @@ import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.comp
 import { MaterialModule } from './core/material.module'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { EventCoverComponent } from './Components/event-cover/event-cover.component';
-import { EventCreateFormComponent } from './Components/event-create-form/event-create-form.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -18,11 +17,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { EventPageComponent } from './Pages/event-page/event-page.component';
 import { EventServiceResCardComponent } from './Components/event-service-res-card/event-service-res-card.component';
+import { EventCreateFormComponent } from './Components/event-create-form/event-create-form.component';
+
 import { NgxStarsModule } from 'ngx-stars';
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AppComponent,SideNavBarComponent, EventCoverComponent, EventCreateFormComponent,EventServiceResCardComponent,EventPageComponent
+    AppComponent,SideNavBarComponent, AppComponent,SideNavBarComponent, EventCoverComponent,EventServiceResCardComponent,EventPageComponent,EventCreateFormComponent
     ],
   imports: [
     BrowserModule,

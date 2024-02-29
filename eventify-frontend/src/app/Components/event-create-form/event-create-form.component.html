@@ -1,18 +1,17 @@
-
-<div class="formArea">
-<form [formGroup]="form" (ngSubmit)="onSubmit()" >
+    <div class="formArea">
+ <form [formGroup]="form" (ngSubmit)="onSubmit()" >
   <p class="topic">Create Event</p>
 
   <div class="fields">
     
-    <mat-form-field>
+    <mat-form-field  appearance="fill">
         <mat-label>Event Name</mat-label>
         <input matInput formControlName="eventName">
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Choose a Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="eventDate" formControlName="eventDate" (dateChange)="onDateInput($event)" >
+        <input matInput [matDatepicker]="picker" formControlName="eventDate" (dateChange)="onDateInput($event)" >
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -54,11 +53,6 @@
       <div class="createButton">
         <button mat-raised-button type="submit">Create</button>
       </div>
-
-
-
-
-      
 </div>
 
 </form>

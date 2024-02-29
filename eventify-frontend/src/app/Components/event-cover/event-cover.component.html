@@ -21,7 +21,7 @@
         </div>
   
         <div class="discription">
-            <p class="topic">Discription</p>
+            <p class="topic">Description</p>
             <p class="text">{{EventDescription}}</p>
         </div>
           
@@ -38,22 +38,26 @@
  
 </div>
 
+<div class="mat-line"><mat-divider></mat-divider></div>
+
 
 <div class="servicecards">
 
     <ng-container *ngIf="hasEventServiceCards(); else noCards">
-        Your services ({{ Ecards.length }})
+        Your services ({{ Scards.length }})
     </ng-container>
     <ng-template #noCards>
-       There are no Services({{ Ecards.length }})
+       There are no Services({{ Scards.length }})
     </ng-template>
     <div class="Card">
-    <app-event-service-res-card *ngFor="let card of Ecards"></app-event-service-res-card>
+    <app-event-service-res-card *ngFor="let card of Scards"></app-event-service-res-card>
     </div>
     <div class="add">
-        <p><a href="">Add more Services <b>  +</b></a></p>
+        <a mat-button routerLink="/Eventcreate">Add more Services <b>  +</b></a>
     </div>
 </div>
+
+<div class="mat-line"><mat-divider></mat-divider></div>
 
 <div class="resourcecards">
 
@@ -67,7 +71,7 @@
     <app-event-service-res-card *ngFor="let card of Rcards"></app-event-service-res-card>
     </div>
     <div class="add">
-        <p><a href="">Add more Resources <b>  +</b></a></p>
+        <a mat-button routerLink="/Eventcreate">Add more Resources <b>  +</b></a>
     </div>
 </div>
 
