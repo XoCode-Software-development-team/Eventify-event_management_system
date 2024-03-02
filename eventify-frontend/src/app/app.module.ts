@@ -37,6 +37,7 @@ import { ImageViewComponent } from './Components/image-view/image-view.component
 import { SecondaryButtonComponent } from './Components/buttons/secondary-button/secondary-button.component';
 import { ReviewCardComponent } from './Components/review-card/review-card.component';
 import { NotificationBoxComponent } from './Components/notification-box/notification-box.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -56,7 +57,9 @@ import { NotificationBoxComponent } from './Components/notification-box/notifica
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger'
     }),
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

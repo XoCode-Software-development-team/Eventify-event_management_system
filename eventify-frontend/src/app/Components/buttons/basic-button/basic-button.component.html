@@ -1,4 +1,5 @@
-<button mat-button style="color: #1C5864;" class="btn btn-outline" ngClass="{{button.style}}" routerLink='{{button.url}}'>
+<button mat-button [type]="button.type" [ngClass]="button.class" [routerLink]="button.url ? button.url : null">
     <mat-icon class="icon">{{button.icon}}</mat-icon>
     {{button.text}}
-</button>
+  </button>
+  

@@ -10,7 +10,7 @@
     text-align: center;
     border-radius: 6px;
     border: 1px solid #2C98AD;
-    color: #2C98AD;
+    color: #2C98AD !important;
     padding: 5px;
     padding: 0 1.25rem;
 }
@@ -33,4 +33,25 @@
     padding: 0;
     margin: 10px;
     background-color: rgba($color: #1C5864, $alpha: 0.05);
+}
+
+.btn3 {
+    width: auto;
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.54px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid #2C98AD;
+    color: #2C98AD !important;
+    padding: 5px;
+    padding: 0 1.25rem;
+    
+    .icon {
+        display: none;
+    }
 }

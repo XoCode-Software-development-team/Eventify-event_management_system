@@ -47,4 +47,10 @@ export class VendorServiceService {
   removeServiceFromVendorRequest(id: string) : Observable<any>{
     return this._http.put<any>(`${this.Url}/api/deleteRequest/${id}`,null);
   }
+
+  //vendor service page
+
+  getVendorProvideCategory(category:string,id:number) : Observable<string[]>{
+    return this._http.get<string[]>(`${this.Url}/api/deleteRequest/${category}`);
+  }
 }

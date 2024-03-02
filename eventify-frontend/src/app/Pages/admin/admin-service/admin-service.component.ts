@@ -9,15 +9,10 @@ import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-ser
 export class AdminServiceComponent implements OnInit {
   constructor(
     private _vendorService: VendorServiceService
-  ) // private _dataUpdateService: DataUpdateService,
-  {}
+  ) {}
 
   dataSource: string[] = [];
   categories: string[] = [];
-
-  ngOnInit(): void {
-    this.getCategories();
-  }
 
   displayedColumns: string[] = [
     'No',
@@ -26,6 +21,10 @@ export class AdminServiceComponent implements OnInit {
     'Availability',
     'Action',
   ];
+
+  ngOnInit(): void {
+    this.getCategories();
+  }
 
   getServices(category: string) {
     this._vendorService.getServiceListByCategory(category).subscribe({

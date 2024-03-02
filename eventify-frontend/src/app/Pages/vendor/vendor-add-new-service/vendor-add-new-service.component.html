@@ -1,120 +1,333 @@
 <div class="container-fluid mb-5">
-    <form class="example-form">
-        <h5 class="mb-4">1. Service Details</h5>
+    <form class="example-form" [formGroup]="serviceForm" (ngSubmit)="saveForm()" (reset)="resetForm()">
 
+        <h5 class="mb-4">1. Service Details</h5>
         <div class="part mb-5">
 
             <table class="example-full-width" cellspacing="0">
+
                 <tr>
+
                     <td class="first-td"><mat-form-field class="form-field" appearance="outline">
                             <mat-label>Service name</mat-label>
-                            <input matInput class="input-data">
-                        </mat-form-field></td>
-                    <td><mat-form-field appearance="outline" class="form-field">
-                            <mat-label>Select category</mat-label>
-                            <mat-select>
-                                <mat-option *ngFor="let food of foods"
-                                    [value]="food.value">{{food.viewValue}}</mat-option>
-                            </mat-select>
-                        </mat-form-field></td>
-                </tr>
-                <tr>
-                    <td class="first-td"><mat-form-field class="form-field" appearance="outline">
-                            <mat-label>Maximum capacity</mat-label>
-                            <input matInput type="number">
-                        </mat-form-field></td>
+                            <input matInput class="input-data" minlength="2" maxlength="50" required
+                                formControlName="serviceName" placeholder="Add service name">
+                            <mat-icon
+                                *ngIf="serviceForm.get('serviceName')?.touched && serviceForm.get('serviceName')?.invalid"
+                                color="primary" matSuffix
+                                matTooltip="Service name should have minimum of 3 and maximum of 50 characters.">info</mat-icon>
+                            <mat-icon style="color: green;" matSuffix
+                                *ngIf="serviceForm.get('serviceName')?.valid">check_circle</mat-icon>
+                            <mat-hint
+                                *ngIf="serviceForm.get('serviceName')?.invalid && serviceForm.get('serviceName')?.touched">
+                                <span class="small text-danger"
+                                    *ngIf="serviceForm.get('serviceName')?.errors?.['minlength']">Service name must have
+                                    minimum of 3 characters! </span>
+                                <span class="small text-danger"
+                                    *ngIf="serviceForm.get('serviceName')?.errors?.['required']">Service name can not be
+                                    left blank! </span>
+                            </mat-hint>
+                        </mat-form-field>
+                    </td>
 
-                    <td><mat-form-field class="form-field" appearance="outline">
-                            <mat-label>Facilities & features</mat-label>
-                            <input matInput>
-                        </mat-form-field></td>
+                    <td><mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Service category</mat-label>
+                            <mat-select required formControlName="serviceCategory" placeholder="Select category">
+                                <mat-option *ngFor="let category of categories"
+                                    [value]="category.id">{{category.categoryName}}</mat-option>
+                            </mat-select>
+                            <mat-icon color="primary" matSuffix
+                                *ngIf="serviceForm.get('serviceCategory')?.invalid && serviceForm.get('serviceCategory')?.touched"
+                                matTooltip="Service category is required.">info</mat-icon>
+                            <mat-icon matSuffix style="color: green;"
+                                *ngIf="serviceForm.get('serviceCategory')?.valid">check_circle</mat-icon>
+                            <mat-hint
+                                *ngIf="serviceForm.get('serviceCategory')?.invalid && serviceForm.get('serviceCategory')?.touched">
+                                <span class="small text-danger"
+                                    *ngIf="serviceForm.get('serviceCategory')?.errors?.['required']">Service category
+                                    can not be
+                                    left blank! </span>
+                            </mat-hint>
+                        </mat-form-field>
+                    </td>
+
                 </tr>
+
+                <tr>
+
+                    <td class="first-td">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Description</mat-label>
+                            <div class="d-flex flex-row mx-2">
+                                <textarea class="input-data" rows="5" matInput placeholder="Add Description"
+                                    minlength="50" maxlength="500" required
+                                    formControlName="serviceDescription"></textarea>
+                                <mat-icon
+                                    *ngIf="serviceForm.get('serviceDescription')?.touched && serviceForm.get('serviceDescription')?.invalid"
+                                    class="d-flex" style="align-items:flex-end !important;" color="primary" matSuffix
+                                    matTooltip="Service description should have minimum of 50 and maximum of 500 characters.">info</mat-icon>
+                                <mat-icon style="color: green;" matSuffix
+                                    *ngIf="serviceForm.get('serviceDescription')?.valid">check_circle</mat-icon>
+                            </div>
+                            <mat-hint
+                                *ngIf="serviceForm.get('serviceDescription')?.invalid && serviceForm.get('serviceDescription')?.touched">
+                                <span class="small text-danger"
+                                    *ngIf="serviceForm.get('serviceDescription')?.errors?.['minlength']">Service
+                                    description must
+                                    have
+                                    minimum of 50 characters! </span>
+                                <span class="small text-danger"
+                                    *ngIf="serviceForm.get('serviceDescription')?.errors?.['required']">Service name
+                                    can
+                                    not be
+                                    left blank! </span>
+                            </mat-hint>
+                        </mat-form-field>
+                    </td>
+
+                    <td class="align-baseline"><mat-form-field class="form-field" appearance="outline">
+                            <mat-label>Maximum capacity</mat-label>
+                            <input matInput type="number" min="0" formControlName="serviceMaxCapacity">
+                            <mat-icon color="primary" matSuffix *ngIf="serviceForm.get('serviceMaxCapacity')?.invalid"
+                                matTooltip="Maximum capacity should have grater than 0 and a integer value.">info</mat-icon>
+                            <mat-icon matSuffix style="color: green;"
+                                *ngIf="serviceForm.get('serviceMaxCapacity')?.valid && serviceForm.get('serviceMaxCapacity')?.touched">check_circle</mat-icon>
+                            <mat-hint
+                                *ngIf="serviceForm.get('serviceMaxCapacity')?.invalid && serviceForm.get('serviceMaxCapacity')?.touched">
+                                <span class="small text-danger"
+                                    *ngIf="serviceForm.get('serviceMaxCapacity')?.errors?.['pattern']">Maximum capacity
+                                    must be
+                                    an integer value! </span>
+                                <span class="small text-danger"
+                                    *ngIf="serviceForm.get('serviceMaxCapacity')?.errors?.['min']">Maximum capacity must
+                                    be grater than 0! </span>
+                            </mat-hint>
+                        </mat-form-field>
+                    </td>
+
+                </tr>
+
             </table>
+
             <div>
-                <mat-form-field class="form-field" appearance="outline">
-                    <mat-label>Description</mat-label>
-                    <textarea rows="5" matInput placeholder="Add Description"></textarea>
+                <mat-form-field class="form-field chip-list" appearance="outline">
+                    <mat-label>Features & Facilities</mat-label>
+
+                    <mat-chip-grid #chipGrid aria-label="Enter features & Facilities">
+
+                        <mat-chip-row *ngFor="let feature of featuresAndFacilities; let i = index"
+                            (removed)="remove(feature)" [editable]="true" (edited)="edit(feature, $event)"
+                            [aria-description]="'press enter to edit ' + feature.name">
+                            {{feature.name}}
+                            <button matChipRemove [attr.aria-label]="'remove ' + feature.name">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip-row>
+                        <input placeholder="Add feature" [matChipInputFor]="chipGrid"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                            (matChipInputTokenEnd)="add($event)" formControlName="serviceFeatures" />
+
+                    </mat-chip-grid>
+                    <mat-icon color="primary" matSuffix
+                        *ngIf="serviceForm.get('serviceFeatures')?.invalid && serviceForm.get('serviceFeatures')?.touched"
+                        matTooltip="You can add features and Facilities you provide.">info</mat-icon>
+                    <mat-icon matSuffix style="color: green;"
+                        *ngIf="serviceForm.get('serviceFeatures')?.valid && serviceForm.get('serviceFeatures')?.touched">check_circle</mat-icon>
+
                 </mat-form-field>
             </div>
         </div>
         <h5 class="my-4">2. Service Locations</h5>
-        <div class="part mb-5">
-            <mat-label>Pick the location</mat-label>
-            <div class="d-flex">
-                <div class="first-td example-full-width l-side">
-                    <img src="../../../../assets/map.png" style="border-radius: 6px; width: 100%;" alt="">
+        <div class="part mb-5" formArrayName="serviceLocations">
+            <div *ngFor="let child of getControls('serviceLocations'); let i = index" [formGroupName]="i">
+                <div class="d-flex justify-content-between">
+                    <mat-label class="py-2">Pick the location</mat-label>
+                    <button *ngIf="i > 0" type="button" mat-button (click)="removeLocation(i)">
+                        <mat-icon>close</mat-icon>Remove
+                    </button>
                 </div>
+                <div class="d-flex flex-row justify-content-between">
 
-                <div>
-                    <table class="example-full-width" cellspacing="0">
-                        <tr>
-                            <td class="first-td"><mat-form-field class="form-field" appearance="outline">
-                                    <mat-label>Country</mat-label>
-                                    <input matInput class="input-data">
-                                </mat-form-field></td>
-                            <td><mat-form-field class="form-field" appearance="outline">
-                                    <mat-label>State</mat-label>
-                                    <input matInput class="input-data">
-                                </mat-form-field></td>
-                        </tr>
-                        <tr>
-                            <td class="first-td"><mat-form-field class="form-field" appearance="outline">
-                                    <mat-label>Area</mat-label>
-                                    <input matInput class="input-data">
-                                </mat-form-field></td>
-                            <td><mat-form-field class="form-field" appearance="outline">
-                                    <mat-label>District</mat-label>
-                                    <input matInput class="input-data">
-                                </mat-form-field></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <p>
-                                    <mat-form-field class="form-field" appearance="outline">
-                                        <mat-label>House number, street & road</mat-label>
-                                        <textarea rows="1" matInput placeholder="Add Description"></textarea>
+                    <div class="first-td example-full-width l-side">
+                        <img src="../../../../assets/map.png" style="border-radius: 6px; width: 100%;" alt="">
+                    </div>
+                    <div>
+                        <table class="example-full-width" cellspacing="0">
+                            <tr>
+                                <td class="first-td"><mat-form-field class="form-field" style="width: 220px;"
+                                        appearance="outline">
+                                        <mat-label>Country</mat-label>
+                                        <input matInput class="input-data" placeholder="Add country" required
+                                            formControlName="country">
+                                        <mat-icon color="primary" matSuffix
+                                            *ngIf="getArrayControls(i,'serviceLocations','country')?.invalid && getArrayControls(i,'serviceLocations','country')?.touched"
+                                            matTooltip="Country is required.">info</mat-icon>
+                                        <mat-icon matSuffix style="color: green;"
+                                            *ngIf="getArrayControls(i,'serviceLocations','country')?.valid && getArrayControls(i,'serviceLocations','country')?.touched">check_circle</mat-icon>
+                                        <mat-hint
+                                            *ngIf="getArrayControls(i,'serviceLocations','country')?.invalid && getArrayControls(i,'serviceLocations','country')?.touched">
+                                            <span class="small text-danger"
+                                                *ngIf="getArrayControls(i,'serviceLocations','country')?.errors?.['required']">Country
+                                                is required! </span>
+                                        </mat-hint>
                                     </mat-form-field>
-                                </p>
-                            </td>
-                        </tr>
-                    </table>
+                                </td>
+                                <td><mat-form-field class="form-field" style="width: 220px;" appearance="outline">
+                                        <mat-label>State/ Province/ Region</mat-label>
+                                        <input matInput class="input-data" formControlName="stateProvinceRegion"
+                                            placeholder="Add state">
+                                        <mat-icon color="primary" matSuffix
+                                            *ngIf="getArrayControls(i,'serviceLocations','stateProvinceRegion')?.invalid && getArrayControls(i,'serviceLocations','stateProvinceRegion')?.touched"
+                                            matTooltip="You can add state, province, region.">info</mat-icon>
+                                        <mat-icon matSuffix style="color: green;"
+                                            *ngIf="getArrayControls(i,'serviceLocations','stateProvinceRegion')?.valid && getArrayControls(i,'serviceLocations','stateProvinceRegion')?.touched">check_circle</mat-icon>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="first-td"><mat-form-field class="form-field" style="width: 220px;"
+                                        appearance="outline">
+                                        <mat-label>City/ Town/ Area</mat-label>
+                                        <input matInput class="input-data" formControlName="cityTownArea"
+                                            placeholder="Add city">
+                                        <mat-icon color="primary" matSuffix
+                                            *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.invalid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched"
+                                            matTooltip="You can add city, town or area.">info</mat-icon>
+                                        <mat-icon matSuffix style="color: green;"
+                                            *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.valid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched">check_circle</mat-icon>
+                                    </mat-form-field>
+                                </td>
+                                <td><mat-form-field class="form-field" style="width: 220px;" appearance="outline">
+                                        <mat-label>District</mat-label>
+                                        <input matInput class="input-data" required formControlName="district"
+                                            placeholder="Add district">
+                                        <mat-icon color="primary" matSuffix
+                                            *ngIf="getArrayControls(i,'serviceLocations','district')?.invalid && getArrayControls(i,'serviceLocations','district')?.touched"
+                                            matTooltip="Country is required.">info</mat-icon>
+                                        <mat-icon matSuffix style="color: green;"
+                                            *ngIf="getArrayControls(i,'serviceLocations','district')?.valid && getArrayControls(i,'serviceLocations','district')?.touched">check_circle</mat-icon>
+                                        <mat-hint
+                                            *ngIf="getArrayControls(i,'serviceLocations','district')?.invalid && getArrayControls(i,'serviceLocations','district')?.touched">
+                                            <span class="small text-danger"
+                                                *ngIf="getArrayControls(i,'serviceLocations','district')?.errors?.['required']">District
+                                                is required! </span>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <p>
+                                        <mat-form-field class="form-field" appearance="outline">
+                                            <mat-label>House number, street & road</mat-label>
+                                            <textarea rows="1" matInput placeholder="Add house no, street, road"
+                                                required formControlName="houseNoStreetRoad" maxlength="200"></textarea>
+                                            <mat-icon color="primary" matSuffix
+                                                *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.invalid && getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.touched"
+                                                matTooltip="This field is required and must have maximum 200 characters.">info</mat-icon>
+                                            <mat-icon matSuffix style="color: green;"
+                                                *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.valid && getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.touched">check_circle</mat-icon>
+                                            <mat-hint
+                                                *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.invalid && getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.touched">
+                                                <span class="small text-danger"
+                                                    *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.errors?.['required']">This
+                                                    field is required! </span>
+                                            </mat-hint>
+                                        </mat-form-field>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <a mat-button class="btn1" routerLink=''>
+
+            <button type="button" mat-button class="btn1" (click)="addLocation()">
                 <mat-icon class="icon">add</mat-icon>
                 Add new
-            </a>
+            </button>
         </div>
         <h5 class="my-4">3. Pricing & Packages</h5>
-        <div class="part mb-5">
-
-            <table class="example-full-width" cellspacing="0">
-                <tr class="d-flex justify-content-between gap-3">
-                    <td class="w-100"><mat-form-field class="form-field" appearance="outline">
-                            <mat-label>Package name</mat-label>
-                            <input matInput class="input-data">
-                        </mat-form-field></td>
-                    <td class="w-100"><mat-form-field appearance="outline" class="form-field">
-                            <mat-label>Pricing Model</mat-label>
-                            <mat-select>
-                                <mat-option *ngFor="let food of foods"
-                                    [value]="food.value">{{food.viewValue}}</mat-option>
-                            </mat-select>
-                        </mat-form-field></td>
+        <div class="part mb-5" formArrayName="servicePricePackages">
+            <div *ngFor="let child of getControls('servicePricePackages'); let i = index" [formGroupName]="i">
+                <div class="d-flex justify-content-end">
+                    <button *ngIf="i > 0" type="button" mat-button (click)="removePackage(i)">
+                        <mat-icon>close</mat-icon>Remove
+                    </button>
+                </div>
+                <table class="example-full-width" cellspacing="0">
+                    <tr class="d-flex justify-content-between gap-3">
                         <td class="w-100"><mat-form-field class="form-field" appearance="outline">
-                            <mat-label>Base price</mat-label>
-                            <input matInput type="number">
-                        </mat-form-field></td>
-                </tr>
-            </table>
-            <a mat-button class="btn1" routerLink=''>
+                                <mat-label>Package name</mat-label>
+                                <input matInput class="input-data" required formControlName="packageName"
+                                    placeholder="Add package name">
+                                <mat-icon color="primary" matSuffix
+                                    *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.invalid && getArrayControls(i,'servicePricePackages','packageName')?.touched"
+                                    matTooltip="Package name is required.">info</mat-icon>
+                                <mat-icon matSuffix style="color: green;"
+                                    *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.valid && getArrayControls(i,'servicePricePackages','packageName')?.touched">check_circle</mat-icon>
+                                <mat-hint
+                                    *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.invalid && getArrayControls(i,'servicePricePackages','packageName')?.touched">
+                                    <span class="small text-danger"
+                                        *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.errors?.['required']">Package
+                                        name is required! </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                        <td class="w-100"><mat-form-field appearance="outline" class="form-field">
+                                <mat-label>Pricing Model</mat-label>
+                                <mat-select formControlName="priceModel" placeholder="Select price model" required>
+                                    <mat-option *ngFor="let model of pricingModels"
+                                        [value]="model.id">{{model.priceModeName}}</mat-option>
+                                </mat-select>
+                                <mat-icon color="primary" matSuffix
+                                    *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.invalid && getArrayControls(i,'servicePricePackages','priceModel')?.touched"
+                                    matTooltip="Pricing model is required.">info</mat-icon>
+                                <mat-icon matSuffix style="color: green;"
+                                    *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.valid && getArrayControls(i,'servicePricePackages','priceModel')?.touched">check_circle</mat-icon>
+                                <mat-hint
+                                    *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.invalid && getArrayControls(i,'servicePricePackages','priceModel')?.touched">
+                                    <span class="small text-danger"
+                                        *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.errors?.['required']">Pricing
+                                        model is required! </span>
+                                </mat-hint>
+
+                            </mat-form-field>
+                        </td>
+                        <td class="w-100"><mat-form-field class="form-field" appearance="outline">
+                                <mat-label>Base price</mat-label>
+                                <!-- <span matTextPrefix>Rs: &nbsp;</span> -->
+                                <input matInput type="number" formControlName="basePrice" placeholder="Add base price"
+                                    min="0" step="0.01" required>
+                                <mat-icon color="primary" matSuffix
+                                    *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.invalid && getArrayControls(i,'servicePricePackages','basePrice')?.touched"
+                                    matTooltip="Base price is required.">info</mat-icon>
+                                <mat-icon matSuffix style="color: green;"
+                                    *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.valid && getArrayControls(i,'servicePricePackages','basePrice')?.touched">check_circle</mat-icon>
+                                <mat-hint
+                                    *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.invalid && getArrayControls(i,'servicePricePackages','basePrice')?.touched">
+                                    <span class="small text-danger"
+                                        *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.errors?.['required']">Base
+                                        price is required! </span>
+                                    <span class="small text-danger"
+                                        *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.errors?.['min']">Base
+                                        price must be grater than 0! </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <button mat-button type="button" class="btn1" (click)="addPackage()">
                 <mat-icon class="icon">add</mat-icon>
                 Add new
-            </a>
+            </button>
         </div>
         <h5 class="my-4">4. Images & Videos</h5>
         <div class="part mb-5 d-flex justify-content-start gap-3 flex-column">
-            <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event,imageFiles)" [expandable]="true" [disableClick]="true">
+            <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event,imageFiles)"
+                [expandable]="true" [disableClick]="true">
                 <ngx-dropzone-label>
                     <div class="">
                         <img class="img-fluid" src="../../../../assets/icons/add_photo_alternate.svg" width="48px">
@@ -122,11 +335,13 @@
                     </div>
                 </ngx-dropzone-label>
                 <div class="d-flex justify-content-around flex-sm-wrap">
-                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imageFiles" [file]="f" [removable]="true" (removed)="onRemove(f,imageFiles)">
+                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imageFiles"
+                        [file]="f" [removable]="true" (removed)="onRemove(f,imageFiles)">
                     </ngx-dropzone-image-preview>
                 </div>
             </div>
-            <div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onSelect($event,videoFiles)" [expandable]="true" [disableClick]="true">
+            <div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onSelect($event,videoFiles)"
+                [expandable]="true" [disableClick]="true">
                 <ngx-dropzone-label>
                     <div class="">
                         <img class="img-fluid" src="../../../../assets/icons/collection.png" width="48px">
@@ -134,12 +349,16 @@
                     </div>
                 </ngx-dropzone-label>
                 <div class="d-flex justify-content-around flex-sm-wrap">
-                    <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videoFiles" [file]="f" [removable]="true" (removed)="onRemove(f,videoFiles)">
+                    <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videoFiles"
+                        [file]="f" [removable]="true" (removed)="onRemove(f,videoFiles)">
                         <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                      </ngx-dropzone-video-preview>
+                    </ngx-dropzone-video-preview>
                 </div>
             </div>
         </div>
-        <app-primary-button [button]="button"></app-primary-button>
+        <div style="display: flex; gap: 1rem;align-items: center;">
+            <app-primary-button [button]="saveButton"></app-primary-button>
+            <app-basic-button [button]="resetButton" *ngIf="serviceForm.dirty"></app-basic-button>
+        </div>
     </form>
 </div>

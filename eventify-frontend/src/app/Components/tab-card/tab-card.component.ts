@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { DataUpdateService } from 'src/app/Services/data-update/data-update.service';
 import { Subscription } from 'rxjs';
-import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
 
 @Component({
   selector: 'app-tab-card',
@@ -16,6 +15,7 @@ import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-ser
   styleUrls: ['./tab-card.component.scss'],
 })
 export class TabCardComponent implements OnInit, OnDestroy {
+  
   private dataDeletedSubscription: Subscription = new Subscription();
 
   constructor(private _dataUpdateService: DataUpdateService) {}

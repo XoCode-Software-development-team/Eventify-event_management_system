@@ -9,5 +9,8 @@
     ],
     "profile": {
       "name": "typicode"
-    }
+    },
+    "Service": [
+        {"vid":"1"}
+    ]
   }

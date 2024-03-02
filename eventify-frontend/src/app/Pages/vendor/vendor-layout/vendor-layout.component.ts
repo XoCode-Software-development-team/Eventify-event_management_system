@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-
-interface Button {
-  icon: string;
-  text: string;
-  url: string;
-  style: string;
-}
+import { Button } from '../vendor-add-new-service/vendor-add-new-service.component';
 
 @Component({
   selector: 'app-vendor-layout',
@@ -47,7 +41,9 @@ export class VendorLayoutComponent {
       icon: 'add',
       text: 'Add New Services',
       url: 'addNewService',
-      style: 'btn1'
+      class: ['btn1'],
+      type:'button',
+      disable:false
     };
 }
 
