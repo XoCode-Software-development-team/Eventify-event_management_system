@@ -326,33 +326,44 @@
         </div>
         <h5 class="my-4">4. Images & Videos</h5>
         <div class="part mb-5 d-flex justify-content-start gap-3 flex-column">
-            <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event,imageFiles)"
-                [expandable]="true" [disableClick]="true">
-                <ngx-dropzone-label>
-                    <div class="">
-                        <img class="img-fluid" src="../../../../assets/icons/add_photo_alternate.svg" width="48px">
-                        <p class=".btn1 p-2">Drag and drop images</p>
+            <div>
+                <div class="d-flex justify-content-end gap-2">
+                    <p>[Maximum image size: 1MB, Maximum number of images: 5]</p>
+                    <mat-icon matSuffix style="color: green;" *ngIf="imageFiles.length >= 5">check_circle</mat-icon>
+                </div>
+                <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event,imageFiles)"
+                    [expandable]="true" [disableClick]="this.imageFiles.length >= 5" [maxFileSize]="maxImageSize">
+                    <ngx-dropzone-label>
+                        <div class="">
+                            <img class="img-fluid" src="../../../../assets/icons/add_photo_alternate.svg" width="48px">
+                            <p class=".btn1 p-2">Drag and drop images</p>
+                        </div>
+                    </ngx-dropzone-label>
+                    <div class="d-flex justify-content-around flex-sm-wrap">
+                        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imageFiles"
+                            [file]="f" [removable]="true" (removed)="onRemove(f,imageFiles)">
+                        </ngx-dropzone-image-preview>
                     </div>
-                </ngx-dropzone-label>
-                <div class="d-flex justify-content-around flex-sm-wrap">
-                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of imageFiles"
-                        [file]="f" [removable]="true" (removed)="onRemove(f,imageFiles)">
-                    </ngx-dropzone-image-preview>
                 </div>
             </div>
-            <div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onSelect($event,videoFiles)"
-                [expandable]="true" [disableClick]="true">
-                <ngx-dropzone-label>
-                    <div class="">
-                        <img class="img-fluid" src="../../../../assets/icons/collection.png" width="48px">
-                        <p class=".btn1 p-2">Drag and drop videos</p>
+            <div>
+                <div class="d-flex justify-content-end gap-2">
+                    <p style="text-align: right;">[Maximum video size: 50MB, Maximum number of videos: 5]</p>
+                    <mat-icon matSuffix style="color: green;" *ngIf="imageFiles.length >=5 || videoFiles.length >= 1">check_circle</mat-icon>
+                </div>
+                <div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onSelect($event,videoFiles)"
+                    [expandable]="true" [disableClick]="this.videoFiles.length >= 5" [maxFileSize]="maxVideoSize">
+                    <ngx-dropzone-label>
+                        <div class="">
+                            <img class="img-fluid" src="../../../../assets/icons/collection.png" width="48px">
+                            <p class=".btn1 p-2">Drag and drop videos</p>
+                        </div>
+                    </ngx-dropzone-label>
+                    <div class="d-flex justify-content-around flex-sm-wrap">
+                        <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videoFiles"
+                            [file]="f" [removable]="true" (removed)="onRemove(f,videoFiles)">
+                        </ngx-dropzone-video-preview>
                     </div>
-                </ngx-dropzone-label>
-                <div class="d-flex justify-content-around flex-sm-wrap">
-                    <ngx-dropzone-video-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of videoFiles"
-                        [file]="f" [removable]="true" (removed)="onRemove(f,videoFiles)">
-                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-                    </ngx-dropzone-video-preview>
                 </div>
             </div>
         </div>

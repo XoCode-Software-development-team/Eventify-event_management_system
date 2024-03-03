@@ -45,11 +45,15 @@ export class VendorAddNewServiceComponent implements OnInit {
   ];
 
   imageFiles: File[] = [];
+  maxImageSize = 10485760;
+  maxVideoSize = this.maxImageSize * 50;
   videoFiles: File[] = [];
 
   onSelect(event: any, files: File[]) {
+    if (files.length < 5){
+      files.push(...event.addedFiles);
+    }
     console.log(event);
-    files.push(...event.addedFiles);
   }
 
   onRemove(event: any, files: File[]) {
@@ -146,11 +150,13 @@ export class VendorAddNewServiceComponent implements OnInit {
           priceModel: new FormControl(null),
           basePrice: new FormControl(null)
         })
-      ])
+      ]),
+      images: new FormControl([]),
+      videos: new FormControl([])
     })
 
     this.serviceForm.valueChanges.subscribe(() => {
-      this.saveButton.disable = this.serviceForm.invalid;
+      this.saveButton.disable = this.serviceForm.invalid || this.imageFiles.length <= 5;
     })
   }
 
@@ -204,10 +210,14 @@ export class VendorAddNewServiceComponent implements OnInit {
   saveForm() {
     //when submit the form add featuresAndFacilities array to serviceForm
     this.serviceForm.get('serviceFeatures')?.setValue(this.featuresAndFacilities);
+    this.serviceForm.get('images')?.setValue(this.imageFiles);
+    this.serviceForm.get('videos')?.setValue(this.videoFiles);
     console.log(this.serviceForm)
   }
 
   resetForm() {
     this.featuresAndFacilities = [];
+    this.imageFiles = [];
+    this.videoFiles = [];
   }
 }
