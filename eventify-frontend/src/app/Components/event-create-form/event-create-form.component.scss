@@ -1,13 +1,12 @@
-
 .topic{
     font-size: 30px;
     font-family: Lato;
     color: rgb(17, 124, 136);
 }
+
 .fields{
     width: 100%;
-    max-width: 600px;
-    
+    max-width: 400px;
     display:grid;
 }
 
@@ -19,6 +18,7 @@
     width: 100%;
 
 }
+
 .createButton button{
     margin-top: 30px;
     background-color:rgb(5, 102, 102);
@@ -58,7 +58,7 @@
 
     .fields{
       width: 100%;
-      max-width: 300px;
+      max-width: 400px;
       display:grid;
   }
     .timepicker{

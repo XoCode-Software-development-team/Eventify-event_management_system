@@ -64,6 +64,10 @@
   {{ errorMessage }}
 </div>
 
+<div *ngIf="formNotValid" class="error-message">
+  Form is not valid. Please fill in all required fields.
+</div>
+
 </div>
 
 
