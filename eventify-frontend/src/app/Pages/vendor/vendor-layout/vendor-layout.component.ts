@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Button } from '../vendor-add-new-service/vendor-add-new-service.component';
+import { Button } from 'src/app/Interfaces/interfaces';
 
 @Component({
   selector: 'app-vendor-layout',

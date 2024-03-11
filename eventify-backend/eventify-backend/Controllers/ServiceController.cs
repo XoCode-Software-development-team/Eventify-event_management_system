@@ -1,98 +1,76 @@
 ﻿using eventify_backend.Data;
-using eventify_backend.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace eventify_backend.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("/Api/[Controller]")]
-    public class ServiceController : Controller
-
+    public class ServiceController : ControllerBase
     {
-        private readonly ServiceDbContext _serviceDbContext;
+        private readonly AppDbContext _appDbContext;
 
-        public ServiceController(ServiceDbContext serviceDbContext)
+        public ServiceController(AppDbContext appDbContext)
         {
-            this._serviceDbContext = serviceDbContext;
+            this._appDbContext = appDbContext;
+
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
-        {
-            var categories = await _serviceDbContext.services.Select(x => x.Category).Distinct().ToListAsync();
 
-            if (categories == null)
+
+        [HttpGet("/Api/[Controller]/Categories")]
+        public async Task<IActionResult> GetAllServiceCategories()
+        {
+            var categories = await _appDbContext.serviceCategories
+                .Select(x => new { x.CategoryId, x.ServiceCategoryName })
+                .ToListAsync();
+
+            if (categories == null || categories.Count == 0)
             {
-                return NotFound();
+                return NotFound(false);
             }
             return Ok(categories);
         }
 
-        [HttpGet("/Api/[Controller]/{category}")]
+        [HttpGet("/Api/[Controller]/{categoryId}")]
 
-        public async Task<IActionResult> GetServiceByCategory([FromRoute]string category)
+        public async Task<IActionResult> GetServiceByCategory([FromRoute] int categoryId)
         {
-            var services = await _serviceDbContext.services.Where(s => s.Category == category).ToListAsync();
 
-            if (services == null || services.Count == 0)
-            {
-                return NotFound(false);
-            }
-            return Ok(services);
-        }
+       /*     var servicesWithCategories = await _appDbContext.serviceAndResources
+                .Select(s => new
+                {
+                    SoRId = s.SoRId,
+                    ServiceName = s.Name,
+                    ServiceRating = s.overallRate,
+                    IsSuspend = s.IsSuspend,
+                })
+                .Where(s => s.SoRId == )
+                .ToListAsync();   */
 
-
-        [HttpPost]
-        public async Task<IActionResult> AddServicee([FromBody] Services services)
+            var serviceInfoList = new List<object>
         {
-            services.Id = Guid.NewGuid();
-            await _serviceDbContext.services.AddAsync(services);
-            await _serviceDbContext.SaveChangesAsync();
-
-            return Ok(services);
-        }
-
-        [HttpDelete("/Api/[Controller]/{Id}")]
-        public async Task<IActionResult> DeleteService([FromRoute] Guid Id)
+        new
         {
-            var service = await _serviceDbContext.services.FindAsync(Id);
-
-            if (service == null)
-            {
-                return NotFound(Id);
-            }
-
-            var deletedCategory = service.Category; // Save the category before deletion
-
-            _serviceDbContext.services.Remove(service);
-            await _serviceDbContext.SaveChangesAsync();
-
-            // Count the remaining instances of the deleted category
-            var remainingCount = await _serviceDbContext.services.CountAsync(s => s.Category == deletedCategory);
-
-            // Return the count as part of the response
-            return Ok(new { DeletedService = service, RemainingCount = remainingCount });
-        }
-
-        [HttpPut("/Api/[Controller]/{Id}")]
-        public async Task<IActionResult> ChangeSuspendState([FromRoute] Guid Id)
+            Service = "Service 1", // Dummy service name
+            Rating = 4.5, // Dummy rating
+            Availability = "true",
+            isSuspend = "true"
+// Dummy availability status
+        },
+        new
         {
-            var service = await _serviceDbContext.services.FindAsync(Id);
-            if(service == null)
-            {
-                return NotFound();
-            }
+            Service = "Service 2", // Dummy service name
+            Rating = 3.8, // Dummy rating
+            Availability = "false", // Dummy availability status
+            isSuspend = "true"
+        },
+        // Add more dummy data as needed
+    };
 
-            service.IsSuspend = !service.IsSuspend;
-
-            await _serviceDbContext.SaveChangesAsync();
-
-            var category = new { Category = service.Category };
-
-            return Ok(category);
-
+            // Return the list of service information to the user
+            return Ok(serviceInfoList);
         }
-
     }
 }

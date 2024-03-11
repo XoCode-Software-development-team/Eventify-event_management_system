@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { DataUpdateService } from 'src/app/Services/data-update/data-update.service';
 import { Subscription } from 'rxjs';
+import { Category } from 'src/app/Interfaces/interfaces';
 
 @Component({
   selector: 'app-tab-card',
@@ -22,7 +23,7 @@ export class TabCardComponent implements OnInit, OnDestroy {
 
   activeTab: string | null = null;
 
-  @Input() card: any;
+  @Input() card: Category[] = [];
   @Output() childEvent: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit(): void {
@@ -32,7 +33,7 @@ export class TabCardComponent implements OnInit, OnDestroy {
           this.ngOnInit();
         });
 
-      this.viewService(this.card[0]);
+      this.viewService(this.card[0].id);
     }
   }
 

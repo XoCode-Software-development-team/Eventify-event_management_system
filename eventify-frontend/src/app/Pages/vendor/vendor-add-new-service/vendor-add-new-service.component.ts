@@ -3,24 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-
-export interface Category {
-  id: string;
-  categoryName: string;
-}
-
-export interface FeatureAndFacility {
-  name: string;
-}
-
-export interface Button {
-  url: string,
-  type: string,
-  text: string,
-  icon: string,
-  class: string[],
-  disable: boolean
-}
+import { Button, Category, FeatureAndFacility } from 'src/app/Interfaces/interfaces';
 
 @Component({
   selector: 'app-vendor-add-new-service',

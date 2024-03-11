@@ -1,5 +1,5 @@
 <div class="container">
-    <app-tab-card [card]="categories" *ngIf="categories && categories.length > 0"
+    <app-tab-card  *ngIf="categories && categories.length > 0"
         (childEvent)="getServices($event)"></app-tab-card>
 </div>
 <div class="table">
@@ -32,18 +32,18 @@
         <ng-container matColumnDef="Action">
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td class="action" mat-cell *matCellDef="let element">
-                <div class="suspend" [ngClass]="{'sus':element.isSuspend}" mwlConfirmationPopover
-                    popoverTitle="Service {{element.isSuspend ? 'Resume': 'Suspend'}} confirmation"
+                <!-- <div class="suspend" [ngClass]="{'sus':element.isSuspend}" mwlConfirmationPopover
+                    Confirmation="Service {{element.isSuspend ? 'Resume': 'Suspend'}} confirmation"
                     popoverMessage="Do you really want to {{element.isSuspend ? 'Resume': 'suspend'}}?" placement="left"
                     confirmButtonType="{{element.isSuspend ? 'primary' : 'danger'}}"
                     (confirm)="changeSuspendState(element.id)" (cancel)="true">
-                    {{!element.isSuspend? 'Accept' : 'Resume'}}</div>
+                    {{!element.isSuspend? 'Accept' : 'Resume'}}</div> -->
                 <span style="margin-left: 5px;"></span>
-                <div class="delete" mwlConfirmationPopover popoverTitle="Service Delete confirmation"
+                <!-- <div class="delete" mwlConfirmationPopover Confirmation="Service Delete confirmation"
                     popoverMessage="Do you really want to delete?" placement="left"
                     (confirm)="deleteService(element.id)" (cancel)="true">
                     Reject
-                </div>
+                </div> -->
             </td>
         </ng-container>
 

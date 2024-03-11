@@ -35,6 +35,7 @@ const routes: Routes = [
     path: 'vendor',
     component: VendorLayoutComponent,
     children: [
+      {path: '', redirectTo: 'allServices', pathMatch: 'full'},
       {path: 'allServices',component: VendorServiceComponent},
       {path: 'bookedServices',component: VendorBookedServicesComponent},
       {path: 'bookingRequests',component: VendorBookingRequestsComponent},
@@ -45,6 +46,7 @@ const routes: Routes = [
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
+      {path: '', redirectTo: 'allServices', pathMatch: 'full'},
       {path: 'allServices',component: AdminServiceComponent},
       {path: 'deleteRequests',component: AdminDeleteRequestComponent}
     ]

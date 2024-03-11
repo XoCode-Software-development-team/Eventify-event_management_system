@@ -1,6 +1,6 @@
 <div class="container">
-    <app-tab-card [card]="categories" *ngIf="categories && categories.length > 0" (childEvent)="getServices($event)">
-        0"></app-tab-card>
+    <!-- <app-tab-card [card]="categories" *ngIf="categories && categories.length > 0" (childEvent)="getServices($event)">
+        0"></app-tab-card> -->
 </div>
 <div class="table">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
@@ -29,18 +29,18 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="Action">
+        <!-- <ng-container matColumnDef="Action">
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td class="action" mat-cell *matCellDef="let element">
                 <div class="suspend" [ngClass]="{'sus':element.isSuspend}" mwlConfirmationPopover
-                    popoverTitle="Service {{element.isSuspend ? 'Resume': 'Suspend'}} confirmation"
+                    Confirmation="Service {{element.isSuspend ? 'Resume': 'Suspend'}} confirmation"
                     popoverMessage="Do you really want to {{element.isSuspend ? 'Resume': 'suspend'}}?" placement="left"
                     confirmButtonType="{{element.isSuspend ? 'primary' : 'danger'}}"
                     (confirm)="changeSuspendState(element.id)" (cancel)="true">
                     {{!element.isSuspend? 'Edit' : 'Resume'}}</div>
                 <span style="margin-left: 5px;"></span>
             </td>
-        </ng-container>
+        </ng-container> -->
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
