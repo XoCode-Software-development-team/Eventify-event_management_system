@@ -21,27 +21,40 @@ export class ServiceService {
     return this._http.get<any>(this.Url+"/api/service/"+categoryId);
   }
 
-  // deleteService(id:string): Observable<any> {
-  //   return this._http.delete(`${this.Url}/api/service/${id}`);
-  // }
+  changeSuspendState(id: string) : Observable<any>{
+    return this._http.put<any>(`${this.Url}/api/service/${id}`,null);
+  }
 
-  // changeSuspendState(id: string) : Observable<any>{
-  //   return this._http.put<any>(`${this.Url}/api/service/${id}`,null);
-  // }
+  deleteService(id:string): Observable<any> {
+    return this._http.delete(`${this.Url}/api/service/${id}`);
+  }
 
-  // // admin-delete-request-page
+  getCategoriesListOfDeleteRequest() : Observable<String[]>{
+    return this._http.get<string[]>(`${this.Url}/api/deleteRequestServices`);
+  }
 
-  // getCategoriesListOfDeleteRequest() : Observable<String[]>{
-  //   return this._http.get<string[]>(`${this.Url}/api/deleteRequest`);
-  // }
+  getServiceListOfDeleteRequest(categoryId:string) : Observable<String[]>{
+    return this._http.get<string[]>(`${this.Url}/api/deleteRequestServices/${categoryId}`);
+  }
 
-  // getServiceListOfDeleteRequest(category:string) : Observable<String[]>{
-  //   return this._http.get<string[]>(`${this.Url}/api/deleteRequest/${category}`);
-  // }
+  removeServiceFromVendorRequest(id: string) : Observable<any>{
+    return this._http.put<any>(`${this.Url}/api/deleteRequestServices/${id}`,null);
+  }
 
-  // deleteServiceFromVendorRequest(id:string): Observable<any> {
-  //   return this._http.delete(`${this.Url}/api/deleteRequest/${id}`);
-  // }
+  deleteServiceFromVendorRequest(id:string): Observable<any> {
+    return this._http.delete(`${this.Url}/api/deleteRequestServices/${id}`);
+  }
 
+  getCategoriesListByVendor(id:string):Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/service/categories/${id}`);
+  }
+
+  RequestToDelete(id: string) : Observable<any>{
+    return this._http.put<any>(`${this.Url}/api/service/deleteRequest/${id}`,null);
+  }
+
+  getVendorServiceListByCategory(categoryId:string) : Observable<any>{
+    return this._http.get<any>(this.Url+"/api/vendorService/"+categoryId);
+  }
 
 }

@@ -8,6 +8,6 @@ namespace eventify_backend.Models
         public int ModelId { get; set; }
         public string? ModelName { get; set; }
 
-        public Price Price { get; set; } // Corrected navigation property
+        public Price? Price { get; set; } // Corrected navigation property
     }
 }

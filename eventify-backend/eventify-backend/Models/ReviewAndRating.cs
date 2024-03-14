@@ -11,7 +11,7 @@ namespace eventify_backend.Models
         [ForeignKey("Event")]
         public int EventId { get; set; }
         [ForeignKey("ServiceAndResource")]
-        public int SORId { get; set; }
+        public int SoRId { get; set; }
 
         public DateTime TimeSpan { get; set; }
 

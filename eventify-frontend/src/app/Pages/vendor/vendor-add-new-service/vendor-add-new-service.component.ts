@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,7 +11,6 @@ import { Button, Category, FeatureAndFacility } from 'src/app/Interfaces/interfa
   styleUrls: ['./vendor-add-new-service.component.scss'],
 })
 export class VendorAddNewServiceComponent implements OnInit {
-
 
   constructor(private announcer: LiveAnnouncer) { }
 
@@ -139,8 +138,9 @@ export class VendorAddNewServiceComponent implements OnInit {
     })
 
     this.serviceForm.valueChanges.subscribe(() => {
-      this.saveButton.disable = this.serviceForm.invalid || this.imageFiles.length <= 5;
-    })
+      this.saveButton.disable = !(this.serviceForm.valid);
+    });
+    
   }
 
   //add locations
@@ -196,6 +196,7 @@ export class VendorAddNewServiceComponent implements OnInit {
     this.serviceForm.get('images')?.setValue(this.imageFiles);
     this.serviceForm.get('videos')?.setValue(this.videoFiles);
     console.log(this.serviceForm)
+    this.resetForm();
   }
 
   resetForm() {

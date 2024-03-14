@@ -6,12 +6,11 @@
         <a href="#">Link</a>
         <a href="#">Link</a>
         <a href="#">Link</a>
-        <button (click)="popUpNotification()">no</button>
     </div>
 </div>
 <div class="icons">
     <div class="right-side">
-        <app-nav-icon [iconList]="icons"></app-nav-icon>
+        <app-nav-icon (buttonClick)="popUpNotification()" [iconList]="icons"></app-nav-icon>
     </div>
 </div>
 
@@ -28,7 +27,7 @@
             <app-search></app-search>
         </div>
         <div *ngFor="let _ of [1, 2, 3]">
-            <app-item-card></app-item-card>
+            <app-item-card routerLink="./1"></app-item-card>
         </div>
     </div>
 </div>

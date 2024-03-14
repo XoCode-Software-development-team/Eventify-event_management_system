@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-service.service';
+import { TabCardComponent } from './../../../../Components/tab-card/tab-card.component';
+import { Component, Input, ViewChild } from '@angular/core';
+import { Category } from 'src/app/Interfaces/interfaces';
+import { ServiceService } from 'src/app/Services/service/service.service';
 
 @Component({
   selector: 'app-admin-delete-request',
@@ -7,12 +9,13 @@ import { VendorServiceService } from 'src/app/Services/vendor-service/vendor-ser
   styleUrls: ['./admin-delete-request.component.scss'],
 })
 export class AdminDeleteRequestComponent {
+  @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
-  constructor(private _vendorService: VendorServiceService) {}
+  constructor(private _service: ServiceService) {}
 
   dataSource: string[] = [];
 
-  categories: string[] = [];
+  categories: Category[] = [];
 
   ngOnInit(): void {
     this.getCategoriesOfDeleteRequest();
@@ -20,36 +23,12 @@ export class AdminDeleteRequestComponent {
 
   displayedColumns: string[] = ['No', 'Service', 'Rating', 'Action'];
 
-  navbar = [
-    {
-      Tag: 'All Services',
-      Url: '../allServices',
-    },
-    {
-      Tag: 'Delete Requests',
-      Url: '../deleteRequests',
-    },
-  ];
-
-  icons = [
-    {
-      Name: 'compare',
-      Url: '',
-    },
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: '',
-    }
-  ];
-
-  getServices(category: string) {
-    this._vendorService.getServiceListOfDeleteRequest(category).subscribe({
+  getServices(categoryId: string) {
+    this._service.getServiceListOfDeleteRequest(categoryId).subscribe({
       next: (res: any) => {
-        this.dataSource = res;
+        if (res != null){
+          this.dataSource = res;
+        }
       },
       error: (err: any) => {
         console.log(err);
@@ -58,9 +37,14 @@ export class AdminDeleteRequestComponent {
   }
 
   getCategoriesOfDeleteRequest() {
-    this._vendorService.getCategoriesListOfDeleteRequest().subscribe({
+    this._service.getCategoriesListOfDeleteRequest().subscribe({
       next: (res: any) => {
-        this.categories = res;
+        if (res != null) {
+          this.categories = res.map((item: any) => ({
+            id: item.categoryId,
+            categoryName: item.serviceCategoryName,
+          }));
+        }
       },
       error: (err: any) => {
         console.log(err);
@@ -69,13 +53,17 @@ export class AdminDeleteRequestComponent {
   }
 
   deleteService(id: string) {
-    this._vendorService.deleteServiceFromVendorRequest(id).subscribe({
+    console.log(id)
+    this._service.deleteServiceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         console.log(res);
         if (res.remainingCount > 0) {
-          this.getServices(res.deletedService.category);
+          this.getServices(res.deletedServiceCategoryId);
         } else {
-          location.reload();
+          // location.reload();
+          this.categories = []
+          this.getCategoriesOfDeleteRequest();
+          this.tabCardComponent.ngOnInit();
         }
       },
       error: (err: any) => {
@@ -85,13 +73,14 @@ export class AdminDeleteRequestComponent {
   }
 
   removeService(id: string) {
-    this._vendorService.removeServiceFromVendorRequest(id).subscribe({
+    this._service.removeServiceFromVendorRequest(id).subscribe({
       next: (res: any) => {
-        console.log(res);
         if (res.remainingCount > 0) {
-          this.getServices(res.deletedService.category);
+          this.getServices(res.deletedServiceCategoryId);
         } else {
-          location.reload();
+          // location.reload();
+          this.getCategoriesOfDeleteRequest();
+          this.tabCardComponent.ngOnInit();
         }
       },
       error: (err: any) => {

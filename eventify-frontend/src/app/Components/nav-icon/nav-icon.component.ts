@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-nav-icon',
@@ -7,8 +7,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class NavIconComponent implements OnInit {
   @Input() iconList: any;
+  @Output() buttonClick = new EventEmitter<void>
 
   ngOnInit(): void {
  
+  }
+
+  callParent(item:any){
+    if (item.Url == 'notification'){
+      this.buttonClick.emit();
+    }
   }
 }

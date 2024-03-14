@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eventifybackend.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace eventifybackend.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "priceModels",
+                name: "PriceModels",
                 columns: table => new
                 {
                     ModelId = table.Column<int>(type: "int", nullable: false)
@@ -26,12 +26,12 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_priceModels", x => x.ModelId);
+                    table.PrimaryKey("PK_PriceModels", x => x.ModelId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "serviceCategories",
+                name: "ServiceCategories",
                 columns: table => new
                 {
                     CategoryId = table.Column<int>(type: "int", nullable: false)
@@ -41,12 +41,12 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_serviceCategories", x => x.CategoryId);
+                    table.PrimaryKey("PK_ServiceCategories", x => x.CategoryId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "users",
+                name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -78,12 +78,12 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "prices",
+                name: "Prices",
                 columns: table => new
                 {
                     Pid = table.Column<int>(type: "int", nullable: false)
@@ -95,48 +95,18 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_prices", x => x.Pid);
+                    table.PrimaryKey("PK_Prices", x => x.Pid);
                     table.ForeignKey(
-                        name: "FK_prices_priceModels_ModelId",
+                        name: "FK_Prices_PriceModels_ModelId",
                         column: x => x.ModelId,
-                        principalTable: "priceModels",
+                        principalTable: "PriceModels",
                         principalColumn: "ModelId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "serviceAndResources",
-                columns: table => new
-                {
-                    SoRId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsSuspend = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    IsRequestToDelete = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    overallRate = table.Column<float>(type: "float", nullable: true),
-                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Capacity = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
-                    serviceCategoryCategoryId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_serviceAndResources", x => x.SoRId);
-                    table.ForeignKey(
-                        name: "FK_serviceAndResources_serviceCategories_serviceCategoryCategor~",
-                        column: x => x.serviceCategoryCategoryId,
-                        principalTable: "serviceCategories",
-                        principalColumn: "CategoryId");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "events",
+                name: "Events",
                 columns: table => new
                 {
                     EventId = table.Column<int>(type: "int", nullable: false)
@@ -155,37 +125,127 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_events", x => x.EventId);
+                    table.PrimaryKey("PK_Events", x => x.EventId);
                     table.ForeignKey(
-                        name: "FK_events_users_ClientId",
+                        name: "FK_Events_Users_ClientId",
                         column: x => x.ClientId,
-                        principalTable: "users",
+                        principalTable: "Users",
                         principalColumn: "UserId");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "featureAndFacility",
+                name: "ServiceAndResources",
                 columns: table => new
                 {
-                    SORId = table.Column<int>(type: "int", nullable: false),
-                    FacilityName = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    SoRId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsSuspend = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsRequestToDelete = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    OverallRate = table.Column<float>(type: "float", nullable: true),
+                    VendorId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Capacity = table.Column<int>(type: "int", nullable: true),
+                    ServiceCategoryId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_featureAndFacility", x => new { x.SORId, x.FacilityName });
+                    table.PrimaryKey("PK_ServiceAndResources", x => x.SoRId);
                     table.ForeignKey(
-                        name: "FK_featureAndFacility_serviceAndResources_SORId",
+                        name: "FK_ServiceAndResources_ServiceCategories_ServiceCategoryId",
+                        column: x => x.ServiceCategoryId,
+                        principalTable: "ServiceCategories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ServiceAndResources_Users_VendorId",
+                        column: x => x.VendorId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "EventSr",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    SORId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventSr", x => new { x.Id, x.SORId });
+                    table.ForeignKey(
+                        name: "FK_EventSr_Events_Id",
+                        column: x => x.Id,
+                        principalTable: "Events",
+                        principalColumn: "EventId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventSr_ServiceAndResources_SORId",
                         column: x => x.SORId,
-                        principalTable: "serviceAndResources",
+                        principalTable: "ServiceAndResources",
                         principalColumn: "SoRId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "vendorSRLocation",
+                name: "FeatureAndFacility",
+                columns: table => new
+                {
+                    SoRId = table.Column<int>(type: "int", nullable: false),
+                    FacilityName = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FeatureAndFacility", x => new { x.SoRId, x.FacilityName });
+                    table.ForeignKey(
+                        name: "FK_FeatureAndFacility_ServiceAndResources_SoRId",
+                        column: x => x.SoRId,
+                        principalTable: "ServiceAndResources",
+                        principalColumn: "SoRId",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ReviewAndRatings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    EventId = table.Column<int>(type: "int", nullable: false),
+                    SoRId = table.Column<int>(type: "int", nullable: false),
+                    TimeSpan = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReviewAndRatings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReviewAndRatings_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "EventId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReviewAndRatings_ServiceAndResources_SoRId",
+                        column: x => x.SoRId,
+                        principalTable: "ServiceAndResources",
+                        principalColumn: "SoRId",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "VendorSRLocation",
                 columns: table => new
                 {
                     LocationId = table.Column<int>(type: "int", nullable: false),
@@ -203,18 +263,18 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_vendorSRLocation", x => new { x.Id, x.LocationId });
+                    table.PrimaryKey("PK_VendorSRLocation", x => new { x.Id, x.LocationId });
                     table.ForeignKey(
-                        name: "FK_vendorSRLocation_serviceAndResources_Id",
+                        name: "FK_VendorSRLocation_ServiceAndResources_Id",
                         column: x => x.Id,
-                        principalTable: "serviceAndResources",
+                        principalTable: "ServiceAndResources",
                         principalColumn: "SoRId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "vendorSRPhoto",
+                name: "VendorSRPhoto",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -223,18 +283,18 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_vendorSRPhoto", x => new { x.Id, x.photoId });
+                    table.PrimaryKey("PK_VendorSRPhoto", x => new { x.Id, x.photoId });
                     table.ForeignKey(
-                        name: "FK_vendorSRPhoto_serviceAndResources_Id",
+                        name: "FK_VendorSRPhoto_ServiceAndResources_Id",
                         column: x => x.Id,
-                        principalTable: "serviceAndResources",
+                        principalTable: "ServiceAndResources",
                         principalColumn: "SoRId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "vendorSRPrices",
+                name: "VendorSRPrices",
                 columns: table => new
                 {
                     ServiceAndResourceId = table.Column<int>(type: "int", nullable: false),
@@ -242,24 +302,24 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_vendorSRPrices", x => new { x.ServiceAndResourceId, x.PriceId });
+                    table.PrimaryKey("PK_VendorSRPrices", x => new { x.ServiceAndResourceId, x.PriceId });
                     table.ForeignKey(
-                        name: "FK_vendorSRPrices_prices_PriceId",
+                        name: "FK_VendorSRPrices_Prices_PriceId",
                         column: x => x.PriceId,
-                        principalTable: "prices",
+                        principalTable: "Prices",
                         principalColumn: "Pid",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_vendorSRPrices_serviceAndResources_ServiceAndResourceId",
+                        name: "FK_VendorSRPrices_ServiceAndResources_ServiceAndResourceId",
                         column: x => x.ServiceAndResourceId,
-                        principalTable: "serviceAndResources",
+                        principalTable: "ServiceAndResources",
                         principalColumn: "SoRId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "vendorSRVideo",
+                name: "VendorSRVideo",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -268,64 +328,11 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_vendorSRVideo", x => new { x.Id, x.VideoId });
+                    table.PrimaryKey("PK_VendorSRVideo", x => new { x.Id, x.VideoId });
                     table.ForeignKey(
-                        name: "FK_vendorSRVideo_serviceAndResources_Id",
+                        name: "FK_VendorSRVideo_ServiceAndResources_Id",
                         column: x => x.Id,
-                        principalTable: "serviceAndResources",
-                        principalColumn: "SoRId",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "eventSr",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    SORId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_eventSr", x => new { x.Id, x.SORId });
-                    table.ForeignKey(
-                        name: "FK_eventSr_events_Id",
-                        column: x => x.Id,
-                        principalTable: "events",
-                        principalColumn: "EventId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_eventSr_serviceAndResources_SORId",
-                        column: x => x.SORId,
-                        principalTable: "serviceAndResources",
-                        principalColumn: "SoRId",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "reviewAndRatings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    EventId = table.Column<int>(type: "int", nullable: false),
-                    SORId = table.Column<int>(type: "int", nullable: false),
-                    TimeSpan = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_reviewAndRatings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_reviewAndRatings_events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "events",
-                        principalColumn: "EventId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_reviewAndRatings_serviceAndResources_SORId",
-                        column: x => x.SORId,
-                        principalTable: "serviceAndResources",
+                        principalTable: "ServiceAndResources",
                         principalColumn: "SoRId",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -345,27 +352,27 @@ namespace eventifybackend.Migrations
                 {
                     table.PrimaryKey("PK_EventSoRApprove", x => new { x.EventId, x.SoRId });
                     table.ForeignKey(
-                        name: "FK_EventSoRApprove_events_EventId",
+                        name: "FK_EventSoRApprove_Events_EventId",
                         column: x => x.EventId,
-                        principalTable: "events",
+                        principalTable: "Events",
                         principalColumn: "EventId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EventSoRApprove_reviewAndRatings_ReviewAndRatingId",
+                        name: "FK_EventSoRApprove_ReviewAndRatings_ReviewAndRatingId",
                         column: x => x.ReviewAndRatingId,
-                        principalTable: "reviewAndRatings",
+                        principalTable: "ReviewAndRatings",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_EventSoRApprove_serviceAndResources_SoRId",
+                        name: "FK_EventSoRApprove_ServiceAndResources_SoRId",
                         column: x => x.SoRId,
-                        principalTable: "serviceAndResources",
+                        principalTable: "ServiceAndResources",
                         principalColumn: "SoRId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "rating",
+                name: "Rating",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -373,18 +380,18 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_rating", x => new { x.Id, x.Ratings });
+                    table.PrimaryKey("PK_Rating", x => new { x.Id, x.Ratings });
                     table.ForeignKey(
-                        name: "FK_rating_reviewAndRatings_Id",
+                        name: "FK_Rating_ReviewAndRatings_Id",
                         column: x => x.Id,
-                        principalTable: "reviewAndRatings",
+                        principalTable: "ReviewAndRatings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "reviewContent",
+                name: "ReviewContent",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
@@ -394,24 +401,24 @@ namespace eventifybackend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_reviewContent", x => new { x.Id, x.Content });
+                    table.PrimaryKey("PK_ReviewContent", x => new { x.Id, x.Content });
                     table.ForeignKey(
-                        name: "FK_reviewContent_reviewAndRatings_Id",
+                        name: "FK_ReviewContent_ReviewAndRatings_Id",
                         column: x => x.Id,
-                        principalTable: "reviewAndRatings",
+                        principalTable: "ReviewAndRatings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_reviewContent_reviewAndRatings_ReviewAndRatingId",
+                        name: "FK_ReviewContent_ReviewAndRatings_ReviewAndRatingId",
                         column: x => x.ReviewAndRatingId,
-                        principalTable: "reviewAndRatings",
+                        principalTable: "ReviewAndRatings",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_events_ClientId",
-                table: "events",
+                name: "IX_Events_ClientId",
+                table: "Events",
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
@@ -425,39 +432,44 @@ namespace eventifybackend.Migrations
                 column: "SoRId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_eventSr_SORId",
-                table: "eventSr",
+                name: "IX_EventSr_SORId",
+                table: "EventSr",
                 column: "SORId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_prices_ModelId",
-                table: "prices",
+                name: "IX_Prices_ModelId",
+                table: "Prices",
                 column: "ModelId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_reviewAndRatings_EventId",
-                table: "reviewAndRatings",
+                name: "IX_ReviewAndRatings_EventId",
+                table: "ReviewAndRatings",
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_reviewAndRatings_SORId",
-                table: "reviewAndRatings",
-                column: "SORId");
+                name: "IX_ReviewAndRatings_SoRId",
+                table: "ReviewAndRatings",
+                column: "SoRId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_reviewContent_ReviewAndRatingId",
-                table: "reviewContent",
+                name: "IX_ReviewContent_ReviewAndRatingId",
+                table: "ReviewContent",
                 column: "ReviewAndRatingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_serviceAndResources_serviceCategoryCategoryId",
-                table: "serviceAndResources",
-                column: "serviceCategoryCategoryId");
+                name: "IX_ServiceAndResources_ServiceCategoryId",
+                table: "ServiceAndResources",
+                column: "ServiceCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_vendorSRPrices_PriceId",
-                table: "vendorSRPrices",
+                name: "IX_ServiceAndResources_VendorId",
+                table: "ServiceAndResources",
+                column: "VendorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendorSRPrices_PriceId",
+                table: "VendorSRPrices",
                 column: "PriceId");
         }
 
@@ -468,49 +480,49 @@ namespace eventifybackend.Migrations
                 name: "EventSoRApprove");
 
             migrationBuilder.DropTable(
-                name: "eventSr");
+                name: "EventSr");
 
             migrationBuilder.DropTable(
-                name: "featureAndFacility");
+                name: "FeatureAndFacility");
 
             migrationBuilder.DropTable(
-                name: "rating");
+                name: "Rating");
 
             migrationBuilder.DropTable(
-                name: "reviewContent");
+                name: "ReviewContent");
 
             migrationBuilder.DropTable(
-                name: "vendorSRLocation");
+                name: "VendorSRLocation");
 
             migrationBuilder.DropTable(
-                name: "vendorSRPhoto");
+                name: "VendorSRPhoto");
 
             migrationBuilder.DropTable(
-                name: "vendorSRPrices");
+                name: "VendorSRPrices");
 
             migrationBuilder.DropTable(
-                name: "vendorSRVideo");
+                name: "VendorSRVideo");
 
             migrationBuilder.DropTable(
-                name: "reviewAndRatings");
+                name: "ReviewAndRatings");
 
             migrationBuilder.DropTable(
-                name: "prices");
+                name: "Prices");
 
             migrationBuilder.DropTable(
-                name: "events");
+                name: "Events");
 
             migrationBuilder.DropTable(
-                name: "serviceAndResources");
+                name: "ServiceAndResources");
 
             migrationBuilder.DropTable(
-                name: "priceModels");
+                name: "PriceModels");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "ServiceCategories");
 
             migrationBuilder.DropTable(
-                name: "serviceCategories");
+                name: "Users");
         }
     }
 }

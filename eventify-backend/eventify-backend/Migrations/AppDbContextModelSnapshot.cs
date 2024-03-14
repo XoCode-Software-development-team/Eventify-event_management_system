@@ -53,7 +53,7 @@ namespace eventifybackend.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("events");
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.EventSR", b =>
@@ -70,7 +70,7 @@ namespace eventifybackend.Migrations
 
                     b.HasIndex("SORId");
 
-                    b.ToTable("eventSr");
+                    b.ToTable("EventSr");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.EventSoRApprove", b =>
@@ -101,7 +101,7 @@ namespace eventifybackend.Migrations
 
             modelBuilder.Entity("eventify_backend.Models.FeatureAndFacility", b =>
                 {
-                    b.Property<int>("SORId")
+                    b.Property<int>("SoRId")
                         .HasColumnType("int")
                         .HasColumnOrder(0);
 
@@ -109,9 +109,9 @@ namespace eventifybackend.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnOrder(1);
 
-                    b.HasKey("SORId", "FacilityName");
+                    b.HasKey("SoRId", "FacilityName");
 
-                    b.ToTable("featureAndFacility");
+                    b.ToTable("FeatureAndFacility");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.Price", b =>
@@ -134,7 +134,7 @@ namespace eventifybackend.Migrations
                     b.HasIndex("ModelId")
                         .IsUnique();
 
-                    b.ToTable("prices");
+                    b.ToTable("Prices");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.PriceModel", b =>
@@ -148,7 +148,7 @@ namespace eventifybackend.Migrations
 
                     b.HasKey("ModelId");
 
-                    b.ToTable("priceModels");
+                    b.ToTable("PriceModels");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.Rating", b =>
@@ -163,7 +163,7 @@ namespace eventifybackend.Migrations
 
                     b.HasKey("Id", "Ratings");
 
-                    b.ToTable("rating");
+                    b.ToTable("Rating");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.ReviewAndRating", b =>
@@ -175,7 +175,7 @@ namespace eventifybackend.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SORId")
+                    b.Property<int>("SoRId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TimeSpan")
@@ -185,9 +185,9 @@ namespace eventifybackend.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.HasIndex("SORId");
+                    b.HasIndex("SoRId");
 
-                    b.ToTable("reviewAndRatings");
+                    b.ToTable("ReviewAndRatings");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.ReviewContent", b =>
@@ -205,7 +205,7 @@ namespace eventifybackend.Migrations
 
                     b.HasIndex("ReviewAndRatingId");
 
-                    b.ToTable("reviewContent");
+                    b.ToTable("ReviewContent");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.ServiceAndResource", b =>
@@ -230,12 +230,17 @@ namespace eventifybackend.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<float?>("overallRate")
+                    b.Property<float?>("OverallRate")
                         .HasColumnType("float");
+
+                    b.Property<Guid>("VendorId")
+                        .HasColumnType("char(36)");
 
                     b.HasKey("SoRId");
 
-                    b.ToTable("serviceAndResources");
+                    b.HasIndex("VendorId");
+
+                    b.ToTable("ServiceAndResources");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("ServiceAndResource");
 
@@ -254,7 +259,7 @@ namespace eventifybackend.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("serviceCategories");
+                    b.ToTable("ServiceCategories");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.User", b =>
@@ -293,7 +298,7 @@ namespace eventifybackend.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
 
@@ -327,7 +332,7 @@ namespace eventifybackend.Migrations
 
                     b.HasKey("Id", "LocationId");
 
-                    b.ToTable("vendorSRLocation");
+                    b.ToTable("VendorSRLocation");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.VendorSRPhoto", b =>
@@ -345,7 +350,7 @@ namespace eventifybackend.Migrations
 
                     b.HasKey("Id", "photoId");
 
-                    b.ToTable("vendorSRPhoto");
+                    b.ToTable("VendorSRPhoto");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.VendorSRPrice", b =>
@@ -362,7 +367,7 @@ namespace eventifybackend.Migrations
 
                     b.HasIndex("PriceId");
 
-                    b.ToTable("vendorSRPrices");
+                    b.ToTable("VendorSRPrices");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.VendorSRVideo", b =>
@@ -380,7 +385,7 @@ namespace eventifybackend.Migrations
 
                     b.HasKey("Id", "VideoId");
 
-                    b.ToTable("vendorSRVideo");
+                    b.ToTable("VendorSRVideo");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.Service", b =>
@@ -390,13 +395,10 @@ namespace eventifybackend.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("ServiceCategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("serviceCategoryCategoryId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("serviceCategoryCategoryId");
+                    b.HasIndex("ServiceCategoryId");
 
                     b.HasDiscriminator().HasValue("Service");
                 });
@@ -458,7 +460,7 @@ namespace eventifybackend.Migrations
             modelBuilder.Entity("eventify_backend.Models.EventSoRApprove", b =>
                 {
                     b.HasOne("eventify_backend.Models.Event", "Event")
-                        .WithMany("eventSoRApproves")
+                        .WithMany("EventSoRApproves")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -482,7 +484,7 @@ namespace eventifybackend.Migrations
                 {
                     b.HasOne("eventify_backend.Models.ServiceAndResource", "ServiceAndResource")
                         .WithMany("FeaturesAndFacilities")
-                        .HasForeignKey("SORId")
+                        .HasForeignKey("SoRId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -521,7 +523,7 @@ namespace eventifybackend.Migrations
 
                     b.HasOne("eventify_backend.Models.ServiceAndResource", "ServiceAndResource")
                         .WithMany("ReviewAndRating")
-                        .HasForeignKey("SORId")
+                        .HasForeignKey("SoRId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -543,6 +545,17 @@ namespace eventifybackend.Migrations
                         .HasForeignKey("ReviewAndRatingId");
 
                     b.Navigation("ReviewAndRating");
+                });
+
+            modelBuilder.Entity("eventify_backend.Models.ServiceAndResource", b =>
+                {
+                    b.HasOne("eventify_backend.Models.Vendor", "Vendor")
+                        .WithMany("ServiceAndResources")
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vendor");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.VendorSRLocation", b =>
@@ -599,20 +612,22 @@ namespace eventifybackend.Migrations
 
             modelBuilder.Entity("eventify_backend.Models.Service", b =>
                 {
-                    b.HasOne("eventify_backend.Models.ServiceCategory", "serviceCategory")
+                    b.HasOne("eventify_backend.Models.ServiceCategory", "ServiceCategory")
                         .WithMany("Services")
-                        .HasForeignKey("serviceCategoryCategoryId");
+                        .HasForeignKey("ServiceCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("serviceCategory");
+                    b.Navigation("ServiceCategory");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.Event", b =>
                 {
                     b.Navigation("EventSRs");
 
-                    b.Navigation("ReviewAndRating");
+                    b.Navigation("EventSoRApproves");
 
-                    b.Navigation("eventSoRApproves");
+                    b.Navigation("ReviewAndRating");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.Price", b =>
@@ -622,8 +637,7 @@ namespace eventifybackend.Migrations
 
             modelBuilder.Entity("eventify_backend.Models.PriceModel", b =>
                 {
-                    b.Navigation("Price")
-                        .IsRequired();
+                    b.Navigation("Price");
                 });
 
             modelBuilder.Entity("eventify_backend.Models.ReviewAndRating", b =>
@@ -662,6 +676,11 @@ namespace eventifybackend.Migrations
             modelBuilder.Entity("eventify_backend.Models.Client", b =>
                 {
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("eventify_backend.Models.Vendor", b =>
+                {
+                    b.Navigation("ServiceAndResources");
                 });
 #pragma warning restore 612, 618
         }

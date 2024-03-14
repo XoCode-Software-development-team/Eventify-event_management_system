@@ -30,7 +30,6 @@ export class AdminServiceComponent implements OnInit {
     this._service.getServiceListByCategory(categoryId).subscribe({
       next: (res: any) => {
         this.dataSource = res;
-        console.log(res)
       },
       error: (err: any) => {
         console.log(err);
@@ -52,29 +51,26 @@ export class AdminServiceComponent implements OnInit {
     });
   }
 
-  deleteService(id: string) {
-  //   this._vendorService.deleteService(id).subscribe({
-  //     next: (res: any) => {
-  //       if (res.remainingCount > 0) {
-  //         this.getServices(res.deletedService.category);
-  //       } else {
-  //         location.reload();
-  //       }
-  //     },
-  //     error: (err: any) => {
-  //       console.log(err);
-  //     },
-  //   });
+  changeSuspendState(id: string) {
+    this._service.changeSuspendState(id).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.getServices(res);
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
   }
 
-  changeSuspendState(id: string) {
-  //   this._vendorService.changeSuspendState(id).subscribe({
-  //     next: (res: any) => {
-  //       this.getServices(res.category);
-  //     },
-  //     error: (err: any) => {
-  //       console.log(err);
-  //     },
-  //   });
+  deleteService(id: string) {
+    this._service.deleteService(id).subscribe({
+      next: (res: any) => {
+          this.getServices(res);
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
   }
 }

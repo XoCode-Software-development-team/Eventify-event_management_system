@@ -3,11 +3,8 @@ import {
   Input,
   EventEmitter,
   Output,
-  OnInit,
-  OnDestroy,
+  OnInit
 } from '@angular/core';
-import { DataUpdateService } from 'src/app/Services/data-update/data-update.service';
-import { Subscription } from 'rxjs';
 import { Category } from 'src/app/Interfaces/interfaces';
 
 @Component({
@@ -15,30 +12,15 @@ import { Category } from 'src/app/Interfaces/interfaces';
   templateUrl: './tab-card.component.html',
   styleUrls: ['./tab-card.component.scss'],
 })
-export class TabCardComponent implements OnInit, OnDestroy {
+export class TabCardComponent implements OnInit {
   
-  private dataDeletedSubscription: Subscription = new Subscription();
-
-  constructor(private _dataUpdateService: DataUpdateService) {}
-
   activeTab: string | null = null;
 
   @Input() card: Category[] = [];
   @Output() childEvent: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit(): void {
-    if (this.card != null && this.card.length > 0) {
-      this.dataDeletedSubscription =
-        this._dataUpdateService.dataDeleted.subscribe(() => {
-          this.ngOnInit();
-        });
-
-      this.viewService(this.card[0].id);
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.dataDeletedSubscription.unsubscribe();
+    this.viewService(this.card[0].id);
   }
 
   viewService(category: string) {

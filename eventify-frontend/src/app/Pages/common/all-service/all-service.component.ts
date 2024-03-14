@@ -31,7 +31,7 @@ export class AllServiceComponent {
     },
     {
       Name: 'notifications_none',
-      Url: 'popUpNotification()',
+      Url: 'notification',
     },
   ];
 
@@ -49,29 +49,25 @@ export class AllServiceComponent {
       completed: false,
     },
     {
-      name: 'Decoration',
+      name: 'Photography',
       completed: false,
     },
     {
-      name: 'Decoration',
+      name: 'Videography',
       completed: false,
     },
     {
-      name: 'Decoration',
+      name: 'Transportation',
       completed: false,
     },
     {
-      name: 'Decoration',
+      name: 'Security',
       completed: false,
     },
     {
-      name: 'Decoration',
+      name: 'Promotion',
       completed: false,
-    },
-    {
-      name: 'Decoration',
-      completed: false,
-    },
+    }
   ];
 
   popUpNotification() {

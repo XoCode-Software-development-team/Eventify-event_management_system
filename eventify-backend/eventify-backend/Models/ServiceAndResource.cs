@@ -14,7 +14,10 @@ namespace eventify_backend.Models
         public bool IsSuspend { get; set; }
         public bool IsRequestToDelete { get; set; }
 
-        public float? overallRate { get; set; }
+        public float? OverallRate { get; set; }
+
+        [ForeignKey("Vendor")]
+        public Guid VendorId { get; set; }
 
         public ICollection<FeatureAndFacility>? FeaturesAndFacilities { get; set; }
 
@@ -29,5 +32,7 @@ namespace eventify_backend.Models
         public ICollection<EventSR>? EventSRs { get; set; }
 
         public ICollection<ReviewAndRating>? ReviewAndRating { get; set; }
+
+        public Vendor? Vendor { get; set; }
     }
 }

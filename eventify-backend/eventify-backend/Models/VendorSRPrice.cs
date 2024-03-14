@@ -15,8 +15,8 @@ namespace eventify_backend.Models
         [ForeignKey("Price")]
         public int PriceId { get; set; }  // Foreign key and part of composite primary key
 
-        public Price Price { get; set; }  // Navigation property to Price
+        public Price? Price { get; set; }  // Navigation property to Price
 
-        public ServiceAndResource ServiceAndResource { get; set; }  // Navigation property to ServiceAndResource
+        public ServiceAndResource? ServiceAndResource { get; set; }  // Navigation property to ServiceAndResource
     }
 }

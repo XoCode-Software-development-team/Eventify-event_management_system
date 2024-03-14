@@ -7,10 +7,10 @@ namespace eventify_backend.Models
     {
         public int Capacity { get; set; }
 
-        [ForeignKey("CategoryId")]
-        public int CategoryId { get; set; }
+        [ForeignKey("ServiceCategory")]
+        public int ServiceCategoryId { get; set; }
 
-        public ServiceCategory? serviceCategory { get; set; }
+        public ServiceCategory? ServiceCategory { get; set; }
 
     }
 }

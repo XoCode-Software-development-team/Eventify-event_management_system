@@ -1,10 +1,12 @@
 <div class="container">
-    <!-- <app-tab-card [card]="categories" *ngIf="categories && categories.length > 0" (childEvent)="getServices($event)">
-        0"></app-tab-card> -->
+    <div *ngIf="categories && categories.length > 0">
+        <h4 class="pb-3">Delete Requested Service Categories</h4>
+        <app-tab-card #tabCard [card]="categories" (childEvent)="getServices($event)"></app-tab-card>
+    </div>
 </div>
 <div class="table">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
-        *ngIf="categories && categories.length > 0">
+        *ngIf="dataSource && dataSource.length > 0">
         <ng-container matColumnDef="No">
             <th mat-header-cell *matHeaderCellDef>No</th>
             <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
@@ -12,28 +14,30 @@
 
         <ng-container matColumnDef="Service">
             <th mat-header-cell *matHeaderCellDef>Service</th>
-            <td mat-cell *matCellDef="let element">{{element.service}}</td>
+            <td mat-cell *matCellDef="let element">{{element.serviceName}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Rating">
             <th mat-header-cell *matHeaderCellDef class="rating">Rating</th>
-            <td mat-cell *matCellDef="let element" style="color: #FDCC0D; font-size: medium;" class="rating">
-                <ngb-rating [max]="5" [rate]="element.rating" [readonly]="true"></ngb-rating>
+            <td mat-cell *matCellDef="let element" class="rating">
+                {{element.rating}}&nbsp;
+                <ngb-rating style="color: #FDCC0D; font-size: medium;" [max]="5" [rate]="element.rating"
+                    [readonly]="true"></ngb-rating>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="Action">
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td class="action" mat-cell *matCellDef="let element">
-                <div class="accept" mwlConfirmationPopover popoverTitle="Service Delete Confimation"
+                <div class="accept" mwlConfirmationPopover popoverTitle="Service Delete Confirmation"
                     popoverMessage="Do you really want to Delete?" placement="left" confirmButtonType="danger"
-                    (confirm)="deleteService(element.id)" (cancel)="true">
+                    (confirm)="deleteService(element.soRId)" (cancel)="true">
                     Accept
                 </div>
                 <span style="margin-left: 5px;"></span>
-                <div class="reject" mwlConfirmationPopover popoverTitle="Service Reject Confimation"
+                <div class="reject" mwlConfirmationPopover popoverTitle="Service Reject Confirmation"
                     popoverMessage="Do you really want to Reject?" placement="left" confirmButtonType="primary"
-                    (confirm)="removeService(element.id)" (cancel)="true">
+                    (confirm)="removeService(element.soRId)" (cancel)="true">
                     Reject
                 </div>
             </td>
@@ -43,7 +47,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <div class="empty" *ngIf="!categories || categories.length == 0">
+    <div class="empty" *ngIf="!dataSource || dataSource.length == 0">
         <img src="../../../assets/common/No data.jpg" alt="no data found image">
         <p>No available Services</p>
     </div>

@@ -7,48 +7,48 @@ namespace eventify_backend.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<ServiceAndResource> serviceAndResources { get; set; }
-        public DbSet<FeatureAndFacility> featureAndFacility { get; set; }
+        public DbSet<ServiceAndResource> ServiceAndResources { get; set; }
+        public DbSet<FeatureAndFacility> FeatureAndFacility { get; set; }
 
         public DbSet<Service> services { get; set; }
 
-        public DbSet<ServiceCategory> serviceCategories { get; set; }
+        public DbSet<ServiceCategory> ServiceCategories { get; set; }
 
-        public DbSet<VendorSRPhoto> vendorSRPhoto { get; set; }
+        public DbSet<VendorSRPhoto> VendorSRPhoto { get; set; }
 
-        public DbSet<VendorSRVideo> vendorSRVideo { get; set; }
+        public DbSet<VendorSRVideo> VendorSRVideo { get; set; }
 
-        public DbSet<Price> prices { get; set; }
-        public DbSet<PriceModel> priceModels { get; set; }
+        public DbSet<Price> Prices { get; set; }
+        public DbSet<PriceModel> PriceModels { get; set; }
 
-        public DbSet<VendorSRPrice> vendorSRPrices { get; set; }
+        public DbSet<VendorSRPrice> VendorSRPrices { get; set; }
 
-        public DbSet<VendorSRLocation> vendorSRLocation { get; set; }
+        public DbSet<VendorSRLocation> VendorSRLocation { get; set; }
 
-        public DbSet<User> users { get; set; }
-        public DbSet<Client> clients { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Client> Clients { get; set; }
 
-        public DbSet<Vendor> vendors { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
 
-        public DbSet<Event> events { get; set; }
+        public DbSet<Event> Events { get; set; }
 
-        public DbSet<EventSR> eventSr { get; set; }
+        public DbSet<EventSR> EventSr { get; set; }
 
-        public DbSet<ReviewAndRating> reviewAndRatings { get; set; }
+        public DbSet<ReviewAndRating> ReviewAndRatings { get; set; }
 
-        public DbSet<ReviewContent> reviewContent { get; set; }
+        public DbSet<ReviewContent> ReviewContent { get; set; }
 
-        public DbSet<Rating> rating { get; set; }
+        public DbSet<Rating> Rating { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<FeatureAndFacility>()
-                .HasKey(ff => new { ff.SORId, ff.FacilityName });
+                .HasKey(ff => new { ff.SoRId, ff.FacilityName });
 
             modelBuilder.Entity<FeatureAndFacility>()
                 .HasOne(ff => ff.ServiceAndResource)
                 .WithMany(sor => sor.FeaturesAndFacilities)
-                .HasForeignKey(ff => ff.SORId);
+                .HasForeignKey(ff => ff.SoRId);
 
             modelBuilder.Entity<VendorSRPhoto>()
                 .HasKey(vp => new { vp.Id, vp.photoId });

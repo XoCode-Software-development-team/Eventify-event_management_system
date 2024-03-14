@@ -1,5 +1,5 @@
 <div class="icon-list-container">
-  <a class="d-flex align-items-center text-decoration-none" *ngFor="let item of iconList">
+  <a class="d-flex align-items-center text-decoration-none" *ngFor="let item of iconList" (click)="callParent(item)">
     <mat-icon class="icon-item">{{item.Name}}</mat-icon>
   </a>
 </div>
