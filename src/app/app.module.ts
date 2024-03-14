@@ -38,11 +38,17 @@ import { SecondaryButtonComponent } from './Components/buttons/secondary-button/
 import { ReviewCardComponent } from './Components/review-card/review-card.component';
 import { NotificationBoxComponent } from './Components/notification-box/notification-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EditProfileComponent } from './Pages/common/edit-profile/edit-profile.component';
+import { LoginComponent } from './Pages/common/login/login.component';
+import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
+import { HomeComponent } from './Pages/common/home/home.component';
+import { CommonLayoutComponent } from './Pages/common/common-layout/common-layout.component';
+import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-password.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent,
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent, EditProfileComponent, LoginComponent, NavBarComponent, HomeComponent, CommonLayoutComponent, ForgetPasswordComponent,
     ],
   imports: [
     BrowserModule,

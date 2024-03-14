@@ -1,0 +1,10 @@
+<div class="header d-flex justify-content-between">
+  <img src="../../../../assets/common/Logo.png">
+  <div class="d-flex justify-content-between gap-5">
+      <a class="nav-icon" *ngFor="let item of nav" routerLinkActive="active-link" [routerLink]="item.url">{{item.text}}</a>
+  </div>
+  <div class="d-flex justify-content-between gap-2">
+    <app-secondary-button [button]="signUp"></app-secondary-button>
+    <app-secondary-button [button]="login"></app-secondary-button>
+  </div>
+</div>

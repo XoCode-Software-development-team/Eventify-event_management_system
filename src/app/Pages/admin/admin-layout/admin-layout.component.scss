@@ -25,22 +25,6 @@
     margin: 0;
 }
 
-.navbar {
-    display: flex;
-}
-
-.navbar a {
-    color: white;
-    padding: 14px 20px;
-    text-decoration: none;
-    text-align: center;
-}
-
-.navbar a:hover {
-    background-color: #ddd;
-    color: black;
-}
-
 .row {
     display: flex;
     flex-wrap: wrap;

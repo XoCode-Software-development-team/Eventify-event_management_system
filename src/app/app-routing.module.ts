@@ -10,13 +10,32 @@ import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layou
 import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
 import { AllServiceComponent } from './Pages/common/all-service/all-service.component';
 import { ServiceDetailsComponent } from './Pages/common/service-details/service-details.component';
+import { HomeComponent } from './Pages/common/home/home.component';
+import { CommonLayoutComponent } from './Pages/common/common-layout/common-layout.component';
+import { LoginComponent } from './Pages/common/login/login.component';
+import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-password.component';
 
 const routes: Routes = [
-  // {path: '', redirectTo: '/admin/allServices', pathMatch: 'full'},
+  // {path: '', redirectTo: '/home', pathMatch: 'full'},
 
   // {path: '**', component:},
+
+  // {path: 'signUp'},
+  {path: 'login', component:LoginComponent},
+  {path: 'forgotPassword', component:ForgetPasswordComponent},
+
+
   {
-    path: 'allServices',
+    path:'',
+    component:CommonLayoutComponent,
+    children: [
+      {path: '', redirectTo: 'home', pathMatch: 'full'},
+      {path: 'home', component:HomeComponent},
+      {path: 'services', component:AllServiceComponent}
+    ]
+  },
+  {
+    path: 'AllServices',
     component: AllServiceComponent,
     children: [
       // {path: '',component: },

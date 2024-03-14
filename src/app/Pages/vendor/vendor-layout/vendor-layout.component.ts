@@ -8,6 +8,29 @@ import { Button } from 'src/app/Interfaces/interfaces';
 })
 export class VendorLayoutComponent {
 
+  navList = [
+    {
+      text: "Home",
+      url: "homePage"
+    },
+    {
+      text: "Service",
+      url: "service"
+    },
+    {
+      text: "Resource",
+      url: "resource"
+    },
+    {
+      text: "Checklist",
+      url: "checklist"
+    },
+    {
+      text: "User guide",
+      url: ""
+    }
+  ]
+
   navbar = [
     {
       Tag: 'All Services',
