@@ -1,4 +1,5 @@
 import { Component,Input } from '@angular/core';
+import { Category } from 'src/app/Interfaces/interfaces';
 
 @Component({
   selector: 'app-category',
@@ -6,6 +7,6 @@ import { Component,Input } from '@angular/core';
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent {
- @Input() tasks:any;
+ @Input() CategoryList:Category[] = [];
 
 }

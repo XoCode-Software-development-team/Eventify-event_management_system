@@ -2,16 +2,6 @@
     box-sizing: border-box;
 }
 
-.header {
-    display: flex;
-    text-align: center;
-    background: #AFDFE9;
-    color: white;
-    height: 87px;
-    align-items: center;
-    justify-content: center;
-}
-
 .icons {
     display: flex;
     flex-direction: row;
@@ -23,22 +13,6 @@
     flex: 50%;
     align-items: center;
     margin: 0;
-}
-
-.navbar {
-    display: flex;
-}
-
-.navbar a {
-    color: white;
-    padding: 14px 20px;
-    text-decoration: none;
-    text-align: center;
-}
-
-.navbar a:hover {
-    background-color: #ddd;
-    color: black;
 }
 
 .row {
@@ -86,11 +60,4 @@
         margin: auto;
     }
 
-}
-
-:host {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    /* Ensure at least full viewport height */
 }

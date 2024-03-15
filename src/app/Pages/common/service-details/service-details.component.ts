@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Button } from 'src/app/Interfaces/interfaces';
 
 @Component({
   selector: 'app-service-details',
@@ -32,12 +33,14 @@ export class ServiceDetailsComponent {
     },
   ];
 
-  backButton =
+  backButton: Button =
   {
     icon: 'navigate_before',
     text: 'Go back',
-    url: 'addNewService',
-    style: 'btn2'
+    url: '../../services',
+    class: ['btn2'],
+    type:'button',
+    disable:false
   };
 
   compareButton = {

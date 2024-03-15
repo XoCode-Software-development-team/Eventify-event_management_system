@@ -4,9 +4,9 @@
         <li> <mat-checkbox color="primary">
             All
             </mat-checkbox></li>
-        <li *ngFor="let task of tasks; let i = index">
+        <li *ngFor="let Category of CategoryList; let i = index">
             <mat-checkbox color="primary">
-                {{ task.name }}
+                {{ Category.categoryName }}
             </mat-checkbox>
         </li>
     </ul>

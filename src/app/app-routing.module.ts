@@ -31,7 +31,8 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component:HomeComponent},
-      {path: 'services', component:AllServiceComponent}
+      {path: 'services', component:AllServiceComponent},
+      {path: 'service/1', component:ServiceDetailsComponent}
     ]
   },
   {

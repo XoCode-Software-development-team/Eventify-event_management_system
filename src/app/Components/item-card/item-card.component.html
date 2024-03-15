@@ -1,12 +1,13 @@
-<div class="container d-flex flex-row mt-4 p-0 card">
-    <img class="m-2 flex-grow-3" src="../../../assets/boat.png" alt="">
+<div class="container d-flex flex-row mt-4 p-0 card" *ngFor="let item of service">
+    <img class="m-2 flex-grow-3" [src]="item.image" alt="">
     <div class="d-flex flex-column">
         <div class="d-flex flex-row justify-content-between gap-4 m-2">
             <div>
-                <h4>Swan Boat Ride</h4>
-                <p class="px-2" value="5">4.6 <span style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5"
-                            [rate]="4" [readonly]="true"></ngb-rating>
-                    </span> (51)
+                <h4><a class="text-decoration-none" routerLink="../service/{{item.soRId}}">{{item.name}}</a></h4>
+                <p class="px-2">{{item.rating.rate}}
+                    <span style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5" [rate]="item.rating.rate"
+                            [readonly]="true"></ngb-rating>
+                    </span> ({{item.rating.count}})
                 </p>
             </div>
             <div class="d-flex justify-content-between gap-3">
@@ -15,11 +16,8 @@
             </div>
         </div>
         <div class="d-flex flex-column m-2">
-            <p class="h6">from AquaVista Cruises
-            </p>
-            <p>Immerse yourself in the charm of our Two Swan Board Ride service, where each glide on the water is a
-                poetry of grace and leisure...
-            </p>
+            <p class="h6">from {{item.vendor}}</p>
+            <p>{{item.description}}</p>
         </div>
     </div>
 </div>
