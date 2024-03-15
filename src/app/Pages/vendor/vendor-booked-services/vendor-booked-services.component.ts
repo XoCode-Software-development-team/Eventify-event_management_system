@@ -18,43 +18,7 @@ export default class VendorBookedServicesComponent {
     Service: 'service1',
     EventDate: '2024.01.05',
     EndDate: '2024.01.06'
-  },
-  {
-    No: 2,
-    Service: 'service2',
-    EventDate: '2024.01.07',
-    EndDate: '2024.01.08'
-  },
-  {
-    No: 3,
-    Service: 'service3',
-    EventDate: '2024.01.09',
-    EndDate: '2024.01.10'
-  },
-  {
-    No: 4,
-    Service: 'service4',
-    EventDate: '2024.01.11',
-    EndDate: '2024.01.12'
-  },
-  {
-    No: 5,
-    Service: 'service5',
-    EventDate: '2024.01.13',
-    EndDate: '2024.01.14'
-  },
-  {
-    No: 6,
-    Service: 'service6',
-    EventDate: '2024.01.15',
-    EndDate: '2024.01.16'
-  },
-  {
-    No: 7,
-    Service: 'service7',
-    EventDate: '2024.01.17',
-    EndDate: '2024.01.18'
-  }];
+  }]
 
   categories: Category[] = [];
 
@@ -69,19 +33,21 @@ export default class VendorBookedServicesComponent {
     'End Date',
   ];
 
-  getServices(category: string) {
-    // this._vendorService.getServiceListByCategory(category).subscribe({
-    //   next: (res: any) => {
-    //     this.dataSource = res;
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   },
-    // });
+  getServices(categoryId: string) {
+    this._service.getBookedServicesOfVendor(categoryId,this.vendorId).subscribe({
+      next: (res: any) => {
+        this.dataSource = res;
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
   }
 
+  vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee";
+
   getCategories() {
-    this._service.getCategoriesList().subscribe({
+    this._service.getServiceCategoriesOfBookedServices(this.vendorId).subscribe({
       next: (res: any) => {
         this.categories = res.map((item: any) => ({
           id: item.categoryId,

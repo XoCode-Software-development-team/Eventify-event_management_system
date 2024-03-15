@@ -32,7 +32,7 @@ export class VendorServiceComponent {
   ];
 
   getServices(categoryId: string) {
-    this._service.getVendorServiceListByCategory(categoryId).subscribe({
+    this._service.getVendorServiceListByCategory(categoryId,this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res;
         console.log(res)

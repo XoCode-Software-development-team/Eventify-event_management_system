@@ -53,8 +53,16 @@ export class ServiceService {
     return this._http.put<any>(`${this.Url}/api/service/deleteRequest/${id}`,null);
   }
 
-  getVendorServiceListByCategory(categoryId:string) : Observable<any>{
-    return this._http.get<any>(this.Url+"/api/vendorService/"+categoryId);
+  getVendorServiceListByCategory(categoryId: string, vendorId: string): Observable<any> {
+    return this._http.get<any>(`${this.Url}/api/vendorService/${categoryId}/${vendorId}`);
+  }  
+
+  getServiceCategoriesOfBookedServices(id:string):Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/bookedService/categories/${id}`);
+  }
+
+  getBookedServicesOfVendor(categoryId:string, vendorId:string):Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/bookedService/${categoryId}/${vendorId}`);
   }
 
 }
