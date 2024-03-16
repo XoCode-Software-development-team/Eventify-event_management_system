@@ -33,7 +33,5 @@ $eventify-frontend-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($eventify-frontend-theme);
 
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
