@@ -64,7 +64,7 @@ a:hover{
 
 
 .buttons button{
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(84, 84, 84);
     border: rgb(53, 53, 53) solid 1px;
     padding: 10px 50px; 
     margin-top: 20px;
@@ -89,20 +89,7 @@ a:hover{
     text-decoration: none;
   }
 
-  .DeleteButton{
-    margin-top: 10px;
-    margin-bottom: 40px;
-    background-color: rgb(213, 6, 6);
-    color: aliceblue;
-    margin-right: 20px;
-  }
-  .UpdateButton{
-    margin-top: 10px;
-    margin-bottom: 40px;
-    background-color: rgb(243, 154, 30);
-    color: aliceblue;
-    margin-right: 20px;
-  }
+
 
   .add:hover{
     color: black;
@@ -118,7 +105,9 @@ a:hover{
 .mat-line{
     margin-top: 40px;
 }
-
+.del-up-button button{
+ margin: 20px;
+}
 
 
 

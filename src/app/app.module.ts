@@ -13,6 +13,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { EventSideBarComponent } from './Components/event-side-bar/event-side-bar.component';
 import { EventViewComponent } from './Components/event-view/event-view.component';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -33,6 +34,7 @@ import { EventViewComponent } from './Components/event-view/event-view.component
     //MAT
     MatIconModule,
     MatDividerModule,
+    MatButtonModule,
     //Other
     HttpClientModule,
     ReactiveFormsModule,

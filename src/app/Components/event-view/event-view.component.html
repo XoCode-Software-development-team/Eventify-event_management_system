@@ -32,9 +32,10 @@
 
     <section>
         <div class="buttons">
-          <button mat-raised-button (click)="viewAgenda">View Agenda</button>
-          <button mat-raised-button (click)="viewChecklist">View CheckList</button>
-        </div>
+            <button class="btn btn-primary mt-4" (click)="viewAgenda"><i class="fas fa-list"></i>  Agenda</button>
+            <button class="btn btn-primary mt-4" (click)="viewChecklist"><i class="fas fa-tasks"></i>  View Checklist</button>
+          </div>
+          
       </section>
 
       <div class="mat-line"><mat-divider></mat-divider></div>
@@ -77,10 +78,11 @@
         </div>
     </div>
 
+
     <div class="mat-line"><mat-divider></mat-divider></div>
     <div class="del-up-button">
-    <button mat-raised-button (click)="setDelete(selectedEvent.id)" class="DeleteButton"> <i class="fas fa-trash-alt"></i>  Delete "{{selectedEvent.eventName}}"</button>
-    <button mat-raised-button class="UpdateButton"> <i class="fas fa-edit update-icon"></i> Update "{{selectedEvent.eventName}}"</button>
+    <button class="btn btn-danger mt-4" (click)="setDelete(selectedEvent.id)"> <i class="fas fa-trash-alt"></i>  Delete "{{selectedEvent.eventName}}"</button>
+    <button class="btn btn-primary mt-4"> <i class="fas fa-edit update-icon"></i> Update "{{selectedEvent.eventName}}"</button>
     </div>
 </div>
 
