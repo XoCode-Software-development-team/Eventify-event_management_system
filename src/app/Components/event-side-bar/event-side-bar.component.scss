@@ -1,6 +1,6 @@
 .container {
     width: 300px;
-    max-width: 800px;
+    max-width: 2200px;
     height: auto;
     min-height: 500px;
     border: 1px solid rgb(103, 103, 103);
@@ -13,14 +13,39 @@
     font-size: 20px;
     line-height: 2;
     margin-top: 20px; 
+    margin-bottom: 10px;
   }
   
-  .text-area:hover, .expand-list:hover {
+  .text-area:hover{
     transition: .5s;
     background-color: rgb(31, 119, 154);
     cursor: pointer;
   }
+  //-------------------------------------
+  .expand-list a {
+    text-decoration: none;
+    position: relative;
+  }
   
+  .expand-list a:hover {
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .expand-list a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: #0c5e72;
+    transition: width 0.3s;
+  }
+  
+  .expand-list a:hover::after {
+    width: 100%;
+  }
+  
+  //-------------------------------------------------------
   .text-area a, .expand-list a {
     text-decoration: none;
     color: rgb(0, 0, 0);
@@ -51,4 +76,11 @@
   }
   .no-events-message:hover{
     background-color: rgb(255, 255, 255);
+  }
+
+  .active-link-topic {
+    background-color: rgb(31, 119, 154); /* Change the color to your desired color */
+  }
+  .event-area a{
+    color: rgb(26, 112, 141); /* Color when clicked */
   }
