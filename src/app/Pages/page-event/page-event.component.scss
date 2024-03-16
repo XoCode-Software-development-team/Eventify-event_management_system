@@ -1,0 +1,52 @@
+nav{
+    background-color: rgb(175, 223, 233);
+    width: 100%;
+    height: 75px;
+    max-height: 87px;
+    padding-top: 10px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    
+}
+nav li{
+    color: rgb(18, 64, 109);
+    padding: 10px;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 450; 
+}
+nav img{
+    margin-left: 60px;
+    margin-bottom: 10px;
+}
+
+footer {
+    background-color: #004857;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .event-body {
+    padding: 20px;
+    display: flex;
+
+  }
+  
+  .side-panel {
+    margin-right: 20px;
+  }
+  
+  .event-form {
+    flex: 2;
+    
+  }
+  
+  
