@@ -11,6 +11,7 @@ import { PageEventComponent } from './Pages/page-event/page-event.component';
 //MAT
 import {MatIconModule} from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { EventSideBarComponent } from './Components/event-side-bar/event-side-bar.component';
 
 
 
@@ -19,7 +20,8 @@ import { MatDividerModule } from '@angular/material/divider';
   declarations: [
     AppComponent,
     EventCreateFormComponent,
-    PageEventComponent
+    PageEventComponent,
+    EventSideBarComponent
 
   ],
   imports: [

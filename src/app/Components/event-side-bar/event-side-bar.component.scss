@@ -1,0 +1,54 @@
+.container {
+    width: 300px;
+    max-width: 800px;
+    height: auto;
+    min-height: 500px;
+    border: 1px solid rgb(103, 103, 103);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .text-area, .expand-list {
+    text-align: center;
+    font-size: 20px;
+    line-height: 2;
+    margin-top: 20px; 
+  }
+  
+  .text-area:hover, .expand-list:hover {
+    transition: .5s;
+    background-color: rgb(31, 119, 154);
+    cursor: pointer;
+  }
+  
+  .text-area a, .expand-list a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+
+  }
+  .icons{
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 3px;
+  }
+  
+  .dropdown-icon{
+    text-align: center;
+    font-size: 20px;
+    line-height: 2;
+    padding-top: 5px;
+    margin-top: 20px; 
+    cursor: pointer;
+    
+  }
+  .dropdown-icon:hover{
+    transition: .5s;
+    background-color: rgb(31, 119, 154);
+  }
+
+  .no-events-message{
+    color: rgb(137, 137, 137);
+  }
+  .no-events-message:hover{
+    background-color: rgb(255, 255, 255);
+  }

@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="dropdown-icon" (click)="toggleEventsList()">
+      <img src="../../../assets/Images/calendar.png" width="24px" height="24px"  class="icons"/> Events
+      <i [class]="showEventsList ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+    </div>
+    <div [@expandCollapse]="showEventsList ? 'expanded' : 'collapsed'" class="expand-list">
+      <ng-container *ngIf="eventArray.length; else noEvents">
+        <div *ngFor="let event of eventArray" class="event-area">
+          <a (click)="goToEventDetails(event.id)">{{ event.eventName }}</a>
+        </div>
+      </ng-container>
+      <ng-template #noEvents>
+        <div class="no-events-message">No events</div>
+      </ng-template>
+    </div>
+    <br/><br/>
+
+
+    <div class="mat-line"><mat-divider></mat-divider></div>
+    <div class="text-area" routerLink="/create">    
+      <a ><img src="../../../assets/Images/create.png" width="24px" height="24px" class="icons"/> Create Event</a>
+    </div>
+  </div>
+  
+  
