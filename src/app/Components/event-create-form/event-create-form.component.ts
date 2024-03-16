@@ -65,6 +65,7 @@ export class EventCreateFormComponent implements OnInit{
         this.getAllEvent();
         this.form.reset();
         this.location.go(this.location.path());
+        location.reload(); 
       });
 
     }else {

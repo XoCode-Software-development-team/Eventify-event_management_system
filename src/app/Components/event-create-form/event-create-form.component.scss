@@ -62,7 +62,11 @@
     background-color: #acd6ff;
     transition: 0.6s;
 }
-
+.icons{
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 3px;
+}
 
 @media screen and (min-width: 820px) {
     .line-fields{

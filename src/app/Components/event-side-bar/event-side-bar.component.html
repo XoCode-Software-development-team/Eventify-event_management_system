@@ -1,6 +1,6 @@
 <div class="container">
   <div class="dropdown-icon" (click)="toggleEventsList()">
-    <img src="../../../assets/Images/calendar.png" width="24px" height="24px"  class="icons"/> Events
+    <img src="../../../assets/Images/calendar.png" width="20px" height="24px"  class="icons"/> Events
     <i [class]="showEventsList ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
   </div>
   <div *ngIf="showEventsList" class="expand-list">
@@ -20,7 +20,7 @@
 
     <div class="mat-line"><mat-divider></mat-divider></div>
     <div class="text-area" routerLink="/create" routerLinkActive="active-link-topic">    
-      <a ><img src="../../../assets/Images/create.png" width="24px" height="24px" class="icons"/> Create Event</a>
+      <a ><img src="../../../assets/Images/create.png" width="20px" height="24px" class="icons"/> Create Event</a>
     </div>
 </div>
   

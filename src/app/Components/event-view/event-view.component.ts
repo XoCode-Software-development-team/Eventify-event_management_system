@@ -39,8 +39,9 @@ export class EventViewComponent {
         if (previousIndex >= 0) {
           const previousEventId = this.allEvents[previousIndex].id;
           this.router.navigate(['/view', previousEventId]).then(() => {
-             this.location.go(this.location.path());
-            window.scrollTo(0, 0); 
+            this.location.go(this.location.path());
+            //window.scrollTo(0, 0);
+            location.reload(); 
           });
         } else {
           this.router.navigate(['/create']).then(() => {   // edit
