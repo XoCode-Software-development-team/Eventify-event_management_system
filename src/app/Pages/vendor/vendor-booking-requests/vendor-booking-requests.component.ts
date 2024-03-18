@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
+import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 
@@ -8,52 +9,14 @@ import { ServiceService } from 'src/app/Services/service/service.service';
   styleUrls: ['./vendor-booking-requests.component.scss'],
 })
 export class VendorBookingRequestsComponent {
+  @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
   constructor(private _service: ServiceService) {}
 
-  dataSource = [  {
-    No: 1,
-    Service: 'service1',
-    EventDate: '2024.01.05',
-    EndDate: '2024.01.06'
-  },
-  {
-    No: 2,
-    Service: 'service2',
-    EventDate: '2024.01.07',
-    EndDate: '2024.01.08'
-  },
-  {
-    No: 3,
-    Service: 'service3',
-    EventDate: '2024.01.09',
-    EndDate: '2024.01.10'
-  },
-  {
-    No: 4,
-    Service: 'service4',
-    EventDate: '2024.01.11',
-    EndDate: '2024.01.12'
-  },
-  {
-    No: 5,
-    Service: 'service5',
-    EventDate: '2024.01.13',
-    EndDate: '2024.01.14'
-  },
-  {
-    No: 6,
-    Service: 'service6',
-    EventDate: '2024.01.15',
-    EndDate: '2024.01.16'
-  },
-  {
-    No: 7,
-    Service: 'service7',
-    EventDate: '2024.01.17',
-    EndDate: '2024.01.18'
-  }];
+  dataSource = [];
   categories: Category[] = [];
+
+  vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee";
 
   ngOnInit(): void {
     this.getCategories();
@@ -62,24 +25,26 @@ export class VendorBookingRequestsComponent {
   displayedColumns: string[] = [
     'No',
     'Service',
+    'Event Name',
     'Event Date',
     'Pickup Date',
     'Action',
   ];
 
-  getServices(category: string) {
-    // this._vendorService.getServiceListByCategory(category).subscribe({
-    //   next: (res: any) => {
-    //     this.dataSource = res;
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   },
-    // });
+  getServices(categoryId: string) {
+    this._service.getServicesOfBookingRequest(categoryId,this.vendorId).subscribe({
+      next: (res: any) => {
+        this.dataSource = res;
+        console.log(res);
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
   }
 
   getCategories() {
-    this._service.getCategoriesList().subscribe({
+    this._service.getCategoriesOfBookingRequest(this.vendorId).subscribe({
       next: (res: any) => {
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
@@ -92,7 +57,7 @@ export class VendorBookingRequestsComponent {
     });
   }
 
-  deleteService(id: string) {
+  RejectService() {
     // this._vendorService.deleteService(id).subscribe({
     //   next: (res: any) => {
     //     if (res.remainingCount > 0) {
@@ -107,14 +72,18 @@ export class VendorBookingRequestsComponent {
     // });
   }
 
-  changeSuspendState(id: string) {
-    // this._vendorService.changeSuspendState(id).subscribe({
-    //   next: (res: any) => {
-    //     this.getServices(res.category);
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   },
-    // });
+  bookService(eventId:string,soRId:string) {
+    console.log(eventId,soRId);
+    this._service.bookServiceByVendor(eventId,soRId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.categories = [];
+        this.getCategories();
+        this.tabCardComponent.ngOnInit();
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
   }
 }

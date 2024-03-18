@@ -13,12 +13,7 @@ export default class VendorBookedServicesComponent {
     
   }
 
-  dataSource = [  {
-    No: 1,
-    Service: 'service1',
-    EventDate: '2024.01.05',
-    EndDate: '2024.01.06'
-  }]
+  dataSource = []
 
   categories: Category[] = [];
 
@@ -37,6 +32,7 @@ export default class VendorBookedServicesComponent {
     this._service.getBookedServicesOfVendor(categoryId,this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res;
+        console.log(res);
       },
       error: (err: any) => {
         console.log(err);

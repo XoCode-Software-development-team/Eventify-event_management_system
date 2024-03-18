@@ -65,4 +65,16 @@ export class ServiceService {
     return this._http.get<string[]>(`${this.Url}/api/bookedService/${categoryId}/${vendorId}`);
   }
 
+  getCategoriesOfBookingRequest(vendorId:string):Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/bookingRequest/${vendorId}`);
+  }
+
+  getServicesOfBookingRequest(categoryId:string, vendorId:string):Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/bookingRequest/${categoryId}/${vendorId}`);
+  }
+
+  bookServiceByVendor(eventId:string,soRId: string):Observable<any> {
+    return this._http.put<string[]>(`${this.Url}/api/bookingRequestApprove/${eventId}/${soRId}`,null);
+  }
+
 }
