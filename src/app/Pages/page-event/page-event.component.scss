@@ -10,7 +10,7 @@
     
 }
 .nav1 li{
-    color: rgb(18, 64, 109);
+    color: rgb(18, 95, 109);
     padding: 10px;
     display: inline-block;
     font-size: 20px;
@@ -30,11 +30,18 @@ nav img{
 
 }
 .nav2 li{
-    color: rgb(122, 122, 122);
+    color: rgb(19, 69, 78);
     padding: 10px;
     display: inline-block;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 450; 
+    border: rgb(255, 255, 255) solid;
+    margin-left: 20px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border-width:1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 footer {
     background-color: #004857;
