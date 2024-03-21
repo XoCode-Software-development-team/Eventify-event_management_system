@@ -3,7 +3,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Button, Category, FeatureAndFacility } from 'src/app/Interfaces/interfaces';
+import { Button, Category, FeatureAndFacility, PriceModel } from 'src/app/Interfaces/interfaces';
+import { ServiceService } from 'src/app/Services/service/service.service';
 
 @Component({
   selector: 'app-vendor-add-new-service',
@@ -12,19 +13,10 @@ import { Button, Category, FeatureAndFacility } from 'src/app/Interfaces/interfa
 })
 export class VendorAddNewServiceComponent implements OnInit {
 
-  constructor(private announcer: LiveAnnouncer) { }
+  constructor(private announcer: LiveAnnouncer, private _service: ServiceService) { }
 
-  categories: Category[] = [
-    { id: '0', categoryName: 'Catering' },
-    { id: '1', categoryName: 'Decoration' },
-    { id: '2', categoryName: 'Dancing' },
-  ];
-
-  pricingModels = [
-    { id: '0', priceModeName: 'Hourly rate' },
-    { id: '1', priceModeName: 'Per person' },
-    { id: '2', priceModeName: 'Flat Rate' },
-  ];
+  categories: Category[] = [];
+  pricingModels: PriceModel[] = [];
 
   imageFiles: File[] = [];
   maxImageSize = 10485760;
@@ -89,6 +81,8 @@ export class VendorAddNewServiceComponent implements OnInit {
 
   ngOnInit(): void {
     this.formHandle();
+    this.getCategories();
+    this.getPriceModels();
   }
 
   saveButton: Button = {
@@ -138,7 +132,8 @@ export class VendorAddNewServiceComponent implements OnInit {
     })
 
     this.serviceForm.valueChanges.subscribe(() => {
-      this.saveButton.disable = !(this.serviceForm.valid);
+      if (this.serviceForm.valid)
+        this.saveButton.disable = false;
     });
     
   }
@@ -196,7 +191,7 @@ export class VendorAddNewServiceComponent implements OnInit {
     this.serviceForm.get('images')?.setValue(this.imageFiles);
     this.serviceForm.get('videos')?.setValue(this.videoFiles);
     console.log(this.serviceForm)
-    this.resetForm();
+    this.formHandle();
   }
 
   resetForm() {
@@ -204,4 +199,33 @@ export class VendorAddNewServiceComponent implements OnInit {
     this.imageFiles = [];
     this.videoFiles = [];
   }
+
+  getCategories() {
+    this._service.getCategoriesList().subscribe({
+      next: (res: any) => {
+        this.categories = res.map((item:any) => ({
+          id: item.categoryId,
+          categoryName:item.serviceCategoryName
+        }))
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+  }
+
+  getPriceModels() {
+    this._service.getPriceModelsList().subscribe({
+      next: (res: any) => {
+        this.pricingModels = res.map((item:any) => ({
+          id: item.modelId,
+          priceModelName:item.modelName
+        }))
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+  }
+
 }

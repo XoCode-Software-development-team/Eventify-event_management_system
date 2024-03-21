@@ -278,7 +278,7 @@
                                 <mat-label>Pricing Model</mat-label>
                                 <mat-select formControlName="priceModel" placeholder="Select price model" required>
                                     <mat-option *ngFor="let model of pricingModels"
-                                        [value]="model.id">{{model.priceModeName}}</mat-option>
+                                        [value]="model.id">{{model.priceModelName}}</mat-option>
                                 </mat-select>
                                 <mat-icon color="primary" matSuffix
                                     *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.invalid && getArrayControls(i,'servicePricePackages','priceModel')?.touched"

@@ -81,4 +81,8 @@ export class ServiceService {
     return this._http.put<string[]>(`${this.Url}/api/bookingRequestReject/${eventId}/${soRId}`,null);
   }
 
+  getPriceModelsList() : Observable<Category[]>{
+    return this._http.get<Category[]>(`${this.Url}/api/service/priceModels`);
+  }
+
 }
