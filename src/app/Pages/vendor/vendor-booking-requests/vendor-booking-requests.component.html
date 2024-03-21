@@ -47,8 +47,8 @@
                     Accept</div>
                 <span style="margin-left: 5px;"></span>
                 <div class="delete" mwlConfirmationPopover Confirmation="Service booking reject confirmation"
-                    popoverMessage="Do you really want to delete?" placement="left"
-                    (confirm)="RejectService()" (cancel)="true">
+                    popoverMessage="Do you really want to reject?" placement="left"
+                    (confirm)="RejectService(element.eventId,element.soRId)" (cancel)="true">
                     Reject
                 </div>
             </td>

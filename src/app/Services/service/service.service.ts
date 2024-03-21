@@ -77,4 +77,8 @@ export class ServiceService {
     return this._http.put<string[]>(`${this.Url}/api/bookingRequestApprove/${eventId}/${soRId}`,null);
   }
 
+  rejectServiceFromVendor(eventId:string,soRId: string):Observable<any> {
+    return this._http.put<string[]>(`${this.Url}/api/bookingRequestReject/${eventId}/${soRId}`,null);
+  }
+
 }

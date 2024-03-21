@@ -57,19 +57,19 @@ export class VendorBookingRequestsComponent {
     });
   }
 
-  RejectService() {
-    // this._vendorService.deleteService(id).subscribe({
-    //   next: (res: any) => {
-    //     if (res.remainingCount > 0) {
-    //       this.getServices(res.deletedService.category);
-    //     } else {
-    //       location.reload();
-    //     }
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   },
-    // });
+  RejectService(eventId:string,soRId:string) {
+    console.log(eventId,soRId);
+    this._service.rejectServiceFromVendor(eventId,soRId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.categories = [];
+        this.getCategories();
+        this.tabCardComponent.ngOnInit();
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
   }
 
   bookService(eventId:string,soRId:string) {
