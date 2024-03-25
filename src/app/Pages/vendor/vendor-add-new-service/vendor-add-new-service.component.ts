@@ -5,6 +5,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Button, Category, FeatureAndFacility, PriceModel } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-vendor-add-new-service',
@@ -13,15 +14,19 @@ import { ServiceService } from 'src/app/Services/service/service.service';
 })
 export class VendorAddNewServiceComponent implements OnInit {
 
-  constructor(private announcer: LiveAnnouncer, private _service: ServiceService) { }
+  constructor(private announcer: LiveAnnouncer, private _service: ServiceService, private fireStorage: AngularFireStorage) { }
 
   categories: Category[] = [];
   pricingModels: PriceModel[] = [];
 
   imageFiles: File[] = [];
+  imageUrls: string[] = [];
   maxImageSize = 10485760;
-  maxVideoSize = this.maxImageSize * 50;
+
+
   videoFiles: File[] = [];
+  videoUrls: string[] = [];
+  maxVideoSize = this.maxImageSize * 50;
 
   onSelect(event: any, files: File[]) {
     if (files.length < 5){
@@ -185,16 +190,26 @@ export class VendorAddNewServiceComponent implements OnInit {
       return control;
     }
 
-  saveForm() {
+  async saveForm() {
     //when submit the form add featuresAndFacilities array to serviceForm
     this.serviceForm.get('serviceFeatures')?.setValue(this.featuresAndFacilities);
-    this.serviceForm.get('images')?.setValue(this.imageFiles);
-    this.serviceForm.get('videos')?.setValue(this.videoFiles);
-    console.log(this.serviceForm)
-    this.formHandle();
+
+    await this.getFirebaseLink(this.imageFiles,this.imageUrls,'images');
+    this.serviceForm.get('images')?.setValue(this.imageUrls);
+
+    await this.getFirebaseLink(this.videoFiles,this.videoUrls,'videos');
+    this.serviceForm.get('videos')?.setValue(this.videoUrls);
+
+    console.log(this.serviceForm.value)
+    this.addNewService(this.serviceForm.value);
+    this.resetForm();
   }
 
   resetForm() {
+    this.formHandle();
+    this.serviceForm.reset();
+    this.serviceForm.markAsUntouched();
+    this.serviceForm.markAsPristine();
     this.featuresAndFacilities = [];
     this.imageFiles = [];
     this.videoFiles = [];
@@ -226,6 +241,34 @@ export class VendorAddNewServiceComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+
+  async getFirebaseLink(files:File[],fileUrls:string[], fileContent:string) {
+    if(files) {
+      for (let i = 0;i < files.length; i++) {
+        const file = files[i];
+        console.log(file);
+        const path = `service-${fileContent}/${file.name}`;
+        const uploadTask = await this.fireStorage.upload(path,file);
+        const url = await uploadTask.ref.getDownloadURL();
+        fileUrls.push(url);
+      }
+    }
+  }
+
+
+  vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee";
+
+  addNewService(formData: any) {
+    this._service.addNewService(this.vendorId,formData).subscribe({
+      next: (res:any) => {
+        console.log(res);
+      },
+      error: (err:any) => {
+        console.log(err);
+      }
+    })
   }
 
 }

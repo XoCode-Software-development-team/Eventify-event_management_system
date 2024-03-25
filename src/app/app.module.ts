@@ -44,6 +44,9 @@ import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
 import { HomeComponent } from './Pages/common/home/home.component';
 import { CommonLayoutComponent } from './Pages/common/common-layout/common-layout.component';
 import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-password.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -65,7 +68,9 @@ import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-p
     }),
     NgxDropzoneModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -85,4 +85,8 @@ export class ServiceService {
     return this._http.get<Category[]>(`${this.Url}/api/service/priceModels`);
   }
 
+  addNewService(vendorId:string, data:any): Observable<any> {
+    return this._http.post<any>(`${this.Url}/api/service/addNew/${vendorId}`,data);
+  }
+
 }
