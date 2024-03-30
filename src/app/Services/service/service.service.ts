@@ -89,4 +89,16 @@ export class ServiceService {
     return this._http.post<any>(`${this.Url}/api/service/addNew/${vendorId}`,data);
   }
 
+  getMaxPriceOfService():Observable<any> {
+    return this._http.get<any>(`${this.Url}/api/service/maxPrice`);
+  }
+
+  getServicesForClients():Observable<any> {
+    return this._http.get<any>(`${this.Url}/api/service/all`);
+  }
+
+  getServiceDetailsForClient(soRId:number):Observable<any> {
+    return this._http.get<any>(`${this.Url}/api/service/details/${soRId}`);
+  }
+
 }

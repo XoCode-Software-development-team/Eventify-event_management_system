@@ -20,3 +20,41 @@ export interface Category {
     class: string[],
     disable: boolean
   }
+
+  export interface servicesCard {
+      soRId:number,
+      name:string,
+      rating:{
+        rate:number,
+        count:number
+      },
+      vendor:string,
+      description:string,
+      image:string
+    }
+
+  export interface ServiceDetails {
+    name:string,
+    vendor: {
+      vendorId:string,
+      companyName:string
+    },
+    capacity:number,
+    description:string,
+    reviewAndRating: reviewAndRating[],
+    price: Price[],
+    images: string[]
+    videos: string[]
+  }
+
+  interface Price {
+    value: number;
+    model: string;
+  }
+
+  interface reviewAndRating {
+    avatar:string,
+    name:string,
+    rate:number,
+    comment:string
+  }

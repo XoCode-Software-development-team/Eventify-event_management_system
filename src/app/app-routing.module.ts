@@ -32,25 +32,25 @@ const routes: Routes = [
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component:HomeComponent},
       {path: 'services', component:AllServiceComponent},
-      {path: 'service/1', component:ServiceDetailsComponent}
+      {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent}
     ]
   },
-  {
-    path: 'AllServices',
-    component: AllServiceComponent,
-    children: [
-      // {path: '',component: },
-      // {path: '',component: }
-    ]
-  },
-  {
-    path: 'allServices/1',
-    component: ServiceDetailsComponent,
-    children: [
-      // {path: '',component: },
-      // {path: '',component: }
-    ]
-  },
+  // {
+  //   path: 'AllServices',
+  //   component: AllServiceComponent,
+  //   children: [
+  //     // {path: '',component: },
+  //     // {path: '',component: }
+  //   ]
+  // },
+  // {
+  //   path: 'allServices/service/:soRId/:name',
+  //   component: ServiceDetailsComponent,
+  //   children: [
+  //     // {path: '',component: },
+  //     // {path: '',component: }
+  //   ]
+  // },
   {
     path: 'vendor',
     component: VendorLayoutComponent,

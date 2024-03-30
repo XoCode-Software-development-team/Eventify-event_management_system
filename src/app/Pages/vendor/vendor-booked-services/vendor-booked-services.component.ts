@@ -49,6 +49,7 @@ export default class VendorBookedServicesComponent {
           id: item.categoryId,
           categoryName: item.serviceCategoryName,
         }));
+        console.log(res);
       },
       error: (err: any) => {
         console.log(err);

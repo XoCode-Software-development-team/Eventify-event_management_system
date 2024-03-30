@@ -137,7 +137,7 @@ export class VendorAddNewServiceComponent implements OnInit {
     })
 
     this.serviceForm.valueChanges.subscribe(() => {
-      if (this.serviceForm.valid)
+      if (this.serviceForm.valid || true)
         this.saveButton.disable = false;
     });
     

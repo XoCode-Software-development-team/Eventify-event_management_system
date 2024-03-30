@@ -9,7 +9,7 @@
 
 <div class="row mb-5 w-100">
     <div class="d-flex flex-row justify-content-between my-4 mb-5">
-        <h1>Swan Boat Ride</h1>
+        <h1>{{serviceDetails.name}}</h1>
         <div class="d-flex flex-row justify-content-between gap-3">
             <app-primary-button [button]="compareButton"></app-primary-button>
             <app-primary-button [button]="followButton"></app-primary-button>
@@ -17,32 +17,38 @@
     </div>
     <div class="d-flex flex-row justify-content-between gap-4">
         <div class="left">
-            <app-image-view></app-image-view>
+            <app-image-view [images]="serviceDetails.images"></app-image-view>
         </div>
         <div class="right">
             <div class="d-flex justify-content-between gap-5">
-                <p class="fs-2">from AquaVista Cruises
+                <p class="fs-2">from {{serviceDetails.vendor.companyName}}
                 </p>
                 <app-primary-button [button]="chatButton"></app-primary-button>
             </div>
             <div class="d-flex gap-4 col-9">
-                <p>$100/hour</p>
-                <p>100 Capacity</p>
+                <div *ngFor="let item of serviceDetails.price">
+                    <p>${{item.value}}/{{item.model}}</p>
+                </div>
+                <p>{{serviceDetails.capacity}} Capacity</p>
             </div>
-            <p class="col-9 mb-5">
-                Embark on Unforgettable Journeys through the Mystical and Enchanting Waters
-                During a swan boat ride, individuals or groups can leisurely paddle or pedal the boat through the water.
-                The primary aim is usually relaxation and enjoyment, taking in the natural surroundings and the peaceful
-                atmosphere. Swan boat rides are popular in locations where there's a focus on providing a gentle and
-                pleasant experience on the water.
-            </p>
+            <p class="col-9 mb-5">{{serviceDetails.description}}</p>
             <app-secondary-button [button]="bookButton"></app-secondary-button>
         </div>
     </div>
-    <div>
+    <div *ngIf="serviceDetails.videos != null && serviceDetails.videos.length>0">
+        <h5 class="my-4">Videos</h5>
+        <div class="d-flex col-4">
+            <div class="container">
+                <video style="border-radius: 6px;" *ngFor="let video of serviceDetails.videos" controls class="w-100" [src]="video" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="serviceDetails.reviewAndRating != null && serviceDetails.reviewAndRating.length>0">
         <h5 class="my-4">User reviews</h5>
-        <div class="d-flex flex-row justify-content-start gap-3 flex-wrap">
-            <app-review-card *ngFor="let _ of [1, 2, 3, 4]"></app-review-card>
+        <div>
+            <app-review-card [review]="serviceDetails.reviewAndRating"></app-review-card>
         </div>
     </div>
 </div>
