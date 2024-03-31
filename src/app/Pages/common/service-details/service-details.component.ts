@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Button, ServiceDetails } from 'src/app/Interfaces/interfaces';
+import { Button, ServiceDetails, FeatureAndFacility } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 
 @Component({
@@ -75,40 +75,16 @@ export class ServiceDetailsComponent implements OnInit {
   };
 
   serviceDetails: ServiceDetails = {
-    name: 'Swan Boat Ride',
+    name: '',
     vendor: {
-      vendorId: 'vendor123',
-      companyName: 'AquaVista Cruises',
+      vendorId: '',
+      companyName: '',
     },
-    capacity: 50,
-    description:
-      "Embark on Unforgettable Journeys through the Mystical and Enchanting Waters During a swan boat ride, individuals or groups can leisurely paddle or pedal the boat through the water. The primary aim is usually relaxation and enjoyment, taking in the natural surroundings and the peaceful atmosphere. Swan boat rides are popular in locations where there's a focus on providing a gentle and pleasant experience on the water.",
-    reviewAndRating: [
-      {
-        avatar:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy0OobsBilOGySRuaSpCmAMSiuupz02KRRgyDyM1308w&s',
-        name: 'Pramudi Srimali',
-        rate: 4.2,
-        comment: 'Service 1 is good.',
-      },
-      {
-        avatar:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy0OobsBilOGySRuaSpCmAMSiuupz02KRRgyDyM1308w&s',
-        name: 'Supipi Kaveesha',
-        rate: 2.3,
-        comment: 'Service 2 is very good.',
-      },
-    ],
-    price: [
-      {
-        value: 50,
-        model: 'hour',
-      },
-      {
-        value: 100,
-        model: 'day',
-      },
-    ],
+    capacity: 0,
+    description: '',
+    reviewAndRating: [],
+    featureAndFacility: [],
+    price: [],
     images: [],
     videos: [],
   };
@@ -117,6 +93,18 @@ export class ServiceDetailsComponent implements OnInit {
     this._service.getServiceDetailsForClient(this.soRId).subscribe({
       next: (res: any) => {
         console.log(res);
+        res = res[0];
+        this.serviceDetails = {
+          name: res.name,
+          vendor: res.vendor,
+          capacity: res.capacity,
+          description: res.description,
+          reviewAndRating: res.reviewAndRating,
+          featureAndFacility: res.featureAndFacility,
+          price: res.price,
+          images: res.images,
+          videos: res.videos,
+        };
       },
       error: (err: any) => {
         console.log(err);

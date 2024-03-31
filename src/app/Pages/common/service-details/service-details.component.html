@@ -29,16 +29,20 @@
                 <div *ngFor="let item of serviceDetails.price">
                     <p>${{item.value}}/{{item.model}}</p>
                 </div>
-                <p>{{serviceDetails.capacity}} Capacity</p>
+                <span>|</span>
+                <p>{{serviceDetails.capacity}} Max Capacity</p>
             </div>
-            <p class="col-9 mb-5">{{serviceDetails.description}}</p>
+            <p class="col-9">{{serviceDetails.description}}</p>
+            <div class="d-flex gap-2 flex-row">
+                <p *ngFor="let item of serviceDetails.featureAndFacility" mat-chip class="">{{item}}</p> 
+            </div>
             <app-secondary-button [button]="bookButton"></app-secondary-button>
         </div>
     </div>
     <div *ngIf="serviceDetails.videos != null && serviceDetails.videos.length>0">
         <h5 class="my-4">Videos</h5>
         <div class="d-flex col-4">
-            <div class="container">
+            <div class="container d-flex gap-4">
                 <video style="border-radius: 6px;" *ngFor="let video of serviceDetails.videos" controls class="w-100" [src]="video" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

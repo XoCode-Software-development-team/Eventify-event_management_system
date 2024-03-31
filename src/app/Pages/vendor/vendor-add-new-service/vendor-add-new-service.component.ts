@@ -259,6 +259,8 @@ export class VendorAddNewServiceComponent implements OnInit {
 
 
   vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee";
+  // vendorId: string = "b0ae24d4-03a5-4a3e-83b3-2e9c7f3245db";
+
 
   addNewService(formData: any) {
     this._service.addNewService(this.vendorId,formData).subscribe({

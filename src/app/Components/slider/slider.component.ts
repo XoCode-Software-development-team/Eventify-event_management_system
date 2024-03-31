@@ -7,4 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class SliderComponent {
   @Input() maxPrice:number | undefined;
+
+  calculateStep(maxPrice:any) {
+    return Math.ceil(maxPrice / 100);
+}
+
 }

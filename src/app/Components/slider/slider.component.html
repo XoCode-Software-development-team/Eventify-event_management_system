@@ -6,7 +6,7 @@
         <label class="value-label">0$</label>
         <label class="value-label">{{maxPrice}}$</label>
     </div>
-    <mat-slider class="slider mt-0 mx-0" [disabled]=false [max]=100 [min]=0 [step]=1 [discrete]=true [showTickMarks]=true>
+    <mat-slider class="slider mt-0 mx-0" [disabled]=false [max]="maxPrice" [min]=0 [step]="calculateStep(maxPrice)" [discrete]=true [showTickMarks]=true>
         <input matSliderStartThumb>
         <input matSliderEndThumb>
 

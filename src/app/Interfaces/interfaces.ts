@@ -42,6 +42,7 @@ export interface Category {
     capacity:number,
     description:string,
     reviewAndRating: reviewAndRating[],
+    featureAndFacility:string[],
     price: Price[],
     images: string[]
     videos: string[]
