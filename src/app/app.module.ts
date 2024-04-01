@@ -51,8 +51,7 @@ import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent, EditProfileComponent, LoginComponent, NavBarComponent, HomeComponent, CommonLayoutComponent, ForgetPasswordComponent,
-    ],
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent, EditProfileComponent, LoginComponent, NavBarComponent, HomeComponent, CommonLayoutComponent, ForgetPasswordComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

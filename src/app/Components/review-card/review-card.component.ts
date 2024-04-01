@@ -7,4 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class ReviewCardComponent {
   @Input() review:any;
+
+  parseRate(rate: string | number | null | undefined): number | null {
+    if (rate == null) return null;
+    return parseFloat(rate.toString());
+  }
 }

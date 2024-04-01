@@ -43,7 +43,7 @@
         <h5 class="my-4">Videos</h5>
         <div class="d-flex col-4">
             <div class="container d-flex gap-4">
-                <video style="border-radius: 6px;" *ngFor="let video of serviceDetails.videos" controls class="w-100" [src]="video" type="video/mp4">
+                <video style="border-radius: 6px; max-height: 40vh;" *ngFor="let video of serviceDetails.videos" controls class="w-100" [src]="video" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
