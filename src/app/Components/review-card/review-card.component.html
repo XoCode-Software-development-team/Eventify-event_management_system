@@ -1,0 +1,15 @@
+<div class="container d-flex justify-content-start gap-3 flex-wrap">
+    <div class="card w-100 p-3 card-wrapper" *ngFor="let re of review">
+        <div class="d-flex align-items-center gap-3">
+            <img class="rounded-circle avatar" [src]="re.avatar" [alt]="re.name">
+            <div class="d-flex flex-column gap-0">
+                <p class="m-0 fw-medium">{{re.fname}} {{re.lname}}</p>
+                <p class="m-0 mx-1" value="5">{{ parseRate(re.rate) | number: '1.1-1'}} <span style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5"
+                            [rate]="re.rate" [readonly]="true"></ngb-rating>
+                    </span>
+                </p>
+                <p class="m-0 mx-1">{{re.comment}}</p>
+            </div>
+        </div>
+    </div>
+</div>

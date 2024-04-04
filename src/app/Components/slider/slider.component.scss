@@ -1,0 +1,23 @@
+.container {
+    padding: 10px;
+}
+
+
+.slider {
+    margin: 8px;
+}
+
+.value-label {
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.mat-mdc-slider {
+    max-width: 300px;
+    width: 100%;
+}
+
+.label-container {
+    display: flex;
+    justify-content: space-between;
+}

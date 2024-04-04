@@ -1,0 +1,65 @@
+<div class="container">
+    <app-tab-card #tabCard [card]="categories"  *ngIf="categories && categories.length > 0"
+        (childEvent)="getServices($event)"></app-tab-card>
+</div>
+<div class="table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
+        *ngIf="categories && categories.length > 0">
+        <ng-container matColumnDef="No">
+            <th mat-header-cell *matHeaderCellDef>No</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Service">
+            <th mat-header-cell *matHeaderCellDef>Service</th>
+            <td mat-cell *matCellDef="let element">{{element.service}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Event Name">
+            <th mat-header-cell *matHeaderCellDef>Event Name</th>
+            <td mat-cell *matCellDef="let element" class="check-icon">
+                {{element.eventName}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Event Date">
+            <th mat-header-cell *matHeaderCellDef class="eventdate">Event Date</th>
+            <td mat-cell *matCellDef="let element" class="check-icon eventdate">
+                {{element.eventDate}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Pickup Date">
+            <th mat-header-cell *matHeaderCellDef class="pickupdate">Pickup Date</th>
+            <td mat-cell *matCellDef="let element" class="check-icon enddate">
+                {{element.endDate}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td class="action" mat-cell *matCellDef="let element">
+                <div class="accept" mwlConfirmationPopover
+                    Confirmation="Service booking accept confirmation"
+                    popoverMessage="Do you really want to add service?" placement="left"
+                    confirmButtonType="primary"
+                    (confirm)="bookService(element.eventId,element.soRId)" (cancel)="true">
+                    Accept</div>
+                <span style="margin-left: 5px;"></span>
+                <div class="delete" mwlConfirmationPopover Confirmation="Service booking reject confirmation"
+                    popoverMessage="Do you really want to reject?" placement="left"
+                    (confirm)="RejectService(element.eventId,element.soRId)" (cancel)="true">
+                    Reject
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div class="empty" *ngIf="!categories || categories.length == 0">
+        <img src="../../../assets/common/No data.jpg" alt="no data found image">
+        <p>No available Services</p>
+    </div>
+</div>

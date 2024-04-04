@@ -1,0 +1,5 @@
+<div class="card-container" *ngFor="let item of card">
+    <a class="card" (click)="viewService(item.id)"  [ngClass]="{'active': item.id === activeTab}">{{item.categoryName}}</a>
+</div>
+  
+  

@@ -1,0 +1,21 @@
+<div class="icons">
+    <div class="right-side">
+        <app-nav-icon (buttonClick)="popUpNotification()" [iconList]="icons"></app-nav-icon>
+    </div>
+</div>
+<div class="row" style="width: 100%; min-height: 64.7%;">
+    <div class="side">
+        <app-slider [maxPrice]="maxPrice"></app-slider>
+        <app-category [CategoryList]="categories"></app-category>
+        <app-filter-rating></app-filter-rating>
+    </div>
+    <div class="main">
+        <div class="d-flex flex-row justify-content-between sort-search-box">
+            <app-sort></app-sort>
+            <app-search></app-search>
+        </div>
+        <div>
+            <app-item-card [service]="services"></app-item-card>
+        </div>
+    </div>
+</div>

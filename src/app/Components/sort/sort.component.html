@@ -1,0 +1,11 @@
+<div class="container d-flex flex-row align-items-center gap-4">
+    <div class="d-flex flex-row">
+        <mat-icon>sort</mat-icon>
+        <p>Sort By:</p>
+    </div>
+    <mat-form-field>
+                <mat-select [value]="selectedFood">
+                    <mat-option *ngFor="let food of foods" [value]="food.value">{{ food.viewValue }}</mat-option>
+                </mat-select>
+    </mat-form-field>
+</div>

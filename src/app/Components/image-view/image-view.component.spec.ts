@@ -1,0 +1,21 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ImageViewComponent } from './image-view.component';
+
+describe('ImageViewComponent', () => {
+  let component: ImageViewComponent;
+  let fixture: ComponentFixture<ImageViewComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ImageViewComponent]
+    });
+    fixture = TestBed.createComponent(ImageViewComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
