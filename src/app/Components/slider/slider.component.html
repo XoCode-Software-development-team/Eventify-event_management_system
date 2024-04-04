@@ -8,7 +8,6 @@
     </div>
     <mat-slider class="slider mt-0 mx-0" [disabled]=false [max]="maxPrice" [min]=0 [step]="calculateStep(maxPrice)" [discrete]=true [showTickMarks]=true>
         <input matSliderStartThumb>
-        <input matSliderEndThumb>
-
+        <input matSliderEndThumb [value]="max">
     </mat-slider>
 </div>
