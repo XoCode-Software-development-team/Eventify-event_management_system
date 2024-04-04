@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { EventSideBarComponent } from '../event-side-bar/event-side-bar.component';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./event-create-form.component.scss']
 })
 export class EventCreateFormComponent implements OnInit{
+  @ViewChild("event-side-bar") eventSidebarComponent! : EventSideBarComponent
 
   
   form: FormGroup;
@@ -65,6 +67,7 @@ export class EventCreateFormComponent implements OnInit{
         this.getAllEvent();
         this.form.reset();
         this.location.go(this.location.path());
+        this.eventSidebarComponent.ngOnInit();
 
       });
 

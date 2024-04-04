@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventCreateFormComponent } from './Components/event-create-form/event-create-form.component';
 import { HttpClientModule } from '@angular/common/http';
-import { PageEventComponent } from './Pages/page-event/page-event.component';
+import { PageEventComponent } from './Pages/Client/page-event/page-event.component';
 import { NgxStarsModule } from 'ngx-stars';
 //MAT
 import {MatIconModule} from '@angular/material/icon';
