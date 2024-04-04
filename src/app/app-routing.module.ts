@@ -14,6 +14,10 @@ import { HomeComponent } from './Pages/common/home/home.component';
 import { CommonLayoutComponent } from './Pages/common/common-layout/common-layout.component';
 import { LoginComponent } from './Pages/common/login/login.component';
 import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-password.component';
+import { EventCreateFormComponent } from './Components/event-create-form/event-create-form.component';
+import { EventViewComponent } from './Components/event-view/event-view.component';
+import { EventComponent } from './Pages/client/event/event.component';
+import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
 
 const routes: Routes = [
   // {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -33,6 +37,17 @@ const routes: Routes = [
       {path: 'home', component:HomeComponent},
       {path: 'services', component:AllServiceComponent},
       {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent}
+    ]
+  },
+  {
+    path:'client',
+    component:ClientLayoutComponent,
+    children: [
+      {path: 'event', component:EventComponent, children: [
+        { path: 'create', component: EventCreateFormComponent},
+        { path: 'view/:id', component: EventViewComponent },
+        { path: '', redirectTo: '/create', pathMatch: 'full' },
+      ]},
     ]
   },
   // {
