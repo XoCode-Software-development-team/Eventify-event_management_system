@@ -14,6 +14,9 @@ export class ServiceDetailsComponent implements OnInit {
     private _service: ServiceService
   ) {}
 
+  isLoading: boolean = false; // Flag to indicate loading state
+
+
   soRId: number = 0;
 
   ngOnInit(): void {
@@ -90,6 +93,7 @@ export class ServiceDetailsComponent implements OnInit {
   };
 
   getServiceDetails() {
+    this.isLoading = true;
     this._service.getServiceDetailsForClient(this.soRId).subscribe({
       next: (res: any) => {
         console.log(res);
@@ -105,6 +109,8 @@ export class ServiceDetailsComponent implements OnInit {
           images: res.images,
           videos: res.videos,
         };
+
+        this.isLoading = false;
       },
       error: (err: any) => {
         console.log(err);

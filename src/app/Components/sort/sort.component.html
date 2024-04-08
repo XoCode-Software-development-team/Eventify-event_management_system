@@ -4,8 +4,8 @@
         <p>Sort By:</p>
     </div>
     <mat-form-field>
-                <mat-select [value]="selectedFood">
-                    <mat-option *ngFor="let food of foods" [value]="food.value">{{ food.viewValue }}</mat-option>
+                <mat-select [(ngModel)]="selectedSort">
+                    <mat-option *ngFor="let item of sortBy" [value]="item.value" (click)="sortService(selectedSort)">{{ item.viewValue }}</mat-option>
                 </mat-select>
     </mat-form-field>
 </div>
