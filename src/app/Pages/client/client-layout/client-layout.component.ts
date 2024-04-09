@@ -24,8 +24,8 @@ export class ClientLayoutComponent {
       url: "checklist"
     },
     {
-      text: "User guide",
-      url: "userGuide"
+      text: "Event",
+      url: "/client/event/create"
     }
   ]
 }

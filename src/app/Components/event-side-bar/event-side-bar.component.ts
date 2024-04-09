@@ -33,7 +33,7 @@ export class EventSideBarComponent implements OnInit {
   }
 
   goToEventDetails(Id: number): void {
-    this.router.navigate(['/view', Id]);
+    this.router.navigate(['/client/event/view', Id]);
   }
 
 }

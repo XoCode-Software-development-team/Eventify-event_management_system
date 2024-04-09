@@ -4,9 +4,10 @@
     border: #cecece solid;
     border-width:1px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    //border-radius: 10px;
     margin-top: 24px;
-    margin-left: 58px;
+    //margin-left: 58px;
+    max-width: 880px;
     
 }
 .event-name{
@@ -17,7 +18,7 @@
 }
 .cover-img{
     height: 312px;
-    width: 832px;
+    width: 820px;
     margin-bottom: 10px;
     
 }
@@ -34,6 +35,9 @@
     display: inline-block;
     padding-inline: 10px;
 }
+.description{
+    max-width: 100%;
+}
 .text{
     display: inline-block;
     padding-inline: 10px;
@@ -49,9 +53,7 @@
      margin-top: 10px;
    
 }
-.discription{
-    width: 832px;
-}
+
 .topic{
     font-size: 23px;
     color: rgb(4, 4, 4);
