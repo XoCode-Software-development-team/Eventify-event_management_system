@@ -10,7 +10,6 @@ export class ItemCardComponent implements OnInit {
   @Input() service:any = [];
 
   ngOnInit(): void {
-      console.log(this.service);
   }
 
   button1 = {

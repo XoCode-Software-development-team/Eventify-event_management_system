@@ -27,4 +27,8 @@ export class SortComponent {
     this.sortChange.emit(this.selectedSort);
   }
 
+  sortValue():string {
+    return this.selectedSort;
+  }
+
 }

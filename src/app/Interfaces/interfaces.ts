@@ -4,7 +4,7 @@ export interface Category {
   }
   
   export interface PriceModel {
-    id: string,
+    id: number,
     priceModelName: string
   }
   

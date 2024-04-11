@@ -1,7 +1,7 @@
+import { SortComponent } from './../../../Components/sort/sort.component';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
-import { SortComponent } from 'src/app/Components/sort/sort.component';
 import { Category, servicesCard } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 
@@ -11,11 +11,13 @@ import { ServiceService } from 'src/app/Services/service/service.service';
   styleUrls: ['./all-service.component.scss'],
 })
 export class AllServiceComponent implements OnInit {
+  @ViewChild('sort') SortComponent!:SortComponent;
+  sortValue : any = '';
+
   constructor(private dialog: MatDialog, private _service: ServiceService) {}
 
   ngOnInit(): void {
     this.getAllCategories();
-    this.getMaxPrice();
     this.getServices();
   }
 
@@ -66,7 +68,6 @@ export class AllServiceComponent implements OnInit {
 
     this._service.getServicesForClients().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.services = res.map((item: any) => ({
           soRId: item.soRId,
           name: item.name,
@@ -91,18 +92,6 @@ export class AllServiceComponent implements OnInit {
     });
   }
 
-  getMaxPrice() {
-    this._service.getMaxPriceOfService().subscribe({
-      next: (res: any) => {
-        this.maxPrice = res;
-        console.log(res);
-      },
-      error: (err: any) => {
-        console.log(err);
-      },
-    });
-  }
-
   getAllCategories() {
     this._service.getCategoriesList().subscribe({
       next: (res: any) => {
@@ -120,7 +109,13 @@ export class AllServiceComponent implements OnInit {
   sortServices(sortBy: string) {
     this.isLoading = true;
     // Copy original services array to maintain data integrity
-    this.services = [...this.services];
+    this.sorting(sortBy,this.services)
+
+    this.isLoading = false;
+  }
+
+  sorting (sortBy: string, sortingList: any[]){
+    this.services = [...sortingList];
 
     // Apply sorting based on selected sort criteria
     if (sortBy === 'sNameAZ') {
@@ -132,6 +127,12 @@ export class AllServiceComponent implements OnInit {
     } else if (sortBy === 'RateHL') {
       this.services.sort((a, b) => b.rating.rate - a.rating.rate);
     }
+  }
+
+  updateFilteredServices(filteredServices: any[]) {
+    this.isLoading = true;
+    this.sortValue = this.SortComponent.sortValue();
+    this.sorting(this.sortValue,filteredServices)
     this.isLoading = false;
   }
 

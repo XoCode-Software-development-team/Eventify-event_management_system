@@ -5,13 +5,13 @@
 </div>
 <div class="row" style="width: 100%; min-height: 64.7%;">
     <div class="side" style="max-width: 300px;">
-        <app-slider [maxPrice]="maxPrice"></app-slider>
+        <app-slider [dataSource]="services" (priceFilteredDataSource)="updateFilteredServices($event)"></app-slider>
         <app-category [CategoryList]="categories"></app-category>
         <app-filter-rating></app-filter-rating>
     </div>
     <div class="main">
         <div class="d-flex flex-row justify-content-between sort-search-box">
-            <app-sort [dataSource]="services" (sortChange)="sortServices($event)"></app-sort>
+            <app-sort #sort [dataSource]="services" (sortChange)="sortServices($event)"></app-sort>
             <app-search></app-search>
         </div>
         <div *ngIf="isLoading" class="spinner-container">
