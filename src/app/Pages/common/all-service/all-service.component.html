@@ -6,7 +6,7 @@
 <div class="row" style="width: 100%; min-height: 64.7%;">
     <div class="side" style="max-width: 280px;">
         <app-slider [dataSource]="services" (priceFilteredDataSource)="updateFilteredServices($event)"></app-slider>
-        <app-category [CategoryList]="categories"></app-category>
+        <app-category [dataSource]="services" [CategoryList]="categories"></app-category>
         <app-filter-rating></app-filter-rating>
     </div>
     <div class="main">
@@ -16,9 +16,11 @@
         </div>
         <div *ngIf="isLoading" class="spinner-container">
             <mat-spinner diameter="32"></mat-spinner>
-        </div>      
-        <div *ngIf="!isLoading">
-            <app-item-card [service]="services"></app-item-card>
         </div>
+        <div *ngIf="!isLoading">
+            <app-item-card [service]="getPagedServices()"></app-item-card>
+        </div>
+        <mat-paginator class="card mt-4" *ngIf="services.length>4" [length]="services.length" [pageSize]="pageSize"
+            (page)="onPageChange($event)"></mat-paginator>
     </div>
 </div>
