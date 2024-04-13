@@ -1,11 +1,12 @@
 <div class="container">
     <h5>Category</h5>
     <ul>
-        <li> <mat-checkbox color="primary">
-            All
+        <li> <mat-checkbox color="primary" [(ngModel)]="firstCategory" (click)="firstCheckboxClick($event)" (change)="firstCheckboxChange($event)">
+                All
             </mat-checkbox></li>
-        <li *ngFor="let Category of CategoryList; let i = index">
-            <mat-checkbox color="primary">
+        <li *ngFor="let Category of extendedCategory; let i = index">
+            <mat-checkbox [(ngModel)]="Category.checked" color="primary" value="{{Category.id}}" (click)="selectCategory()"
+                (change)="filterCategory()">
                 {{ Category.categoryName }}
             </mat-checkbox>
         </li>

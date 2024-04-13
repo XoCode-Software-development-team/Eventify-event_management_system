@@ -21,3 +21,14 @@
     display: flex;
     justify-content: space-between;
 }
+
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .radio-button {
+    flex-basis: 100%; /* Set each radio button to take up 50% of the width */
+    box-sizing: border-box; /* Include padding and border in the width */
+  }
+  

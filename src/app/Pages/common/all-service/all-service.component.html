@@ -5,8 +5,8 @@
 </div>
 <div class="row" style="width: 100%; min-height: 64.7%;">
     <div class="side" style="max-width: 280px;">
-        <app-slider [dataSource]="services" (priceFilteredDataSource)="updateFilteredServices($event)"></app-slider>
-        <app-category [dataSource]="services" [CategoryList]="categories"></app-category>
+        <app-slider [dataSource]="services" (priceFilteredDataSource)="priceFilter($event)"></app-slider>
+        <app-category [dataSource]="services" (categoryFilterDataSource)="categoryFilter($event)" [CategoryList]="categories"></app-category>
         <app-filter-rating></app-filter-rating>
     </div>
     <div class="main">

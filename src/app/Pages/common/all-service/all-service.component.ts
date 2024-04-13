@@ -1,6 +1,5 @@
 import { SortComponent } from './../../../Components/sort/sort.component';
 import {
-  AfterViewInit,
   Component,
   OnChanges,
   OnInit,
@@ -41,8 +40,6 @@ export class AllServiceComponent implements OnInit, OnChanges {
     }
     return this.services;
   }
-
-  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit(): void {
     this.getAllCategories();
@@ -158,11 +155,59 @@ export class AllServiceComponent implements OnInit, OnChanges {
     }
   }
 
-  updateFilteredServices(filteredServices: any[]) {
-    this.isLoading = true;
-    this.sortValue = this.SortComponent.sortValue();
-    this.sorting(this.sortValue, filteredServices);
+  updateFilteredServices(
+    priceFilteredServices: any[],
+    categoryFilteredServices: any[]
+  ) {
+    // If either array is empty, directly set services to the non-empty array
+    if (
+      priceFilteredServices.length === 0 ||
+      categoryFilteredServices.length === 0
+    ) {
+      this.services =
+        priceFilteredServices.length === 0
+          ? categoryFilteredServices
+          : priceFilteredServices;
+    } else {
+      // Apply category filtering to the price-filtered services
+      const combinedFilteredServices = priceFilteredServices.filter((service) =>
+        categoryFilteredServices.some(
+          (categoryService) => categoryService.soRId === service.soRId
+        )
+      );
+
+      // Apply sorting to the combined filtered services
+      this.sortValue = this.SortComponent.sortValue();
+      this.sorting(this.sortValue, combinedFilteredServices);
+
+      // Update the services property with the combined filtered and sorted services
+      this.services = combinedFilteredServices;
+    }
+
     this.isLoading = false;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {}
+
+  categoryFilteredServices: any[] = [];
+  priceFilteredServices: any[] = [];
+
+  priceFilter(filteredServices: any[]) {
+    this.isLoading = true;
+    this.priceFilteredServices = filteredServices;
+    this.updateFilteredServices(
+      this.priceFilteredServices,
+      this.categoryFilteredServices
+    );
+  }
+
+  categoryFilter(filteredServices: any[]) {
+    this.isLoading = true;
+    this.categoryFilteredServices = filteredServices;
+    this.updateFilteredServices(
+      this.priceFilteredServices,
+      this.categoryFilteredServices
+    );
   }
 
   isLoading: boolean = false; // Flag to indicate loading state

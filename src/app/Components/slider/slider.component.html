@@ -1,14 +1,14 @@
 <div class="container">
     <div>
         <h5>Filter price model</h5>
-        <mat-radio-group [(ngModel)]="selectedPriceModel" (change)="onPriceModelChange()">
+        <mat-radio-group [(ngModel)]="selectedPriceModel" (change)="onPriceModelChange()" class="radio-group">
             <mat-radio-button class="radio-button" [color]="'primary'" value="All">
-                All
+              All
             </mat-radio-button>
             <mat-radio-button *ngFor="let price of priceModels" class="radio-button" [color]="'primary'" [value]="price.id">
-                {{price.priceModelName}}
+              {{price.priceModelName}}
             </mat-radio-button>
-        </mat-radio-group>
+          </mat-radio-group>          
     </div>
     <div *ngIf="priceModelSelected" class="mt-2">
         <h5>Price range</h5>

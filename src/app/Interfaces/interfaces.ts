@@ -1,7 +1,11 @@
 export interface Category {
-    id: string;
-    categoryName: string;
-  }
+  id: string;
+  categoryName: string;
+}
+
+export interface ExtendedCategory extends Category {
+  checked: boolean;
+}
   
   export interface PriceModel {
     id: number,
