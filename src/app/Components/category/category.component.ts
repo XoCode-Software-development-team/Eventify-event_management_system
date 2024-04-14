@@ -14,7 +14,7 @@ import {
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
 })
-export class CategoryComponent implements OnInit, OnChanges {
+export class CategoryComponent implements OnChanges {
   @Input() CategoryList: Category[] = [];
   @Input() dataSource: any[] = [];
   @Output() categoryFilterDataSource:any = new EventEmitter<any>();
@@ -24,8 +24,6 @@ export class CategoryComponent implements OnInit, OnChanges {
   tempDataSource: any = [];
   newDataSource: any = [];
   extendedCategory: ExtendedCategory[] = [];
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.originalDataSource.length == 0) {
@@ -37,6 +35,7 @@ export class CategoryComponent implements OnInit, OnChanges {
         checked: true,
       }));
     }
+    this.filterCategory();
   }
 
   firstCheckboxClick(event: MouseEvent): void {

@@ -5,7 +5,7 @@
 </div>
 <div class="row" style="width: 100%; min-height: 64.7%;">
     <div class="side" style="max-width: 280px;">
-        <app-slider [dataSource]="services" (priceFilteredDataSource)="priceFilter($event)"></app-slider>
+        <app-slider #slider [dataSource]="services" (priceFilteredDataSource)="priceFilter($event)"></app-slider>
         <app-category [dataSource]="services" (categoryFilterDataSource)="categoryFilter($event)" [CategoryList]="categories"></app-category>
         <app-filter-rating></app-filter-rating>
     </div>
@@ -20,7 +20,12 @@
         <div *ngIf="!isLoading">
             <app-item-card [service]="getPagedServices()"></app-item-card>
         </div>
+        <div *ngIf="services.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+            <p>No available services found</p>
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
         <mat-paginator class="card mt-4" *ngIf="services.length>4" [length]="services.length" [pageSize]="pageSize"
-            (page)="onPageChange($event)"></mat-paginator>
+            (page)="onPageChange($event)">
+        </mat-paginator>
     </div>
 </div>

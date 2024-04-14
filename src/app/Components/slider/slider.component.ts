@@ -30,7 +30,7 @@ export class SliderComponent implements OnChanges, OnInit {
   constructor(private _service: ServiceService) {}
 
   ngOnInit(): void {
-    this.filterPriceModels();
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -80,6 +80,8 @@ export class SliderComponent implements OnChanges, OnInit {
     this.priceModels = this.priceModels.filter((priceModel: PriceModel) => {
       return priceModelNames.includes(priceModel.priceModelName);
     });
+
+    this.onPriceModelChange();
 
   }
 

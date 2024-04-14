@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
 }
+
 .icons {
     display: flex;
     flex-direction: row;
@@ -39,7 +40,7 @@
 
 .sort-search-box {
     align-content: center;
-    padding: 20px 10px 0 ;
+    padding: 20px 10px 0;
     border: 1px solid rgba(0, 0, 0, 0.20);
 }
 
@@ -53,8 +54,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
+}
+
+.empty {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.empty p {
+    color: #667085;
+}
+
 
 @media screen and (max-width: 700px) {
 

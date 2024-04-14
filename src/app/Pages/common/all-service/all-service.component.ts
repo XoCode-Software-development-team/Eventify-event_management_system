@@ -1,3 +1,4 @@
+import { SliderComponent } from './../../../Components/slider/slider.component';
 import { SortComponent } from './../../../Components/sort/sort.component';
 import {
   Component,
@@ -18,6 +19,7 @@ import { ServiceService } from 'src/app/Services/service/service.service';
 })
 export class AllServiceComponent implements OnInit, OnChanges {
   @ViewChild('sort') SortComponent!: SortComponent;
+  @ViewChild('slider') SliderComponent!: SliderComponent;
   sortValue: any = '';
 
   constructor(private dialog: MatDialog, private _service: ServiceService) {}
@@ -155,19 +157,23 @@ export class AllServiceComponent implements OnInit, OnChanges {
     }
   }
 
+  i = 0;
+
   updateFilteredServices(
     priceFilteredServices: any[],
     categoryFilteredServices: any[]
   ) {
+    console.log(priceFilteredServices);
+    console.log(categoryFilteredServices);
     // If either array is empty, directly set services to the non-empty array
-    if (
-      priceFilteredServices.length === 0 ||
-      categoryFilteredServices.length === 0
-    ) {
-      this.services =
-        priceFilteredServices.length === 0
-          ? categoryFilteredServices
-          : priceFilteredServices;
+    if (priceFilteredServices.length === 0) {
+      if (this.i >= 4) {
+        this.services = [];
+      }
+      this.i++;
+      console.log(this.i);
+    } else if (categoryFilteredServices.length === 0) {
+      this.services = [];
     } else {
       // Apply category filtering to the price-filtered services
       const combinedFilteredServices = priceFilteredServices.filter((service) =>
@@ -176,12 +182,14 @@ export class AllServiceComponent implements OnInit, OnChanges {
         )
       );
 
+      console.log(combinedFilteredServices);
+
       // Apply sorting to the combined filtered services
       this.sortValue = this.SortComponent.sortValue();
       this.sorting(this.sortValue, combinedFilteredServices);
 
       // Update the services property with the combined filtered and sorted services
-      this.services = combinedFilteredServices;
+      // this.services = combinedFilteredServices;
     }
 
     this.isLoading = false;
