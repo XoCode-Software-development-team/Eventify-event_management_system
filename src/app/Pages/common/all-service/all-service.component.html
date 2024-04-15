@@ -7,7 +7,7 @@
     <div class="side" style="max-width: 280px;">
         <app-slider #slider [dataSource]="services" (priceFilteredDataSource)="priceFilter($event)"></app-slider>
         <app-category [dataSource]="services" (categoryFilterDataSource)="categoryFilter($event)" [CategoryList]="categories"></app-category>
-        <app-filter-rating></app-filter-rating>
+        <app-filter-rating [dataSource]="services" (rateFilteredDataSource)="rateFilter($event)"></app-filter-rating>
     </div>
     <div class="main">
         <div class="d-flex flex-row justify-content-between sort-search-box">

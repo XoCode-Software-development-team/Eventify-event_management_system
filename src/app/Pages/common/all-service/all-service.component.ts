@@ -2,9 +2,7 @@ import { SliderComponent } from './../../../Components/slider/slider.component';
 import { SortComponent } from './../../../Components/sort/sort.component';
 import {
   Component,
-  OnChanges,
   OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -17,7 +15,7 @@ import { ServiceService } from 'src/app/Services/service/service.service';
   templateUrl: './all-service.component.html',
   styleUrls: ['./all-service.component.scss'],
 })
-export class AllServiceComponent implements OnInit, OnChanges {
+export class AllServiceComponent implements OnInit {
   @ViewChild('sort') SortComponent!: SortComponent;
   @ViewChild('slider') SliderComponent!: SliderComponent;
   sortValue: any = '';
@@ -112,12 +110,12 @@ export class AllServiceComponent implements OnInit, OnChanges {
               : '../../../assets/defaultService.jpg',
         }));
         this.sortServices('sNameAZ');
-        this.isLoading = false;
       },
       error: (err: any) => {
         console.log(err);
       },
     });
+    this.isLoading = false;
   }
 
   getAllCategories() {
@@ -159,30 +157,29 @@ export class AllServiceComponent implements OnInit, OnChanges {
 
   i = 0;
 
-  updateFilteredServices(
-    priceFilteredServices: any[],
-    categoryFilteredServices: any[]
-  ) {
-    console.log(priceFilteredServices);
-    console.log(categoryFilteredServices);
+  updateFilteredServices() {
     // If either array is empty, directly set services to the non-empty array
-    if (priceFilteredServices.length === 0) {
-      if (this.i >= 4) {
+    console.log(this.rateFilteredServices);
+    console.log(this.categoryFilteredServices);
+    console.log(this.priceFilteredServices);
+    console.log(this.i);
+    this.i++;
+    if (this.categoryFilteredServices.length === 0) {
+      // this.services = [];
+    } else if (this.priceFilteredServices.length === 0) {
+      if (this.i > 7) {
         this.services = [];
       }
-      this.i++;
-      console.log(this.i);
-    } else if (categoryFilteredServices.length === 0) {
-      this.services = [];
+      // this.services = [];
+    } else if (this.rateFilteredServices.length === 0) {
+      // this.services = [];
     } else {
       // Apply category filtering to the price-filtered services
-      const combinedFilteredServices = priceFilteredServices.filter((service) =>
-        categoryFilteredServices.some(
-          (categoryService) => categoryService.soRId === service.soRId
-        )
-      );
+      let combinedFilteredServices = this.categoryFilteredServices
+        .filter((service) => this.priceFilteredServices.includes(service))
+        .filter((service) => this.rateFilteredServices.includes(service));
 
-      console.log(combinedFilteredServices);
+      // console.log(combinedFilteredServices);
 
       // Apply sorting to the combined filtered services
       this.sortValue = this.SortComponent.sortValue();
@@ -191,31 +188,31 @@ export class AllServiceComponent implements OnInit, OnChanges {
       // Update the services property with the combined filtered and sorted services
       // this.services = combinedFilteredServices;
     }
-
-    this.isLoading = false;
   }
-
-  ngOnChanges(changes: SimpleChanges): void {}
 
   categoryFilteredServices: any[] = [];
   priceFilteredServices: any[] = [];
+  rateFilteredServices: any[] = [];
 
   priceFilter(filteredServices: any[]) {
     this.isLoading = true;
     this.priceFilteredServices = filteredServices;
-    this.updateFilteredServices(
-      this.priceFilteredServices,
-      this.categoryFilteredServices
-    );
+    this.updateFilteredServices();
+    this.isLoading = false;
   }
 
   categoryFilter(filteredServices: any[]) {
     this.isLoading = true;
     this.categoryFilteredServices = filteredServices;
-    this.updateFilteredServices(
-      this.priceFilteredServices,
-      this.categoryFilteredServices
-    );
+    this.updateFilteredServices();
+    this.isLoading = false;
+  }
+
+  rateFilter(filteredServices: any[]) {
+    this.isLoading = true;
+    this.rateFilteredServices = filteredServices;
+    this.updateFilteredServices();
+    this.isLoading = false;
   }
 
   isLoading: boolean = false; // Flag to indicate loading state

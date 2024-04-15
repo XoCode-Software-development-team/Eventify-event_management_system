@@ -70,7 +70,7 @@ export class CategoryComponent implements OnChanges {
     this.dataSource = this.originalDataSource.filter((item) =>
       checkedCategoryIds.includes(item.categoryId)
     );
-    console.log(this.dataSource);
+    // console.log(this.dataSource);
     this.categoryFilterDataSource.emit(this.dataSource);
   }
 

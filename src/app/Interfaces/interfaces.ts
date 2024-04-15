@@ -63,3 +63,8 @@ export interface ExtendedCategory extends Category {
     rate:number,
     comment:string
   }
+
+  export interface Rating {
+    rate:number,
+    count:number
+  }

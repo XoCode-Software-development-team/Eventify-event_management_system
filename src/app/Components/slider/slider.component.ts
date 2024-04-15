@@ -34,6 +34,9 @@ export class SliderComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.originalDataSource.length === 0) {
+      this.originalDataSource = this.dataSource;
+    }
     if (this.priceModels.length === 0) {
       this.getPriceModel();
     }
@@ -44,10 +47,8 @@ export class SliderComponent implements OnChanges, OnInit {
   }
 
   getPriceModel() {
-    if (this.dataSource) {
       this._service.getPriceModelsList().subscribe({
         next: (res: any) => {
-          this.originalDataSource = [...this.dataSource];
           this.priceModels = res.map((item: any) => ({
             id: item.modelId,
             priceModelName: item.modelName,
@@ -58,8 +59,7 @@ export class SliderComponent implements OnChanges, OnInit {
           console.log('Error fetching price models:', err);
         },
       });
-    } else {
-    }
+
   }
 
   filterPriceModels(): void {
@@ -82,11 +82,10 @@ export class SliderComponent implements OnChanges, OnInit {
     });
 
     this.onPriceModelChange();
-
   }
 
   onPriceModelChange(): void {
-    console.log('Price model changed:', this.selectedPriceModel);
+    // console.log('Price model changed:', this.selectedPriceModel);
     // Update slider disable state
     this.priceModelSelected = this.selectedPriceModel !== 'All';
 
@@ -96,7 +95,7 @@ export class SliderComponent implements OnChanges, OnInit {
         (model) => model.id === parseInt(this.selectedPriceModel)
       );
 
-      console.log('Selected model:', this.selectedModel);
+      // console.log('Selected model:', this.selectedModel);
 
       if (this.selectedModel) {
         // Call getMaxPrice with the ID of the selected price model
@@ -105,7 +104,7 @@ export class SliderComponent implements OnChanges, OnInit {
       }
     } else {
       this.dataSource = [...this.originalDataSource];
-      console.log('Reset to original data:', this.dataSource);
+      // console.log('Reset to original data:', this.dataSource);
       this.priceFilteredDataSource.emit(this.dataSource);
     }
   }
@@ -114,19 +113,19 @@ export class SliderComponent implements OnChanges, OnInit {
     this.dataSource = this.originalDataSource.filter((service: any) => {
       return service.price.some((priceModel: any) => {
         const priceValue = priceModel.value; // Assuming the price value is stored in 'value'
-        console.log('min ' + this.minValue + ' max ' + this.maxValue);
+        // console.log('min ' + this.minValue + ' max ' + this.maxValue);
         const isInRange =
           priceValue >= this.minValue && priceValue <= this.maxValue;
-        console.log('Service:', service);
-        console.log('Price model:', priceModel);
-        console.log('Is in range:', isInRange);
+        // console.log('Service:', service);
+        // console.log('Price model:', priceModel);
+        // console.log('Is in range:', isInRange);
         return (
           priceModel.priceModelName === selectedModel.priceModelName &&
           isInRange
         );
       });
     });
-    console.log('Filtered data:', this.dataSource);
+    // console.log('Filtered data:', this.dataSource);
     this.priceFilteredDataSource.emit(this.dataSource);
   }
 
