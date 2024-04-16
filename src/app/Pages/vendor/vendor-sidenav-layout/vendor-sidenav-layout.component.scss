@@ -1,0 +1,44 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 112px;
+    margin: 0;
+    flex-grow: 1;
+
+}
+
+.side {
+
+    flex: 20%;
+    padding: 20px;
+}
+
+.main {
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+}
+
+
+@media screen and (max-width: 700px) {
+
+    .row,
+    .navbar {
+        flex-direction: column;
+    }
+
+    .header {
+        height: auto;
+    }
+
+    .icons, .row {
+        padding: 0 20px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    body {
+        margin: auto;
+    }
+
+}

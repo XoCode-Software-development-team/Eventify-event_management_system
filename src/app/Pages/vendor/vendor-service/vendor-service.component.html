@@ -28,7 +28,7 @@
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td class="action" mat-cell *matCellDef="let element">
                 <div class="edit">
-                    <a>Edit</a>
+                    <a routerLink="/vendor/updateService/{{element.soRId}}/{{element.service}}">Edit</a>
                 </div>
                 <span style="margin-left: 5px;"></span>
                 <div class="delete" [ngClass]="{'requestToDelete':element.isRequestToDelete}" mwlConfirmationPopover
@@ -42,11 +42,10 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}"></tr>
     </table>
 
-    <div class="empty" *ngIf="!dataSource || dataSource.length == 0">
-        <img src="../../../assets/common/No data.jpg" alt="no data found image">
-        <p>No available Services</p>
+    <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+        <p>No available services found</p>
     </div>
 </div>

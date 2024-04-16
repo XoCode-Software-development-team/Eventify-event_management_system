@@ -47,8 +47,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <div class="empty" *ngIf="!dataSource || dataSource.length == 0">
-        <img src="../../../assets/common/No data.jpg" alt="no data found image">
-        <p>No available Services</p>
+    <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+        <p>No available services found</p>
     </div>
 </div>

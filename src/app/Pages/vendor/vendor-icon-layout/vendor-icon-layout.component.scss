@@ -1,0 +1,19 @@
+.icons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 112px;
+}
+
+.left-side {
+    flex: 20%;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-side {
+    flex: 70%;
+    align-items: center;
+    margin: 0;
+}

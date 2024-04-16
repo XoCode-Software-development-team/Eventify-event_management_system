@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
@@ -12,7 +13,7 @@ export class VendorServiceComponent {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
   constructor(
-    private _service: ServiceService
+    private _service: ServiceService, private router: Router
   ) {}
 
   dataSource: string[] = [];

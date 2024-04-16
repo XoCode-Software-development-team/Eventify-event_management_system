@@ -14,6 +14,14 @@ import { HomeComponent } from './Pages/common/home/home.component';
 import { CommonLayoutComponent } from './Pages/common/common-layout/common-layout.component';
 import { LoginComponent } from './Pages/common/login/login.component';
 import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-password.component';
+import { VendorUpdateServiceComponent } from './Pages/vendor/vendor-update-service/vendor-update-service.component';
+import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
+import { ClientIconLayoutComponent } from './Pages/client/client-icon-layout/client-icon-layout.component';
+import { AdminIconLayoutComponent } from './Pages/admin/admin-icon-layout/admin-icon-layout.component';
+import { AdminSidenavLayoutComponent } from './Pages/admin/admin-sidenav-layout/admin-sidenav-layout.component';
+import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/vendor-icon-layout.component';
+import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
+import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
 
 const routes: Routes = [
   // {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -24,51 +32,68 @@ const routes: Routes = [
   {path: 'login', component:LoginComponent},
   {path: 'forgotPassword', component:ForgetPasswordComponent},
 
-
   {
     path:'',
     component:CommonLayoutComponent,
     children: [
-      {path: '', redirectTo: 'home', pathMatch: 'full'},
+      {path: '', component:CommonIconLayoutComponent,
+        children: [
+          {path: 'services', component:AllServiceComponent},
+          {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent}
+        ]
+      },
       {path: 'home', component:HomeComponent},
-      {path: 'services', component:AllServiceComponent},
-      {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent}
     ]
   },
-  // {
-  //   path: 'AllServices',
-  //   component: AllServiceComponent,
-  //   children: [
-  //     // {path: '',component: },
-  //     // {path: '',component: }
-  //   ]
-  // },
-  // {
-  //   path: 'allServices/service/:soRId/:name',
-  //   component: ServiceDetailsComponent,
-  //   children: [
-  //     // {path: '',component: },
-  //     // {path: '',component: }
-  //   ]
-  // },
+  {
+    path:'client',
+    component:ClientLayoutComponent,
+    children: [
+      {path: '', component:ClientIconLayoutComponent,
+        children: [
+          {path: 'services', component:AllServiceComponent},
+          {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent}
+        ]
+      },
+      {path: 'home', component:HomeComponent},
+    ]
+  },
   {
     path: 'vendor',
     component: VendorLayoutComponent,
     children: [
-      {path: '', redirectTo: 'allServices', pathMatch: 'full'},
-      {path: 'allServices',component: VendorServiceComponent},
-      {path: 'bookedServices',component: VendorBookedServicesComponent},
-      {path: 'bookingRequests',component: VendorBookingRequestsComponent},
-      {path: 'addNewService',component: VendorAddNewServiceComponent}
+      {path: '',component: VendorIconLayoutComponent,
+        children: [
+          {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent},
+          {path: '',component: VendorSidenavLayoutComponent,
+            children: [
+              {path: 'services',component: VendorServiceComponent},
+              {path: 'bookedServices',component: VendorBookedServicesComponent},
+              {path: 'bookingRequests',component: VendorBookingRequestsComponent},
+              {path: 'addNewService',component: VendorAddNewServiceComponent},
+              {path: 'updateService/:soRId/:name', component:VendorUpdateServiceComponent},
+            ]
+          },
+        ]
+      },
     ]
   },
   {
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      {path: '', redirectTo: 'allServices', pathMatch: 'full'},
-      {path: 'allServices',component: AdminServiceComponent},
-      {path: 'deleteRequests',component: AdminDeleteRequestComponent}
+      {path: 'home', component:HomeComponent},
+      {path: '',component: AdminIconLayoutComponent,
+        children: [
+          {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent},
+          {path: '',component: AdminSidenavLayoutComponent,
+            children: [
+              {path: 'services',component: AdminServiceComponent},
+              {path: 'deleteRequests',component: AdminDeleteRequestComponent},
+            ]
+          },
+        ]
+      },
     ]
   }
 ];

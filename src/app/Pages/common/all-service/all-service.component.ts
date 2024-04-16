@@ -20,7 +20,7 @@ export class AllServiceComponent implements OnInit {
   @ViewChild('slider') SliderComponent!: SliderComponent;
   sortValue: any = '';
 
-  constructor(private dialog: MatDialog, private _service: ServiceService) {}
+  constructor( private _service: ServiceService) {}
 
   // Paginator properties
   pageSize = 4;
@@ -45,32 +45,6 @@ export class AllServiceComponent implements OnInit {
     this.getAllCategories();
     this.getServices();
   }
-
-  navbar = [
-    {
-      Tag: 'All Services',
-      Url: 'allServices',
-    },
-    {
-      Tag: 'Delete Requests',
-      Url: 'deleteRequests',
-    },
-  ];
-
-  icons = [
-    {
-      Name: 'compare',
-      Url: '',
-    },
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: 'notification',
-    },
-  ];
 
   maxPrice: number = 0;
   categories: Category[] = [];
@@ -165,6 +139,9 @@ export class AllServiceComponent implements OnInit {
     console.log(this.i);
     this.i++;
     if (this.categoryFilteredServices.length === 0) {
+      if (this.i > 7) {
+        this.services = [];
+      }
       // this.services = [];
     } else if (this.priceFilteredServices.length === 0) {
       if (this.i > 7) {
@@ -172,6 +149,9 @@ export class AllServiceComponent implements OnInit {
       }
       // this.services = [];
     } else if (this.rateFilteredServices.length === 0) {
+      if (this.i > 7) {
+        this.services = [];
+      }
       // this.services = [];
     } else {
       // Apply category filtering to the price-filtered services
@@ -217,14 +197,4 @@ export class AllServiceComponent implements OnInit {
 
   isLoading: boolean = false; // Flag to indicate loading state
 
-  popUpNotification() {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.position = {
-      top: '170px',
-      left: '950px',
-    };
-
-    this.dialog.open(NotificationBoxComponent, dialogConfig);
-  }
 }

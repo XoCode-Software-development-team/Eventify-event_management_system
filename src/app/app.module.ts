@@ -47,11 +47,19 @@ import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-p
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
+import { VendorUpdateServiceComponent } from './Pages/vendor/vendor-update-service/vendor-update-service.component';
+import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
+import { ClientIconLayoutComponent } from './Pages/client/client-icon-layout/client-icon-layout.component';
+import { AdminIconLayoutComponent } from './Pages/admin/admin-icon-layout/admin-icon-layout.component';
+import { AdminSidenavLayoutComponent } from './Pages/admin/admin-sidenav-layout/admin-sidenav-layout.component';
+import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/vendor-icon-layout.component';
+import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
+import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent, EditProfileComponent, LoginComponent, NavBarComponent, HomeComponent, CommonLayoutComponent, ForgetPasswordComponent],
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent, EditProfileComponent, LoginComponent, NavBarComponent, HomeComponent, CommonLayoutComponent, ForgetPasswordComponent, VendorUpdateServiceComponent, ClientLayoutComponent, ClientIconLayoutComponent, AdminIconLayoutComponent, AdminSidenavLayoutComponent, VendorIconLayoutComponent, VendorSidenavLayoutComponent, CommonIconLayoutComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

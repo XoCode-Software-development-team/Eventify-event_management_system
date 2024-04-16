@@ -1,0 +1,12 @@
+.icons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 112px;
+}
+
+.right-side {
+    flex: 50%;
+    align-items: center;
+    margin: 0;
+}

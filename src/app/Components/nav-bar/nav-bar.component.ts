@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Button } from 'src/app/Interfaces/interfaces';
 
 @Component({
@@ -6,8 +6,19 @@ import { Button } from 'src/app/Interfaces/interfaces';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss']
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit {
   @Input() nav: any;
+  @Input() user: any;
+
+  ngOnInit(): void {
+      if (this.user) {
+        this.signUp.class = ['hide'];
+        this.login.class = ['hide'];
+      } else {
+        this.signUp.class = [''];
+        this.login.class = [''];
+      }
+  }
 
   signUp: Button = {
     url: 'signUp',

@@ -3,7 +3,7 @@
     <div class="d-flex flex-column">
         <div class="d-flex flex-row justify-content-between gap-4 m-2">
             <div>
-                <h4><a class="text-decoration-none" routerLink="/services/service/{{item.soRId}}/{{item.name}}">{{item.name}}</a></h4>
+                <h4><a class="text-decoration-none" routerLink="service/{{item.soRId}}/{{item.name}}">{{item.name}}</a></h4>
                 <p class="px-2">{{ item.rating.rate | number: '1.1-1' }}
                     <span style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5" [rate]="item.rating.rate"
                             [readonly]="true"></ngb-rating>

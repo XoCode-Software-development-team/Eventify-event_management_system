@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { TabCardComponent } from './../../../Components/tab-card/tab-card.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 
@@ -8,6 +9,7 @@ import { ServiceService } from 'src/app/Services/service/service.service';
   styleUrls: ['./admin-service.component.scss'],
 })
 export class AdminServiceComponent implements OnInit {
+  @ViewChild('tabCard') tabCardComponent !: TabCardComponent;
   constructor(
     private _service: ServiceService
   ) {}
@@ -32,7 +34,10 @@ export class AdminServiceComponent implements OnInit {
         this.dataSource = res;
       },
       error: (err: any) => {
-        console.log(err);
+        console.log(err.error);
+        if (err.error == 'not found') {
+          this.dataSource = [];
+        }
       },
     });
   }
@@ -67,6 +72,7 @@ export class AdminServiceComponent implements OnInit {
     this._service.deleteService(id).subscribe({
       next: (res: any) => {
           this.getServices(res);
+          this.tabCardComponent.ngOnInit();
       },
       error: (err: any) => {
         console.log(err);

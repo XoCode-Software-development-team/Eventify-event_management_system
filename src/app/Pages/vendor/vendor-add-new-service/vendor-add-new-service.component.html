@@ -1,5 +1,5 @@
 <div class="container-fluid mb-5">
-    <form class="example-form" [formGroup]="serviceForm" (ngSubmit)="saveForm()" (reset)="resetForm()">
+    <form class="example-form" [ngClass]="isLoading? 'changeBack' : null" [formGroup]="serviceForm" (ngSubmit)="saveForm($event)" (reset)="resetForm()">
 
         <h5 class="mb-4">1. Service Details</h5>
         <div class="part mb-5">
@@ -372,4 +372,8 @@
             <app-basic-button [button]="resetButton" *ngIf="serviceForm.dirty"></app-basic-button>
         </div>
     </form>
+    <div *ngIf="isLoading" class="spinner-container d-flex flex-column">
+        <p>Adding service</p>
+        <mat-spinner diameter="32"></mat-spinner>
+    </div>
 </div>

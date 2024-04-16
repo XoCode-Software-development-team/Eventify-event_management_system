@@ -6,29 +6,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-layout.component.scss'],
 })
 export class AdminLayoutComponent {
-  navbar = [
+  navList = [
     {
-      Tag: 'All Services',
-      Url: 'allServices',
+      text: "Home",
+      url: "home"
     },
     {
-      Tag: 'Delete Requests',
-      Url: 'deleteRequests',
+      text: "Service",
+      url: "services"
     },
-  ];
+    {
+      text: "Resource",
+      url: "resource"
+    },
+    {
+      text: "Users",
+      url: "users"
+    },
+  ]
 
-  icons = [
-    {
-      Name: 'compare',
-      Url: '',
-    },
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: '',
-    },
-  ];
 }

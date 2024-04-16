@@ -1,7 +1,7 @@
 <div class="container">
     <div *ngIf="categories && categories.length > 0">
         <h4 class="pb-3">All Service Categories</h4>
-        <app-tab-card [card]="categories" (childEvent)="getServices($event)"></app-tab-card>
+        <app-tab-card #tabCard [card]="categories" (childEvent)="getServices($event)"></app-tab-card>
     </div>
 </div>
 <div class="table">
@@ -53,11 +53,10 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" routerLink="/admin/services/service/{{element.soRId}}/{{element.service}"></tr>
     </table>
 
-    <div class="empty" *ngIf="!dataSource || dataSource.length == 0">
-        <img src="../../../assets/common/No data.jpg" alt="no data found image">
-        <p>No available Services</p>
+    <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+        <p>No available services found</p>
     </div>
 </div>

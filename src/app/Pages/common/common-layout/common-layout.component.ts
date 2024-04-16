@@ -24,9 +24,5 @@ export class CommonLayoutComponent {
       text: "Checklist",
       url: "checklist"
     },
-    {
-      text: "User guide",
-      url: "userGuide"
-    }
   ]
 }

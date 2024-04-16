@@ -1,11 +1,12 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Button, Category, FeatureAndFacility, PriceModel } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendor-add-new-service',
@@ -14,8 +15,9 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 })
 export class VendorAddNewServiceComponent implements OnInit {
 
-  constructor(private announcer: LiveAnnouncer, private _service: ServiceService, private fireStorage: AngularFireStorage) { }
+  constructor(private announcer: LiveAnnouncer, private _service: ServiceService, private fireStorage: AngularFireStorage, private _router: Router) { }
 
+  isLoading: boolean = false;
   categories: Category[] = [];
   pricingModels: PriceModel[] = [];
 
@@ -85,6 +87,10 @@ export class VendorAddNewServiceComponent implements OnInit {
   serviceForm! : FormGroup
 
   ngOnInit(): void {
+    window.onload = function() {
+      window.scrollTo(0, 0);
+  };
+  
     this.formHandle();
     this.getCategories();
     this.getPriceModels();
@@ -137,10 +143,9 @@ export class VendorAddNewServiceComponent implements OnInit {
     })
 
     this.serviceForm.valueChanges.subscribe(() => {
-      if (this.serviceForm.valid || true)
+      if (this.serviceForm.valid)
         this.saveButton.disable = false;
     });
-    
   }
 
   //add locations
@@ -190,7 +195,10 @@ export class VendorAddNewServiceComponent implements OnInit {
       return control;
     }
 
-  async saveForm() {
+  async saveForm(mouseEvent:MouseEvent) {
+    console.log(mouseEvent)
+    this.isLoading = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     //when submit the form add featuresAndFacilities array to serviceForm
     this.serviceForm.get('serviceFeatures')?.setValue(this.featuresAndFacilities);
 
@@ -202,10 +210,12 @@ export class VendorAddNewServiceComponent implements OnInit {
 
     console.log(this.serviceForm.value)
     this.addNewService(this.serviceForm.value);
-    this.resetForm();
+    location.reload();
+        this.isLoading = false;
   }
 
   resetForm() {
+    window.scrollTo({ top: 0, behavior:'smooth'});
     this.formHandle();
     this.serviceForm.reset();
     this.serviceForm.markAsUntouched();

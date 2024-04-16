@@ -64,13 +64,8 @@ th {
     width: 100%;
 }
 
-.empty img {
-    width: 50vh;
-}
-
 .empty p {
     color: #667085;
-    display: none;
 }
 
 
@@ -79,8 +74,8 @@ th {
         font-size: 12px;
     }
 
-    .eventdate,
-    .enddate {
+    .event-date,
+    .end-date {
         display: none;
     }
 

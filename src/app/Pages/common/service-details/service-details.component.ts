@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Button, ServiceDetails, FeatureAndFacility } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 
@@ -11,11 +11,10 @@ import { ServiceService } from 'src/app/Services/service/service.service';
 export class ServiceDetailsComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
-    private _service: ServiceService
+    private _service: ServiceService,
   ) {}
 
   isLoading: boolean = false; // Flag to indicate loading state
-
 
   soRId: number = 0;
 
@@ -25,30 +24,6 @@ export class ServiceDetailsComponent implements OnInit {
     });
     this.getServiceDetails();
   }
-
-  icons = [
-    {
-      Name: 'compare',
-      Url: '',
-    },
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: '',
-    },
-  ];
-
-  backButton: Button = {
-    icon: 'navigate_before',
-    text: 'Go back',
-    url: '/services',
-    class: ['btn2'],
-    type: 'button',
-    disable: false,
-  };
 
   compareButton = {
     url: '',
