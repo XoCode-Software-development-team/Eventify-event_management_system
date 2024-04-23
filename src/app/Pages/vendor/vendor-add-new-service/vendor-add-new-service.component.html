@@ -460,7 +460,7 @@
 
                 <!-- Custom dropzone for uploading images -->
                 <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event,imageFiles)"
-                    [expandable]="true" [disableClick]="this.imageFiles.length >= 5" [maxFileSize]="maxImageSize">
+                    [expandable]="true" [disableClick]="this.imageFiles.length >= 5" [maxFileSize]="maxImageSize" [multiple]="false">
                     <ngx-dropzone-label>
 
                         <div>
@@ -494,7 +494,7 @@
 
                 <!-- Custom dropzone for uploading videos -->
                 <div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onSelect($event,videoFiles)"
-                    [expandable]="true" [disableClick]="this.videoFiles.length >= 5" [maxFileSize]="maxVideoSize">
+                    [expandable]="true" [disableClick]="this.videoFiles.length >= 5" [maxFileSize]="maxVideoSize" [multiple]="false">
 
                     <ngx-dropzone-label>
                         <div class="">

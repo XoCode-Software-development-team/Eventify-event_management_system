@@ -183,7 +183,9 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
     // Enable update button when form is valid
     this.serviceForm.valueChanges.subscribe(() => {
-      if (this.serviceForm.valid) this.updateButton.disable = false;
+      if (this.serviceForm.valid) {
+        this.updateButton.disable = false;
+      }
     });
   }
 
@@ -238,6 +240,14 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
   // Submit form
   async updateForm(mouseEvent: MouseEvent) {
+
+    if (this.imageFiles.length < 5) {
+      alert("Minimum 5 images should upload");
+      return;
+    }
+    if (this.serviceForm.pristine && !this.updateImages && !this.updateVideos) {
+      return;
+    }
     console.log(mouseEvent);
     this.isLoading = true;
 
@@ -253,8 +263,10 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
       // Upload new images to firebase and get image Url
       await this.getFirebaseLink(this.imageFiles, this.imageUrls, 'images');
-      this.serviceForm.get('images')?.setValue(this.imageUrls);
     }
+
+    this.serviceForm.get('images')?.setValue(this.imageUrls);
+
 
     if (this.updateVideos) {
       // If video is edited delete current image from firebase
@@ -263,8 +275,9 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
       // Upload new videos to firebase and get video Url
       await this.getFirebaseLink(this.videoFiles, this.videoUrls, 'videos');
-      this.serviceForm.get('videos')?.setValue(this.videoUrls);
     }
+
+    this.serviceForm.get('videos')?.setValue(this.videoUrls);
 
     console.log(this.serviceForm.value);
 

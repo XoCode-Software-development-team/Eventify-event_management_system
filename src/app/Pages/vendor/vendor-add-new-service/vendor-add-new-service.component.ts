@@ -11,6 +11,7 @@ import {
 } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { delay, retry, timeInterval } from 'rxjs';
 
 @Component({
   selector: 'app-vendor-add-new-service',
@@ -220,11 +221,17 @@ export class VendorAddNewServiceComponent implements OnInit {
 
   // Submit form
   async saveForm(mouseEvent: MouseEvent) {
+    if (this.imageFiles.length < 5) {
+      alert("Minimum five images are needed.");
+      return
+    }
     console.log(mouseEvent);
     this.isLoading = true;
 
     //when submit the form add featuresAndFacilities array to serviceForm
-    this.serviceForm.get('serviceFeatures')?.setValue(this.featuresAndFacilities);
+    this.serviceForm
+      .get('serviceFeatures')
+      ?.setValue(this.featuresAndFacilities);
 
     // Upload images and videos to Firebase Storage and set URLs in form
     await this.getFirebaseLink(this.imageFiles, this.imageUrls, 'images');
@@ -236,7 +243,17 @@ export class VendorAddNewServiceComponent implements OnInit {
     console.log(this.serviceForm.value);
     // Add new service using service
     this.addNewService(this.serviceForm.value);
+
+    // Wait for 2 seconds
+    await this.delay(2000);
+
     location.reload(); // Reload the page
+    this.isLoading = false;
+  }
+
+  // Wait some time
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   // Reset form to initial state
@@ -306,9 +323,7 @@ export class VendorAddNewServiceComponent implements OnInit {
     this._service.addNewService(this.vendorId, formData).subscribe({
       next: (res: any) => {
         console.log(res);
-        if (true) {
-          window.alert("Form submit successfully");
-        }
+        alert('Service Added Successfully');
       },
       error: (err: any) => {
         console.log(err);

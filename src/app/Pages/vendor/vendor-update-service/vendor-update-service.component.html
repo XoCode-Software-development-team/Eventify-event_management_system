@@ -124,7 +124,7 @@
                                 matTooltip="Maximum capacity should have grater than 0 and a integer value.">info</mat-icon>
 
                             <mat-icon matSuffix style="color: green;"
-                                *ngIf="serviceForm.get('serviceMaxCapacity')?.valid && serviceForm.get('serviceMaxCapacity')?.touched">check_circle</mat-icon>
+                                *ngIf="serviceForm.get('serviceMaxCapacity')?.valid">check_circle</mat-icon>
 
                             <mat-hint
                                 *ngIf="serviceForm.get('serviceMaxCapacity')?.invalid && serviceForm.get('serviceMaxCapacity')?.touched">
@@ -175,7 +175,7 @@
                         *ngIf="serviceForm.get('serviceFeatures')?.invalid && serviceForm.get('serviceFeatures')?.touched"
                         matTooltip="You can add features and Facilities you provide.">info</mat-icon>
                     <mat-icon matSuffix style="color: green;"
-                        *ngIf="serviceForm.get('serviceFeatures')?.valid && serviceForm.get('serviceFeatures')?.touched">check_circle</mat-icon>
+                        *ngIf="serviceForm.get('serviceFeatures')?.valid">check_circle</mat-icon>
 
                 </mat-form-field>
             </div>
@@ -215,7 +215,7 @@
                                         matTooltip="Country is required.">info</mat-icon>
 
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','country')?.valid && getArrayControls(i,'serviceLocations','country')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,'serviceLocations','country')?.valid">check_circle</mat-icon>
 
                                     <mat-hint
                                         *ngIf="getArrayControls(i,'serviceLocations','country')?.invalid && getArrayControls(i,'serviceLocations','country')?.touched">
@@ -239,7 +239,7 @@
                                         *ngIf="getArrayControls(i,'serviceLocations','stateProvinceRegion')?.invalid && getArrayControls(i,'serviceLocations','stateProvinceRegion')?.touched"
                                         matTooltip="You can add state, province, region.">info</mat-icon>
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','stateProvinceRegion')?.valid && getArrayControls(i,'serviceLocations','stateProvinceRegion')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,'serviceLocations','stateProvinceRegion')?.valid">check_circle</mat-icon>
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -259,7 +259,7 @@
                                         matTooltip="You can add city, town or area.">info</mat-icon>
 
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.valid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.valid">check_circle</mat-icon>
                                 </mat-form-field>
                             </td>
 
@@ -276,7 +276,7 @@
                                         matTooltip="Country is required.">info</mat-icon>
 
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','district')?.valid && getArrayControls(i,'serviceLocations','district')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,'serviceLocations','district')?.valid">check_circle</mat-icon>
 
                                     <mat-hint
                                         *ngIf="getArrayControls(i,'serviceLocations','district')?.invalid && getArrayControls(i,'serviceLocations','district')?.touched">
@@ -306,7 +306,7 @@
                                         matTooltip="This field is required and must have maximum 200 characters.">info</mat-icon>
 
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.valid && getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.valid">check_circle</mat-icon>
 
                                     <mat-hint
                                         *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.invalid && getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.touched">
@@ -363,7 +363,7 @@
                                     matTooltip="Package name is required.">info</mat-icon>
 
                                 <mat-icon matSuffix style="color: green;"
-                                    *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.valid && getArrayControls(i,'servicePricePackages','packageName')?.touched">check_circle</mat-icon>
+                                    *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.valid">check_circle</mat-icon>
 
                                 <mat-hint
                                     *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.invalid && getArrayControls(i,'servicePricePackages','packageName')?.touched">
@@ -389,7 +389,7 @@
                                     matTooltip="Pricing model is required.">info</mat-icon>
 
                                 <mat-icon matSuffix style="color: green;"
-                                    *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.valid && getArrayControls(i,'servicePricePackages','priceModel')?.touched">check_circle</mat-icon>
+                                    *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.valid">check_circle</mat-icon>
 
                                 <mat-hint
                                     *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.invalid && getArrayControls(i,'servicePricePackages','priceModel')?.touched">
@@ -406,7 +406,7 @@
                         <td class="w-100"><mat-form-field class="form-field" appearance="outline">
                                 <mat-label>Base price</mat-label>
 
-                                <span matTextPrefix>Rs:&nbsp;</span>
+                                <span *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.touched" matTextPrefix>Rs:&nbsp;</span>
 
                                 <!-- Input field for base price -->
                                 <input matInput type="number" formControlName="basePrice" placeholder="Add base price"
@@ -418,7 +418,7 @@
                                     matTooltip="Base price is required.">info</mat-icon>
 
                                 <mat-icon matSuffix style="color: green;"
-                                    *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.valid && getArrayControls(i,'servicePricePackages','basePrice')?.touched">check_circle</mat-icon>
+                                    *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.valid">check_circle</mat-icon>
 
                                 <mat-hint
                                     *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.invalid && getArrayControls(i,'servicePricePackages','basePrice')?.touched">
@@ -460,7 +460,7 @@
 
                 <!-- Custom dropzone for uploading images -->
                 <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event,imageFiles)"
-                    [expandable]="true" [disableClick]="this.imageFiles.length >= 5" [maxFileSize]="maxImageSize">
+                    [expandable]="true" [disableClick]="this.imageFiles.length >= 5" [maxFileSize]="maxImageSize" [multiple]="false">
                     <ngx-dropzone-label>
 
                         <div>
@@ -494,7 +494,7 @@
 
                 <!-- Custom dropzone for uploading videos -->
                 <div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onSelect($event,videoFiles)"
-                    [expandable]="true" [disableClick]="this.videoFiles.length >= 5" [maxFileSize]="maxVideoSize">
+                    [expandable]="true" [disableClick]="this.videoFiles.length >= 5" [maxFileSize]="maxVideoSize" [multiple]="false">
 
                     <ngx-dropzone-label>
                         <div class="">
