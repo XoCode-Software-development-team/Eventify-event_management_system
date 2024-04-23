@@ -1,8 +1,10 @@
+/* Styles for the footer section */
 .footer {
     position: relative;
     margin-top: auto;
 }
 
+/* Host styles for the component */
 :host {
     display: flex;
     flex-direction: column;

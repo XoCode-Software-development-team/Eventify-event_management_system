@@ -6,15 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-icon-layout.component.scss']
 })
 export class AdminIconLayoutComponent {
-
+  // Array of icons for admin layout
   icons = [
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: '',
-    },
+    { Name: 'chat_bubble_outline', Url: '' }, // Chat icon
+    { Name: 'notifications_none', Url: '' } // Notification icon
   ];
 }

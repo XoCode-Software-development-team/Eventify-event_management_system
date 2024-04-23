@@ -1,15 +1,18 @@
+/* Apply border-box sizing to all elements */
 * {
     box-sizing: border-box;
 }
 
+/* Flexbox layout for rows */
 .row {
     display: flex;
     flex-wrap: wrap;
-    padding: 0 112px;
-    margin: 0;
-    flex-grow: 1;
+    padding: 0 112px; /* Adjust padding */
+    margin: 0; /* Reset margin */
+    flex-grow: 1; /* Allow flex items to grow */
 }
 
+/* Left and right sections take 50% of the row */
 .left {
     flex-basis: 50%;
 }
@@ -18,10 +21,12 @@
     flex-basis: 50%;
 }
 
+/* Disable mouse interaction for mat-chip-option */
 .disable-mouse-interaction mat-chip-option {
     pointer-events: none;
 }
 
+/* Spinner container */
 .spinner-container {
     position: absolute;
     width: 100%;
@@ -32,35 +37,4 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-@media screen and (max-width: 700px) {
-
-    .row,
-    .navbar {
-        flex-direction: column;
-    }
-
-    .header {
-        height: auto;
-    }
-
-    .icons,
-    .row {
-        padding: 0 20px;
-    }
-}
-
-.footer {
-    position: relative;
-    margin-top: auto;
-}
-
-
-@media screen and (max-width: 450px) {
-
-    body {
-        margin: auto;
-    }
-
 }

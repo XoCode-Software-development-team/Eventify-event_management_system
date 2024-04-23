@@ -6,27 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./client-layout.component.scss']
 })
 export class ClientLayoutComponent {
-
+  // Navigation list of client
   navList = [
-    {
-      text: "Home",
-      url: "home"
-    },
-    {
-      text: "Service",
-      url: "services"
-    },
-    {
-      text: "Resource",
-      url: "resource"
-    },
-    {
-      text: "Event",
-      url: "event"
-    },
-    {
-      text: "Dashboard",
-      url: "dashboard"
-    }
-  ]
+    { text: "Home", url: "home" },
+    { text: "Service", url: "services" },
+    { text: "Resource", url: "resource" },
+    { text: "Event", url: "event" },
+    { text: "Dashboard", url: "dashboard" }
+  ];
 }

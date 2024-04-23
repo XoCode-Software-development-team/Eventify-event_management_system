@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
@@ -13,14 +12,14 @@ export class VendorServiceComponent {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
   constructor(
-    private _service: ServiceService, private router: Router
+    private _service: ServiceService
   ) {}
 
   dataSource: string[] = [];
 
   categories: Category[] = [];
 
-  vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee";
+  vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee"; // Vendor Id (temporary)
 
   ngOnInit(): void {
     this.getCategories(this.vendorId);
@@ -32,6 +31,7 @@ export class VendorServiceComponent {
     'Action',
   ];
 
+  // Function to retrieve services based on category
   getServices(categoryId: string) {
     this._service.getVendorServiceListByCategory(categoryId,this.vendorId).subscribe({
       next: (res: any) => {
@@ -44,6 +44,7 @@ export class VendorServiceComponent {
     });
   }
 
+  // Function to retrieve categories
   getCategories(id: string) {
     this._service.getCategoriesListByVendor(id).subscribe({
       next: (res: any) => {
@@ -58,6 +59,7 @@ export class VendorServiceComponent {
     });
   }
 
+  // Function to initiate service deletion request
   deleteService(id: string) {
     this._service.RequestToDelete(id).subscribe({
       next: (res: any) => {

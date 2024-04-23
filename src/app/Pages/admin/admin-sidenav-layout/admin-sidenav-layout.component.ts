@@ -6,14 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-sidenav-layout.component.scss']
 })
 export class AdminSidenavLayoutComponent {
+  // Left side navigation tabs of admin in service section
   navbar = [
-    {
-      Tag: 'All Services',
-      Url: 'services',
-    },
-    {
-      Tag: 'Delete Requests',
-      Url: 'deleteRequests',
-    },
+    { Tag: 'All Services', Url: 'services/all' },
+    { Tag: 'Delete Requests', Url: 'services/deleteRequests' }
   ];
 }

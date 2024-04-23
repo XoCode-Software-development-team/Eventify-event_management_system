@@ -5,34 +5,26 @@ import { NotificationBoxComponent } from 'src/app/Components/notification-box/no
 @Component({
   selector: 'app-common-icon-layout',
   templateUrl: './common-icon-layout.component.html',
-  styleUrls: ['./common-icon-layout.component.scss']
+  styleUrls: ['./common-icon-layout.component.scss'],
 })
 export class CommonIconLayoutComponent {
   constructor(private dialog: MatDialog) {}
 
+  // Array containing icon data
   icons = [
-    {
-      Name: 'compare',
-      Url: '',
-    },
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: 'notification',
-    },
+    { Name: 'compare', Url: '' }, // Icon for comparison
+    { Name: 'chat_bubble_outline', Url: '' }, // Icon for chat
+    { Name: 'notifications_none', Url: 'notification' }, // Icon for notifications
   ];
 
+  // Open notification dialog
   popUpNotification() {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.position = {
-      top: '170px',
-      left: '950px',
-    };
+    // Set dialog position
+    dialogConfig.position = { top: '170px', left: '950px' };
 
+    // Open notification dialog
     this.dialog.open(NotificationBoxComponent, dialogConfig);
   }
 }

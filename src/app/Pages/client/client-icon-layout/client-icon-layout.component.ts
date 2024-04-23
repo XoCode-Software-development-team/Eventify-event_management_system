@@ -11,29 +11,17 @@ export class ClientIconLayoutComponent {
 
   constructor(private dialog: MatDialog) {}
 
+  // Array of icons to be displayed
   icons = [
-    {
-      Name: 'compare',
-      Url: '',
-    },
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: 'notification',
-    },
+    { Name: 'compare', Url: '' }, // Compare icon
+    { Name: 'chat_bubble_outline', Url: '' }, // Chat icon
+    { Name: 'notifications_none', Url: 'notification' } // Notification icon
   ];
 
+  // Function to open notification dialog
   popUpNotification() {
     const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.position = {
-      top: '170px',
-      left: '950px',
-    };
-
+    dialogConfig.position = { top: '170px', left: '950px' };
     this.dialog.open(NotificationBoxComponent, dialogConfig);
   }
 }

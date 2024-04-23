@@ -1,37 +1,51 @@
-import { SliderComponent } from './../../../Components/slider/slider.component';
-import { SortComponent } from './../../../Components/sort/sort.component';
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
+
 import { Category, servicesCard } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
+import { SliderComponent } from './../../../Components/slider/slider.component';
+import { SortComponent } from './../../../Components/sort/sort.component';
 
 @Component({
   selector: 'app-all-service',
   templateUrl: './all-service.component.html',
   styleUrls: ['./all-service.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush, // Improve performance using OnPush strategy
 })
 export class AllServiceComponent implements OnInit {
-  @ViewChild('sort') SortComponent!: SortComponent;
-  @ViewChild('slider') SliderComponent!: SliderComponent;
-  sortValue: any = '';
+  // Variables
+  pageSize = 4; // Number of services per page
+  currentPage = 0; // Current page number
+  isLoading: boolean = false; // Flag to indicate loading state
+  maxPrice: number = 0; // Maximum price of services
+  categories: Category[] = []; // Array to hold service categories
+  services: servicesCard[] = []; // Array to hold service data
+  i = 0; // Counter for filtering
 
-  constructor( private _service: ServiceService) {}
+  // ViewChild references
+  @ViewChild('sort') SortComponent!: SortComponent; // Reference to SortComponent
+  @ViewChild('slider') SliderComponent!: SliderComponent; // Reference to SliderComponent
+  sortValue: any = ''; // Holds the current sorting value
 
-  // Paginator properties
-  pageSize = 4;
-  currentPage = 0;
+  constructor(private _service: ServiceService) {}
+
+  ngOnInit(): void {
+    // Load categories and services on component initialization
+    this.getAllCategories();
+    this.getServices();
+  }
 
   // Function to handle page change event
   onPageChange(event: any) {
-    this.currentPage = event.pageIndex;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.currentPage = event.pageIndex; // Update current page number
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of the page
   }
 
+  // Function to get paged services based on current page
   getPagedServices(): servicesCard[] {
     if (this.services.length > this.pageSize) {
       const startIndex = this.currentPage * this.pageSize;
@@ -40,16 +54,6 @@ export class AllServiceComponent implements OnInit {
     }
     return this.services;
   }
-
-  ngOnInit(): void {
-    this.getAllCategories();
-    this.getServices();
-  }
-
-  maxPrice: number = 0;
-  categories: Category[] = [];
-
-  services: servicesCard[] = [];
 
   // Function to truncate text and add "..." if it exceeds the maximum length
   truncateText(text: string | null | undefined, maxLength: number): string {
@@ -62,11 +66,13 @@ export class AllServiceComponent implements OnInit {
     }
   }
 
+  // Function to retrieve services from the service
   getServices() {
-    this.isLoading = true;
+    this.isLoading = true; // Set loading state to true
 
     this._service.getServicesForClients().subscribe({
       next: (res: any) => {
+        // Map received services data to local services array
         this.services = res.map((item: any) => ({
           soRId: item.soRId,
           categoryId: item.categoryId,
@@ -83,18 +89,25 @@ export class AllServiceComponent implements OnInit {
               ? item.images[0]
               : '../../../assets/defaultService.jpg',
         }));
+
+        // Sort services after retrieval
         this.sortServices('sNameAZ');
       },
       error: (err: any) => {
         console.log(err);
       },
+      complete: () => {
+        // Set loading state to false once services are loaded
+        this.isLoading = false;
+      },
     });
-    this.isLoading = false;
   }
 
+  // Function to retrieve all categories
   getAllCategories() {
     this._service.getCategoriesList().subscribe({
       next: (res: any) => {
+        // Map received category data to local categories array
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
           categoryName: item.serviceCategoryName,
@@ -106,16 +119,19 @@ export class AllServiceComponent implements OnInit {
     });
   }
 
+  // Function to sort services based on selected criteria
   sortServices(sortBy: string) {
-    this.isLoading = true;
+    this.isLoading = true; // Set loading state to true
+
     // Copy original services array to maintain data integrity
     this.sorting(sortBy, this.services);
 
-    this.isLoading = false;
+    this.isLoading = false; // Set loading state to false
   }
 
+  // Function to perform sorting
   sorting(sortBy: string, sortingList: any[]) {
-    this.services = [...sortingList];
+    this.services = [...sortingList]; // Copy the sorting list
 
     // Apply sorting based on selected sort criteria
     if (sortBy === 'sNameAZ') {
@@ -129,72 +145,55 @@ export class AllServiceComponent implements OnInit {
     }
   }
 
-  i = 0;
-
+  // Function to update services based on applied filters
   updateFilteredServices() {
-    // If either array is empty, directly set services to the non-empty array
-    console.log(this.rateFilteredServices);
-    console.log(this.categoryFilteredServices);
-    console.log(this.priceFilteredServices);
-    console.log(this.i);
-    this.i++;
-    if (this.categoryFilteredServices.length === 0) {
+    this.i++; // Increment the filter counter
+    if (
+      this.categoryFilteredServices.length === 0 ||
+      this.priceFilteredServices.length === 0 ||
+      this.rateFilteredServices.length === 0
+    ) {
       if (this.i > 7) {
-        this.services = [];
+        this.services = []; // If any filter is empty, clear the services array
       }
-      // this.services = [];
-    } else if (this.priceFilteredServices.length === 0) {
-      if (this.i > 7) {
-        this.services = [];
-      }
-      // this.services = [];
-    } else if (this.rateFilteredServices.length === 0) {
-      if (this.i > 7) {
-        this.services = [];
-      }
-      // this.services = [];
     } else {
       // Apply category filtering to the price-filtered services
       let combinedFilteredServices = this.categoryFilteredServices
         .filter((service) => this.priceFilteredServices.includes(service))
         .filter((service) => this.rateFilteredServices.includes(service));
 
-      // console.log(combinedFilteredServices);
-
       // Apply sorting to the combined filtered services
-      this.sortValue = this.SortComponent.sortValue();
+      this.sortValue = this.SortComponent.sortValue(); // Get the sorting value from SortComponent
       this.sorting(this.sortValue, combinedFilteredServices);
-
-      // Update the services property with the combined filtered and sorted services
-      // this.services = combinedFilteredServices;
     }
   }
 
+  // Arrays to hold filtered services
   categoryFilteredServices: any[] = [];
   priceFilteredServices: any[] = [];
   rateFilteredServices: any[] = [];
 
+  // Function to filter services by price
   priceFilter(filteredServices: any[]) {
-    this.isLoading = true;
-    this.priceFilteredServices = filteredServices;
-    this.updateFilteredServices();
-    this.isLoading = false;
+    this.isLoading = true; // Set loading state to true
+    this.priceFilteredServices = filteredServices; // Set the price-filtered services
+    this.updateFilteredServices(); // Update the filtered services
+    this.isLoading = false; // Set loading state to false
   }
 
+  // Function to filter services by category
   categoryFilter(filteredServices: any[]) {
-    this.isLoading = true;
-    this.categoryFilteredServices = filteredServices;
-    this.updateFilteredServices();
-    this.isLoading = false;
+    this.isLoading = true; // Set loading state to true
+    this.categoryFilteredServices = filteredServices; // Set the category-filtered services
+    this.updateFilteredServices(); // Update the filtered services
+    this.isLoading = false; // Set loading state to false
   }
 
+  // Function to filter services by rate
   rateFilter(filteredServices: any[]) {
-    this.isLoading = true;
-    this.rateFilteredServices = filteredServices;
-    this.updateFilteredServices();
-    this.isLoading = false;
+    this.isLoading = true; // Set loading state to true
+    this.rateFilteredServices = filteredServices; // Set the rate-filtered services
+    this.updateFilteredServices(); // Update the filtered services
+    this.isLoading = false; // Set loading state to false
   }
-
-  isLoading: boolean = false; // Flag to indicate loading state
-
 }

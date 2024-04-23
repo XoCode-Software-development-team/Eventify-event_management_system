@@ -1,9 +1,14 @@
 <div class="icons">
+    <!-- Left side -->
     <div class="left-side d-flex align-items-center">
+        <!-- Basic button component -->
         <app-basic-button [button]="button"></app-basic-button>
     </div>
+    <!-- Right side icons -->
     <div class="right-side">
+        <!-- Navigation icon component -->
         <app-nav-icon [iconList]="icons"></app-nav-icon>
     </div>
 </div>
+<!-- Router outlet for dynamic component rendering -->
 <router-outlet></router-outlet>

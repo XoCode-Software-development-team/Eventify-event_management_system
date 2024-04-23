@@ -1,36 +1,40 @@
 <div class="container">
+    <!-- Container for service categories -->
     <div *ngIf="categories && categories.length > 0">
+        <!-- Check if categories exist -->
         <h4 class="pb-3">Service Categories</h4>
+        <!-- Display service categories using tab card component -->
         <app-tab-card #tabCard [card]="categories" (childEvent)="getServices($event)"></app-tab-card>
     </div>
 </div>
+
 <div class="table">
+    <!-- Table for displaying service data -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
         *ngIf="dataSource && dataSource.length > 0">
+        <!-- Define columns -->
         <ng-container matColumnDef="No">
+            <!-- Column for serial number -->
             <th mat-header-cell *matHeaderCellDef>No</th>
             <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Service">
+            <!-- Column for service name with router link -->
             <th mat-header-cell *matHeaderCellDef>Service</th>
-            <td mat-cell *matCellDef="let element">{{element.service}}</td>
+            <td mat-cell *matCellDef="let element" routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}}">{{element.service}}</td>
         </ng-container>
 
-        <!-- <ng-container matColumnDef="Availability">
-            <th mat-header-cell *matHeaderCellDef class="availability">Availability</th>
-            <td mat-cell *matCellDef="let element" class="check-icon availability">
-                {{element.isAvailable? 'Not booked' : 'Booked'}}
-            </td>
-        </ng-container> -->
-
         <ng-container matColumnDef="Action">
+            <!-- Column for actions -->
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td class="action" mat-cell *matCellDef="let element">
+                <!-- Edit button -->
                 <div class="edit">
-                    <a routerLink="/vendor/updateService/{{element.soRId}}/{{element.service}}">Edit</a>
+                    <a routerLink="/vendor/services/updateService/{{element.soRId}}/{{element.service}}">Edit</a>
                 </div>
                 <span style="margin-left: 5px;"></span>
+                <!-- Delete button with confirmation popover -->
                 <div class="delete" [ngClass]="{'requestToDelete':element.isRequestToDelete}" mwlConfirmationPopover
                     Confirmation="Service Delete confirmation"
                     popoverMessage="{{element.isRequestToDelete ? 'Do you really want to stop delete?' : 'Do you really want to delete?'}}"
@@ -41,10 +45,12 @@
             </td>
         </ng-container>
 
+        <!-- Define header and row -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
+    <!-- Display message when no services available -->
     <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
         <p>No available services found</p>
     </div>

@@ -1,12 +1,14 @@
+/* Container for icons */
 .icons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 0 112px;
+    padding: 0 112px; /* Horizontal padding */
 }
 
+/* Right side of the container */
 .right-side {
-    flex: 50%;
+    flex: 50%; /* Half of the container width */
     align-items: center;
-    margin: 0;
+    margin: 0; /* Remove default margin */
 }

@@ -6,18 +6,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./vendor-sidenav-layout.component.scss']
 })
 export class VendorSidenavLayoutComponent {
+  // Navigation bar of vendor
   navbar = [
     {
       Tag: 'All Services',
-      Url: 'services',
+      Url: 'services/all',
     },
     {
       Tag: 'Booked Services',
-      Url: 'bookedServices',
+      Url: 'services/bookedServices',
     },
     {
       Tag: 'Booking Requests',
-      Url: 'bookingRequests',
+      Url: 'services/bookingRequests',
     }
   ];
 }

@@ -6,23 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-layout.component.scss'],
 })
 export class AdminLayoutComponent {
+  // Navigation links for the admin dashboard
   navList = [
-    {
-      text: "Home",
-      url: "home"
-    },
-    {
-      text: "Service",
-      url: "services"
-    },
-    {
-      text: "Resource",
-      url: "resource"
-    },
-    {
-      text: "Users",
-      url: "users"
-    },
-  ]
-
+    { text: "Home", url: "home" },
+    { text: "Service", url: "services/all" },
+    { text: "Resource", url: "resource" },
+    { text: "Users", url: "users" },
+  ];
 }

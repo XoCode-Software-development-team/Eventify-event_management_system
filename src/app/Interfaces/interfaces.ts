@@ -44,9 +44,11 @@ export interface ExtendedCategory extends Category {
       companyName:string
     },
     capacity:number,
+    serviceCategory:string,
     description:string,
-    reviewAndRating: reviewAndRating[],
+    reviewAndRating: ReviewAndRating[],
     featureAndFacility:string[],
+    location: Location[]
     price: Price[],
     images: string[]
     videos: string[]
@@ -55,9 +57,19 @@ export interface ExtendedCategory extends Category {
   interface Price {
     value: number;
     model: string;
+    modelId: string;
+    name: string;
   }
 
-  interface reviewAndRating {
+  interface Location {
+    houseNo: string,
+    area: string,
+    district: string,
+    country: string,
+    state: string
+  }
+
+  interface ReviewAndRating {
     avatar:string,
     name:string,
     rate:number,

@@ -1,8 +1,11 @@
 <div class="row mb-5 w-100">
+    <!-- Spinner container displayed when loading -->
     <div *ngIf="isLoading" class="spinner-container">
         <mat-spinner diameter="32"></mat-spinner>
     </div>
+    <!-- Service details displayed when not loading -->
     <div *ngIf="!isLoading">
+        <!-- Title and action buttons -->
         <div class="d-flex flex-row justify-content-between my-4 mb-5">
             <h1>{{serviceDetails.name}}</h1>
             <div class="d-flex flex-row justify-content-between gap-3">
@@ -10,16 +13,20 @@
                 <app-primary-button [button]="followButton"></app-primary-button>
             </div>
         </div>
+        <!-- Service details content -->
         <div class="d-flex flex-row justify-content-between gap-4">
+            <!-- Left section with images -->
             <div class="left">
                 <app-image-view [images]="serviceDetails.images"></app-image-view>
             </div>
+            <!-- Right section with service information -->
             <div class="right">
+                <!-- Vendor information and action button -->
                 <div class="d-flex justify-content-between gap-5">
-                    <p class="fs-2">from {{serviceDetails.vendor.companyName}}
-                    </p>
+                    <p class="fs-2">from {{serviceDetails.vendor.companyName}}</p>
                     <app-primary-button [button]="chatButton"></app-primary-button>
                 </div>
+                <!-- Price, capacity, and description -->
                 <div class="d-flex gap-4 col-9">
                     <div *ngFor="let item of serviceDetails.price">
                         <p>${{item.value}}/{{item.model}}</p>
@@ -28,28 +35,34 @@
                     <p>{{serviceDetails.capacity}} Max Capacity</p>
                 </div>
                 <p class="col-9">{{serviceDetails.description}}</p>
+                <!-- Features and facilities -->
                 <div class="d-flex gap-2 flex-row">
-                    <p *ngFor="let item of serviceDetails.featureAndFacility" mat-chip class="">{{item}}</p> 
+                    <p *ngFor="let item of serviceDetails.featureAndFacility" mat-chip class="">{{item}}</p>
                 </div>
+                <!-- Button to book the service -->
                 <app-secondary-button [button]="bookButton"></app-secondary-button>
             </div>
         </div>
+        <!-- Videos section -->
         <div *ngIf="serviceDetails.videos != null && serviceDetails.videos.length>0">
             <h5 class="my-4">Videos</h5>
             <div class="d-flex col-4">
                 <div class="container d-flex gap-4">
-                    <video style="border-radius: 6px; max-height: 40vh;" *ngFor="let video of serviceDetails.videos" controls class="w-100" [src]="video" type="video/mp4">
+                    <!-- Display videos if available -->
+                    <video style="border-radius: 6px; max-height: 40vh;" *ngFor="let video of serviceDetails.videos"
+                        controls class="w-100" [src]="video" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </div>
         </div>
+        <!-- Reviews section -->
         <div *ngIf="serviceDetails.reviewAndRating != null && serviceDetails.reviewAndRating.length>0">
             <h5 class="my-4">User reviews</h5>
             <div>
+                <!-- Display review cards -->
                 <app-review-card [review]="serviceDetails.reviewAndRating"></app-review-card>
             </div>
         </div>
     </div>
-   
 </div>

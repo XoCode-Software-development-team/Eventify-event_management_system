@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 
@@ -7,18 +7,16 @@ import { ServiceService } from 'src/app/Services/service/service.service';
   templateUrl: './vendor-booked-services.component.html',
   styleUrls: ['./vendor-booked-services.component.scss'],
 })
-export default class VendorBookedServicesComponent {
+export default class VendorBookedServicesComponent implements OnInit {
 
-  constructor(private _service: ServiceService) {
-    
-  }
+  constructor(private _service: ServiceService) { }
 
-  dataSource = []
+  dataSource = []; // Data source for the table
 
-  categories: Category[] = [];
+  categories: Category[] = []; // Array to store service categories
 
   ngOnInit(): void {
-    this.getCategories();
+    this.getCategories(); // Fetch categories on component initialization
   }
 
   displayedColumns: string[] = [
@@ -26,12 +24,16 @@ export default class VendorBookedServicesComponent {
     'Service',
     'Event Date',
     'End Date',
-  ];
+  ]; // Columns to be displayed in the table
 
+  /**
+   * Fetches booked services based on the category ID
+   * @param categoryId The ID of the category
+   */
   getServices(categoryId: string) {
-    this._service.getBookedServicesOfVendor(categoryId,this.vendorId).subscribe({
+    this._service.getBookedServicesOfVendor(categoryId, this.vendorId).subscribe({
       next: (res: any) => {
-        this.dataSource = res;
+        this.dataSource = res; // Assigns the fetched data to the data source
         console.log(res);
       },
       error: (err: any) => {
@@ -40,11 +42,15 @@ export default class VendorBookedServicesComponent {
     });
   }
 
-  vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee";
+  vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee"; // Vendor ID (temporary)
 
+  /**
+   * Fetches the service categories for booked services
+   */
   getCategories() {
     this._service.getServiceCategoriesOfBookedServices(this.vendorId).subscribe({
       next: (res: any) => {
+        // Maps the received data to category objects
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
           categoryName: item.serviceCategoryName,
@@ -55,31 +61,5 @@ export default class VendorBookedServicesComponent {
         console.log(err);
       },
     });
-  }
-
-  deleteService(id: string) {
-    // this._vendorService.deleteService(id).subscribe({
-    //   next: (res: any) => {
-    //     if (res.remainingCount > 0) {
-    //       this.getServices(res.deletedService.category);
-    //     } else {
-    //       location.reload();
-    //     }
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   },
-    // });
-  }
-
-  changeSuspendState(id: string) {
-    // this._vendorService.changeSuspendState(id).subscribe({
-    //   next: (res: any) => {
-    //     this.getServices(res.category);
-    //   },
-    //   error: (err: any) => {
-    //     console.log(err);
-    //   },
-    // });
   }
 }

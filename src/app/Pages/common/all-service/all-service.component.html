@@ -1,24 +1,45 @@
 <div class="row" style="width: 100%; min-height: 64.7%;">
+    <!-- Sidebar -->
     <div class="side" style="max-width: 280px;">
+        <!-- Slider Component -->
         <app-slider #slider [dataSource]="services" (priceFilteredDataSource)="priceFilter($event)"></app-slider>
-        <app-category [dataSource]="services" (categoryFilterDataSource)="categoryFilter($event)" [CategoryList]="categories"></app-category>
+
+        <!-- Category Component -->
+        <app-category [dataSource]="services" (categoryFilterDataSource)="categoryFilter($event)"
+            [CategoryList]="categories"></app-category>
+
+        <!-- Filter Rating Component -->
         <app-filter-rating [dataSource]="services" (rateFilteredDataSource)="rateFilter($event)"></app-filter-rating>
     </div>
+
+    <!-- Main Content -->
     <div class="main">
+        <!-- Sort and Search Box -->
         <div class="d-flex flex-row justify-content-between sort-search-box">
+            <!-- Sort Component -->
             <app-sort #sort [dataSource]="services" (sortChange)="sortServices($event)"></app-sort>
+
+            <!-- Search Component -->
             <app-search></app-search>
         </div>
+
+        <!-- Loading Spinner -->
         <div *ngIf="isLoading" class="spinner-container">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
+
+        <!-- Item Cards -->
         <div *ngIf="!isLoading">
             <app-item-card [service]="getPagedServices()"></app-item-card>
         </div>
+
+        <!-- Empty State -->
         <div *ngIf="services.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
             <p>No available services found</p>
             <mat-spinner diameter="32"></mat-spinner>
         </div>
+
+        <!-- Paginator -->
         <mat-paginator class="card mt-4" *ngIf="services.length>4" [length]="services.length" [pageSize]="pageSize"
             (page)="onPageChange($event)">
         </mat-paginator>

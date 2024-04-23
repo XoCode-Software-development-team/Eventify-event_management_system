@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  EventEmitter,
-  Output,
-  OnInit
-} from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
 
 @Component({
@@ -20,11 +14,13 @@ export class TabCardComponent implements OnInit {
   @Output() childEvent: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit(): void {
+    // Initialize the active tab with the first category ID
     this.viewService(this.card[0].id);
   }
 
+  // Function to emit the selected category ID
   viewService(category: string) {
-    this.activeTab = category;
-    this.childEvent.emit(category);
+    this.activeTab = category; // Set the active tab
+    this.childEvent.emit(category); // Emit the selected category ID
   }
 }

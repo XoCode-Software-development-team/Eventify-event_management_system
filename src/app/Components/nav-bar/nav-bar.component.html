@@ -1,16 +1,21 @@
 <div class="header d-flex justify-content-between">
+  <!-- Logo -->
   <img src="../../../../assets/common/Logo.png">
+
+  <!-- Navigation Links -->
   <div class="d-flex justify-content-between gap-5">
-    <a class="nav-icon" *ngFor="let item of nav" routerLinkActive="active-link"
-      [routerLink]="item.url">{{item.text}}</a>
+    <!-- Iterating over navigation items and creating links -->
+    <a class="nav-icon" *ngFor="let item of nav" routerLinkActive="active-link" [routerLink]="item.url">{{item.text}}</a>
   </div>
+
+  <!-- Sign Up and Login Buttons (Shown when user is not logged in) -->
   <div class="d-flex justify-content-between gap-2" *ngIf="!this.user">
     <app-secondary-button [button]="signUp"></app-secondary-button>
     <app-secondary-button [button]="login"></app-secondary-button>
   </div>
+
+  <!-- User Image (Shown when user is logged in) -->
   <div class="d-flex justify-content-center" *ngIf="this.user">
-    <img class="user-image"
-      src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
-      alt="">
+    <img class="user-image" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D" alt="">
   </div>
 </div>

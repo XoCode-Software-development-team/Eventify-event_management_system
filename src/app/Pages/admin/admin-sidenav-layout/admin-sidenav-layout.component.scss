@@ -1,36 +1,21 @@
+/* Container for a row layout */
 .row {
     display: flex;
     flex-wrap: wrap;
-    padding: 0 112px;
+    padding: 0 112px; /* Horizontal padding */
     margin: 0;
-    flex-grow: 1;
+    flex-grow: 1; /* Grow to fill available space */
 }
 
+/* Side navigation column */
 .side {
-
-    flex: 20%;
+    flex: 20%; /* Take up 20% of the row's width */
     padding: 20px;
 }
 
+/* Main content column */
 .main {
-    flex: 70%;
+    flex: 70%; /* Take up 70% of the row's width */
     background-color: white;
     padding: 20px;
-}
-
-@media screen and (max-width: 700px) {
-
-    .row,
-    .navbar {
-        flex-direction: column;
-    }
-
-    .header {
-        height: auto;
-    }
-
-    .icons,
-    .row {
-        padding: 0 20px;
-    }
 }

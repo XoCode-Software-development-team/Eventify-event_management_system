@@ -1,12 +1,19 @@
+<!-- Container div -->
 <div class="container">
+    <!-- Conditional rendering based on whether categories array exists and has elements -->
     <div *ngIf="categories && categories.length > 0">
+        <!-- Heading for booked service categories -->
         <h4 class="pb-3">Booked Service Categories</h4>
+        <!-- Custom tab card component to display categories -->
         <app-tab-card #tabCard [card]="categories" (childEvent)="getServices($event)"></app-tab-card>
     </div>
 </div>
+
+<!-- Table section -->
 <div class="table">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
-        *ngIf="categories && categories.length > 0">
+    <!-- Conditional rendering based on whether categories array exists and has elements -->
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 servic-table" *ngIf="categories && categories.length > 0">
+        <!-- Define table columns -->
         <ng-container matColumnDef="No">
             <th mat-header-cell *matHeaderCellDef>No</th>
             <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
@@ -14,7 +21,8 @@
 
         <ng-container matColumnDef="Service">
             <th mat-header-cell *matHeaderCellDef>Service</th>
-            <td mat-cell *matCellDef="let element">{{element.service}}</td>
+            <td mat-cell *matCellDef="let element"
+                routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}}">{{element.service}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Event Date">
@@ -31,23 +39,12 @@
             </td>
         </ng-container>
 
-        <!-- <ng-container matColumnDef="Action">
-            <th mat-header-cell *matHeaderCellDef>Action</th>
-            <td class="action" mat-cell *matCellDef="let element">
-                <div class="suspend" [ngClass]="{'sus':element.isSuspend}" mwlConfirmationPopover
-                    Confirmation="Service {{element.isSuspend ? 'Resume': 'Suspend'}} confirmation"
-                    popoverMessage="Do you really want to {{element.isSuspend ? 'Resume': 'suspend'}}?" placement="left"
-                    confirmButtonType="{{element.isSuspend ? 'primary' : 'danger'}}"
-                    (confirm)="changeSuspendState(element.id)" (cancel)="true">
-                    {{!element.isSuspend? 'Edit' : 'Resume'}}</div>
-                <span style="margin-left: 5px;"></span>
-            </td>
-        </ng-container> -->
-
+        <!-- Define header and row templates -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
+    <!-- Message displayed when no services are available -->
     <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
         <p>No available services found</p>
     </div>

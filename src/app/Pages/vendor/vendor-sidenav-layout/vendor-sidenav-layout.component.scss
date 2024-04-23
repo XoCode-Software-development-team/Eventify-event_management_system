@@ -6,7 +6,7 @@
     flex-grow: 1;
 
 }
-
+// Left side
 .side {
 
     flex: 20%;
@@ -17,28 +17,4 @@
     flex: 70%;
     background-color: white;
     padding: 20px;
-}
-
-
-@media screen and (max-width: 700px) {
-
-    .row,
-    .navbar {
-        flex-direction: column;
-    }
-
-    .header {
-        height: auto;
-    }
-
-    .icons, .row {
-        padding: 0 20px;
-    }
-}
-
-@media screen and (max-width: 450px) {
-    body {
-        margin: auto;
-    }
-
 }

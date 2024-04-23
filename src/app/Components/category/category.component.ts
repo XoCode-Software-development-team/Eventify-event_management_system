@@ -4,9 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 
 @Component({
@@ -15,31 +13,33 @@ import {
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnChanges {
-  @Input() CategoryList: Category[] = [];
-  @Input() dataSource: any[] = [];
-  @Output() categoryFilterDataSource:any = new EventEmitter<any>();
-  firstCategory: boolean = true;
-  selectedCategory: boolean = true;
-  originalDataSource: any[] = [];
-  tempDataSource: any = [];
-  newDataSource: any = [];
+  @Input() CategoryList: Category[] = []; // Input property to receive the list of categories
+  @Input() dataSource: any[] = []; // Input property to receive the data source
+  @Output() categoryFilterDataSource: EventEmitter<any> = new EventEmitter<any>(); // Output property to emit the filtered data source
+  firstCategory: boolean = true; // Flag to track the state of the first checkbox
+  selectedCategory: boolean = true; // Flag to track the state of selected category
+  originalDataSource: any[] = []; 
+  tempDataSource: any = []; 
+  newDataSource: any = []; 
   extendedCategory: ExtendedCategory[] = [];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.originalDataSource.length == 0) {
+  ngOnChanges(): void {
+    // Initialize original data source and extended category if not already initialized
+    if (this.originalDataSource.length === 0) {
       this.originalDataSource = [...this.dataSource];
     }
-    if (this.extendedCategory.length == 0) {
+    if (this.extendedCategory.length === 0) {
       this.extendedCategory = this.CategoryList.map((category) => ({
         ...(category as ExtendedCategory),
         checked: true,
       }));
     }
+    // Apply category filtering
     this.filterCategory();
   }
 
   firstCheckboxClick(event: MouseEvent): void {
-    // Update the state of all checkboxes based on the first checkbox
+    // Prevent default or stop propagation based on the state of the first checkbox
     if (!this.firstCategory) {
       event.preventDefault();
     } else {
@@ -49,28 +49,30 @@ export class CategoryComponent implements OnChanges {
 
   firstCheckboxChange(event: any) {
     if (event.checked) {
-      // Toggle the checked state of all checkboxes except the one clicked
+      // Toggle the checked state of all checkboxes when the first checkbox is checked
       this.extendedCategory.forEach((category) => {
         category.checked = true;
       });
+      // Apply category filtering
       this.filterCategory();
     }
   }
 
   selectCategory() {
+    // Update the state of the first category flag
     this.firstCategory = false;
-    
   }
 
   filterCategory() {
+    // Filter the data source based on the checked categories
     const checkedCategories = this.extendedCategory.filter(
-      (category) => category.checked == true
+      (category) => category.checked === true
     );
     const checkedCategoryIds = checkedCategories.map((category) => category.id);
     this.dataSource = this.originalDataSource.filter((item) =>
       checkedCategoryIds.includes(item.categoryId)
     );
-    // console.log(this.dataSource);
+    // Emit the filtered data source
     this.categoryFilterDataSource.emit(this.dataSource);
   }
 

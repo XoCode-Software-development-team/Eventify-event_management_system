@@ -5,28 +5,27 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './item-card.component.html',
   styleUrls: ['./item-card.component.scss']
 })
-export class ItemCardComponent implements OnInit {
+export class ItemCardComponent  {
 
-  @Input() service:any = [];
+  // Input property to receive service data from parent component
+  @Input() service: any = [];
 
-  ngOnInit(): void {
-  }
-
-  button1 = {
+  // Button configuration for Compare action
+  compareButton = {
     url: '',
     type: 'button',
     text: 'Compare',
     icon: 'compare',
     display: 'inline'
   };
-  button2 = {
+
+  // Button configuration for Follow action
+  followButton = {
     url: '',
     type: 'button',
     text: 'Follow',
     icon: 'subscriptions',
     display: 'inline'
   };
-
-
 
 }

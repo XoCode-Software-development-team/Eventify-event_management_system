@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Button, ServiceDetails, FeatureAndFacility } from 'src/app/Interfaces/interfaces';
+import { ActivatedRoute } from '@angular/router';
 import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceDetails } from 'src/app/Interfaces/interfaces';
 
 @Component({
   selector: 'app-service-details',
@@ -15,16 +15,9 @@ export class ServiceDetailsComponent implements OnInit {
   ) {}
 
   isLoading: boolean = false; // Flag to indicate loading state
-
   soRId: number = 0;
 
-  ngOnInit(): void {
-    this._route.params.subscribe((params) => {
-      this.soRId = params['soRId'];
-    });
-    this.getServiceDetails();
-  }
-
+  // Button configurations
   compareButton = {
     url: '',
     type: 'button',
@@ -52,43 +45,58 @@ export class ServiceDetailsComponent implements OnInit {
     text: 'Book Now',
   };
 
+  // Service details object
   serviceDetails: ServiceDetails = {
     name: '',
-    vendor: {
-      vendorId: '',
-      companyName: '',
-    },
+    vendor: { vendorId: '', companyName: '' },
     capacity: 0,
+    serviceCategory: '',
     description: '',
     reviewAndRating: [],
     featureAndFacility: [],
+    location: [],
     price: [],
     images: [],
     videos: [],
   };
 
+  ngOnInit(): void {
+    // Subscribe to route params to get service ID
+    this._route.params.subscribe((params) => {
+      this.soRId = params['soRId'];
+      this.getServiceDetails();
+    });
+  }
+
+  // Function to fetch service details from the service
   getServiceDetails() {
     this.isLoading = true;
     this._service.getServiceDetailsForClient(this.soRId).subscribe({
       next: (res: any) => {
-        console.log(res);
-        res = res[0];
-        this.serviceDetails = {
-          name: res.name,
-          vendor: res.vendor,
-          capacity: res.capacity,
-          description: res.description,
-          reviewAndRating: res.reviewAndRating,
-          featureAndFacility: res.featureAndFacility,
-          price: res.price,
-          images: res.images,
-          videos: res.videos,
-        };
-
+        // Assuming response is an array, take the first item
+        if (Array.isArray(res) && res.length > 0) {
+          const service = res[0];
+          this.serviceDetails = {
+            name: service.name,
+            vendor: service.vendor,
+            serviceCategory: service.serviceCategory,
+            capacity: service.capacity,
+            description: service.description,
+            reviewAndRating: service.reviewAndRating,
+            featureAndFacility: service.featureAndFacility,
+            location: service.location,
+            price: service.price,
+            images: service.images,
+            videos: service.videos,
+          };
+        } else {
+          console.log("No service details found.");
+        }
         this.isLoading = false;
       },
       error: (err: any) => {
         console.log(err);
+        this.isLoading = false;
       },
     });
   }

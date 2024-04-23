@@ -1,38 +1,33 @@
 .icon-list-container {
-    display: flex;
-    justify-content:flex-end;
-    padding-right: 20px;
-    border-radius: 20px;
-    padding: 20px;
-  }
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+  border-radius: 20px;
+  padding: 20px;
+}
 
-  .icon-item {
-    margin-left: 20px;
-    cursor: pointer;
-    color: #555;
-    transition: color 0.3s ease; /* Smooth transition for color change */
-    border: 1px solid #ccc; 
-    border-radius: 6px;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Drop shadow */
-  
-    &:hover {
-      color: #007bff; /* Color on hover */
-    }
-  }
+.icon-item {
+  margin-left: 20px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease;
+  /* Smooth transition for color change */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Drop shadow */
 
-  .mat-icon {
-    background-repeat: no-repeat;
-    display: inline-block;
-    fill: currentColor;
-    height: 44px;
-    width: 44px;
-    
+  &:hover {
+    color: #007bff;
+    /* Color on hover */
   }
-  
+}
 
-  @media screen and (max-width: 700px) {
-    .icon-item {
-      margin-left: 10px;
-    }
+.mat-icon {
+  background-repeat: no-repeat;
+  display: inline-block;
+  fill: currentColor;
+  height: 44px;
+  width: 44px;
 }

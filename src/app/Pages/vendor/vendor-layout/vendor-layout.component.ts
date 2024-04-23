@@ -1,7 +1,4 @@
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Button } from 'src/app/Interfaces/interfaces';
-import { Subscription } from 'rxjs';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-vendor-layout',
@@ -9,23 +6,19 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./vendor-layout.component.scss']
 })
 export class VendorLayoutComponent {
-
-
+  // Navigation links list for the vendor layout
   navList = [
     {
       text: "Home",
-      url: "homePage"
+      url: "home"
     },
     {
       text: "Service",
-      url: "service"
+      url: "services/all"
     },
     {
       text: "Resource",
-      url: "resource"
+      url: "resources"
     }
   ]
-
 }
-
-

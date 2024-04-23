@@ -62,16 +62,17 @@ const routes: Routes = [
     path: 'vendor',
     component: VendorLayoutComponent,
     children: [
+      {path: 'home', component:HomeComponent},
       {path: '',component: VendorIconLayoutComponent,
         children: [
           {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent},
           {path: '',component: VendorSidenavLayoutComponent,
             children: [
-              {path: 'services',component: VendorServiceComponent},
-              {path: 'bookedServices',component: VendorBookedServicesComponent},
-              {path: 'bookingRequests',component: VendorBookingRequestsComponent},
-              {path: 'addNewService',component: VendorAddNewServiceComponent},
-              {path: 'updateService/:soRId/:name', component:VendorUpdateServiceComponent},
+              {path: 'services/all',component: VendorServiceComponent},
+              {path: 'services/bookedServices',component: VendorBookedServicesComponent},
+              {path: 'services/bookingRequests',component: VendorBookingRequestsComponent},
+              {path: 'services/addNewService',component: VendorAddNewServiceComponent},
+              {path: 'services/updateService/:soRId/:name', component:VendorUpdateServiceComponent},
             ]
           },
         ]
@@ -88,8 +89,8 @@ const routes: Routes = [
           {path: 'services/service/:soRId/:name', component:ServiceDetailsComponent},
           {path: '',component: AdminSidenavLayoutComponent,
             children: [
-              {path: 'services',component: AdminServiceComponent},
-              {path: 'deleteRequests',component: AdminDeleteRequestComponent},
+              {path: 'services/all',component: AdminServiceComponent},
+              {path: 'services/deleteRequests',component: AdminDeleteRequestComponent},
             ]
           },
         ]
