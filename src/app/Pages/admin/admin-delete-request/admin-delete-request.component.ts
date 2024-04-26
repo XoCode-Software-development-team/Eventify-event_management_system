@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
+import { TabCardComponent } from '../../../Components/tab-card/tab-card.component';
+import { Component, Input, ViewChild, OnInit } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 
 @Component({
-  selector: 'app-admin-delete-request-services',
-  templateUrl: './admin-delete-request-services.component.html',
-  styleUrls: ['./admin-delete-request-services.component.scss']
+  selector: 'app-admin-delete-request',
+  templateUrl: './admin-delete-request.component.html',
+  styleUrls: ['./admin-delete-request.component.scss'],
 })
-export class AdminDeleteRequestServicesComponent implements OnInit {
+export class AdminDeleteRequestComponent implements OnInit {
   // Reference to the TabCardComponent instance
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
