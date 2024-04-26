@@ -13,7 +13,7 @@ import { AdminServiceComponent } from './Pages/admin/admin-service/admin-service
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request/admin-delete-request.component';
+import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NavIconComponent } from './Components/nav-icon/nav-icon.component';
 import { VendorServiceComponent } from './Pages/vendor/vendor-service/vendor-service.component';
@@ -55,11 +55,12 @@ import { AdminSidenavLayoutComponent } from './Pages/admin/admin-sidenav-layout/
 import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/vendor-icon-layout.component';
 import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
 import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
+import { AdminDeleteRequestServicesComponent } from './Pages/admin/admin-delete-request-services/admin-delete-request-services.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent, EditProfileComponent, LoginComponent, NavBarComponent, HomeComponent, CommonLayoutComponent, ForgetPasswordComponent, VendorUpdateServiceComponent, ClientLayoutComponent, ClientIconLayoutComponent, AdminIconLayoutComponent, AdminSidenavLayoutComponent, VendorIconLayoutComponent, VendorSidenavLayoutComponent, CommonIconLayoutComponent],
+    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent, EditProfileComponent, LoginComponent, NavBarComponent, HomeComponent, CommonLayoutComponent, ForgetPasswordComponent, VendorUpdateServiceComponent, ClientLayoutComponent, ClientIconLayoutComponent, AdminIconLayoutComponent, AdminSidenavLayoutComponent, VendorIconLayoutComponent, VendorSidenavLayoutComponent, CommonIconLayoutComponent, AdminDeleteRequestServicesComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
