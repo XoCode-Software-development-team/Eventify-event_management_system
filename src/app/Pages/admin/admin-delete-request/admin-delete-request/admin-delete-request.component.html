@@ -55,9 +55,13 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-    <!-- Display message if no services available -->
-    <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
-        <p>No available services found</p>
+</div>
+<!-- Display message when no services available -->
+<div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+    <p *ngIf="noData">No available services found</p>
+    <div *ngIf="dataSource.length == 0 && !noData" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
+        <!-- Loading Spinner -->
+        <mat-spinner diameter="32"></mat-spinner>
     </div>
 </div>

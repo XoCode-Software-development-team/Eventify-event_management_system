@@ -13,6 +13,7 @@ export class AdminServiceComponent implements OnInit {
 
   constructor(private _service: ServiceService) {}
 
+  noData: boolean = false;
   // Array to hold service data
   dataSource: string[] = [];
 
@@ -29,15 +30,16 @@ export class AdminServiceComponent implements OnInit {
 
   // Method to get services based on category ID
   getServices(categoryId: string) {
+    this.noData = false;
+    this.dataSource = [];
     this._service.getServiceListByCategory(categoryId).subscribe({
       next: (res: any) => {
         this.dataSource = res;
+        this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
-        console.log(err.error);
-        if (err.error == 'not found') {
-          this.dataSource = [];
-        }
+        console.log(err);
+          this.noData = true;
       },
     });
   }
@@ -50,9 +52,11 @@ export class AdminServiceComponent implements OnInit {
           id: item.categoryId,
           categoryName: item.serviceCategoryName
         }))
+        this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
         console.log(err);
+        this.noData = true;
       },
     });
   }
@@ -74,8 +78,10 @@ export class AdminServiceComponent implements OnInit {
   deleteService(id: string) {
     this._service.deleteService(id).subscribe({
       next: (res: any) => {
-          this.getServices(res);
-          this.tabCardComponent.ngOnInit(); // Reinitializing TabCardComponent to reflect changes
+        alert("Delete service successfully.")
+          if (res) {
+            this.getServices(res);
+          }
       },
       error: (err: any) => {
         console.log(err);

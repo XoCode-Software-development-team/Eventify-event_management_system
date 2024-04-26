@@ -31,6 +31,8 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
   addOnBlur = true; // MatChipInputAddOnBlur
   isLoading: boolean = false; // Indicates whether data is loading
+  imageLoading: boolean = false;
+  videoLoading: boolean = false;
   updateImages: boolean = false;
   updateVideos: boolean = false;
   categories: Category[] = []; // Holds the list of categories
@@ -157,7 +159,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
       serviceCategory: new FormControl(null, Validators.required),
       serviceDescription: new FormControl(null, Validators.required),
       serviceMaxCapacity: new FormControl(
-        null,
+        0,
         Validators.pattern('^-?(0|[1-9][0-9]*)$')
       ),
       serviceFeatures: new FormControl([]),
@@ -246,6 +248,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
       return;
     }
     if (this.serviceForm.pristine && !this.updateImages && !this.updateVideos) {
+      alert("Not any changes are found.")
       return;
     }
     console.log(mouseEvent);
@@ -507,9 +510,13 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
         // Store image URLs
         this.imageUrls = res.images;
         // Download and store image files
+        this.imageLoading = true;
+        this.videoLoading = true;
+
         this.downloadImages(res.images)
           .then((files) => {
             this.imageFiles = files;
+            this.imageLoading = false;
           })
           .catch((error) => {
             console.error('Error downloading images:', error);
@@ -522,6 +529,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
         this.downloadImages(res.videos)
           .then((files) => {
             this.videoFiles = files;
+            this.videoLoading = false;
           })
           .catch((error) => {
             console.error('Error downloading videos:', error);
@@ -547,6 +555,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
       },
       error: (err: any) => {
         console.log(err);
+        alert("Service update failed");
       },
     });
   }

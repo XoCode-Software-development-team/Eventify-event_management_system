@@ -14,6 +14,7 @@ export class AdminDeleteRequestComponent implements OnInit {
 
   constructor(private _service: ServiceService) {}
 
+  noData: boolean = false;
   // Array to hold data for the table
   dataSource: string[] = [];
 
@@ -30,20 +31,25 @@ export class AdminDeleteRequestComponent implements OnInit {
 
   // Fetch services based on the selected category
   getServices(categoryId: string): void {
+    this.noData = false;
+    this.dataSource = [];
     this._service.getServiceListOfDeleteRequest(categoryId).subscribe({
       next: (res: any) => {
         if (res != null) {
           this.dataSource = res;
+          this.noData = res.length == 0 ? true : false;
         }
       },
       error: (err: any) => {
         console.log(err);
+        this.noData = true;
       },
     });
   }
 
   // Fetch categories of delete request
   getCategoriesOfDeleteRequest(): void {
+    this.noData = false;
     this._service.getCategoriesListOfDeleteRequest().subscribe({
       next: (res: any) => {
         if (res != null) {
@@ -52,10 +58,12 @@ export class AdminDeleteRequestComponent implements OnInit {
             id: item.categoryId,
             categoryName: item.serviceCategoryName,
           }));
+          this.noData = res.length == 0 ? true : false;
         }
       },
       error: (err: any) => {
         console.log(err);
+        this.noData = true;
       },
     });
   }
@@ -66,6 +74,7 @@ export class AdminDeleteRequestComponent implements OnInit {
     this._service.deleteServiceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         console.log(res);
+        alert("Delete service successfully.");
         if (res.remainingCount > 0) {
           this.getServices(res.deletedServiceCategoryId);
         } else {
@@ -86,6 +95,7 @@ export class AdminDeleteRequestComponent implements OnInit {
   removeService(id: string): void {
     this._service.removeServiceFromVendorRequest(id).subscribe({
       next: (res: any) => {
+        alert("Delete request reject successfully.")
         if (res.remainingCount > 0) {
           this.getServices(res.deletedServiceCategoryId);
         } else {

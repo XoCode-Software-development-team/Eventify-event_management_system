@@ -15,6 +15,7 @@ export class VendorServiceComponent {
     private _service: ServiceService
   ) {}
 
+  noData: boolean = false;
   dataSource: string[] = [];
 
   categories: Category[] = [];
@@ -34,13 +35,17 @@ export class VendorServiceComponent {
   ];
 
   // Function to retrieve services based on category
-  getServices(categoryId: string) {
+  async getServices(categoryId: string) {
+    this.noData = false;
+    this.dataSource = [];
     this._service.getVendorServiceListByCategory(categoryId,this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res;
+        this.noData = res.length == 0 ? true : false;
         console.log(res)
       },
       error: (err: any) => {
+        this.noData = true;
         console.log(err);
       },
     });
@@ -48,23 +53,32 @@ export class VendorServiceComponent {
 
   // Function to retrieve categories
   getCategories(id: string) {
+    this.noData = false;
     this._service.getCategoriesListByVendor(id).subscribe({
       next: (res: any) => {
         this.categories = res.map((item:any) => ({
           id: item.categoryId,
           categoryName:item.serviceCategoryName
         }))
+        console.log(res)
+        this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
         console.log(err);
+        this.noData = true;
       },
     });
   }
 
   // Function to initiate service deletion request
-  deleteService(id: string) {
+  deleteService(id: string, deleteRequest: boolean) {
     this._service.RequestToDelete(id).subscribe({
       next: (res: any) => {
+        if (deleteRequest) {
+          alert("Cancel the delete request")
+        } else {
+          alert("Send delete request to admin");
+        }
         console.log(id,res)
         this.getServices(res);
       },

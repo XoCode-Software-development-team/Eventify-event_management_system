@@ -26,7 +26,8 @@
             <!-- Column definition for service -->
             <th mat-header-cell *matHeaderCellDef>Service</th>
             <!-- Header cell for service -->
-            <td mat-cell *matCellDef="let element" routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}}">
+            <td mat-cell *matCellDef="let element"
+                routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}}">
                 <!-- Data cell for service with router link -->
                 {{element.service}}
             </td>
@@ -69,8 +70,7 @@
             <td class="action" mat-cell *matCellDef="let element">
                 <!-- Data cell for actions -->
                 <div class="accept" mwlConfirmationPopover Confirmation="Service booking accept confirmation"
-                    popoverMessage="Do you really want to add service?" placement="left"
-                    confirmButtonType="primary"
+                    popoverMessage="Do you really want to add service?" placement="left" confirmButtonType="primary"
                     (confirm)="bookService(element.eventId,element.soRId)">
                     <!-- Button to accept booking -->
                     Accept
@@ -91,9 +91,13 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         <!-- Data row for the table -->
     </table>
-
-    <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
-        <!-- Displayed when there are no available services -->
-        <p>No available services found</p>
+</div>
+<!-- Display message when no services available -->
+<div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+    <p *ngIf="noData">No available services found</p>
+    <div *ngIf="dataSource.length == 0 && !noData" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
+        <!-- Loading Spinner -->
+        <mat-spinner diameter="32"></mat-spinner>
     </div>
 </div>

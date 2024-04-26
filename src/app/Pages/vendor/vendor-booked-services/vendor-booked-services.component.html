@@ -12,7 +12,8 @@
 <!-- Table section -->
 <div class="table">
     <!-- Conditional rendering based on whether categories array exists and has elements -->
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 servic-table" *ngIf="categories && categories.length > 0">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 servic-table"
+        *ngIf="categories && categories.length > 0">
         <!-- Define table columns -->
         <ng-container matColumnDef="No">
             <th mat-header-cell *matHeaderCellDef>No</th>
@@ -43,9 +44,13 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-    <!-- Message displayed when no services are available -->
-    <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
-        <p>No available services found</p>
+</div>
+<!-- Display message when no services available -->
+<div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+    <p *ngIf="noData">No available services found</p>
+    <div *ngIf="dataSource.length == 0 && !noData" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
+        <!-- Loading Spinner -->
+        <mat-spinner diameter="32"></mat-spinner>
     </div>
 </div>

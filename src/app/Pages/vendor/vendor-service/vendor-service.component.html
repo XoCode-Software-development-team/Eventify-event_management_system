@@ -22,16 +22,17 @@
         <ng-container matColumnDef="Service">
             <!-- Column for service name with router link -->
             <th mat-header-cell *matHeaderCellDef>Service</th>
-            <td mat-cell *matCellDef="let element" routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}}">{{element.service}}</td>
+            <td mat-cell *matCellDef="let element"
+                routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}}">{{element.service}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Action">
             <!-- Column for actions -->
             <th mat-header-cell *matHeaderCellDef>Action</th>
             <td class="action" mat-cell *matCellDef="let element">
-                <!-- Edit button -->
-                <div class="edit">
-                    <a routerLink="/vendor/services/updateService/{{element.soRId}}/{{element.service}}">Edit</a>
+                <!-- Update button -->
+                <div class="update">
+                    <a routerLink="/vendor/services/updateService/{{element.soRId}}/{{element.service}}">Update</a>
                 </div>
                 <span style="margin-left: 5px;"></span>
                 <!-- Delete button with confirmation popover -->
@@ -39,7 +40,7 @@
                     Confirmation="Service Delete confirmation"
                     popoverMessage="{{element.isRequestToDelete ? 'Do you really want to stop delete?' : 'Do you really want to delete?'}}"
                     placement="left" confirmButtonType="{{element.isRequestToDelete? 'primary' : 'danger'}}"
-                    (confirm)="deleteService(element.soRId)" (cancel)="true">
+                    (confirm)="deleteService(element.soRId,element.isRequestToDelete)" (cancel)="true">
                     {{element.isRequestToDelete? "Pending": "Delete"}}
                 </div>
             </td>
@@ -49,9 +50,13 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-    <!-- Display message when no services available -->
-    <div *ngIf="dataSource.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
-        <p>No available services found</p>
+</div>
+<!-- Display message when no services available -->
+<div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+    <p *ngIf="noData">No available services found</p>
+    <div *ngIf="dataSource.length == 0 && !noData" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
+        <!-- Loading Spinner -->
+        <mat-spinner diameter="32"></mat-spinner>
     </div>
 </div>

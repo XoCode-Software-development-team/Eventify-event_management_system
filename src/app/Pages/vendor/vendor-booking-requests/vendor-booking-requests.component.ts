@@ -13,6 +13,7 @@ export class VendorBookingRequestsComponent {
 
   constructor(private _service: ServiceService) {}
 
+  noData: boolean = false;
   dataSource = []; // Holds data source for the table
   categories: Category[] = []; // Holds categories for booking requests
 
@@ -33,28 +34,34 @@ export class VendorBookingRequestsComponent {
 
   // Retrieves services for the specified category
   getServices(categoryId: string) {
+    this.noData = false;
     this._service.getServicesOfBookingRequest(categoryId, this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res; // Updates data source with fetched services
         console.log(res);
+        this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
         console.log(err);
+        this.noData = true;
       },
     });
   }
 
   // Retrieves categories for booking requests
   getCategories() {
+    this.noData = false;
     this._service.getCategoriesOfBookingRequest(this.vendorId).subscribe({
       next: (res: any) => {
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
           categoryName: item.serviceCategoryName,
         }));
+        this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
         console.log(err);
+        this.noData = true;
       },
     });
   }
@@ -64,6 +71,7 @@ export class VendorBookingRequestsComponent {
     console.log(eventId, soRId);
     this._service.rejectServiceFromVendor(eventId, soRId).subscribe({
       next: (res: any) => {
+        alert("Reject the booking request successfully.")
         console.log(res);
         this.categories = []; // Clears categories array
         this.getCategories(); // Fetches updated categories
@@ -80,6 +88,7 @@ export class VendorBookingRequestsComponent {
     console.log(eventId, soRId);
     this._service.bookServiceByVendor(eventId, soRId).subscribe({
       next: (res: any) => {
+        alert("Accept the booking request successfully.");
         console.log(res);
         this.categories = []; // Clears categories array
         this.getCategories(); // Fetches updated categories

@@ -42,10 +42,10 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Call the ChangeButton method to update the button value
-        this.ChangeButton();
+        this.changeButton();
       }
     });
-    this.ChangeButton(); // Initial call to ChangeButton
+    this.changeButton(); // Initial call to ChangeButton
   }
 
   ngOnDestroy(): void {
@@ -55,7 +55,7 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  ChangeButton() {
+  changeButton() {
     // Get the current URL
     const currentUrl = this.router.url;
 

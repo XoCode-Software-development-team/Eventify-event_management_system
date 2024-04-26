@@ -8,7 +8,7 @@
         <!-- Title and action buttons -->
         <div class="d-flex flex-row justify-content-between my-4 mb-5">
             <h1>{{serviceDetails.name}}</h1>
-            <div class="d-flex flex-row justify-content-between gap-3">
+            <div class="d-flex flex-row justify-content-between gap-3" *ngIf="!isAdmin && !isVendor">
                 <app-primary-button [button]="compareButton"></app-primary-button>
                 <app-primary-button [button]="followButton"></app-primary-button>
             </div>
@@ -24,23 +24,25 @@
                 <!-- Vendor information and action button -->
                 <div class="d-flex justify-content-between gap-5">
                     <p class="fs-2">from {{serviceDetails.vendor.companyName}}</p>
-                    <app-primary-button [button]="chatButton"></app-primary-button>
+                    <app-primary-button *ngIf="!isAdmin && !isVendor" [button]="chatButton"></app-primary-button>
                 </div>
                 <!-- Price, capacity, and description -->
                 <div class="d-flex gap-4 col-9">
                     <div *ngFor="let item of serviceDetails.price">
                         <p>${{item.value}}/{{item.model}}</p>
                     </div>
-                    <span>|</span>
-                    <p>{{serviceDetails.capacity}} Max Capacity</p>
+                    <span *ngIf="serviceDetails.capacity != 0">|</span>
+                    <p *ngIf="serviceDetails.capacity != 0">{{serviceDetails.capacity}} Max Capacity</p>
                 </div>
-                <p class="col-9">{{serviceDetails.description}}</p>
+                <p>{{serviceDetails.description}}</p>
                 <!-- Features and facilities -->
                 <div class="d-flex gap-2 flex-row">
                     <p *ngFor="let item of serviceDetails.featureAndFacility" mat-chip class="">{{item}}</p>
                 </div>
                 <!-- Button to book the service -->
-                <app-secondary-button [button]="bookButton"></app-secondary-button>
+                <app-secondary-button *ngIf="!isAdmin && !isVendor" [button]="bookButton"></app-secondary-button>
+                <app-primary-button *ngIf="isAdmin" [button]="chatButton"></app-primary-button>
+                <app-primary-button *ngIf="isVendor" [button]="updateButton"></app-primary-button>
             </div>
         </div>
         <!-- Videos section -->

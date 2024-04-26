@@ -11,7 +11,7 @@ import {
 } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { delay, retry, timeInterval } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendor-add-new-service',
@@ -22,7 +22,8 @@ export class VendorAddNewServiceComponent implements OnInit {
   constructor(
     private _announcer: LiveAnnouncer, // Service for announcing messages for accessibility
     private _service: ServiceService,
-    private _fireStorage: AngularFireStorage // Service for interacting with Firebase Storage
+    private _fireStorage: AngularFireStorage, // Service for interacting with Firebase Storage
+    private _router: Router
   ) {}
 
   addOnBlur = true; // MatChipInputAddOnBlur
@@ -136,11 +137,11 @@ export class VendorAddNewServiceComponent implements OnInit {
   //Initialize form
   formHandle() {
     this.serviceForm = new FormGroup({
-      serviceName: new FormControl(null, Validators.required),
-      serviceCategory: new FormControl(null, Validators.required),
-      serviceDescription: new FormControl(null, Validators.required),
+      serviceName: new FormControl(null),
+      serviceCategory: new FormControl(null),
+      serviceDescription: new FormControl(null),
       serviceMaxCapacity: new FormControl(
-        null,
+        0,
         Validators.pattern('^-?(0|[1-9][0-9]*)$')
       ),
       serviceFeatures: new FormControl([]),
@@ -221,10 +222,10 @@ export class VendorAddNewServiceComponent implements OnInit {
 
   // Submit form
   async saveForm(mouseEvent: MouseEvent) {
-    if (this.imageFiles.length < 5) {
-      alert("Minimum five images are needed.");
-      return
-    }
+    // if (this.imageFiles.length < 5) {
+    //   alert("Minimum five images are needed.");
+    //   return
+    // }
     console.log(mouseEvent);
     this.isLoading = true;
 
@@ -242,18 +243,11 @@ export class VendorAddNewServiceComponent implements OnInit {
 
     console.log(this.serviceForm.value);
     // Add new service using service
-    this.addNewService(this.serviceForm.value);
+    await this.addNewService(this.serviceForm.value);
 
-    // Wait for 2 seconds
-    await this.delay(2000);
+    this._router.navigate(['/vendor/services/all']); //navigate to the services page
 
-    location.reload(); // Reload the page
     this.isLoading = false;
-  }
-
-  // Wait some time
-  delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   // Reset form to initial state
@@ -319,7 +313,7 @@ export class VendorAddNewServiceComponent implements OnInit {
   }
 
   // Add new service using service
-  addNewService(formData: any) {
+  async addNewService(formData: any) {
     this._service.addNewService(this.vendorId, formData).subscribe({
       next: (res: any) => {
         console.log(res);
@@ -327,6 +321,7 @@ export class VendorAddNewServiceComponent implements OnInit {
       },
       error: (err: any) => {
         console.log(err);
+        alert('Failed to add service')
       },
     });
   }

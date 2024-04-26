@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceService } from 'src/app/Services/service/service.service';
 import { ServiceDetails } from 'src/app/Interfaces/interfaces';
 
@@ -12,10 +12,14 @@ export class ServiceDetailsComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _service: ServiceService,
+    private router: Router
   ) {}
 
+  isVendor: boolean = false; // Flag to indicate vendor
+  isAdmin: boolean = false; // Flag to indicate admin
   isLoading: boolean = false; // Flag to indicate loading state
   soRId: number = 0;
+  serviceName: string = '';
 
   // Button configurations
   compareButton = {
@@ -44,6 +48,13 @@ export class ServiceDetailsComponent implements OnInit {
     type: 'button',
     text: 'Book Now',
   };
+  updateButton = {
+    url: '',
+    type: 'button',
+    text: 'Update',
+    icon: 'update',
+    display: 'inline',
+  }
 
   // Service details object
   serviceDetails: ServiceDetails = {
@@ -64,8 +75,12 @@ export class ServiceDetailsComponent implements OnInit {
     // Subscribe to route params to get service ID
     this._route.params.subscribe((params) => {
       this.soRId = params['soRId'];
+      this.serviceName = params['name'];
+      this.updateButton.url = `/vendor/services/updateService/${this.soRId}/${this.serviceName}`,
       this.getServiceDetails();
     });
+
+    this.checkUser();
   }
 
   // Function to fetch service details from the service
@@ -89,6 +104,7 @@ export class ServiceDetailsComponent implements OnInit {
             images: service.images,
             videos: service.videos,
           };
+          console.log(res);
         } else {
           console.log("No service details found.");
         }
@@ -99,5 +115,17 @@ export class ServiceDetailsComponent implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  checkUser() {
+    // Get the current URL
+    const currentUrl = this.router.url;
+
+    const vendorUrl = '/vendor/services/service/';
+    const adminUrl = '/admin/services/service/';
+
+    // Check if the current URL contains the vendor or admin path segments
+    this.isVendor = currentUrl.includes(vendorUrl);
+    this.isAdmin = currentUrl.includes(adminUrl);
   }
 }

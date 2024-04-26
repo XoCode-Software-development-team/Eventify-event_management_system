@@ -11,6 +11,7 @@ export default class VendorBookedServicesComponent implements OnInit {
 
   constructor(private _service: ServiceService) { }
 
+  noData: boolean = false;
   dataSource = []; // Data source for the table
 
   categories: Category[] = []; // Array to store service categories
@@ -31,12 +32,15 @@ export default class VendorBookedServicesComponent implements OnInit {
    * @param categoryId The ID of the category
    */
   getServices(categoryId: string) {
+    this.noData = false;
     this._service.getBookedServicesOfVendor(categoryId, this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res; // Assigns the fetched data to the data source
         console.log(res);
+        this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
+        this.noData = true;
         console.log(err);
       },
     });
@@ -48,6 +52,7 @@ export default class VendorBookedServicesComponent implements OnInit {
    * Fetches the service categories for booked services
    */
   getCategories() {
+    this.noData = false;
     this._service.getServiceCategoriesOfBookedServices(this.vendorId).subscribe({
       next: (res: any) => {
         // Maps the received data to category objects
@@ -56,9 +61,11 @@ export default class VendorBookedServicesComponent implements OnInit {
           categoryName: item.serviceCategoryName,
         }));
         console.log(res);
+        this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
         console.log(err);
+        this.noData = true;
       },
     });
   }

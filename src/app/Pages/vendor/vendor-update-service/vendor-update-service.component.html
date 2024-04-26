@@ -138,6 +138,7 @@
                                     be grater than 0! </span>
                             </mat-hint>
                         </mat-form-field>
+                        <p class="hint-text">Enter the maximum capacity for this service. If not applicable, you can leave this field blank.</p>
                     </td>
 
                 </tr>
@@ -463,11 +464,15 @@
                     [expandable]="true" [disableClick]="this.imageFiles.length >= 5" [maxFileSize]="maxImageSize" [multiple]="false">
                     <ngx-dropzone-label>
 
-                        <div>
+                        <div *ngIf="!this.imageLoading">
                             <!-- Add photo icon -->
                             <img class="img-fluid" src="../../../../assets/icons/add_photo_alternate.svg" width="48px">
                             <!-- Instruction to drag and drop images -->
                             <p class=".btn1 p-2">Drag and drop images</p>
+                        </div>
+                        <div *ngIf="this.imageLoading" class="spinner-container d-flex flex-column">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
                         </div>
                     </ngx-dropzone-label>
 
@@ -497,11 +502,15 @@
                     [expandable]="true" [disableClick]="this.videoFiles.length >= 5" [maxFileSize]="maxVideoSize" [multiple]="false">
 
                     <ngx-dropzone-label>
-                        <div class="">
+                        <div *ngIf="!this.videoLoading">
                             <!-- Add video icon -->
                             <img class="img-fluid" src="../../../../assets/icons/collection.png" width="48px">
                             <!-- Instruction to drag and drop videos -->
                             <p class=".btn1 p-2">Drag and drop videos</p>
+                        </div>
+                        <div *ngIf="this.videoLoading" class="spinner-container d-flex flex-column">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
                         </div>
                     </ngx-dropzone-label>
 
