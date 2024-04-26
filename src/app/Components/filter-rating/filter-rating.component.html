@@ -1,0 +1,19 @@
+<div class="container mt-4">
+  <h5>Rating</h5>
+
+  <!-- Radio button group for selecting ratings -->
+  <mat-radio-group class="radio-group" [(ngModel)]="selectedModel">
+    <!-- Radio button for selecting all ratings -->
+    <mat-radio-button class="radio-button" [value]="allRate.rate" (change)="selectedRate($event)">
+      All ratings ({{ allRate.count }})
+    </mat-radio-button>
+    <!-- Loop through each rating option -->
+    <mat-radio-button *ngFor="let rating of ratings" class="radio-button" [value]="rating.rate"
+      (change)="selectedRate($event)">
+      <!-- Display rating value and count -->
+      <span style="color: #FDCC0D; font-size: medium;">
+        <ngb-rating [max]="5" [rate]="rating.rate" [readonly]="true"></ngb-rating>
+      </span> & up ({{ rating.count }})
+    </mat-radio-button>
+  </mat-radio-group>
+</div>

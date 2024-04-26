@@ -1,0 +1,97 @@
+/* Container styling */
+.container {
+    margin-bottom: 5%;
+}
+
+/* Styling for material design rows and data tables */
+.mat-mdc-row,
+.mdc-data-table__content {
+    font-family: Lato;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+}
+
+/* Hover effect for material design rows */
+.mat-mdc-row:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+/* Table styling */
+.table {
+    margin: 0;
+}
+
+/* Styling for demo tables */
+.demo-table {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+}
+
+/* Styling for table header */
+th {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.54px;
+}
+
+/* Styling for suspend button */
+.suspend {
+    color: blue;
+    display: inline;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/* Styling for suspended state */
+.sus {
+    opacity: 0.4;
+    color: #21606C;
+}
+
+/* Styling for delete button */
+.delete {
+    color: red;
+    margin-left: auto;
+    display: inline;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/* Hover effect for suspend and delete buttons */
+.suspend:hover,
+.delete:hover {
+    opacity: 1;
+}
+
+/* Styling for empty message */
+.empty {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* Styling for empty message paragraph */
+.empty p {
+    color: #667085;
+}
+
+th, td {
+    width: 10vw;
+}
+
+/* Spinner container */
+.spinner-container {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

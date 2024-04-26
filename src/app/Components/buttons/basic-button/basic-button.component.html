@@ -1,0 +1,12 @@
+<button mat-button 
+        [disabled]="button.disable" 
+        [type]="button.type" 
+        [ngClass]="button.class" 
+        [routerLink]="button.url ? button.url : null"
+        routerLinkActive="active-link">
+
+  <mat-icon class="icon">{{button.icon}}</mat-icon>
+
+  {{button.text}}
+
+</button>

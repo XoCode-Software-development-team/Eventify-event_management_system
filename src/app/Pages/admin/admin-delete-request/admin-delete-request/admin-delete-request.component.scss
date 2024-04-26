@@ -1,0 +1,97 @@
+/* Styles for the container */
+.container {
+    margin-bottom: 5%;
+}
+
+/* Styles for rows and table content */
+.mat-mdc-row,
+.mdc-data-table__content {
+    font-family: Lato;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+}
+
+/* Hover effect for rows */
+.mat-mdc-row:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+/* Styles for the table */
+.table {
+    margin: 0;
+}
+
+/* Styles for the main table */
+.demo-table {
+    width: 100%;
+    border: none;
+    box-shadow: none;
+}
+
+/* Styles for table headers */
+th {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.54px;
+}
+
+/* Styles for check icons */
+.check-icon {
+    color: green;
+    font-size: 24px;
+}
+
+/* Styles for accept button */
+.accept {
+    color: red;
+    display: inline;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/* Styles for reject button */
+.reject {
+    color: blue;
+    margin-left: auto;
+    display: inline;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/* Hover effect for accept and reject buttons */
+.accept:hover,
+.reject:hover {
+    opacity: 1;
+}
+
+/* Styles for empty message */
+.empty {
+    margin: 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* Styles for text inside empty message */
+.empty p {
+    color: #667085;
+}
+
+th, td {
+    width: 10vw;
+}
+
+/* Spinner container */
+.spinner-container {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

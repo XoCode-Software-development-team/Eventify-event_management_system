@@ -1,0 +1,27 @@
+<div class="container d-flex flex-row mt-4 p-0 card" *ngFor="let item of service">
+    <img class="m-2 flex-grow-3 serviceImage" [src]="item.image ? item.image : '../../assets/defaultService.jpg'" alt="{{ item.name }} image">
+    <div class="d-flex flex-column w-100">
+        <div class="d-flex flex-row justify-content-between gap-4 m-2">
+            <div>
+                <!-- Link to service details page -->
+                <h4><a class="text-decoration-none" [routerLink]="'service/' + item.soRId + '/' + item.name">{{ item.name }}</a></h4>
+                <!-- Display rating with NgbRating component -->
+                <p class="px-2">{{ item.rating.rate | number: '1.1-1' }}
+                    <span style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5" [rate]="item.rating.rate"
+                            [readonly]="true"></ngb-rating>
+                    </span> ({{ item.rating.count }})
+                </p>
+            </div>
+            <div class="d-flex justify-content-between gap-3">
+                <!-- Display primary buttons using custom component -->
+                <app-primary-button [button]="compareButton"></app-primary-button>
+                <app-primary-button [button]="followButton"></app-primary-button>
+            </div>
+        </div>
+        <div class="d-flex flex-column m-2">
+            <!-- Display vendor name and service description -->
+            <p class="h6">from {{ item.vendor }}</p>
+            <p>{{ item.description }}</p>
+        </div>
+    </div>
+</div>

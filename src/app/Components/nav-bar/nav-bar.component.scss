@@ -1,0 +1,34 @@
+.header {
+  display: flex;
+  text-align: center;
+  background: #AFDFE9;
+  color: white;
+  height: 87px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 112px;
+}
+
+.nav-icon {
+  font-family: Lato;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 550;
+  line-height: 24px;
+  letter-spacing: 0.54px;
+  text-decoration: none;
+  text-align: center;
+  color: #000;
+  cursor: pointer;
+}
+
+.active-link {
+  color: #21606C;
+}
+
+.user-image {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  vertical-align: middle;
+}

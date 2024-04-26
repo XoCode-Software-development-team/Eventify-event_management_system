@@ -1,0 +1,23 @@
+<!-- Container for category selection -->
+<div class="container">
+    <!-- Title for category selection -->
+    <h5>Category</h5>
+    <!-- List of categories -->
+    <ul>
+        <!-- Checkbox for selecting all categories -->
+        <li>
+            <!-- Checkbox with ngModel binding to track its state -->
+            <mat-checkbox color="primary" [(ngModel)]="firstCategory" (click)="firstCheckboxClick($event)" (change)="firstCheckboxChange($event)">
+                All
+            </mat-checkbox>
+        </li>
+        <!-- Iterate through each category -->
+        <li *ngFor="let Category of extendedCategory; let i = index">
+            <!-- Checkbox with ngModel binding to track its state -->
+            <mat-checkbox [(ngModel)]="Category.checked" color="primary" value="{{Category.id}}" (click)="selectCategory()"
+                (change)="filterCategory()">
+                {{ Category.categoryName }} <!-- Display category name -->
+            </mat-checkbox>
+        </li>
+    </ul>
+</div>

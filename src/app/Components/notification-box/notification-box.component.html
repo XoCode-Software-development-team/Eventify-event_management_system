@@ -1,0 +1,34 @@
+<div>
+    <!-- Main container -->
+    <div class="container p-3 d-flex flex-column justify-content-between">
+        <!-- Unread messages section -->
+        <div>
+            <!-- Header with options -->
+            <div class="d-flex justify-content-between">
+                <!-- Unread messages count -->
+                <p class="m-0 fw-bold">Unread(1)</p>
+                <!-- Button to mark all messages as read -->
+                <p class="m-0">Mark as all read</p>
+            </div>
+            <!-- Horizontal line -->
+            <hr>
+            <!-- List of unread messages -->
+            <div class="d-flex flex-column justify-content-lg-start gap-3">
+                <!-- Individual message container -->
+                <div class="container-fluid" *ngFor="let _ of [1,2,3,4]">
+                    <!-- Message content -->
+                    <p class="m-0">Dj equipment by Sonic Sound is added to Music festival</p>
+                    <!-- Message timestamp -->
+                    <p class="m-0 time">2m ago</p>
+                    <!-- Horizontal line -->
+                    <hr class="my-1">
+                </div>
+            </div>
+        </div>
+
+        <!-- Clear all messages button -->
+        <div class="d-flex justify-content-end">
+            <p class="m-0 fw-bold">Clear all</p>
+        </div>
+    </div>
+</div>

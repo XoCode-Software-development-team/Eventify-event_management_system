@@ -1,0 +1,17 @@
+<div class="container d-flex flex-row align-items-center gap-4">
+    <!-- Sort icon and label -->
+    <div class="d-flex flex-row">
+        <mat-icon>sort</mat-icon>
+        <p>Sort By:</p>
+    </div>
+    
+    <!-- Dropdown for selecting sorting option -->
+    <mat-form-field>
+        <mat-select [(ngModel)]="selectedSort">
+            <!-- Iterate over sorting options -->
+            <mat-option *ngFor="let item of sortBy" [value]="item.value" (click)="sortService(selectedSort)">
+                {{ item.viewValue }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
