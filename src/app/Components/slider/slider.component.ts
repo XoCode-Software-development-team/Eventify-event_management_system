@@ -8,7 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { PriceModel } from './../../Interfaces/interfaces';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
   selector: 'app-slider',
@@ -30,7 +30,7 @@ export class SliderComponent implements OnChanges, OnInit {
   @Input() dataSource: any = [];
   @Output() priceFilteredDataSource: any = new EventEmitter<any>();
 
-  constructor(private _service: ServiceService) {}
+  constructor(private _serviceAndResource: ServiceAndResourceService) {}
 
   ngOnInit(): void {
     // Lifecycle hook
@@ -55,7 +55,7 @@ export class SliderComponent implements OnChanges, OnInit {
 
   // Fetch price models from the service
   getPriceModel() {
-    this._service.getPriceModelsList().subscribe({
+    this._serviceAndResource.getPriceModelsList().subscribe({
       next: (res: any) => {
         this.priceModels = res.map((item: any) => ({
           id: item.modelId,
@@ -126,7 +126,7 @@ export class SliderComponent implements OnChanges, OnInit {
 
   // Get max price for the selected model
   getMaxPrice(model: any) {
-    this._service.getMaxPriceOfService(model.id).subscribe({
+    this._serviceAndResource.getMaxPriceOfService(model.id).subscribe({
       next: (res: any) => {
         this.maxPrice = res;
         this.minValue = 0;

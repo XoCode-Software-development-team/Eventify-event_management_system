@@ -9,7 +9,7 @@ import {
   FeatureAndFacility,
   PriceModel,
 } from 'src/app/Interfaces/interfaces';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 export class VendorAddNewServiceComponent implements OnInit {
   constructor(
     private _announcer: LiveAnnouncer, // Service for announcing messages for accessibility
-    private _service: ServiceService,
+    private _serviceAndResource: ServiceAndResourceService,
     private _fireStorage: AngularFireStorage, // Service for interacting with Firebase Storage
     private _router: Router
   ) {}
@@ -264,7 +264,7 @@ export class VendorAddNewServiceComponent implements OnInit {
 
   // Fetch categories from service
   getCategories() {
-    this._service.getCategoriesList().subscribe({
+    this._serviceAndResource.getCategoriesList().subscribe({
       next: (res: any) => {
         // Map response to category array
         this.categories = res.map((item: any) => ({
@@ -280,7 +280,7 @@ export class VendorAddNewServiceComponent implements OnInit {
 
   // Fetch price models from service
   getPriceModels() {
-    this._service.getPriceModelsList().subscribe({
+    this._serviceAndResource.getPriceModelsList().subscribe({
       next: (res: any) => {
         // Map response to pricing model array
         this.pricingModels = res.map((item: any) => ({
@@ -314,7 +314,7 @@ export class VendorAddNewServiceComponent implements OnInit {
 
   // Add new service using service
   async addNewService(formData: any) {
-    this._service.addNewService(this.vendorId, formData).subscribe({
+    this._serviceAndResource.addNewService(this.vendorId, formData).subscribe({
       next: (res: any) => {
         console.log(res);
         alert('Service Added Successfully');

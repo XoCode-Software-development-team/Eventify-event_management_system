@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
   selector: 'app-vendor-booking-requests',
@@ -11,7 +11,7 @@ import { ServiceService } from 'src/app/Services/service/service.service';
 export class VendorBookingRequestsComponent {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent; // Reference to the TabCardComponent
 
-  constructor(private _service: ServiceService) {}
+  constructor(private _serviceAndResource: ServiceAndResourceService) {}
 
   noData: boolean = false;
   dataSource = []; // Holds data source for the table
@@ -35,7 +35,7 @@ export class VendorBookingRequestsComponent {
   // Retrieves services for the specified category
   getServices(categoryId: string) {
     this.noData = false;
-    this._service.getServicesOfBookingRequest(categoryId, this.vendorId).subscribe({
+    this._serviceAndResource.getServicesOfBookingRequest(categoryId, this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res; // Updates data source with fetched services
         console.log(res);
@@ -51,7 +51,7 @@ export class VendorBookingRequestsComponent {
   // Retrieves categories for booking requests
   getCategories() {
     this.noData = false;
-    this._service.getCategoriesOfBookingRequest(this.vendorId).subscribe({
+    this._serviceAndResource.getCategoriesOfBookingRequest(this.vendorId).subscribe({
       next: (res: any) => {
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
@@ -69,7 +69,7 @@ export class VendorBookingRequestsComponent {
   // Rejects a service booking request
   RejectService(eventId: string, soRId: string) {
     console.log(eventId, soRId);
-    this._service.rejectServiceFromVendor(eventId, soRId).subscribe({
+    this._serviceAndResource.rejectServiceFromVendor(eventId, soRId).subscribe({
       next: (res: any) => {
         alert("Reject the booking request successfully.")
         console.log(res);
@@ -86,7 +86,7 @@ export class VendorBookingRequestsComponent {
   // Books a service requested by a vendor
   bookService(eventId: string, soRId: string) {
     console.log(eventId, soRId);
-    this._service.bookServiceByVendor(eventId, soRId).subscribe({
+    this._serviceAndResource.bookServiceByVendor(eventId, soRId).subscribe({
       next: (res: any) => {
         alert("Accept the booking request successfully.");
         console.log(res);

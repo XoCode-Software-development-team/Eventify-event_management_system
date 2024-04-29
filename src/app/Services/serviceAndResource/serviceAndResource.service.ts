@@ -7,7 +7,7 @@ import { baseApiUrl } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceService {
+export class ServiceAndResourceService {
 
   constructor(private _http:HttpClient) { }
 
