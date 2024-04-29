@@ -19,3 +19,4 @@ describe('AdminDeleteRequestComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+x
