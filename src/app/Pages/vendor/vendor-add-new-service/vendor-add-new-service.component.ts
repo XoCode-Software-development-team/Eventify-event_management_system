@@ -222,10 +222,10 @@ export class VendorAddNewServiceComponent implements OnInit {
 
   // Submit form
   async saveForm(mouseEvent: MouseEvent) {
-    // if (this.imageFiles.length < 5) {
-    //   alert("Minimum five images are needed.");
-    //   return
-    // }
+    if (this.imageFiles.length < 5) {
+      alert("Minimum five images are needed.");
+      return
+    }
     console.log(mouseEvent);
     this.isLoading = true;
 

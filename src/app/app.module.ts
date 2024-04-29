@@ -13,7 +13,7 @@ import { AdminServiceComponent } from './Pages/admin/admin-service/admin-service
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request/admin-delete-request.component';
+import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NavIconComponent } from './Components/nav-icon/nav-icon.component';
 import { VendorServiceComponent } from './Pages/vendor/vendor-service/vendor-service.component';

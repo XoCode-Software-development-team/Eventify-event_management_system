@@ -1,4 +1,4 @@
-import { TabCardComponent } from './../../../../Components/tab-card/tab-card.component';
+import { TabCardComponent } from '../../../Components/tab-card/tab-card.component';
 import { Component, Input, ViewChild, OnInit } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceService } from 'src/app/Services/service/service.service';
