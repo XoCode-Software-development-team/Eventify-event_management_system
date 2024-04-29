@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminServiceComponent } from './Pages/admin/admin-service/admin-service.component';
+import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
 import { VendorServiceComponent } from './Pages/vendor/vendor-service/vendor-service.component';
 import VendorBookedServicesComponent from './Pages/vendor/vendor-booked-services/vendor-booked-services.component';
 import { VendorBookingRequestsComponent } from './Pages/vendor/vendor-booking-requests/vendor-booking-requests.component';
