@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import { Category, servicesCard } from 'src/app/Interfaces/interfaces';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { SliderComponent } from './../../../Components/slider/slider.component';
 import { SortComponent } from './../../../Components/sort/sort.component';
 
@@ -31,7 +31,7 @@ export class AllServiceComponent implements OnInit {
   @ViewChild('slider') SliderComponent!: SliderComponent; // Reference to SliderComponent
   sortValue: any = ''; // Holds the current sorting value
 
-  constructor(private _service: ServiceService) {}
+  constructor(private _serviceAndResource: ServiceAndResourceService) {}
 
   ngOnInit(): void {
     // Load categories and services on component initialization
@@ -70,7 +70,7 @@ export class AllServiceComponent implements OnInit {
   getServices() {
     this.isLoading = true; // Set loading state to true
 
-    this._service.getServicesForClients().subscribe({
+    this._serviceAndResource.getServicesForClients().subscribe({
       next: (res: any) => {
         // Map received services data to local services array
         this.services = res.map((item: any) => ({
@@ -105,7 +105,7 @@ export class AllServiceComponent implements OnInit {
 
   // Function to retrieve all categories
   getAllCategories() {
-    this._service.getCategoriesList().subscribe({
+    this._serviceAndResource.getCategoriesList().subscribe({
       next: (res: any) => {
         // Map received category data to local categories array
         this.categories = res.map((item: any) => ({

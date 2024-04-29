@@ -12,7 +12,7 @@ import {
   FeatureAndFacility,
   PriceModel,
 } from 'src/app/Interfaces/interfaces';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
   selector: 'app-vendor-update-service',
@@ -22,7 +22,7 @@ import { ServiceService } from 'src/app/Services/service/service.service';
 export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
   constructor(
     private _announcer: LiveAnnouncer, // Service for announcing messages for accessibility
-    private _service: ServiceService,
+    private _serviceAndResource: ServiceAndResourceService,
     private _fireStorage: AngularFireStorage, // Service for interacting with Firebase Storage
     private _router: Router,
     private _route: ActivatedRoute,
@@ -303,7 +303,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
   // Fetch categories from service
   getCategories() {
-    this._service.getCategoriesList().subscribe({
+    this._serviceAndResource.getCategoriesList().subscribe({
       next: (res: any) => {
         // Map response to category array
         this.categories = res.map((item: any) => ({
@@ -319,7 +319,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
   // Fetch price models from service
   getPriceModels() {
-    this._service.getPriceModelsList().subscribe({
+    this._serviceAndResource.getPriceModelsList().subscribe({
       next: (res: any) => {
         // Map response to pricing model array
         this.pricingModels = res.map((item: any) => ({
@@ -438,7 +438,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
     this.isLoading = true;
 
     // Retrieve service details from the service
-    this._service.getServiceDetailsForClient(this.soRId).subscribe({
+    this._serviceAndResource.getServiceDetailsForClient(this.soRId).subscribe({
       next: (res: any) => {
         // Extract the first element from the response array
         res = res[0];
@@ -548,7 +548,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
   // Update service using service
   updateService(formData: any) {
-    this._service.updateService(this.vendorId, this.soRId, formData).subscribe({
+    this._serviceAndResource.updateService(this.vendorId, this.soRId, formData).subscribe({
       next: (res: any) => {
         console.log(res);
         window.alert('Update successfully');

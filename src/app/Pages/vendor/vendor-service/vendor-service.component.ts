@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
   selector: 'app-vendor-service',
@@ -12,7 +12,7 @@ export class VendorServiceComponent {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
   constructor(
-    private _service: ServiceService
+    private _serviceAndResource: ServiceAndResourceService
   ) {}
 
   noData: boolean = false;
@@ -38,7 +38,7 @@ export class VendorServiceComponent {
   async getServices(categoryId: string) {
     this.noData = false;
     this.dataSource = [];
-    this._service.getVendorServiceListByCategory(categoryId,this.vendorId).subscribe({
+    this._serviceAndResource.getVendorServiceListByCategory(categoryId,this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res;
         this.noData = res.length == 0 ? true : false;
@@ -54,7 +54,7 @@ export class VendorServiceComponent {
   // Function to retrieve categories
   getCategories(id: string) {
     this.noData = false;
-    this._service.getCategoriesListByVendor(id).subscribe({
+    this._serviceAndResource.getCategoriesListByVendor(id).subscribe({
       next: (res: any) => {
         this.categories = res.map((item:any) => ({
           id: item.categoryId,
@@ -72,7 +72,7 @@ export class VendorServiceComponent {
 
   // Function to initiate service deletion request
   deleteService(id: string, deleteRequest: boolean) {
-    this._service.RequestToDelete(id).subscribe({
+    this._serviceAndResource.RequestToDelete(id).subscribe({
       next: (res: any) => {
         if (deleteRequest) {
           alert("Cancel the delete request")

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
   selector: 'app-vendor-booked-services',
@@ -9,7 +9,7 @@ import { ServiceService } from 'src/app/Services/service/service.service';
 })
 export default class VendorBookedServicesComponent implements OnInit {
 
-  constructor(private _service: ServiceService) { }
+  constructor(private _serviceAndResource: ServiceAndResourceService) { }
 
   noData: boolean = false;
   dataSource = []; // Data source for the table
@@ -33,7 +33,7 @@ export default class VendorBookedServicesComponent implements OnInit {
    */
   getServices(categoryId: string) {
     this.noData = false;
-    this._service.getBookedServicesOfVendor(categoryId, this.vendorId).subscribe({
+    this._serviceAndResource.getBookedServicesOfVendor(categoryId, this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res; // Assigns the fetched data to the data source
         console.log(res);
@@ -53,7 +53,7 @@ export default class VendorBookedServicesComponent implements OnInit {
    */
   getCategories() {
     this.noData = false;
-    this._service.getServiceCategoriesOfBookedServices(this.vendorId).subscribe({
+    this._serviceAndResource.getServiceCategoriesOfBookedServices(this.vendorId).subscribe({
       next: (res: any) => {
         // Maps the received data to category objects
         this.categories = res.map((item: any) => ({

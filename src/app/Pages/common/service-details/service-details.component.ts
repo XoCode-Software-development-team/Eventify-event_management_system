@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { ServiceDetails } from 'src/app/Interfaces/interfaces';
 
 @Component({
@@ -11,7 +11,7 @@ import { ServiceDetails } from 'src/app/Interfaces/interfaces';
 export class ServiceDetailsComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
-    private _service: ServiceService,
+    private _serviceAndResource: ServiceAndResourceService,
     private router: Router
   ) {}
 
@@ -86,7 +86,7 @@ export class ServiceDetailsComponent implements OnInit {
   // Function to fetch service details from the service
   getServiceDetails() {
     this.isLoading = true;
-    this._service.getServiceDetailsForClient(this.soRId).subscribe({
+    this._serviceAndResource.getServiceDetailsForClient(this.soRId).subscribe({
       next: (res: any) => {
         // Assuming response is an array, take the first item
         if (Array.isArray(res) && res.length > 0) {

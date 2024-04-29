@@ -1,7 +1,7 @@
 import { TabCardComponent } from './../../../../Components/tab-card/tab-card.component';
 import { Component, Input, ViewChild, OnInit } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
-import { ServiceService } from 'src/app/Services/service/service.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
   selector: 'app-admin-delete-request',
@@ -12,7 +12,7 @@ export class AdminDeleteRequestComponent implements OnInit {
   // Reference to the TabCardComponent instance
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
-  constructor(private _service: ServiceService) {}
+  constructor(private _serviceAndResource: ServiceAndResourceService) {}
 
   noData: boolean = false;
   // Array to hold data for the table
@@ -33,7 +33,7 @@ export class AdminDeleteRequestComponent implements OnInit {
   getServices(categoryId: string): void {
     this.noData = false;
     this.dataSource = [];
-    this._service.getServiceListOfDeleteRequest(categoryId).subscribe({
+    this._serviceAndResource.getServiceListOfDeleteRequest(categoryId).subscribe({
       next: (res: any) => {
         if (res != null) {
           this.dataSource = res;
@@ -50,7 +50,7 @@ export class AdminDeleteRequestComponent implements OnInit {
   // Fetch categories of delete request
   getCategoriesOfDeleteRequest(): void {
     this.noData = false;
-    this._service.getCategoriesListOfDeleteRequest().subscribe({
+    this._serviceAndResource.getCategoriesListOfDeleteRequest().subscribe({
       next: (res: any) => {
         if (res != null) {
           // Map received data to Category interface and assign to categories array
@@ -71,7 +71,7 @@ export class AdminDeleteRequestComponent implements OnInit {
   // Delete service based on ID
   deleteService(id: string): void {
     console.log(id);
-    this._service.deleteServiceFromVendorRequest(id).subscribe({
+    this._serviceAndResource.deleteServiceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         console.log(res);
         alert("Delete service successfully.");
@@ -93,7 +93,7 @@ export class AdminDeleteRequestComponent implements OnInit {
 
   // Remove service based on ID
   removeService(id: string): void {
-    this._service.removeServiceFromVendorRequest(id).subscribe({
+    this._serviceAndResource.removeServiceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         alert("Delete request reject successfully.")
         if (res.remainingCount > 0) {
