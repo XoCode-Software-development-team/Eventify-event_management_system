@@ -1,0 +1,67 @@
+<div class="container">
+    <!-- Display requested service categories -->
+    <div *ngIf="categories && categories.length > 0">
+        <h4 class="pb-3">Delete Requested Service Categories</h4>
+        <!-- Custom tab card component to display categories -->
+        <app-tab-card #tabCard [card]="categories" (childEvent)="getServices($event)"></app-tab-card>
+    </div>
+</div>
+
+<!-- Table to display services -->
+<div class="table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
+        *ngIf="dataSource && dataSource.length > 0">
+        <!-- Define columns -->
+        <ng-container matColumnDef="No">
+            <th mat-header-cell *matHeaderCellDef>No</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Service">
+            <th mat-header-cell *matHeaderCellDef>Service</th>
+            <td mat-cell *matCellDef="let element"
+                routerLink="/admin/services/service/{{element.soRId}}/{{element.service}}">{{element.service}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Rating">
+            <th mat-header-cell *matHeaderCellDef class="rating">Rating</th>
+            <td mat-cell *matCellDef="let element" class="rating">
+                <!-- Display service rating with star rating component -->
+                {{element.rating}}&nbsp;
+                <ngb-rating style="color: #FDCC0D; font-size: medium;" [max]="5" [rate]="element.rating"
+                    [readonly]="true"></ngb-rating>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td class="action" mat-cell *matCellDef="let element">
+                <!-- Buttons for accepting and rejecting service -->
+                <div class="accept" mwlConfirmationPopover popoverTitle="Service Delete Confirmation"
+                    popoverMessage="Do you really want to Delete?" placement="left" confirmButtonType="danger"
+                    (confirm)="deleteService(element.soRId)" (cancel)="true">
+                    Accept
+                </div>
+                <span style="margin-left: 5px;"></span>
+                <div class="reject" mwlConfirmationPopover popoverTitle="Service Reject Confirmation"
+                    popoverMessage="Do you really want to Reject?" placement="left" confirmButtonType="primary"
+                    (confirm)="removeService(element.soRId)" (cancel)="true">
+                    Reject
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Define header and row -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<!-- Display message when no services available -->
+<div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+    <p *ngIf="noData">No available services found</p>
+    <div *ngIf="dataSource.length == 0 && !noData" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
+        <!-- Loading Spinner -->
+        <mat-spinner diameter="32"></mat-spinner>
+    </div>
+</div>

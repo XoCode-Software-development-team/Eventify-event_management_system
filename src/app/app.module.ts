@@ -54,6 +54,7 @@ import { AdminSidenavLayoutComponent } from './Pages/admin/admin-sidenav-layout/
 import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/vendor-icon-layout.component';
 import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
 import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
+import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +98,7 @@ import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/com
     VendorIconLayoutComponent,
     VendorSidenavLayoutComponent,
     CommonIconLayoutComponent,
+    AdminDeleteRequestComponent,
   ],
   imports: [
     BrowserModule,
