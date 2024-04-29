@@ -242,13 +242,12 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
   // Submit form
   async updateForm(mouseEvent: MouseEvent) {
-
     if (this.imageFiles.length < 5) {
-      alert("Minimum 5 images should upload");
+      alert('Minimum 5 images should upload');
       return;
     }
     if (this.serviceForm.pristine && !this.updateImages && !this.updateVideos) {
-      alert("Not any changes are found.")
+      alert('Not any changes are found.');
       return;
     }
     console.log(mouseEvent);
@@ -270,7 +269,6 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
     this.serviceForm.get('images')?.setValue(this.imageUrls);
 
-
     if (this.updateVideos) {
       // If video is edited delete current image from firebase
       await this.deleteFiles(this.videoUrls);
@@ -285,8 +283,8 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
     console.log(this.serviceForm.value);
 
     this.updateService(this.serviceForm.value);
-    this.isLoading = false;
     this._router.navigate(['/vendor/services/all']); // Navigate the the service page
+    this.isLoading = false;
   }
 
   // Reset form to initial state
@@ -552,10 +550,11 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
       next: (res: any) => {
         console.log(res);
         window.alert('Update successfully');
+        location.reload();
       },
       error: (err: any) => {
         console.log(err);
-        alert("Service update failed");
+        alert('Service update failed');
       },
     });
   }

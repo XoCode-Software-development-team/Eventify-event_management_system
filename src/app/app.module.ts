@@ -4,16 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.component';
-import { MaterialModule } from './core/material.module'
+import { MaterialModule } from './core/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminServiceComponent } from './Pages/admin/admin-service/admin-service.component';
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request/admin-delete-request.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NavIconComponent } from './Components/nav-icon/nav-icon.component';
 import { VendorServiceComponent } from './Pages/vendor/vendor-service/vendor-service.component';
@@ -55,11 +54,52 @@ import { AdminSidenavLayoutComponent } from './Pages/admin/admin-sidenav-layout/
 import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/vendor-icon-layout.component';
 import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
 import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
-
+import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
 
 @NgModule({
   declarations: [
-    AppComponent,SideNavBarComponent, AdminServiceComponent, TabCardComponent, FooterComponent, AdminDeleteRequestComponent, NavIconComponent, VendorServiceComponent, BasicButtonComponent, VendorBookedServicesComponent, VendorBookingRequestsComponent, VendorAddNewServiceComponent, VendorLayoutComponent, AdminLayoutComponent, PrimaryButtonComponent, AllServiceComponent, SliderComponent, CategoryComponent, FilterRatingComponent, SortComponent, SearchComponent, ItemCardComponent, ServiceDetailsComponent, ImageViewComponent, SecondaryButtonComponent, ReviewCardComponent, NotificationBoxComponent, EditProfileComponent, LoginComponent, NavBarComponent, HomeComponent, CommonLayoutComponent, ForgetPasswordComponent, VendorUpdateServiceComponent, ClientLayoutComponent, ClientIconLayoutComponent, AdminIconLayoutComponent, AdminSidenavLayoutComponent, VendorIconLayoutComponent, VendorSidenavLayoutComponent, CommonIconLayoutComponent],
+    AppComponent,
+    SideNavBarComponent,
+    AdminServiceComponent,
+    TabCardComponent,
+    FooterComponent,
+    NavIconComponent,
+    VendorServiceComponent,
+    BasicButtonComponent,
+    VendorBookedServicesComponent,
+    VendorBookingRequestsComponent,
+    VendorAddNewServiceComponent,
+    VendorLayoutComponent,
+    AdminLayoutComponent,
+    PrimaryButtonComponent,
+    AllServiceComponent,
+    SliderComponent,
+    CategoryComponent,
+    FilterRatingComponent,
+    SortComponent,
+    SearchComponent,
+    ItemCardComponent,
+    ServiceDetailsComponent,
+    ImageViewComponent,
+    SecondaryButtonComponent,
+    ReviewCardComponent,
+    NotificationBoxComponent,
+    EditProfileComponent,
+    LoginComponent,
+    NavBarComponent,
+    HomeComponent,
+    CommonLayoutComponent,
+    ForgetPasswordComponent,
+    VendorUpdateServiceComponent,
+    ClientLayoutComponent,
+    ClientIconLayoutComponent,
+    AdminIconLayoutComponent,
+    AdminSidenavLayoutComponent,
+    VendorIconLayoutComponent,
+    VendorSidenavLayoutComponent,
+    CommonIconLayoutComponent,
+    AdminDeleteRequestComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -71,15 +111,15 @@ import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/com
     NgbModule,
     AppRoutingModule,
     ConfirmationPopoverModule.forRoot({
-      confirmButtonType: 'danger'
+      confirmButtonType: 'danger',
     }),
     NgxDropzoneModule,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireStorageModule
+    AngularFireStorageModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
