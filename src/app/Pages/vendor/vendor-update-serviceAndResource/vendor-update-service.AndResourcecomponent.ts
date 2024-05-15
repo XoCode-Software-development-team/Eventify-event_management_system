@@ -16,10 +16,10 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/s
 
 @Component({
   selector: 'app-vendor-update-service',
-  templateUrl: './vendor-update-service.component.html',
-  styleUrls: ['./vendor-update-service.component.scss'],
+  templateUrl: './vendor-update-serviceAndResource.component.html',
+  styleUrls: ['./vendor-update-serviceAndResource.component.scss'],
 })
-export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
+export class VendorUpdateServiceAndResourceComponent implements OnInit, AfterContentInit {
   constructor(
     private _announcer: LiveAnnouncer, // Service for announcing messages for accessibility
     private _serviceAndResource: ServiceAndResourceService,
@@ -436,7 +436,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
     this.isLoading = true;
 
     // Retrieve service details from the service
-    this._serviceAndResource.getServiceDetailsForClient(this.soRId).subscribe({
+    this._serviceAndResource.getServiceAndResourceDetailsForClient(this.soRId).subscribe({
       next: (res: any) => {
         // Extract the first element from the response array
         res = res[0];
@@ -546,7 +546,7 @@ export class VendorUpdateServiceComponent implements OnInit, AfterContentInit {
 
   // Update service using service
   updateService(formData: any) {
-    this._serviceAndResource.updateService(this.vendorId, this.soRId, formData).subscribe({
+    this._serviceAndResource.updateServiceAndResource(this.vendorId, this.soRId, formData).subscribe({
       next: (res: any) => {
         console.log(res);
         window.alert('Update successfully');

@@ -15,11 +15,11 @@ export class TabCardComponent implements OnInit {
 
   ngOnInit(): void {
     // Initialize the active tab with the first category ID
-    this.viewService(this.card[0].id);
+    this.viewServiceAndResource(this.card[0].id);
   }
 
   // Function to emit the selected category ID
-  viewService(category: string) {
+  viewServiceAndResource(category: string) {
     this.activeTab = category; // Set the active tab
     this.childEvent.emit(category); // Emit the selected category ID
   }

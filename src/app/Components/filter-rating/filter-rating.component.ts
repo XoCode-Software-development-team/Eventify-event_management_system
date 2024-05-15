@@ -44,23 +44,23 @@ export class FilterRatingComponent implements OnInit, OnChanges {
       this.originalDataSource = this.dataSource; // Initialize original data source
     }
     this.filterRating(); // Filter the data based on selected rating
-    this.countRatingCount(); // Count the number of services for each rating
+    this.countRatingCount(); // Count the number of services/resources for each rating
   }
 
   filterRating() {
     if (this.selectedModel === -1) {
-      // Show all services if rating is set to all
+      // Show all services/resources if rating is set to all
       this.dataSource = this.originalDataSource;
     } else {
       this.dataSource = this.originalDataSource.filter((service: any) => {
-        return service.rating.rate >= this.selectedModel; // Filter services based on selected rating
+        return service.rating.rate >= this.selectedModel; // Filter services/resources based on selected rating
       });
     }
     this.rateFilteredDataSource.emit(this.dataSource); // Emit the filtered data
   }
 
   countRatingCount() {
-    // Count the number of services for each rating
+    // Count the number of services/resources for each rating
     this.ratings.forEach((rating: any) => {
       rating.count = this.countRatingsGreaterThan(rating.rate);
     });
@@ -70,9 +70,9 @@ export class FilterRatingComponent implements OnInit, OnChanges {
 
   countRatingsGreaterThan(threshold: number): number {
     let count = 0;
-    // Count services with ratings greater than or equal to the threshold
-    for (const service of this.originalDataSource) {
-      if (service.rating.rate >= threshold) {
+    // Count services/resources with ratings greater than or equal to the threshold
+    for (const serviceAndResource of this.originalDataSource) {
+      if (serviceAndResource.rating.rate >= threshold) {
         count++;
       }
     }

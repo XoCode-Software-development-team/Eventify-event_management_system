@@ -15,10 +15,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendor-add-new-service',
-  templateUrl: './vendor-add-new-service.component.html',
-  styleUrls: ['./vendor-add-new-service.component.scss'],
+  templateUrl: './vendor-add-new-serviceAndResource.component.html',
+  styleUrls: ['./vendor-add-new-serviceAndResource.component.scss'],
 })
-export class VendorAddNewServiceComponent implements OnInit {
+export class VendorAddNewServiceAndResourceComponent implements OnInit {
   constructor(
     private _announcer: LiveAnnouncer, // Service for announcing messages for accessibility
     private _serviceAndResource: ServiceAndResourceService,
@@ -314,7 +314,7 @@ export class VendorAddNewServiceComponent implements OnInit {
 
   // Add new service using service
   async addNewService(formData: any) {
-    this._serviceAndResource.addNewService(this.vendorId, formData).subscribe({
+    this._serviceAndResource.addNewServiceAndResource(this.vendorId, formData).subscribe({
       next: (res: any) => {
         console.log(res);
         alert('Service Added Successfully');

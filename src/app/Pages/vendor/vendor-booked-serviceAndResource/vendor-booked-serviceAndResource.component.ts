@@ -4,10 +4,10 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/s
 
 @Component({
   selector: 'app-vendor-booked-services',
-  templateUrl: './vendor-booked-services.component.html',
-  styleUrls: ['./vendor-booked-services.component.scss'],
+  templateUrl: './vendor-booked-serviceAndResource.component.html',
+  styleUrls: ['./vendor-booked-serviceAndResource.component.scss'],
 })
-export default class VendorBookedServicesComponent implements OnInit {
+export default class VendorBookedServiceAndResourceComponent implements OnInit {
 
   constructor(private _serviceAndResource: ServiceAndResourceService) { }
 
@@ -33,7 +33,7 @@ export default class VendorBookedServicesComponent implements OnInit {
    */
   getServices(categoryId: string) {
     this.noData = false;
-    this._serviceAndResource.getBookedServicesOfVendor(categoryId, this.vendorId).subscribe({
+    this._serviceAndResource.getBookedServiceAndResourcesOfVendor(categoryId, this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res; // Assigns the fetched data to the data source
         console.log(res);
@@ -53,7 +53,7 @@ export default class VendorBookedServicesComponent implements OnInit {
    */
   getCategories() {
     this.noData = false;
-    this._serviceAndResource.getServiceCategoriesOfBookedServices(this.vendorId).subscribe({
+    this._serviceAndResource.getServiceAndResourceCategoriesOfBookedServices(this.vendorId).subscribe({
       next: (res: any) => {
         // Maps the received data to category objects
         this.categories = res.map((item: any) => ({

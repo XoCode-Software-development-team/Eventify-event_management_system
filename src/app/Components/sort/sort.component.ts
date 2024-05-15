@@ -17,8 +17,8 @@ export class SortComponent {
 
   // Array defining the sorting options with their values and display names
   sortBy = [
-    {value: 'sNameAZ', viewValue: 'Service name A to Z'},
-    {value: 'sNameZA', viewValue: 'Service name Z to A'},
+    {value: 'sNameAZ', viewValue: 'Name A to Z'},
+    {value: 'sNameZA', viewValue: 'Name Z to A'},
     {value: 'RateLH', viewValue: 'Rating low to high'},
     {value: 'RateHL', viewValue: 'Rating high to low'},
   ];

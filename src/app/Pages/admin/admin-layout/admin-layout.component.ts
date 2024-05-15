@@ -10,7 +10,7 @@ export class AdminLayoutComponent {
   navList = [
     { text: "Home", url: "home" },
     { text: "Service", url: "services/all" },
-    { text: "Resource", url: "resource" },
+    { text: "Resource", url: "resources/all" },
     { text: "Users", url: "users" },
   ];
 }

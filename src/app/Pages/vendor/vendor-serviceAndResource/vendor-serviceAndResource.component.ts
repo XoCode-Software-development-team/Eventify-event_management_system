@@ -5,10 +5,10 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/s
 
 @Component({
   selector: 'app-vendor-service',
-  templateUrl: './vendor-service.component.html',
-  styleUrls: ['./vendor-service.component.scss']
+  templateUrl: './vendor-serviceAndResource.component.html',
+  styleUrls: ['./vendor-serviceAndResource.component.scss']
 })
-export class VendorServiceComponent {
+export class VendorServiceAndResourceComponent {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
   constructor(
@@ -38,7 +38,7 @@ export class VendorServiceComponent {
   async getServices(categoryId: string) {
     this.noData = false;
     this.dataSource = [];
-    this._serviceAndResource.getVendorServiceListByCategory(categoryId,this.vendorId).subscribe({
+    this._serviceAndResource.getVendorServiceAndResourceListByCategory(categoryId,this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res;
         this.noData = res.length == 0 ? true : false;

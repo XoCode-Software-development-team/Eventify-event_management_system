@@ -35,7 +35,7 @@ export class VendorBookingRequestsComponent {
   // Retrieves services for the specified category
   getServices(categoryId: string) {
     this.noData = false;
-    this._serviceAndResource.getServicesOfBookingRequest(categoryId, this.vendorId).subscribe({
+    this._serviceAndResource.getServicesAndResourcesOfBookingRequest(categoryId, this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res; // Updates data source with fetched services
         console.log(res);
@@ -69,7 +69,7 @@ export class VendorBookingRequestsComponent {
   // Rejects a service booking request
   RejectService(eventId: string, soRId: string) {
     console.log(eventId, soRId);
-    this._serviceAndResource.rejectServiceFromVendor(eventId, soRId).subscribe({
+    this._serviceAndResource.rejectServiceAndResourceFromVendor(eventId, soRId).subscribe({
       next: (res: any) => {
         alert("Reject the booking request successfully.")
         console.log(res);
@@ -86,7 +86,7 @@ export class VendorBookingRequestsComponent {
   // Books a service requested by a vendor
   bookService(eventId: string, soRId: string) {
     console.log(eventId, soRId);
-    this._serviceAndResource.bookServiceByVendor(eventId, soRId).subscribe({
+    this._serviceAndResource.bookServiceAndResourceByVendor(eventId, soRId).subscribe({
       next: (res: any) => {
         alert("Accept the booking request successfully.");
         console.log(res);

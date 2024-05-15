@@ -10,7 +10,7 @@ export class ClientLayoutComponent {
   navList = [
     { text: "Home", url: "home" },
     { text: "Service", url: "services" },
-    { text: "Resource", url: "resource" },
+    { text: "Resource", url: "resources" },
     { text: "Event", url: "event" },
     { text: "Dashboard", url: "dashboard" }
   ];

@@ -25,7 +25,7 @@ export interface ExtendedCategory extends Category {
     disable: boolean
   }
 
-  export interface servicesCard {
+  export interface servicesAndResourcesCard {
       soRId:number,
       name:string,
       rating:{
@@ -37,7 +37,7 @@ export interface ExtendedCategory extends Category {
       image:string
     }
 
-  export interface ServiceDetails {
+  export interface ServiceAndResourceDetails {
     name:string,
     vendor: {
       vendorId:string,

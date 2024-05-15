@@ -53,7 +53,7 @@ export class SliderComponent implements OnChanges, OnInit {
     return Math.ceil(maxPrice / 100);
   }
 
-  // Fetch price models from the service
+  // Fetch price models from the service/resource
   getPriceModel() {
     this._serviceAndResource.getPriceModelsList().subscribe({
       next: (res: any) => {
@@ -126,7 +126,7 @@ export class SliderComponent implements OnChanges, OnInit {
 
   // Get max price for the selected model
   getMaxPrice(model: any) {
-    this._serviceAndResource.getMaxPriceOfService(model.id).subscribe({
+    this._serviceAndResource.getMaxPriceOfServiceAndResource(model.id).subscribe({
       next: (res: any) => {
         this.maxPrice = res;
         this.minValue = 0;

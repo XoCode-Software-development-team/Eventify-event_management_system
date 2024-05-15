@@ -15,12 +15,13 @@ import {
 export class CategoryComponent implements OnChanges {
   @Input() CategoryList: Category[] = []; // Input property to receive the list of categories
   @Input() dataSource: any[] = []; // Input property to receive the data source
-  @Output() categoryFilterDataSource: EventEmitter<any> = new EventEmitter<any>(); // Output property to emit the filtered data source
+  @Output() categoryFilterDataSource: EventEmitter<any> =
+    new EventEmitter<any>(); // Output property to emit the filtered data source
   firstCategory: boolean = true; // Flag to track the state of the first checkbox
   selectedCategory: boolean = true; // Flag to track the state of selected category
-  originalDataSource: any[] = []; 
-  tempDataSource: any = []; 
-  newDataSource: any = []; 
+  originalDataSource: any[] = [];
+  tempDataSource: any = [];
+  newDataSource: any = [];
   extendedCategory: ExtendedCategory[] = [];
 
   ngOnChanges(): void {
@@ -38,15 +39,6 @@ export class CategoryComponent implements OnChanges {
     this.filterCategory();
   }
 
-  firstCheckboxClick(event: MouseEvent): void {
-    // Prevent default or stop propagation based on the state of the first checkbox
-    if (!this.firstCategory) {
-      event.preventDefault();
-    } else {
-      event.stopPropagation();
-    }
-  }
-
   firstCheckboxChange(event: any) {
     if (event.checked) {
       // Toggle the checked state of all checkboxes when the first checkbox is checked
@@ -54,8 +46,14 @@ export class CategoryComponent implements OnChanges {
         category.checked = true;
       });
       // Apply category filtering
-      this.filterCategory();
+    } else {
+      // Toggle the checked state of all checkboxes when the first checkbox is checked
+      this.extendedCategory.forEach((category) => {
+        category.checked = false;
+      });
+      // Apply category filtering
     }
+    this.filterCategory();
   }
 
   selectCategory() {
@@ -75,5 +73,4 @@ export class CategoryComponent implements OnChanges {
     // Emit the filtered data source
     this.categoryFilterDataSource.emit(this.dataSource);
   }
-
 }

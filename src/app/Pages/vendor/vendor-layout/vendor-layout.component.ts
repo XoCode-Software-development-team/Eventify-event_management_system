@@ -18,7 +18,7 @@ export class VendorLayoutComponent {
     },
     {
       text: "Resource",
-      url: "resources"
+      url: "resources/all"
     }
   ]
 }

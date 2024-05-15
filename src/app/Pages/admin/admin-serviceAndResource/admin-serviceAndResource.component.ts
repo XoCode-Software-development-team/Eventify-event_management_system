@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TabCardComponent } from './../../../Components/tab-card/tab-card.component';
+import { TabCardComponent } from '../../../Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
-  selector: 'app-admin-service',
-  templateUrl: './admin-service.component.html',
-  styleUrls: ['./admin-service.component.scss'],
+  selector: 'app-admin-serviceAndResource',
+  templateUrl: './admin-serviceAndResource.component.html',
+  styleUrls: ['./admin-serviceAndResource.component.scss'],
 })
-export class AdminServiceComponent implements OnInit {
+export class AdminServiceAndResourceComponent implements OnInit {
   @ViewChild('tabCard') tabCardComponent !: TabCardComponent;
 
   constructor(private _serviceAndResource: ServiceAndResourceService) {}
@@ -32,7 +32,7 @@ export class AdminServiceComponent implements OnInit {
   getServices(categoryId: string) {
     this.noData = false;
     this.dataSource = [];
-    this._serviceAndResource.getServiceListByCategory(categoryId).subscribe({
+    this._serviceAndResource.getServiceAndResourceListByCategory(categoryId).subscribe({
       next: (res: any) => {
         this.dataSource = res;
         this.noData = res.length == 0 ? true : false;
@@ -76,7 +76,7 @@ export class AdminServiceComponent implements OnInit {
 
   // Method to delete a service
   deleteService(id: string) {
-    this._serviceAndResource.deleteService(id).subscribe({
+    this._serviceAndResource.deleteServiceAndResource(id).subscribe({
       next: (res: any) => {
         alert("Delete service successfully.")
           if (res) {

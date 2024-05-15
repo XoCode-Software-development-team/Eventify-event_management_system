@@ -10,7 +10,7 @@ export class CommonLayoutComponent {
   navList = [
     { text: 'Home', url: 'home' }, // Home navigation item
     { text: 'Service', url: 'services' }, // Service navigation item
-    { text: 'Resource', url: 'resource' }, // Resource navigation item
+    { text: 'Resource', url: 'resources' }, // Resource navigation item
     { text: 'Checklist', url: 'checklist' }, // Checklist navigation item
   ];
 }

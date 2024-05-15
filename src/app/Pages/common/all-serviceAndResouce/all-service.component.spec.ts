@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AllServiceComponent } from './all-service.component';
+import { AllServiceAndResourceComponent } from './all-serviceAndResource.component';
 
 describe('ClientLayoutComponent', () => {
-  let component: AllServiceComponent;
-  let fixture: ComponentFixture<AllServiceComponent>;
+  let component: AllServiceAndResourceComponent;
+  let fixture: ComponentFixture<AllServiceAndResourceComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AllServiceComponent]
+      declarations: [AllServiceAndResourceComponent]
     });
-    fixture = TestBed.createComponent(AllServiceComponent);
+    fixture = TestBed.createComponent(AllServiceAndResourceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

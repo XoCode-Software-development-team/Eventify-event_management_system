@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
-import { ServiceDetails } from 'src/app/Interfaces/interfaces';
+import { ServiceAndResourceDetails } from 'src/app/Interfaces/interfaces';
 
 @Component({
   selector: 'app-service-details',
-  templateUrl: './service-details.component.html',
-  styleUrls: ['./service-details.component.scss'],
+  templateUrl: './serviceAndResource-details.component.html',
+  styleUrls: ['./serviceAndResource-details.component.scss'],
 })
-export class ServiceDetailsComponent implements OnInit {
+export class ServiceAndResourceDetailsComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _serviceAndResource: ServiceAndResourceService,
@@ -57,7 +57,7 @@ export class ServiceDetailsComponent implements OnInit {
   }
 
   // Service details object
-  serviceDetails: ServiceDetails = {
+  serviceDetails: ServiceAndResourceDetails = {
     name: '',
     vendor: { vendorId: '', companyName: '' },
     capacity: 0,
@@ -86,7 +86,7 @@ export class ServiceDetailsComponent implements OnInit {
   // Function to fetch service details from the service
   getServiceDetails() {
     this.isLoading = true;
-    this._serviceAndResource.getServiceDetailsForClient(this.soRId).subscribe({
+    this._serviceAndResource.getServiceAndResourceDetailsForClient(this.soRId).subscribe({
       next: (res: any) => {
         // Assuming response is an array, take the first item
         if (Array.isArray(res) && res.length > 0) {

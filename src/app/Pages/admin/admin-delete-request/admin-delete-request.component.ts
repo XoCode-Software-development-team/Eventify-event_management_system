@@ -33,7 +33,7 @@ export class AdminDeleteRequestComponent implements OnInit {
   getServices(categoryId: string): void {
     this.noData = false;
     this.dataSource = [];
-    this._serviceAndResource.getServiceListOfDeleteRequest(categoryId).subscribe({
+    this._serviceAndResource.getServiceAndResourceListOfDeleteRequest(categoryId).subscribe({
       next: (res: any) => {
         if (res != null) {
           this.dataSource = res;
@@ -71,7 +71,7 @@ export class AdminDeleteRequestComponent implements OnInit {
   // Delete service based on ID
   deleteService(id: string): void {
     console.log(id);
-    this._serviceAndResource.deleteServiceFromVendorRequest(id).subscribe({
+    this._serviceAndResource.deleteServiceAndResourceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         console.log(res);
         alert("Delete service successfully.");
@@ -93,7 +93,7 @@ export class AdminDeleteRequestComponent implements OnInit {
 
   // Remove service based on ID
   removeService(id: string): void {
-    this._serviceAndResource.removeServiceFromVendorRequest(id).subscribe({
+    this._serviceAndResource.removeServiceAndResourceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         alert("Delete request reject successfully.")
         if (res.remainingCount > 0) {
