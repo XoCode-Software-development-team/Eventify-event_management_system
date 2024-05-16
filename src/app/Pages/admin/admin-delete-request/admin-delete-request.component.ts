@@ -78,11 +78,8 @@ export class AdminDeleteRequestComponent implements OnInit {
 
   // Delete service/resource based on ID
   deleteServiceAndResource(id: string): void {
-    this._serviceAndResource
-      .deleteServiceAndResourceFromVendorRequest(id)
-      .subscribe({
+    this._serviceAndResource.deleteServiceAndResourceFromVendorRequest(id).subscribe({
         next: (res: any) => {
-          console.log(res);
           alert(`Delete ${this.checkUrlString()} successfully.`);
           if (res.remainingCount > 0) {
             this.checkUrlString() === 'service'

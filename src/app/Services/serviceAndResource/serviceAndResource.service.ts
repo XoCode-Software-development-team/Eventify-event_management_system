@@ -67,7 +67,7 @@ export class ServiceAndResourceService {
 
   // Delete delete requested service or resource
   deleteServiceAndResourceFromVendorRequest(id:string): Observable<any> {
-    return this._http.delete(`${this.Url}/api/deleteRequestApprove/${id}`);
+    return this._http.delete(`${this.Url}/api/${this.checkUrlString()}/deleteRequestApprove/${id}`);
   }
 
   // Get category list of vendor
