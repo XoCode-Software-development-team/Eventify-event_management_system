@@ -51,7 +51,6 @@ export class AdminServiceAndResourceComponent implements OnInit {
   getCategories() {
     this._serviceAndResource.getCategoriesList().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
           categoryName: this.checkUrlString() === 'service' ? item.serviceCategoryName : item.resourceCategoryName
@@ -69,7 +68,6 @@ export class AdminServiceAndResourceComponent implements OnInit {
   changeSuspendState(id: string) {
     this._serviceAndResource.changeSuspendState(id).subscribe({
       next: (res: any) => {
-        console.log(res);
         this.getServicesAndResources(res);
       },
       error: (err: any) => {
