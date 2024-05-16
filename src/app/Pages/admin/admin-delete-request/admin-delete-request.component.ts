@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
+import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
@@ -21,16 +22,18 @@ export class AdminDeleteRequestComponent implements OnInit {
   // Array to hold categories for delete request
   categories: Category[] = [];
 
+  capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
+
   // Array of displayed column names for the table
-  displayedColumns: string[] = ['No', 'Service', 'Rating', 'Action'];
+  displayedColumns: string[] = ['No', this.capitalizedTag, 'Rating', 'Action'];
 
   // Lifecycle hook, called after Angular has initialized all data-bound properties
   ngOnInit(): void {
     this.getCategoriesOfDeleteRequest();
   }
 
-  // Fetch services based on the selected category
-  getServices(categoryId: string): void {
+  // Fetch services/resources based on the selected category
+  getServicesAndResources(categoryId: string): void {
     this.noData = false;
     this.dataSource = [];
     this._serviceAndResource.getServiceAndResourceListOfDeleteRequest(categoryId).subscribe({
@@ -56,7 +59,7 @@ export class AdminDeleteRequestComponent implements OnInit {
           // Map received data to Category interface and assign to categories array
           this.categories = res.map((item: any) => ({
             id: item.categoryId,
-            categoryName: item.serviceCategoryName,
+            categoryName: this.checkUrlString() === 'service' ? item.serviceCategoryName : item.resourceCategoryName
           }));
           this.noData = res.length == 0 ? true : false;
         }
@@ -68,15 +71,14 @@ export class AdminDeleteRequestComponent implements OnInit {
     });
   }
 
-  // Delete service based on ID
-  deleteService(id: string): void {
-    console.log(id);
+  // Delete service/resource based on ID
+  deleteServiceAndResource(id: string): void {
     this._serviceAndResource.deleteServiceAndResourceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         console.log(res);
-        alert("Delete service successfully.");
+        alert(`Delete ${this.checkUrlString()} successfully.`);
         if (res.remainingCount > 0) {
-          this.getServices(res.deletedServiceCategoryId);
+          this.getServicesAndResources(res.deletedServiceCategoryId);
         } else {
           // Reset categories array and fetch categories again
           this.categories = [];
@@ -91,13 +93,13 @@ export class AdminDeleteRequestComponent implements OnInit {
     });
   }
 
-  // Remove service based on ID
-  removeService(id: string): void {
+  // Remove service/resource based on ID
+  removeServiceAndResource(id: string): void {
     this._serviceAndResource.removeServiceAndResourceFromVendorRequest(id).subscribe({
       next: (res: any) => {
         alert("Delete request reject successfully.")
         if (res.remainingCount > 0) {
-          this.getServices(res.deletedServiceCategoryId);
+          this.getServicesAndResources(res.deletedServiceCategoryId);
         } else {
           // Fetch categories again and refresh tab card component
           this.getCategoriesOfDeleteRequest();
@@ -109,4 +111,9 @@ export class AdminDeleteRequestComponent implements OnInit {
       },
     });
   }
+
+    // Identify whether service or resource
+    checkUrlString(): string {
+      return this._serviceAndResource.checkUrlString();
+    }
 }
