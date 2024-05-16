@@ -22,7 +22,7 @@ export class AdminServiceAndResourceComponent implements OnInit {
   categories: Category[] = [];
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
-
+  
   // Array of displayed columns
   displayedColumns: string[] = ['No', this.capitalizedTag, 'Rating', 'Action'];
 

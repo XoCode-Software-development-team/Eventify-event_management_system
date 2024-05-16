@@ -1,15 +1,15 @@
 <div class="container">
-    <!-- Container for service categories -->
+    <!-- Container for service/resource categories -->
     <div *ngIf="categories && categories.length > 0">
         <!-- Check if categories exist -->
-        <h4 class="pb-3">Service Categories</h4>
-        <!-- Display service categories using tab card component -->
-        <app-tab-card #tabCard [card]="categories" (childEvent)="getServices($event)"></app-tab-card>
+        <h4 class="pb-3">{{this.capitalizedTag}} Categories</h4>
+        <!-- Display service/resource categories using tab card component -->
+        <app-tab-card #tabCard [card]="categories" (childEvent)="getServicesAndResources($event)"></app-tab-card>
     </div>
 </div>
 
 <div class="table">
-    <!-- Table for displaying service data -->
+    <!-- Table for displaying service/resource data -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
         *ngIf="dataSource && dataSource.length > 0">
         <!-- Define columns -->
@@ -19,11 +19,11 @@
             <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="Service">
-            <!-- Column for service name with router link -->
-            <th mat-header-cell *matHeaderCellDef>Service</th>
+        <ng-container matColumnDef="{{this.capitalizedTag}}">
+            <!-- Column for service/resource name with router link -->
+            <th mat-header-cell *matHeaderCellDef>{{this.capitalizedTag}}</th>
             <td mat-cell *matCellDef="let element"
-                routerLink="/vendor/services/service/{{element.soRId}}/{{element.service}}">{{element.service}}</td>
+                routerLink="/vendor/{{this.checkUrlString()}}s/{{this.checkUrlString()}}/{{element.soRId}}/{{element[this.checkUrlString()]}}">{{element[this.checkUrlString()]}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Action">
@@ -32,15 +32,15 @@
             <td class="action" mat-cell *matCellDef="let element">
                 <!-- Update button -->
                 <div class="update">
-                    <a routerLink="/vendor/services/updateService/{{element.soRId}}/{{element.service}}">Update</a>
+                    <a routerLink="/vendor/{{this.checkUrlString()}}s/update{{this.capitalizedTag}}/{{element.soRId}}/{{element[this.checkUrlString()]}}">Update</a>
                 </div>
                 <span style="margin-left: 5px;"></span>
                 <!-- Delete button with confirmation popover -->
                 <div class="delete" [ngClass]="{'requestToDelete':element.isRequestToDelete}" mwlConfirmationPopover
-                    Confirmation="Service Delete confirmation"
+                    popoverTitle="{{this.capitalizedTag}} Delete confirmation"
                     popoverMessage="{{element.isRequestToDelete ? 'Do you really want to stop delete?' : 'Do you really want to delete?'}}"
                     placement="left" confirmButtonType="{{element.isRequestToDelete? 'primary' : 'danger'}}"
-                    (confirm)="deleteService(element.soRId,element.isRequestToDelete)" (cancel)="true">
+                    (confirm)="deleteServiceAndResource(element.soRId,element.isRequestToDelete)" (cancel)="true">
                     {{element.isRequestToDelete? "Pending": "Delete"}}
                 </div>
             </td>
@@ -51,9 +51,9 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>
-<!-- Display message when no services available -->
+<!-- Display message when no services/resources available -->
 <div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
-    <p *ngIf="noData">No available services found</p>
+    <p *ngIf="noData">No available {{this.checkUrlString()}}s found</p>
     <div *ngIf="dataSource.length == 0 && !noData" class="spinner-container d-flex flex-column">
         <p>Please wait</p>
         <!-- Loading Spinner -->

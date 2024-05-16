@@ -44,14 +44,14 @@
             <td class="action" mat-cell *matCellDef="let element">
                 <!-- Suspend button with confirmation popover -->
                 <div class="suspend" [ngClass]="{'sus':element.isSuspend}" mwlConfirmationPopover
-                    Confirmation="Service Confirmation"
+                    popoverTitle="{{this.capitalizedTag}} Confirmation"
                     popoverMessage="Do you really want to {{element.isSuspend ? 'Resume': 'suspend'}}?" placement="left"
                     confirmButtonType="{{element.isSuspend ? 'primary' : 'danger'}}"
                     (confirm)="changeSuspendState(element.soRId)" (cancel)="true">
                     {{!element.isSuspend? 'Suspend' : 'Resume'}}</div>
                 <!-- Delete button with confirmation popover -->
                 <span style="margin-left: 5px;"></span>
-                <div class="delete" mwlConfirmationPopover Confirmation="Service Delete Confirmation"
+                <div class="delete" mwlConfirmationPopover popoverTitle="{{this.capitalizedTag}} Delete Confirmation"
                     popoverMessage="Do you really want to delete?" placement="left"
                     (confirm)="deleteServiceAndResource(element.soRId)" (cancel)="true">
                     Delete
