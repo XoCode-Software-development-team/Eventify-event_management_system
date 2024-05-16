@@ -138,7 +138,8 @@
                                     be grater than 0! </span>
                             </mat-hint>
                         </mat-form-field>
-                        <p class="hint-text">Enter the maximum capacity for this service. If not applicable, you can leave this field blank.</p>
+                        <p class="hint-text">Enter the maximum capacity for this service. If not applicable, you can
+                            leave this field blank.</p>
                     </td>
 
                 </tr>
@@ -247,25 +248,8 @@
 
                         <!--Row 2-->
                         <tr>
-                            <!-- Column 1: City/Town/Area -->
+                            <!-- Column 1: District -->
                             <td class="first-td"><mat-form-field class="form-field" appearance="outline">
-                                    <mat-label>City/ Town/ Area</mat-label>
-                                    <!-- Input field for city/town/area -->
-                                    <input matInput class="input-data" formControlName="cityTownArea"
-                                        placeholder="Add city">
-
-                                    <!-- Icons for validation -->
-                                    <mat-icon color="primary" matSuffix
-                                        *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.invalid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched"
-                                        matTooltip="You can add city, town or area.">info</mat-icon>
-
-                                    <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.valid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched">check_circle</mat-icon>
-                                </mat-form-field>
-                            </td>
-
-                            <!-- Column 2: District -->
-                            <td><mat-form-field class="form-field" appearance="outline">
                                     <mat-label>District name</mat-label>
                                     <!-- Input field for district -->
                                     <input matInput class="input-data" required formControlName="district"
@@ -286,6 +270,23 @@
                                             *ngIf="getArrayControls(i,'serviceLocations','district')?.errors?.['required']">District
                                             is required! </span>
                                     </mat-hint>
+                                </mat-form-field>
+                            </td>
+
+                            <!-- Column 2: City/Town/Area -->
+                            <td><mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>City/ Town/ Area</mat-label>
+                                    <!-- Input field for city/town/area -->
+                                    <input matInput class="input-data" formControlName="cityTownArea"
+                                        placeholder="Add city">
+
+                                    <!-- Icons for validation -->
+                                    <mat-icon color="primary" matSuffix
+                                        *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.invalid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched"
+                                        matTooltip="You can add city, town or area.">info</mat-icon>
+
+                                    <mat-icon matSuffix style="color: green;"
+                                        *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.valid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched">check_circle</mat-icon>
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -461,7 +462,8 @@
 
                 <!-- Custom dropzone for uploading images -->
                 <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event,imageFiles)"
-                    [expandable]="true" [disableClick]="this.imageFiles.length >= 5" [maxFileSize]="maxImageSize" [multiple]="false">
+                    [expandable]="true" [disableClick]="this.imageFiles.length >= 5" [maxFileSize]="maxImageSize"
+                    [multiple]="false">
                     <ngx-dropzone-label>
 
                         <div>
@@ -495,7 +497,8 @@
 
                 <!-- Custom dropzone for uploading videos -->
                 <div class="custom-dropzone" ngx-dropzone [accept]="'video/*'" (change)="onSelect($event,videoFiles)"
-                    [expandable]="true" [disableClick]="this.videoFiles.length >= 5" [maxFileSize]="maxVideoSize" [multiple]="false">
+                    [expandable]="true" [disableClick]="this.videoFiles.length >= 5" [maxFileSize]="maxVideoSize"
+                    [multiple]="false">
 
                     <ngx-dropzone-label>
                         <div class="">

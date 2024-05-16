@@ -55,6 +55,7 @@ import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/ven
 import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
 import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
 import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
+import { CapitalizePipe } from './Pipes/Capitalize.pipe';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/
     VendorSidenavLayoutComponent,
     CommonIconLayoutComponent,
     AdminDeleteRequestComponent,
+    CapitalizePipe
   ],
   imports: [
     BrowserModule,
