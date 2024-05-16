@@ -20,7 +20,8 @@
         <ng-container matColumnDef="{{this.capitalizedTag}}">
             <th mat-header-cell *matHeaderCellDef>{{this.capitalizedTag}}</th>
             <td mat-cell *matCellDef="let element"
-                routerLink="/admin/{{checkUrlString()}}s/{{checkUrlString()}}/{{element.soRId}}/{{element[checkUrlString()]}}">{{element[checkUrlString()]}}</td>
+                routerLink="/admin/{{checkUrlString()}}s/{{checkUrlString()}}/{{element.soRId}}/{{element[checkUrlString()]}}">
+                {{element[checkUrlString()]}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Rating">

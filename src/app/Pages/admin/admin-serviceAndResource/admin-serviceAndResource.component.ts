@@ -10,7 +10,7 @@ import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
   styleUrls: ['./admin-serviceAndResource.component.scss'],
 })
 export class AdminServiceAndResourceComponent implements OnInit {
-  @ViewChild('tabCard') tabCardComponent !: TabCardComponent;
+  @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
   constructor(private _serviceAndResource: ServiceAndResourceService) {}
 
@@ -24,7 +24,7 @@ export class AdminServiceAndResourceComponent implements OnInit {
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
 
   // Array of displayed columns
-  displayedColumns: string[] = ['No',this.capitalizedTag, 'Rating', 'Action'];
+  displayedColumns: string[] = ['No', this.capitalizedTag, 'Rating', 'Action'];
 
   ngOnInit(): void {
     // Fetch categories on component initialization
@@ -35,16 +35,18 @@ export class AdminServiceAndResourceComponent implements OnInit {
   getServicesAndResources(categoryId: string) {
     this.noData = false;
     this.dataSource = [];
-    this._serviceAndResource.getServiceAndResourceListByCategory(categoryId).subscribe({
-      next: (res: any) => {
-        this.dataSource = res;
-        this.noData = res.length == 0 ? true : false;
-      },
-      error: (err: any) => {
-        console.log(err);
+    this._serviceAndResource
+      .getServiceAndResourceListByCategory(categoryId)
+      .subscribe({
+        next: (res: any) => {
+          this.dataSource = res;
+          this.noData = res.length == 0 ? true : false;
+        },
+        error: (err: any) => {
+          console.log(err);
           this.noData = true;
-      },
-    });
+        },
+      });
   }
 
   // Method to fetch categories
@@ -53,8 +55,11 @@ export class AdminServiceAndResourceComponent implements OnInit {
       next: (res: any) => {
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
-          categoryName: this.checkUrlString() === 'service' ? item.serviceCategoryName : item.resourceCategoryName
-        }))
+          categoryName:
+            this.checkUrlString() === 'service'
+              ? item.serviceCategoryName
+              : item.resourceCategoryName,
+        }));
         this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
@@ -80,10 +85,10 @@ export class AdminServiceAndResourceComponent implements OnInit {
   deleteServiceAndResource(id: string) {
     this._serviceAndResource.deleteServiceAndResource(id).subscribe({
       next: (res: any) => {
-        alert(`Delete ${this.checkUrlString()} successfully.`)
-          if (res) {
-            this.getServicesAndResources(res);
-          }
+        alert(`Delete ${this.checkUrlString()} successfully.`);
+        if (res) {
+          this.getServicesAndResources(res);
+        }
       },
       error: (err: any) => {
         console.log(err);
@@ -91,7 +96,6 @@ export class AdminServiceAndResourceComponent implements OnInit {
     });
   }
 
-  
   // Identify whether service or resource
   checkUrlString(): string {
     return this._serviceAndResource.checkUrlString();
