@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
-import { ServiceAndResourceDetails } from 'src/app/Interfaces/interfaces';
+import { ServiceResourceDetails } from 'src/app/Interfaces/interfaces';
+import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 
 @Component({
   selector: 'app-service-details',
@@ -15,11 +16,13 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     private router: Router
   ) {}
 
+  capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
+
   isVendor: boolean = false; // Flag to indicate vendor
   isAdmin: boolean = false; // Flag to indicate admin
   isLoading: boolean = false; // Flag to indicate loading state
   soRId: number = 0;
-  serviceName: string = '';
+  serviceResourceName: string = '';
 
   // Button configurations
   compareButton = {
@@ -56,12 +59,13 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     display: 'inline',
   }
 
-  // Service details object
-  serviceDetails: ServiceAndResourceDetails = {
+
+  // Service/Resource details object
+  serviceResourceDetails: ServiceResourceDetails = {
     name: '',
     vendor: { vendorId: '', companyName: '' },
     capacity: 0,
-    serviceCategory: '',
+    Category: '',
     description: '',
     reviewAndRating: [],
     featureAndFacility: [],
@@ -72,41 +76,40 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    // Subscribe to route params to get service ID
+    // Subscribe to route params to get service/resource ID
     this._route.params.subscribe((params) => {
       this.soRId = params['soRId'];
-      this.serviceName = params['name'];
-      this.updateButton.url = `/vendor/services/updateService/${this.soRId}/${this.serviceName}`,
+      this.serviceResourceName = params['name'];
+      this.updateButton.url = `/vendor${this.checkUrlString()}s/update${this.capitalizedTag}/${this.soRId}/${this.serviceResourceName}`,
       this.getServiceDetails();
     });
 
     this.checkUser();
   }
 
-  // Function to fetch service details from the service
+  // Function to fetch service/resource details from the service/resource
   getServiceDetails() {
     this.isLoading = true;
     this._serviceAndResource.getServiceAndResourceDetailsForClient(this.soRId).subscribe({
       next: (res: any) => {
         // Assuming response is an array, take the first item
         if (Array.isArray(res) && res.length > 0) {
-          const service = res[0];
-          this.serviceDetails = {
-            name: service.name,
-            vendor: service.vendor,
-            serviceCategory: service.serviceCategory,
-            capacity: service.capacity,
-            description: service.description,
-            reviewAndRating: service.reviewAndRating,
-            featureAndFacility: service.featureAndFacility,
-            location: service.location,
-            price: service.price,
-            images: service.images,
-            videos: service.videos,
-          };
-          console.log(res);
+            const serviceResource = res[0];
+            this.serviceResourceDetails = {
+              name: serviceResource.name,
+              vendor: serviceResource.vendor,
+              Category: serviceResource.serviceResourceCategory,
+              capacity: serviceResource.capacity,
+              description: serviceResource.description,
+              reviewAndRating: serviceResource.reviewAndRating,
+              featureAndFacility: serviceResource.featureAndFacility,
+              location: serviceResource.location,
+              price: serviceResource.price,
+              images: serviceResource.images,
+              videos: serviceResource.videos,
+            };
         } else {
-          console.log("No service details found.");
+          console.log(`No ${this.checkUrlString()} details found.`);
         }
         this.isLoading = false;
       },
@@ -121,11 +124,16 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     // Get the current URL
     const currentUrl = this.router.url;
 
-    const vendorUrl = '/vendor/services/service/';
-    const adminUrl = '/admin/services/service/';
+    const vendorUrl = `/vendor/${this.checkUrlString()}s/${this.checkUrlString()}/`;
+    const adminUrl = '/admin/${this.checkUrlString()}s/${this.checkUrlString()}/';
 
     // Check if the current URL contains the vendor or admin path segments
     this.isVendor = currentUrl.includes(vendorUrl);
     this.isAdmin = currentUrl.includes(adminUrl);
   }
+
+    // Identify whether service or resource
+    checkUrlString(): string{
+      return this._serviceAndResource.checkUrlString();
+    }
 }

@@ -37,14 +37,14 @@ export interface ExtendedCategory extends Category {
       image:string
     }
 
-  export interface ServiceAndResourceDetails {
+  export interface ServiceResourceDetails {
     name:string,
     vendor: {
       vendorId:string,
       companyName:string
     },
     capacity:number,
-    serviceCategory:string,
+    Category:string,
     description:string,
     reviewAndRating: ReviewAndRating[],
     featureAndFacility:string[],
