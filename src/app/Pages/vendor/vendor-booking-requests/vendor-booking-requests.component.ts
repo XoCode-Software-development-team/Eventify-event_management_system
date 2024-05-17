@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
+import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
@@ -19,26 +20,28 @@ export class VendorBookingRequestsComponent {
 
   vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee"; // Vendor ID
 
+  capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
+
   ngOnInit(): void {
     this.getCategories(); // Fetch categories on component initialization
   }
 
   displayedColumns: string[] = [ // Defines displayed columns for the table
     'No',
-    'Service',
+    this.capitalizedTag,
     'Event Name',
     'Event Date',
     'Pickup Date',
     'Action',
   ];
 
-  // Retrieves services for the specified category
-  getServices(categoryId: string) {
+  // Retrieves services/resources for the specified category
+  getServicesAndResources(categoryId: string) {
     this.noData = false;
+    this.dataSource = [];
     this._serviceAndResource.getServicesAndResourcesOfBookingRequest(categoryId, this.vendorId).subscribe({
       next: (res: any) => {
         this.dataSource = res; // Updates data source with fetched services
-        console.log(res);
         this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
@@ -51,11 +54,15 @@ export class VendorBookingRequestsComponent {
   // Retrieves categories for booking requests
   getCategories() {
     this.noData = false;
+    this.categories = [];
     this._serviceAndResource.getCategoriesOfBookingRequest(this.vendorId).subscribe({
       next: (res: any) => {
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
-          categoryName: item.serviceCategoryName,
+          categoryName:
+            this.checkUrlString() === 'service'
+              ? item.serviceCategoryName
+              : item.resourceCategoryName,
         }));
         this.noData = res.length == 0 ? true : false;
       },
@@ -66,16 +73,15 @@ export class VendorBookingRequestsComponent {
     });
   }
 
-  // Rejects a service booking request
-  RejectService(eventId: string, soRId: string) {
+  // Rejects a service/resource booking request
+  RejectServiceAndResource(eventId: string, soRId: string) {
     console.log(eventId, soRId);
     this._serviceAndResource.rejectServiceAndResourceFromVendor(eventId, soRId).subscribe({
       next: (res: any) => {
         alert("Reject the booking request successfully.")
-        console.log(res);
         this.categories = []; // Clears categories array
         this.getCategories(); // Fetches updated categories
-        this.tabCardComponent.ngOnInit(); // Reinitializes the TabCardComponent
+        this.tabCardComponent.ngOnInit(); // Re initializes the TabCardComponent
       },
       error: (err: any) => {
         console.log(err);
@@ -83,20 +89,24 @@ export class VendorBookingRequestsComponent {
     });
   }
 
-  // Books a service requested by a vendor
-  bookService(eventId: string, soRId: string) {
+  // Books a service/resource requested by a vendor
+  bookServiceAndResource(eventId: string, soRId: string) {
     console.log(eventId, soRId);
     this._serviceAndResource.bookServiceAndResourceByVendor(eventId, soRId).subscribe({
       next: (res: any) => {
         alert("Accept the booking request successfully.");
-        console.log(res);
         this.categories = []; // Clears categories array
         this.getCategories(); // Fetches updated categories
-        this.tabCardComponent.ngOnInit(); // Reinitializes the TabCardComponent
+        this.tabCardComponent.ngOnInit(); // Re initializes the TabCardComponent
       },
       error: (err: any) => {
         console.log(err);
       },
     });
   }
+
+    // Identify whether service or resource
+    checkUrlString(): string {
+      return this._serviceAndResource.checkUrlString();
+    }
 }
