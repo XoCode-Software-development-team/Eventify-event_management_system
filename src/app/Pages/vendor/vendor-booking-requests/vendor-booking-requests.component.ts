@@ -75,7 +75,6 @@ export class VendorBookingRequestsComponent {
 
   // Rejects a service/resource booking request
   RejectServiceAndResource(eventId: string, soRId: string) {
-    console.log(eventId, soRId);
     this._serviceAndResource.rejectServiceAndResourceFromVendor(eventId, soRId).subscribe({
       next: (res: any) => {
         alert("Reject the booking request successfully.")
@@ -91,7 +90,6 @@ export class VendorBookingRequestsComponent {
 
   // Books a service/resource requested by a vendor
   bookServiceAndResource(eventId: string, soRId: string) {
-    console.log(eventId, soRId);
     this._serviceAndResource.bookServiceAndResourceByVendor(eventId, soRId).subscribe({
       next: (res: any) => {
         alert("Accept the booking request successfully.");

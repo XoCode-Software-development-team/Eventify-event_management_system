@@ -12,6 +12,7 @@ import {
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
+import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 
 @Component({
   selector: 'app-vendor-add-new-service',
@@ -20,9 +21,9 @@ import { Router } from '@angular/router';
 })
 export class VendorAddNewServiceAndResourceComponent implements OnInit {
   constructor(
-    private _announcer: LiveAnnouncer, // Service for announcing messages for accessibility
+    private _announcer: LiveAnnouncer, // Service/Resource for announcing messages for accessibility
     private _serviceAndResource: ServiceAndResourceService,
-    private _fireStorage: AngularFireStorage, // Service for interacting with Firebase Storage
+    private _fireStorage: AngularFireStorage, // Service/Resource for interacting with Firebase Storage
     private _router: Router
   ) {}
 
@@ -31,7 +32,9 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   categories: Category[] = []; // Holds the list of categories
   pricingModels: PriceModel[] = []; // Holds the list of pricing models
   featuresAndFacilities: FeatureAndFacility[] = []; // Holds the list of service features
-  serviceForm!: FormGroup; // Form group for service input fields
+  serviceResourceForm!: FormGroup; // Form group for service/resource input fields
+
+  capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
 
   imageFiles: File[] = []; // Holds the list of images
   videoFiles: File[] = []; // Holds the list of videos
@@ -46,7 +49,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     // Save button configuration
     url: '',
     type: 'submit',
-    text: 'Save Service',
+    text: `Save ${this.capitalizedTag}`,
     icon: '',
     class: ['hideIcon'], // Scss class list
     disable: true, // Initially disabled until form is valid
@@ -136,44 +139,78 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
 
   //Initialize form
   formHandle() {
-    this.serviceForm = new FormGroup({
-      serviceName: new FormControl(null),
-      serviceCategory: new FormControl(null),
-      serviceDescription: new FormControl(null),
-      serviceMaxCapacity: new FormControl(
-        0,
-        Validators.pattern('^-?(0|[1-9][0-9]*)$')
-      ),
-      serviceFeatures: new FormControl([]),
-      serviceLocations: new FormArray([
-        new FormGroup({
-          country: new FormControl(null),
-          stateProvinceRegion: new FormControl(null),
-          district: new FormControl(null),
-          cityTownArea: new FormControl(null),
-          houseNoStreetRoad: new FormControl(null),
-        }),
-      ]),
-      servicePricePackages: new FormArray([
-        new FormGroup({
-          packageName: new FormControl(null),
-          priceModel: new FormControl(null),
-          basePrice: new FormControl(null),
-        }),
-      ]),
-      images: new FormControl([]),
-      videos: new FormControl([]),
-    });
+
+    if (this.checkUrlString() === 'service') {
+      this.serviceResourceForm = new FormGroup({
+        serviceName: new FormControl(null),
+        serviceCategory: new FormControl(null),
+        serviceDescription: new FormControl(null),
+        serviceMaxCapacity: new FormControl(
+          0,
+          Validators.pattern('^-?(0|[1-9][0-9]*)$')
+        ),
+        serviceFeatures: new FormControl([]),
+        serviceLocations: new FormArray([
+          new FormGroup({
+            country: new FormControl(null),
+            stateProvinceRegion: new FormControl(null),
+            district: new FormControl(null),
+            cityTownArea: new FormControl(null),
+            houseNoStreetRoad: new FormControl(null),
+          }),
+        ]),
+        servicePricePackages: new FormArray([
+          new FormGroup({
+            packageName: new FormControl(null),
+            priceModel: new FormControl(null),
+            basePrice: new FormControl(null),
+          }),
+        ]),
+        images: new FormControl([]),
+        videos: new FormControl([]),
+      });
+    } else {
+
+      this.serviceResourceForm = new FormGroup({
+        resourceName: new FormControl(null),
+        resourceCategory: new FormControl(null),
+        resourceDescription: new FormControl(null),
+        resourceMaxCapacity: new FormControl(
+          0,
+          Validators.pattern('^-?(0|[1-9][0-9]*)$')
+        ),
+        resourceFeatures: new FormControl([]),
+        resourceLocations: new FormArray([
+          new FormGroup({
+            country: new FormControl(null),
+            stateProvinceRegion: new FormControl(null),
+            district: new FormControl(null),
+            cityTownArea: new FormControl(null),
+            houseNoStreetRoad: new FormControl(null),
+          }),
+        ]),
+        resourcePricePackages: new FormArray([
+          new FormGroup({
+            packageName: new FormControl(null),
+            priceModel: new FormControl(null),
+            basePrice: new FormControl(null),
+          }),
+        ]),
+        images: new FormControl([]),
+        videos: new FormControl([]),
+      });
+    }
+
 
     // Enable save button when form is valid
-    this.serviceForm.valueChanges.subscribe(() => {
-      if (this.serviceForm.valid) this.saveButton.disable = false;
+    this.serviceResourceForm.valueChanges.subscribe(() => {
+      if (this.serviceResourceForm.valid) this.saveButton.disable = false;
     });
   }
 
   // Location management
   addLocation() {
-    const control = this.serviceForm.get('serviceLocations') as FormArray;
+    const control = this.serviceResourceForm.get(this.checkUrlString()+'Locations') as FormArray;
     control.push(
       new FormGroup({
         country: new FormControl(null),
@@ -186,13 +223,13 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   }
 
   removeLocation(index: any) {
-    const control = this.serviceForm.get('serviceLocations') as FormArray;
+    const control = this.serviceResourceForm.get(this.checkUrlString()+'Locations') as FormArray;
     control.removeAt(index);
   }
 
   // Package management
   addPackage() {
-    const control = this.serviceForm.get('servicePricePackages') as FormArray;
+    const control = this.serviceResourceForm.get(this.checkUrlString()+'PricePackages') as FormArray;
     control.push(
       new FormGroup({
         packageName: new FormControl(null),
@@ -203,18 +240,18 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   }
 
   removePackage(index: any) {
-    const control = this.serviceForm.get('servicePricePackages') as FormArray;
+    const control = this.serviceResourceForm.get(this.checkUrlString()+'PricePackages') as FormArray;
     control.removeAt(index);
   }
 
   // Helper functions for accessing form controls
   getControls(arrayName: string) {
-    return (this.serviceForm.get(arrayName) as FormArray).controls;
+    return (this.serviceResourceForm.get(arrayName) as FormArray).controls;
   }
 
   // Method to get a specific form control within the sub-array
   getArrayControls(index: number, arrayName: string, controlName: string) {
-    const control = (this.serviceForm.get(arrayName) as FormArray)
+    const control = (this.serviceResourceForm.get(arrayName) as FormArray)
       .at(index)
       .get(controlName);
     return control;
@@ -229,23 +266,23 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     console.log(mouseEvent);
     this.isLoading = true;
 
-    //when submit the form add featuresAndFacilities array to serviceForm
-    this.serviceForm
-      .get('serviceFeatures')
+    //when submit the form add featuresAndFacilities array to serviceResourceForm
+    this.serviceResourceForm
+      .get(this.checkUrlString()+'Features')
       ?.setValue(this.featuresAndFacilities);
 
     // Upload images and videos to Firebase Storage and set URLs in form
     await this.getFirebaseLink(this.imageFiles, this.imageUrls, 'images');
-    this.serviceForm.get('images')?.setValue(this.imageUrls);
+    this.serviceResourceForm.get('images')?.setValue(this.imageUrls);
 
     await this.getFirebaseLink(this.videoFiles, this.videoUrls, 'videos');
-    this.serviceForm.get('videos')?.setValue(this.videoUrls);
+    this.serviceResourceForm.get('videos')?.setValue(this.videoUrls);
 
-    console.log(this.serviceForm.value);
-    // Add new service using service
-    await this.addNewService(this.serviceForm.value);
+    console.log(this.serviceResourceForm.value);
+    // Add new service/resource using service
+    await this.addNewServiceResource(this.serviceResourceForm.value);
 
-    this._router.navigate(['/vendor/services/all']); //navigate to the services page
+    this._router.navigate([`/vendor/${this.checkUrlString()}s/all`]); //navigate to the services/resources page
 
     this.isLoading = false;
   }
@@ -254,22 +291,25 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   resetForm() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.formHandle(); // Reset form
-    this.serviceForm.reset();
-    this.serviceForm.markAsUntouched();
-    this.serviceForm.markAsPristine();
+    this.serviceResourceForm.reset();
+    this.serviceResourceForm.markAsUntouched();
+    this.serviceResourceForm.markAsPristine();
     this.featuresAndFacilities = []; // Clear features
     this.imageFiles = []; // Clear images
     this.videoFiles = []; // Clear videos
   }
 
-  // Fetch categories from service
+  // Fetch categories from service/resource
   getCategories() {
     this._serviceAndResource.getCategoriesList().subscribe({
       next: (res: any) => {
         // Map response to category array
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
-          categoryName: item.serviceCategoryName,
+          categoryName:
+            this.checkUrlString() === 'service'
+              ? item.serviceCategoryName
+              : item.resourceCategoryName,
         }));
       },
       error: (err: any) => {
@@ -278,7 +318,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     });
   }
 
-  // Fetch price models from service
+  // Fetch price models from service/resource
   getPriceModels() {
     this._serviceAndResource.getPriceModelsList().subscribe({
       next: (res: any) => {
@@ -304,7 +344,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         console.log(file);
-        const path = `service-${fileContent}/${file.name}`;
+        const path = `${this.checkUrlString()}-${fileContent}/${file.name}`;
         const uploadTask = await this._fireStorage.upload(path, file);
         const url = await uploadTask.ref.getDownloadURL();
         fileUrls.push(url); // Push URL to array
@@ -312,17 +352,21 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     }
   }
 
-  // Add new service using service
-  async addNewService(formData: any) {
+  // Add new service/resource using service
+  async addNewServiceResource(formData: any) {
     this._serviceAndResource.addNewServiceAndResource(this.vendorId, formData).subscribe({
       next: (res: any) => {
         console.log(res);
-        alert('Service Added Successfully');
+        alert(this.capitalizedTag+' Added Successfully');
       },
       error: (err: any) => {
         console.log(err);
-        alert('Failed to add service')
+        alert('Failed to add '+this.checkUrlString())
       },
     });
   }
+    // Identify whether service or resource
+    checkUrlString(): string {
+      return this._serviceAndResource.checkUrlString();
+    }
 }

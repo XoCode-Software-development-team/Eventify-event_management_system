@@ -117,7 +117,7 @@ export class ServiceAndResourceService {
 
   // Get All price models
   getPriceModelsList() : Observable<Category[]>{
-    return this._http.get<Category[]>(`${this.Url}/api/${this.checkUrlString()}/priceModels`);
+    return this._http.get<Category[]>(`${this.Url}/api/service/priceModels`);
   }
 
   // Add new Service or Resource by vendor

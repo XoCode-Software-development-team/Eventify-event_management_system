@@ -1,3 +1,4 @@
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Button } from 'src/app/Interfaces/interfaces';
 
@@ -9,6 +10,8 @@ import { Button } from 'src/app/Interfaces/interfaces';
 export class NavBarComponent implements OnInit {
   @Input() nav: any; // Input for navigation items
   @Input() user: any; // Input for user data
+
+  constructor(private _serviceAndResource: ServiceAndResourceService) {}
 
   ngOnInit(): void {
     // Hide sign-up and login buttons if user is logged in
@@ -39,4 +42,9 @@ export class NavBarComponent implements OnInit {
     class:[],
     disable:false
   };
-}
+
+    // Identify whether service or resource
+    checkUrlString(): string {
+      return this._serviceAndResource.checkUrlString();
+    }
+  }

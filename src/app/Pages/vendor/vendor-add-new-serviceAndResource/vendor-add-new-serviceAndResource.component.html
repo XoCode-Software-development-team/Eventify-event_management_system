@@ -1,11 +1,11 @@
 <div class="container-fluid mb-5">
 
     <!-- Form element -->
-    <form class="service-form" [ngClass]="isLoading? 'hideForm' : null" [formGroup]="serviceForm"
+    <form class="service-form" [ngClass]="isLoading? 'hideForm' : null" [formGroup]="serviceResourceForm"
         (ngSubmit)="saveForm($event)" (reset)="resetForm()">
 
-        <!-- Section 1: Service Details -->
-        <h5 class="mb-4">1. Service Details</h5>
+        <!-- Section 1: Service/Resource Details -->
+        <h5 class="mb-4">1. {{this.capitalizedTag}} Details</h5>
         <div class="part mb-5">
 
             <!-- Table for organizing input fields -->
@@ -14,59 +14,59 @@
                 <!-- Row 1 -->
                 <tr>
 
-                    <!-- Column 1: Service name -->
+                    <!-- Column 1: Service/Resource name -->
                     <td class="first-td">
                         <mat-form-field class="form-field" appearance="outline">
-                            <mat-label>Service name</mat-label>
-                            <!-- Input field for service name -->
+                            <mat-label>{{this.capitalizedTag}} name</mat-label>
+                            <!-- Input field for service/resource name -->
                             <input matInput class="input-data" minlength="2" maxlength="50" required
-                                formControlName="serviceName" placeholder="Add service name">
+                                formControlName="{{this.checkUrlString()}}Name" placeholder="Add {{this.checkUrlString()}} name">
 
                             <!-- Icons and hints for validation -->
                             <mat-icon
-                                *ngIf="serviceForm.get('serviceName')?.touched && serviceForm.get('serviceName')?.invalid"
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'Name')?.touched && serviceResourceForm.get(this.checkUrlString()+'Name')?.invalid"
                                 color="primary" matSuffix
-                                matTooltip="Service name should have minimum of 3 and maximum of 50 characters.">info</mat-icon>
+                                matTooltip="{{this.capitalizedTag}} name should have minimum of 3 and maximum of 50 characters.">info</mat-icon>
 
                             <mat-icon style="color: green;" matSuffix
-                                *ngIf="serviceForm.get('serviceName')?.valid">check_circle</mat-icon>
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'Name')?.valid">check_circle</mat-icon>
 
                             <mat-hint
-                                *ngIf="serviceForm.get('serviceName')?.invalid && serviceForm.get('serviceName')?.touched">
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'Name')?.invalid && serviceResourceForm.get(this.checkUrlString()+'Name')?.touched">
 
                                 <span class="small text-danger"
-                                    *ngIf="serviceForm.get('serviceName')?.errors?.['minlength']">Service name must have
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'Name')?.errors?.['minlength']">{{this.capitalizedTag}} name must have
                                     minimum of 3 characters! </span>
 
                                 <span class="small text-danger"
-                                    *ngIf="serviceForm.get('serviceName')?.errors?.['required']">Service name can not be
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'Name')?.errors?.['required']">{{this.capitalizedTag}} name can not be
                                     left blank! </span>
                             </mat-hint>
                         </mat-form-field>
                     </td>
 
-                    <!-- Column 2: Service category -->
+                    <!-- Column 2: Service/Resource category -->
                     <td><mat-form-field appearance="outline" class="form-field">
-                            <mat-label>Service category</mat-label>
-                            <!-- Dropdown for service category -->
-                            <mat-select required formControlName="serviceCategory" placeholder="Select category">
+                            <mat-label>{{this.capitalizedTag}} category</mat-label>
+                            <!-- Dropdown for service/resource category -->
+                            <mat-select required formControlName="{{this.checkUrlString()}}Category" placeholder="Select category">
                                 <mat-option *ngFor="let category of categories"
                                     [value]="category.id">{{category.categoryName}}</mat-option>
                             </mat-select>
 
                             <!-- Icons and hints for validation -->
                             <mat-icon color="primary" matSuffix
-                                *ngIf="serviceForm.get('serviceCategory')?.invalid && serviceForm.get('serviceCategory')?.touched"
-                                matTooltip="Service category is required.">info</mat-icon>
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'Category')?.invalid && serviceResourceForm.get(this.checkUrlString()+'Category')?.touched"
+                                matTooltip="{{this.capitalizedTag}} category is required.">info</mat-icon>
 
                             <mat-icon matSuffix style="color: green;"
-                                *ngIf="serviceForm.get('serviceCategory')?.valid">check_circle</mat-icon>
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'Category')?.valid">check_circle</mat-icon>
 
                             <mat-hint
-                                *ngIf="serviceForm.get('serviceCategory')?.invalid && serviceForm.get('serviceCategory')?.touched">
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'Category')?.invalid && serviceResourceForm.get(this.checkUrlString()+'Category')?.touched">
 
                                 <span class="small text-danger"
-                                    *ngIf="serviceForm.get('serviceCategory')?.errors?.['required']">Service category
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'Category')?.errors?.['required']">{{this.capitalizedTag}} category
                                     can not be left blank! </span>
                             </mat-hint>
                         </mat-form-field>
@@ -77,37 +77,37 @@
                 <!-- Row 2 -->
                 <tr>
 
-                    <!-- Column 1: Service description -->
+                    <!-- Column 1: Service/Resource description -->
                     <td class="first-td">
                         <mat-form-field class="form-field" appearance="outline">
                             <mat-label>Description</mat-label>
 
                             <div class="d-flex flex-row mx-2">
-                                <!-- Textarea for service description -->
+                                <!-- Textarea for service/resource description -->
                                 <textarea class="input-data" rows="5" matInput placeholder="Add Description"
                                     minlength="50" maxlength="500" required
-                                    formControlName="serviceDescription"></textarea>
+                                    formControlName="{{this.checkUrlString()}}Description"></textarea>
 
                                 <!-- Icons for validation -->
                                 <mat-icon
-                                    *ngIf="serviceForm.get('serviceDescription')?.touched && serviceForm.get('serviceDescription')?.invalid"
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'Description')?.touched && serviceResourceForm.get(this.checkUrlString()+'Description')?.invalid"
                                     class="d-flex" style="align-items:flex-end !important;" color="primary" matSuffix
-                                    matTooltip="Service description should have minimum of 50 and maximum of 500 characters.">info</mat-icon>
+                                    matTooltip="{{this.capitalizedTag}} description should have minimum of 50 and maximum of 500 characters.">info</mat-icon>
 
                                 <mat-icon style="color: green;" matSuffix
-                                    *ngIf="serviceForm.get('serviceDescription')?.valid">check_circle</mat-icon>
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'Description')?.valid">check_circle</mat-icon>
                             </div>
 
                             <!-- Hints for validation -->
                             <mat-hint
-                                *ngIf="serviceForm.get('serviceDescription')?.invalid && serviceForm.get('serviceDescription')?.touched">
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'Description')?.invalid && serviceResourceForm.get(this.checkUrlString()+'Description')?.touched">
 
                                 <span class="small text-danger"
-                                    *ngIf="serviceForm.get('serviceDescription')?.errors?.['minlength']">Service
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'Description')?.errors?.['minlength']">{{this.capitalizedTag}}
                                     description must have minimum of 50 characters! </span>
 
                                 <span class="small text-danger"
-                                    *ngIf="serviceForm.get('serviceDescription')?.errors?.['required']">Service name
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'Description')?.errors?.['required']">{{this.capitalizedTag}} name
                                     can not be left blank! </span>
                             </mat-hint>
                         </mat-form-field>
@@ -117,28 +117,28 @@
                     <td class="align-baseline"><mat-form-field class="form-field" appearance="outline">
                             <mat-label>Maximum capacity</mat-label>
                             <!-- Input field for maximum capacity -->
-                            <input matInput type="number" min="0" formControlName="serviceMaxCapacity">
+                            <input matInput type="number" min="0" formControlName="{{this.checkUrlString()}}MaxCapacity">
 
                             <!-- Icons and hints for validation -->
-                            <mat-icon color="primary" matSuffix *ngIf="serviceForm.get('serviceMaxCapacity')?.invalid"
+                            <mat-icon color="primary" matSuffix *ngIf="serviceResourceForm.get('serviceMaxCapacity')?.invalid"
                                 matTooltip="Maximum capacity should have grater than 0 and a integer value.">info</mat-icon>
 
                             <mat-icon matSuffix style="color: green;"
-                                *ngIf="serviceForm.get('serviceMaxCapacity')?.valid && serviceForm.get('serviceMaxCapacity')?.touched">check_circle</mat-icon>
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'MaxCapacity')?.valid && serviceResourceForm.get(this.checkUrlString()+'MaxCapacity')?.touched">check_circle</mat-icon>
 
                             <mat-hint
-                                *ngIf="serviceForm.get('serviceMaxCapacity')?.invalid && serviceForm.get('serviceMaxCapacity')?.touched">
+                                *ngIf="serviceResourceForm.get(this.checkUrlString()+'MaxCapacity')?.invalid && serviceResourceForm.get(this.checkUrlString()+'MaxCapacity')?.touched">
 
                                 <span class="small text-danger"
-                                    *ngIf="serviceForm.get('serviceMaxCapacity')?.errors?.['pattern']">Maximum capacity
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'MaxCapacity')?.errors?.['pattern']">Maximum capacity
                                     must be an integer value! </span>
 
                                 <span class="small text-danger"
-                                    *ngIf="serviceForm.get('serviceMaxCapacity')?.errors?.['min']">Maximum capacity must
+                                    *ngIf="serviceResourceForm.get(this.checkUrlString()+'MaxCapacity')?.errors?.['min']">Maximum capacity must
                                     be grater than 0! </span>
                             </mat-hint>
                         </mat-form-field>
-                        <p class="hint-text">Enter the maximum capacity for this service. If not applicable, you can
+                        <p class="hint-text">Enter the maximum capacity for this {{this.checkUrlString()}}. If not applicable, you can
                             leave this field blank.</p>
                     </td>
 
@@ -146,7 +146,7 @@
 
             </table>
 
-            <!-- Service features and facilities -->
+            <!-- Service/Resource features and facilities -->
             <div>
                 <mat-form-field class="form-field chip-list" appearance="outline">
                     <mat-label>Features & Facilities</mat-label>
@@ -169,26 +169,26 @@
                         <!-- Input field for adding new features & facilities -->
                         <input placeholder="Add feature" [matChipInputFor]="chipGrid"
                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                            (matChipInputTokenEnd)="add($event)" formControlName="serviceFeatures" />
+                            (matChipInputTokenEnd)="add($event)" formControlName="{{this.checkUrlString()}}Features" />
 
                     </mat-chip-grid>
                     <!-- Icons and hints for validation -->
                     <mat-icon color="primary" matSuffix
-                        *ngIf="serviceForm.get('serviceFeatures')?.invalid && serviceForm.get('serviceFeatures')?.touched"
+                        *ngIf="serviceResourceForm.get(this.checkUrlString()+'Features')?.invalid && serviceResourceForm.get(this.checkUrlString()+'Features')?.touched"
                         matTooltip="You can add features and Facilities you provide.">info</mat-icon>
                     <mat-icon matSuffix style="color: green;"
-                        *ngIf="serviceForm.get('serviceFeatures')?.valid && serviceForm.get('serviceFeatures')?.touched">check_circle</mat-icon>
+                        *ngIf="serviceResourceForm.get(this.checkUrlString()+'Features')?.valid && serviceResourceForm.get(this.checkUrlString()+'Features')?.touched">check_circle</mat-icon>
 
                 </mat-form-field>
             </div>
         </div>
 
-        <!-- Section 2: Service Locations -->
-        <h5 class="my-4">2. Service Locations</h5>
-        <div class="part mb-5" formArrayName="serviceLocations">
+        <!-- Section 2: Service/Resource Locations -->
+        <h5 class="my-4">2. {{this.capitalizedTag}} Locations</h5>
+        <div class="part mb-5" formArrayName="{{this.checkUrlString()}}Locations">
 
             <!-- Loop through service locations -->
-            <div *ngFor="let child of getControls('serviceLocations'); let i = index" [formGroupName]="i">
+            <div *ngFor="let child of getControls(this.checkUrlString()+'Locations'); let i = index" [formGroupName]="i">
 
                 <div class="d-flex justify-content-between">
                     <!-- Button to remove location -->
@@ -213,17 +213,17 @@
 
                                     <!-- Icons and hints for validation -->
                                     <mat-icon color="primary" matSuffix
-                                        *ngIf="getArrayControls(i,'serviceLocations','country')?.invalid && getArrayControls(i,'serviceLocations','country')?.touched"
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','country')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','country')?.touched"
                                         matTooltip="Country is required.">info</mat-icon>
 
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','country')?.valid && getArrayControls(i,'serviceLocations','country')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','country')?.valid && getArrayControls(i,this.checkUrlString()+'Locations','country')?.touched">check_circle</mat-icon>
 
                                     <mat-hint
-                                        *ngIf="getArrayControls(i,'serviceLocations','country')?.invalid && getArrayControls(i,'serviceLocations','country')?.touched">
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','country')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','country')?.touched">
 
                                         <span class="small text-danger"
-                                            *ngIf="getArrayControls(i,'serviceLocations','country')?.errors?.['required']">Country
+                                            *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','country')?.errors?.['required']">Country
                                             is required! </span>
                                     </mat-hint>
                                 </mat-form-field>
@@ -238,10 +238,10 @@
 
                                     <!-- Icons for validation -->
                                     <mat-icon color="primary" matSuffix
-                                        *ngIf="getArrayControls(i,'serviceLocations','stateProvinceRegion')?.invalid && getArrayControls(i,'serviceLocations','stateProvinceRegion')?.touched"
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','stateProvinceRegion')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','stateProvinceRegion')?.touched"
                                         matTooltip="You can add state, province, region.">info</mat-icon>
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','stateProvinceRegion')?.valid && getArrayControls(i,'serviceLocations','stateProvinceRegion')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','stateProvinceRegion')?.valid && getArrayControls(i,this.checkUrlString()+'Locations','stateProvinceRegion')?.touched">check_circle</mat-icon>
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -257,17 +257,17 @@
 
                                     <!-- Icons and hints for validation -->
                                     <mat-icon color="primary" matSuffix
-                                        *ngIf="getArrayControls(i,'serviceLocations','district')?.invalid && getArrayControls(i,'serviceLocations','district')?.touched"
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','district')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','district')?.touched"
                                         matTooltip="Country is required.">info</mat-icon>
 
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','district')?.valid && getArrayControls(i,'serviceLocations','district')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','district')?.valid && getArrayControls(i,this.checkUrlString()+'Locations','district')?.touched">check_circle</mat-icon>
 
                                     <mat-hint
-                                        *ngIf="getArrayControls(i,'serviceLocations','district')?.invalid && getArrayControls(i,'serviceLocations','district')?.touched">
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','district')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','district')?.touched">
 
                                         <span class="small text-danger"
-                                            *ngIf="getArrayControls(i,'serviceLocations','district')?.errors?.['required']">District
+                                            *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','district')?.errors?.['required']">District
                                             is required! </span>
                                     </mat-hint>
                                 </mat-form-field>
@@ -282,11 +282,11 @@
 
                                     <!-- Icons for validation -->
                                     <mat-icon color="primary" matSuffix
-                                        *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.invalid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched"
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.touched"
                                         matTooltip="You can add city, town or area.">info</mat-icon>
 
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','cityTownArea')?.valid && getArrayControls(i,'serviceLocations','cityTownArea')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.valid && getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.touched">check_circle</mat-icon>
                                 </mat-form-field>
                             </td>
                         </tr>
@@ -304,17 +304,17 @@
 
                                     <!-- Icons and hints for validation -->
                                     <mat-icon color="primary" matSuffix
-                                        *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.invalid && getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.touched"
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','houseNoStreetRoad')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','houseNoStreetRoad')?.touched"
                                         matTooltip="This field is required and must have maximum 200 characters.">info</mat-icon>
 
                                     <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.valid && getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.touched">check_circle</mat-icon>
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','houseNoStreetRoad')?.valid && getArrayControls(i,this.checkUrlString()+'Locations','houseNoStreetRoad')?.touched">check_circle</mat-icon>
 
                                     <mat-hint
-                                        *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.invalid && getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.touched">
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','houseNoStreetRoad')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','houseNoStreetRoad')?.touched">
 
                                         <span class="small text-danger"
-                                            *ngIf="getArrayControls(i,'serviceLocations','houseNoStreetRoad')?.errors?.['required']">This
+                                            *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','houseNoStreetRoad')?.errors?.['required']">This
                                             field is required! </span>
                                     </mat-hint>
                                 </mat-form-field>
@@ -334,10 +334,10 @@
 
         <!-- Section 3: Pricing & Packages -->
         <h5 class="my-4">3. Pricing & Packages</h5>
-        <div class="part mb-5" formArrayName="servicePricePackages">
+        <div class="part mb-5" formArrayName="{{this.checkUrlString()}}PricePackages">
 
-            <!-- Loop through service price packages -->
-            <div *ngFor="let child of getControls('servicePricePackages'); let i = index" [formGroupName]="i">
+            <!-- Loop through service/resource price packages -->
+            <div *ngFor="let child of getControls(this.checkUrlString()+'PricePackages'); let i = index" [formGroupName]="i">
 
                 <div class="d-flex justify-content-end">
                     <!-- Button to remove package -->
@@ -361,16 +361,16 @@
 
                                 <!-- Icons and hints for validation -->
                                 <mat-icon color="primary" matSuffix
-                                    *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.invalid && getArrayControls(i,'servicePricePackages','packageName')?.touched"
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','packageName')?.invalid && getArrayControls(i,this.checkUrlString()+'PricePackages','packageName')?.touched"
                                     matTooltip="Package name is required.">info</mat-icon>
 
                                 <mat-icon matSuffix style="color: green;"
-                                    *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.valid && getArrayControls(i,'servicePricePackages','packageName')?.touched">check_circle</mat-icon>
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','packageName')?.valid && getArrayControls(i,this.checkUrlString()+'PricePackages','packageName')?.touched">check_circle</mat-icon>
 
                                 <mat-hint
-                                    *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.invalid && getArrayControls(i,'servicePricePackages','packageName')?.touched">
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','packageName')?.invalid && getArrayControls(i,this.checkUrlString()+'PricePackages','packageName')?.touched">
                                     <span class="small text-danger"
-                                        *ngIf="getArrayControls(i,'servicePricePackages','packageName')?.errors?.['required']">Package
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','packageName')?.errors?.['required']">Package
                                         name is required! </span>
                                 </mat-hint>
                             </mat-form-field>
@@ -387,17 +387,17 @@
 
                                 <!-- Icons and hints for validation -->
                                 <mat-icon color="primary" matSuffix
-                                    *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.invalid && getArrayControls(i,'servicePricePackages','priceModel')?.touched"
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','priceModel')?.invalid && getArrayControls(i,this.checkUrlString()+'PricePackages','priceModel')?.touched"
                                     matTooltip="Pricing model is required.">info</mat-icon>
 
                                 <mat-icon matSuffix style="color: green;"
-                                    *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.valid && getArrayControls(i,'servicePricePackages','priceModel')?.touched">check_circle</mat-icon>
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','priceModel')?.valid && getArrayControls(i,this.checkUrlString()+'PricePackages','priceModel')?.touched">check_circle</mat-icon>
 
                                 <mat-hint
-                                    *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.invalid && getArrayControls(i,'servicePricePackages','priceModel')?.touched">
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','priceModel')?.invalid && getArrayControls(i,this.checkUrlString()+'PricePackages','priceModel')?.touched">
 
                                     <span class="small text-danger"
-                                        *ngIf="getArrayControls(i,'servicePricePackages','priceModel')?.errors?.['required']">Pricing
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','priceModel')?.errors?.['required']">Pricing
                                         model is required! </span>
                                 </mat-hint>
 
@@ -416,21 +416,21 @@
 
                                 <!-- Icons and hints for validation -->
                                 <mat-icon color="primary" matSuffix
-                                    *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.invalid && getArrayControls(i,'servicePricePackages','basePrice')?.touched"
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','basePrice')?.invalid && getArrayControls(i,this.checkUrlString()+'PricePackages','basePrice')?.touched"
                                     matTooltip="Base price is required.">info</mat-icon>
 
                                 <mat-icon matSuffix style="color: green;"
-                                    *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.valid && getArrayControls(i,'servicePricePackages','basePrice')?.touched">check_circle</mat-icon>
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','basePrice')?.valid && getArrayControls(i,this.checkUrlString()+'PricePackages','basePrice')?.touched">check_circle</mat-icon>
 
                                 <mat-hint
-                                    *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.invalid && getArrayControls(i,'servicePricePackages','basePrice')?.touched">
+                                    *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','basePrice')?.invalid && getArrayControls(i,this.checkUrlString()+'PricePackages','basePrice')?.touched">
 
                                     <span class="small text-danger"
-                                        *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.errors?.['required']">Base
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','basePrice')?.errors?.['required']">Base
                                         price is required! </span>
 
                                     <span class="small text-danger"
-                                        *ngIf="getArrayControls(i,'servicePricePackages','basePrice')?.errors?.['min']">Base
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'PricePackages','basePrice')?.errors?.['min']">Base
                                         price must be grater than 0! </span>
                                 </mat-hint>
                             </mat-form-field>
@@ -527,7 +527,7 @@
             <app-primary-button [button]="saveButton"></app-primary-button>
 
             <!-- Button for resetting, shown only if form is dirty -->
-            <app-basic-button [button]="resetButton" *ngIf="serviceForm.dirty"></app-basic-button>
+            <app-basic-button [button]="resetButton" *ngIf="serviceResourceForm.dirty"></app-basic-button>
         </div>
 
     </form>
