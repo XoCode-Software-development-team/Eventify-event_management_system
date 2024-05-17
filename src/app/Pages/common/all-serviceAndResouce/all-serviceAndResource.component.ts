@@ -17,7 +17,7 @@ import { SortComponent } from '../../../Components/sort/sort.component';
 export class AllServiceAndResourceComponent implements OnInit {
   // Variables
   i = 0; // Counter for filtering
-  pageSize = 4; // Number of services per page
+  pageSize = 4; // Number of services/resources per page
   currentPage = 0; // Current page number
   isLoading: boolean = false; // Flag to indicate loading state
   maxPrice: number = 0; // Maximum price of services
@@ -113,7 +113,10 @@ export class AllServiceAndResourceComponent implements OnInit {
         // Map received category data to local categories array
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
-          categoryName: item.serviceCategoryName,
+          categoryName:
+            this.checkUrlString() === 'service'
+              ? item.serviceCategoryName
+              : item.resourceCategoryName,
         }));
       },
       error: (err: any) => {
@@ -162,8 +165,8 @@ export class AllServiceAndResourceComponent implements OnInit {
     } else {
       // Apply category filtering to the price-filtered services/resources
       let combinedFilteredServices = this.categoryFilteredServicesAndResources
-        .filter((service) => this.priceFilteredServicesAndResources.includes(service))
-        .filter((service) => this.rateFilteredServicesAndResources.includes(service));
+        .filter((serviceResource) => this.priceFilteredServicesAndResources.includes(serviceResource))
+        .filter((serviceResource) => this.rateFilteredServicesAndResources.includes(serviceResource));
 
       // Apply sorting to the combined filtered services/resources
       this.sortValue = this.SortComponent.sortValue(); // Get the sorting value from SortComponent

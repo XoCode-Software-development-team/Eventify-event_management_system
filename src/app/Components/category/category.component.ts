@@ -15,8 +15,8 @@ import {
 export class CategoryComponent implements OnChanges {
   @Input() CategoryList: Category[] = []; // Input property to receive the list of categories
   @Input() dataSource: any[] = []; // Input property to receive the data source
-  @Output() categoryFilterDataSource: EventEmitter<any> =
-    new EventEmitter<any>(); // Output property to emit the filtered data source
+  @Output() categoryFilterDataSource: EventEmitter<any> = new EventEmitter<any>(); // Output property to emit the filtered data source
+
   firstCategory: boolean = true; // Flag to track the state of the first checkbox
   selectedCategory: boolean = true; // Flag to track the state of selected category
   originalDataSource: any[] = [];

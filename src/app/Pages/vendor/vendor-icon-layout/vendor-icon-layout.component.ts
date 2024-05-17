@@ -1,9 +1,9 @@
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Button } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
   selector: 'app-vendor-icon-layout',
@@ -28,28 +28,32 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     }
   ];
 
-  capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
+  capitalizedTag = ''; // Initial empty string
 
   button: Button = {
     icon: 'add',
-    text: 'Add New '+this.capitalizedTag,
-    url: this.checkUrlString()+'s/addNew'+this.capitalizedTag,
+    text: '',
+    url: '',
     class: ['btn1'],
-    type:'button',
-    disable:false
+    type: 'button',
+    disable: false
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private _serviceAndResource: ServiceAndResourceService) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private _serviceAndResource: ServiceAndResourceService
+  ) {}
 
   ngOnInit(): void {
     // Subscribe to router events
     this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        // Call the ChangeButton method to update the button value
+        // Call the changeButton method to update the button value
         this.changeButton();
       }
     });
-    this.changeButton(); // Initial call to ChangeButton
+    this.changeButton(); // Initial call to changeButton
   }
 
   ngOnDestroy(): void {
@@ -62,10 +66,10 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
   changeButton() {
     // Get the current URL
     const currentUrl = this.router.url;
-
+    // Update the capitalizedTag
+    this.capitalizedTag = this.capitalizeText(this.checkUrlString());
     // Define the base URL without parameters
     const baseUrlWithoutParams = `/vendor/${this.checkUrlString()}s/update${this.capitalizedTag}/`;
-
     // Define URLs to exclude
     const excludedUrls = [`/vendor/${this.capitalizedTag}s/all`];
 
@@ -82,7 +86,7 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
       this.button.icon = 'update';
       this.button.text = `Update ${this.capitalizedTag}`;
       this.button.url = currentUrl;
-      this.button.class = ['btn1','update-btn'];
+      this.button.class = ['btn1', 'update-btn'];
       this.button.disable = true;
     } else if (currentUrl.startsWith(`/vendor/${this.checkUrlString()}s/${this.checkUrlString()}/`) && !excludedUrls.includes(currentUrl)) {
       // Hide button for specific URLs
@@ -90,8 +94,13 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-    // Identify whether service or resource
-    checkUrlString(): string {
-      return this._serviceAndResource.checkUrlString();
-    }
+  // Identify whether service or resource
+  checkUrlString(): string {
+    return this._serviceAndResource.checkUrlString();
+  }
+
+  // Capitalize the text using the custom pipe
+  capitalizeText(value: string): string {
+    return new CapitalizePipe().transform(value);
+  }
 }

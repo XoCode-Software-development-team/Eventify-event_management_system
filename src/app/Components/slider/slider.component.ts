@@ -3,7 +3,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -15,7 +14,7 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/s
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
 })
-export class SliderComponent implements OnChanges, OnInit {
+export class SliderComponent implements OnChanges {
   // Properties
   maxPrice: number = 0;
   minValue: number = 0;
@@ -31,10 +30,6 @@ export class SliderComponent implements OnChanges, OnInit {
   @Output() priceFilteredDataSource: any = new EventEmitter<any>();
 
   constructor(private _serviceAndResource: ServiceAndResourceService) {}
-
-  ngOnInit(): void {
-    // Lifecycle hook
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     // Lifecycle hook for input changes
@@ -110,8 +105,8 @@ export class SliderComponent implements OnChanges, OnInit {
 
   // Filter data based on selected model
   filter(selectedModel: any) {
-    this.dataSource = this.originalDataSource.filter((service: any) => {
-      return service.price.some((priceModel: any) => {
+    this.dataSource = this.originalDataSource.filter((serviceResource: any) => {
+      return serviceResource.price.some((priceModel: any) => {
         const priceValue = priceModel.value;
         const isInRange =
           priceValue >= this.minValue && priceValue <= this.maxValue;
