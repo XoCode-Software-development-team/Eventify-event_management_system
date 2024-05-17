@@ -23,7 +23,8 @@
             <!-- Column for service/resource name with router link -->
             <th mat-header-cell *matHeaderCellDef>{{this.capitalizedTag}}</th>
             <td mat-cell *matCellDef="let element"
-                routerLink="/vendor/{{this.checkUrlString()}}s/{{this.checkUrlString()}}/{{element.soRId}}/{{element[this.checkUrlString()]}}">{{element[this.checkUrlString()]}}</td>
+                routerLink="/vendor/{{this.checkUrlString()}}s/{{this.checkUrlString()}}/{{element.soRId}}/{{element[this.checkUrlString()]}}">
+                {{element[this.checkUrlString()]}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Action">
@@ -32,7 +33,8 @@
             <td class="action" mat-cell *matCellDef="let element">
                 <!-- Update button -->
                 <div class="update">
-                    <a routerLink="/vendor/{{this.checkUrlString()}}s/update{{this.capitalizedTag}}/{{element.soRId}}/{{element[this.checkUrlString()]}}">Update</a>
+                    <a
+                        routerLink="/vendor/{{this.checkUrlString()}}s/update{{this.capitalizedTag}}/{{element.soRId}}/{{element[this.checkUrlString()]}}">Update</a>
                 </div>
                 <span style="margin-left: 5px;"></span>
                 <!-- Delete button with confirmation popover -->
