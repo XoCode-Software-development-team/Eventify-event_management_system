@@ -31,20 +31,20 @@ const routes: Routes = [
   // {path: 'signUp'},
   {path: 'login', component:LoginComponent},
   {path: 'forgotPassword', component:ForgetPasswordComponent},
-
   {
     path:'',
     component:CommonLayoutComponent,
     children: [
+      {path: 'home', component:HomeComponent},
       {path: '', component:CommonIconLayoutComponent,
         children: [
+          {path: '', redirectTo: '/home', pathMatch: 'full'},
           {path: 'services', component:AllServiceAndResourceComponent},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources', component:AllServiceAndResourceComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent}
         ]
       },
-      {path: 'home', component:HomeComponent},
     ]
   },
   {
@@ -53,6 +53,7 @@ const routes: Routes = [
     children: [
       {path: '', component:ClientIconLayoutComponent,
         children: [
+          {path: '', redirectTo: '/client/home', pathMatch: 'full'},
           {path: 'services', component:AllServiceAndResourceComponent},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources', component:AllServiceAndResourceComponent},
@@ -69,10 +70,13 @@ const routes: Routes = [
       {path: 'home', component:HomeComponent},
       {path: '',component: VendorIconLayoutComponent,
         children: [
+          {path: '', redirectTo: '/vendor/home', pathMatch: 'full'},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: '',component: VendorSidenavLayoutComponent,
             children: [
+              {path: 'services', redirectTo: 'services/all', pathMatch: 'full'},
+              {path: 'resources', redirectTo: 'resources/all', pathMatch: 'full'},
               {path: 'services/all',component: VendorServiceAndResourceComponent},
               {path: 'services/bookedServices',component: VendorBookedServiceAndResourceComponent},
               {path: 'services/bookingRequests',component: VendorBookingRequestsComponent},
@@ -96,10 +100,13 @@ const routes: Routes = [
       {path: 'home', component:HomeComponent},
       {path: '',component: AdminIconLayoutComponent,
         children: [
+          {path: '', redirectTo: '/admin/home', pathMatch: 'full'},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: '',component: AdminSidenavLayoutComponent,
             children: [
+              {path: 'services', redirectTo: 'services/all', pathMatch: 'full'},
+              {path: 'resources', redirectTo: 'resources/all', pathMatch: 'full'},
               {path: 'services/all',component: AdminServiceAndResourceComponent},
               {path: 'services/deleteRequests', component: AdminDeleteRequestComponent},
               {path: 'resources/all',component: AdminServiceAndResourceComponent},

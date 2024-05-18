@@ -543,6 +543,51 @@
             </div>
         </div>
 
+        <!--Section 5: User manuals-->
+        <h5 *ngIf="this.checkUrlString() === 'resource'" class="my-4">5. User Manuals</h5>
+        <div *ngIf="this.checkUrlString() === 'resource'"
+            class="part mb-5 d-flex justify-content-start gap-3 flex-column">
+            <!-- Pdf Upload Section -->
+            <div>
+                <div class="d-flex justify-content-end gap-2">
+                    <!-- Maximum Pdf size and number of Pdf -->
+                    <p style="text-align: right;">[Maximum file size: 10MB, Maximum number of files: 5]</p>
+                    <!-- Check icon if maximum number of Pdfs is reached -->
+                    <mat-icon matSuffix style="color: green;"
+                        *ngIf="imageFiles.length >=5 || pdfFiles.length >= 1">check_circle</mat-icon>
+                </div>
+
+                <!-- Custom dropzone for uploading Pdfs -->
+                <div class="custom-dropzone" ngx-dropzone [accept]="'application/pdf'"
+                    (change)="onSelect($event,pdfFiles)" [expandable]="true" [disableClick]="this.pdfFiles.length >= 5"
+                    [maxFileSize]="maxPdfSize" [multiple]="false">
+
+                    <ngx-dropzone-label>
+                        <div *ngIf="!this.pdfLoading">
+                            <!-- Add pdf icon -->
+                            <img class="img-fluid" src="../../../../assets/icons/add-post.png" width="48px">
+                            <!-- Instruction to drag and drop Pdfs -->
+                            <p class=".btn1 p-2">Drag and drop manuals</p>
+                        </div>
+                        <div *ngIf="this.pdfLoading" class="spinner-container d-flex flex-column">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </ngx-dropzone-label>
+
+                    <!-- Preview section for uploaded files -->
+                    <div class="d-flex justify-content-around flex-sm-wrap">
+                        <ngx-dropzone-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let pdf of pdfFiles"
+                            [file]="pdf" [removable]="true" (removed)="onRemove(pdf,pdfFiles)">
+                            <ngx-dropzone-label>{{ pdf.name }}</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
         <!-- Save and Reset Buttons -->
         <div style="display: flex; gap: 1rem;align-items: center;">
             <!--Update button-->

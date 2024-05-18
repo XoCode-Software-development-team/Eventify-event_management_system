@@ -73,6 +73,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     price: [],
     images: [],
     videos: [],
+    Manuals: []
   };
 
   ngOnInit(): void {
@@ -80,7 +81,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     this._route.params.subscribe((params) => {
       this.soRId = params['soRId'];
       this.serviceResourceName = params['name'];
-      this.updateButton.url = `/vendor${this.checkUrlString()}s/update${this.capitalizedTag}/${this.soRId}/${this.serviceResourceName}`,
+      this.updateButton.url = `/vendor/${this.checkUrlString()}s/update${this.capitalizedTag}/${this.soRId}/${this.serviceResourceName}`,
       this.getServiceDetails();
     });
 
@@ -95,6 +96,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
         // Assuming response is an array, take the first item
         if (Array.isArray(res) && res.length > 0) {
             const serviceResource = res[0];
+            console.log(serviceResource)
             this.serviceResourceDetails = {
               name: serviceResource.name,
               vendor: serviceResource.vendor,
@@ -107,7 +109,11 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
               price: serviceResource.price,
               images: serviceResource.images,
               videos: serviceResource.videos,
+              Manuals: []
             };
+
+            this.serviceResourceDetails.Manuals = this.checkUrlString() === 'service' ? [] : serviceResource.manuals;
+
         } else {
           console.log(`No ${this.checkUrlString()} details found.`);
         }
@@ -125,12 +131,31 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     const currentUrl = this.router.url;
 
     const vendorUrl = `/vendor/${this.checkUrlString()}s/${this.checkUrlString()}/`;
-    const adminUrl = '/admin/${this.checkUrlString()}s/${this.checkUrlString()}/';
+    const adminUrl = `/admin/${this.checkUrlString()}s/${this.checkUrlString()}/`;
 
     // Check if the current URL contains the vendor or admin path segments
     this.isVendor = currentUrl.includes(vendorUrl);
     this.isAdmin = currentUrl.includes(adminUrl);
   }
+
+  getFileName(url: string): string {
+    // Regular expression to extract text between %2F and .
+    const regex = /%2F([^?]*)\?/;
+    // Match the regex pattern against the URL
+    const match = url.match(regex);
+
+    // Check if a match is found
+    if (match && match.length >= 2) {
+      // Extract the text between symbols and decode URI components
+      const textBetweenSymbols = decodeURIComponent(match[1].replace(/\+/g, ' '));
+      return textBetweenSymbols;
+    } else {
+      // Log message if no match is found
+      console.log('No match found.');
+      return '';
+    }
+}
+
 
     // Identify whether service or resource
     checkUrlString(): string{

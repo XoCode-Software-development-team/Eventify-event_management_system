@@ -38,12 +38,16 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
 
   imageFiles: File[] = []; // Holds the list of images
   videoFiles: File[] = []; // Holds the list of videos
+  pdfFiles: File[] = []; // Holds the list of pdfs
   imageUrls: string[] = []; // Holds the URLs of uploaded images
   videoUrls: string[] = []; // Holds the URLs of uploaded videos
+  pdfUrls: string[] = []; // Holds the URLs of uploaded pdfs
+
 
   // Maximum size allowed for images and videos
   maxImageSize = 10485760; // 10 megabytes (10 * 1024 * 1024 bytes)
   maxVideoSize = this.maxImageSize * 50;
+  maxPdfSize = this.maxImageSize;
 
   saveButton: Button = {
     // Save button configuration
@@ -198,6 +202,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         ]),
         images: new FormControl([]),
         videos: new FormControl([]),
+        manuals: new FormControl([])
       });
     }
 
@@ -271,12 +276,17 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
       .get(this.checkUrlString()+'Features')
       ?.setValue(this.featuresAndFacilities);
 
-    // Upload images and videos to Firebase Storage and set URLs in form
+    // Upload images videos and Pdfs to Firebase Storage and set URLs in form
     await this.getFirebaseLink(this.imageFiles, this.imageUrls, 'images');
     this.serviceResourceForm.get('images')?.setValue(this.imageUrls);
 
     await this.getFirebaseLink(this.videoFiles, this.videoUrls, 'videos');
     this.serviceResourceForm.get('videos')?.setValue(this.videoUrls);
+
+    if (this.checkUrlString() != 'service') {
+      await this.getFirebaseLink(this.pdfFiles, this.pdfUrls, 'manuals');
+      this.serviceResourceForm.get('manuals')?.setValue(this.pdfUrls);
+    }
 
     console.log(this.serviceResourceForm.value);
     // Add new service/resource using service
@@ -297,6 +307,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     this.featuresAndFacilities = []; // Clear features
     this.imageFiles = []; // Clear images
     this.videoFiles = []; // Clear videos
+    this.pdfFiles = []; //Clear manuals
   }
 
   // Fetch categories from service/resource

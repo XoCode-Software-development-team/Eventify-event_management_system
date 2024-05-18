@@ -9,8 +9,8 @@ export class AdminLayoutComponent {
   // Navigation links for the admin dashboard
   navList = [
     { text: "Home", url: "home" },
-    { text: "Service", url: "services/all" },
-    { text: "Resource", url: "resources/all" },
+    { text: "Service", url: "services" },
+    { text: "Resource", url: "resources" },
     { text: "Users", url: "users" },
   ];
 }

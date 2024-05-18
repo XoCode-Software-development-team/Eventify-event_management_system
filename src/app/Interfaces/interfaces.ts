@@ -48,10 +48,11 @@ export interface ExtendedCategory extends Category {
     description:string,
     reviewAndRating: ReviewAndRating[],
     featureAndFacility:string[],
-    location: Location[]
+    location: Location[],
     price: Price[],
-    images: string[]
-    videos: string[]
+    images: string[],
+    videos: string[],
+    Manuals: string[]
   }
 
   interface Price {

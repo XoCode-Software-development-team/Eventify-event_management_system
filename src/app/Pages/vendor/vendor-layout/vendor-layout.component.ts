@@ -14,11 +14,11 @@ export class VendorLayoutComponent {
     },
     {
       text: "Service",
-      url: "services/all"
+      url: "services"
     },
     {
       text: "Resource",
-      url: "resources/all"
+      url: "resources"
     }
   ]
 }

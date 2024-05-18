@@ -45,22 +45,40 @@
                 <app-primary-button *ngIf="isVendor" [button]="updateButton"></app-primary-button>
             </div>
         </div>
+        <!-- Manual section -->
+        <div style="margin-top: 100px;"
+            *ngIf="serviceResourceDetails.Manuals != null && serviceResourceDetails.Manuals.length>0">
+            <h3 class="my-4">User manuals</h3>
+            <div class="d-flex justify-content-start mx-5">
+                <div class=" d-flex" *ngFor="let item of serviceResourceDetails.Manuals">
+                    <!-- Display manual if available -->
+                    <a href="{{item}}" target="_blank" class="d-flex flex-column align-items-center m-2 p-2">
+                        <img src="../../../../assets/icons/pdf.png" alt="PDF" class="pdf-icon"
+                            style="border-radius: 6px;">
+                        <p class="p-2">{{this.getFileName(item)}}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
         <!-- Videos section -->
-        <div *ngIf="serviceResourceDetails.videos != null && serviceResourceDetails.videos.length>0">
-            <h5 class="my-4">Videos</h5>
+        <div style="margin-top: 100px;"
+            *ngIf="serviceResourceDetails.videos != null && serviceResourceDetails.videos.length>0">
+            <h3 class="my-4">Videos</h3>
             <div class="d-flex col-4">
                 <div class="container d-flex gap-4">
                     <!-- Display videos if available -->
-                    <video style="border-radius: 6px; max-height: 40vh;" *ngFor="let video of serviceResourceDetails.videos"
-                        controls class="w-100" [src]="video" type="video/mp4">
+                    <video style="border-radius: 6px; max-height: 40vh;"
+                        *ngFor="let video of serviceResourceDetails.videos" controls class="w-100" [src]="video"
+                        type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </div>
         </div>
         <!-- Reviews section -->
-        <div *ngIf="serviceResourceDetails.reviewAndRating != null && serviceResourceDetails.reviewAndRating.length>0">
-            <h5 class="my-4">User reviews</h5>
+        <div style="margin-top: 100px;"
+            *ngIf="serviceResourceDetails.reviewAndRating != null && serviceResourceDetails.reviewAndRating.length>0">
+            <h3 class="my-4">User reviews</h3>
             <div>
                 <!-- Display review cards -->
                 <app-review-card [review]="serviceResourceDetails.reviewAndRating"></app-review-card>

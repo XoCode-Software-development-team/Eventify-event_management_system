@@ -36,8 +36,10 @@ export class VendorUpdateServiceAndResourceComponent
   isLoading: boolean = false; // Indicates whether data is loading
   imageLoading: boolean = false;
   videoLoading: boolean = false;
+  pdfLoading: boolean = false;
   updateImages: boolean = false;
   updateVideos: boolean = false;
+  updatePdfs: boolean = false;
   categories: Category[] = []; // Holds the list of categories
   pricingModels: PriceModel[] = []; // Holds the list of pricing models
   featuresAndFacilities: FeatureAndFacility[] = []; // Holds the list of service/resource features
@@ -47,12 +49,15 @@ export class VendorUpdateServiceAndResourceComponent
 
   imageFiles: File[] = []; // Holds the list of images
   videoFiles: File[] = []; // Holds the list of videos
+  pdfFiles: File[] = []; // Holds the list of Pdfs
   imageUrls: string[] = []; // Holds the URLs of uploaded images
   videoUrls: string[] = []; // Holds the URLs of uploaded videos
+  pdfUrls: string[] = []; // Holds the URLs of uploaded Pdfs
 
   // Maximum size allowed for images and videos
   maxImageSize = 10485760; // 10 megabytes (10 * 1024 * 1024 bytes)
   maxVideoSize = this.maxImageSize * 50;
+  maxPdfSize = this.maxImageSize;
   soRId: number = 0;
 
   updateButton: Button = {
@@ -90,12 +95,14 @@ export class VendorUpdateServiceAndResourceComponent
     this.getPriceModels();
   }
 
-  // Image and Video file upload handlers
+  // Image, Video, pdf file upload handlers
   onSelect(event: any, files: File[]) {
     if (files == this.imageFiles) {
       this.updateImages = true; // Set flag true when image file add
     } else if (files == this.videoFiles) {
       this.updateVideos = true; // Set flag true when video file add
+    } else if (files == this.pdfFiles) {
+      this.updatePdfs = true; // Set flag true when pdf file add
     }
     if (files.length < 5) {
       files.push(...event.addedFiles); // Add selected files
@@ -108,6 +115,8 @@ export class VendorUpdateServiceAndResourceComponent
       this.updateImages = true; // Set flag true when image file remove
     } else if (files == this.videoFiles) {
       this.updateVideos = true; // Set flag true when video file remove
+    } else if (files == this.pdfFiles) {
+      this.updatePdfs = true; // Set flag true when pdf file remove
     }
     console.log(event);
     files.splice(files.indexOf(event), 1); // Remove file
@@ -216,6 +225,7 @@ export class VendorUpdateServiceAndResourceComponent
         ]),
         images: new FormControl([]),
         videos: new FormControl([]),
+        manuals: new FormControl([]),
       });
     }
 
@@ -286,20 +296,43 @@ export class VendorUpdateServiceAndResourceComponent
 
   // Submit form
   async updateForm(mouseEvent: MouseEvent) {
+    console.log(mouseEvent);
+    this.isLoading = true;
     if (this.imageFiles.length < 5) {
       alert('Minimum 5 images should upload');
       return;
     }
-    if (
-      this.serviceResourceForm.pristine &&
-      !this.updateImages &&
-      !this.updateVideos
-    ) {
-      alert('Not any changes are found.');
-      return;
+    if (this.checkUrlString() === 'service') {
+      if (
+        this.serviceResourceForm.pristine &&
+        !this.updateImages &&
+        !this.updateVideos
+      ) {
+        alert('Not any changes are found.');
+        return;
+      }
+    } else {
+      if (
+        this.serviceResourceForm.pristine &&
+        !this.updateImages &&
+        !this.updateVideos &&
+        !this.updatePdfs
+      ) {
+        alert('Not any changes are found.');
+        return;
+      } else {
+        if (this.updatePdfs) {
+          // If manual is edited delete current manual from firebase
+          await this.deleteFiles(this.pdfUrls);
+          this.pdfUrls = [];
+
+          // Upload new pdfs to firebase and get pdf Url
+          await this.getFirebaseLink(this.pdfFiles, this.pdfUrls, 'manuals');
+        }
+
+        this.serviceResourceForm.get('manuals')?.setValue(this.pdfUrls);
+      }
     }
-    console.log(mouseEvent);
-    this.isLoading = true;
 
     //when update the form add featuresAndFacilities array to serviceResourceForm
     this.serviceResourceForm
@@ -345,6 +378,7 @@ export class VendorUpdateServiceAndResourceComponent
     this.featuresAndFacilities = []; // Clear features
     this.imageFiles = []; // Clear images
     this.videoFiles = []; // Clear videos
+    this.pdfFiles = []; // Clear manuals
   }
 
   // Fetch categories from service/resource
@@ -419,13 +453,13 @@ export class VendorUpdateServiceAndResourceComponent
    * @param fileUrls An array of image URLs to download.
    * @returns A Promise that resolves to an array of downloaded File objects.
    */
-  async downloadImages(fileUrls: string[]): Promise<File[]> {
+  async downloadFiles(fileUrls: string[], mimeType: string): Promise<File[]> {
     try {
-      // Use Promise.all() to asynchronously download all images
-      const Files: File[] = await Promise.all(
+      // Use Promise.all() to asynchronously download all files
+      const files: File[] = await Promise.all(
         fileUrls.map(async (url) => {
           try {
-            // Fetch the image data from the URL
+            // Fetch the file data from the URL
             const response = await this._http
               .get(url, { responseType: 'blob' })
               .toPromise();
@@ -436,7 +470,7 @@ export class VendorUpdateServiceAndResourceComponent
             // Convert the received data to Blob
             const blob = response as Blob;
             // Convert Blob to File
-            return new File([blob], this.getFileName(url), { type: blob.type });
+            return new File([blob], this.getFileName(url), { type: mimeType });
           } catch (error) {
             // Handle errors during file fetch
             console.error('Error fetching file:', error);
@@ -447,9 +481,9 @@ export class VendorUpdateServiceAndResourceComponent
       );
 
       // Return the array of downloaded files
-      return Files;
+      return files;
     } catch (error) {
-      // Handle errors during image download
+      // Handle errors during file download
       console.error('Error downloading files:', error);
       // Return an empty array if there is an error
       return [];
@@ -469,15 +503,15 @@ export class VendorUpdateServiceAndResourceComponent
 
     // Check if a match is found
     if (match && match.length >= 2) {
-      // Extract the text between symbols
-      const textBetweenSymbols = match[1];
+      // Extract the text between symbols and decode URI components
+      const textBetweenSymbols = decodeURIComponent(match[1].replace(/\+/g, ' '));
       return textBetweenSymbols;
     } else {
       // Log message if no match is found
       console.log('No match found.');
       return '';
     }
-  }
+}
 
   /**
    * Retrieves details of a service/resource.
@@ -485,6 +519,9 @@ export class VendorUpdateServiceAndResourceComponent
   getServiceResourceDetails() {
     // Set loading indicator to true
     this.isLoading = true;
+    this.imageLoading = true;
+    this.videoLoading = true;
+    this.pdfLoading = true;
 
     // Retrieve service/resource details from the service
     this._serviceAndResource
@@ -538,6 +575,7 @@ export class VendorUpdateServiceAndResourceComponent
               })),
               images: [],
               videos: [],
+              manuals: [],
             });
           }
 
@@ -584,11 +622,9 @@ export class VendorUpdateServiceAndResourceComponent
 
           // Store image URLs
           this.imageUrls = res.images;
-          // Download and store image files
-          this.imageLoading = true;
-          this.videoLoading = true;
 
-          this.downloadImages(res.images)
+          // Download and store image files
+          this.downloadFiles(res.images, 'image/jpeg')
             .then((files) => {
               this.imageFiles = files;
               this.imageLoading = false;
@@ -601,13 +637,26 @@ export class VendorUpdateServiceAndResourceComponent
           // Store video URLs
           this.videoUrls = res.videos;
           // Download and store video files
-          this.downloadImages(res.videos)
+          this.downloadFiles(res.videos, 'video/mp4')
             .then((files) => {
               this.videoFiles = files;
               this.videoLoading = false;
             })
             .catch((error) => {
               console.error('Error downloading videos:', error);
+              // Handle the error if necessary
+            });
+
+          // Store PDF URLs
+          this.pdfUrls = res.manuals;
+          // Download and store PDF files
+          this.downloadFiles(res.manuals, 'application/pdf')
+            .then((files) => {
+              this.pdfFiles = files;
+              this.pdfLoading = false;
+            })
+            .catch((error) => {
+              console.error('Error downloading PDFs:', error);
               // Handle the error if necessary
             });
 
