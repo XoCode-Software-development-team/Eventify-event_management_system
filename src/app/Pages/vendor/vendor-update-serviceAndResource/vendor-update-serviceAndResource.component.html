@@ -259,25 +259,8 @@
 
                         <!--Row 2-->
                         <tr>
-                            <!-- Column 1: City/Town/Area -->
+                            <!-- Column 1: District -->
                             <td class="first-td"><mat-form-field class="form-field" appearance="outline">
-                                    <mat-label>City/ Town/ Area</mat-label>
-                                    <!-- Input field for city/town/area -->
-                                    <input matInput class="input-data" formControlName="cityTownArea"
-                                        placeholder="Add city">
-
-                                    <!-- Icons for validation -->
-                                    <mat-icon color="primary" matSuffix
-                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.touched"
-                                        matTooltip="You can add city, town or area.">info</mat-icon>
-
-                                    <mat-icon matSuffix style="color: green;"
-                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.valid">check_circle</mat-icon>
-                                </mat-form-field>
-                            </td>
-
-                            <!-- Column 2: District -->
-                            <td><mat-form-field class="form-field" appearance="outline">
                                     <mat-label>District name</mat-label>
                                     <!-- Input field for district -->
                                     <input matInput class="input-data" required formControlName="district"
@@ -298,6 +281,23 @@
                                             *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','district')?.errors?.['required']">District
                                             is required! </span>
                                     </mat-hint>
+                                </mat-form-field>
+                            </td>
+
+                            <!-- Column 2: City/Town/Area -->
+                            <td><mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>City/ Town/ Area</mat-label>
+                                    <!-- Input field for city/town/area -->
+                                    <input matInput class="input-data" formControlName="cityTownArea"
+                                        placeholder="Add city">
+
+                                    <!-- Icons for validation -->
+                                    <mat-icon color="primary" matSuffix
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.invalid && getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.touched"
+                                        matTooltip="You can add city, town or area.">info</mat-icon>
+
+                                    <mat-icon matSuffix style="color: green;"
+                                        *ngIf="getArrayControls(i,this.checkUrlString()+'Locations','cityTownArea')?.valid">check_circle</mat-icon>
                                 </mat-form-field>
                             </td>
                         </tr>

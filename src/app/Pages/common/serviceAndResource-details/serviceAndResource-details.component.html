@@ -1,6 +1,7 @@
 <div class="row mb-5 w-100">
     <!-- Spinner container displayed when loading -->
-    <div *ngIf="isLoading" class="spinner-container">
+    <div *ngIf="isLoading" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
         <mat-spinner diameter="32"></mat-spinner>
     </div>
     <!-- Service/resource details displayed when not loading -->

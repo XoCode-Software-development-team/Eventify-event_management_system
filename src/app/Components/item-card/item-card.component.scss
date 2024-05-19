@@ -1,6 +1,12 @@
 .serviceImage {
-    max-width: 330px;
     border-radius: 6px;
+    width: 330px; /* Set the desired width */
+    height: 230px; /* Set the desired height */
+    object-fit: cover; /* Ensure the image covers the specified dimensions */
+}
+
+.image-container {
+
 }
 
 .card {

@@ -12,9 +12,9 @@ export class CommonIconLayoutComponent {
 
   // Array containing icon data
   icons = [
-    { Name: 'compare', Url: '' }, // Icon for comparison
-    { Name: 'chat_bubble_outline', Url: '' }, // Icon for chat
-    { Name: 'notifications_none', Url: 'notification' }, // Icon for notifications
+    { Name: 'compare', Url: '',Badge: '' }, // Icon for comparison
+    { Name: 'chat_bubble_outline', Url: '',Badge: '' }, // Icon for chat
+    { Name: 'notifications_none', Url: 'notification',Badge: '5' }, // Icon for notifications
   ];
 
   // Open notification dialog

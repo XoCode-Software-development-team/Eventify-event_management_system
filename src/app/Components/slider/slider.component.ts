@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { PriceModel } from './../../Interfaces/interfaces';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 @Component({
   selector: 'app-slider',
@@ -29,7 +30,7 @@ export class SliderComponent implements OnChanges {
   @Input() dataSource: any = [];
   @Output() priceFilteredDataSource: any = new EventEmitter<any>();
 
-  constructor(private _serviceAndResource: ServiceAndResourceService) {}
+  constructor(private _serviceAndResource: ServiceAndResourceService, private _toastService: ToastService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     // Lifecycle hook for input changes
@@ -59,7 +60,9 @@ export class SliderComponent implements OnChanges {
         this.filterPriceModels();
       },
       error: (err: any) => {
-        console.log('Error fetching price models:', err);
+        console.error('Error fetching price models:', err);
+        // Display an error toast message
+        this._toastService.showMessage('Error fetching price models', 'error');
       },
     });
   }
@@ -129,7 +132,9 @@ export class SliderComponent implements OnChanges {
         this.filter(model);
       },
       error: (err: any) => {
-        console.log('Error fetching max price:', err);
+        console.error('Error fetching max price:', err);
+        // Display an error toast message
+        this._toastService.showMessage('Error fetching max price', 'error');
       },
     });
   }

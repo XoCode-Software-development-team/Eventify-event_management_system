@@ -21,10 +21,12 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     {
       Name: 'chat_bubble_outline', // Chat icon
       Url: '',
+      Badge: 5
     },
     {
       Name: 'notifications_none', // Notification icon
       Url: '',
+      Badge: 5
     }
   ];
 

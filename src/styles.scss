@@ -41,5 +41,61 @@ body {
   font-family: "Lato";
 }
 
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//     transform: translateX(100px);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translateX(0);
+//   }
+// }
+
+// @keyframes fadeOut {
+//   from {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+//   to {
+//     opacity: 0;
+//     transform: translateY(20px);
+//   }
+// }
+
+// .snackbar-animate-enter {
+//   animation: fadeIn 2s ease-in-out forwards;
+// }
+
+// .snackbar-animate-exit {
+//   animation: fadeOut 0.3s ease-in-out forwards;
+// }
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+
+.error.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  background-color: #f8d7da; /* Light red */
+  border-radius: 6px;
+}
+
+.success.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  background-color: #d4edda; /* Light green */
+  border-radius: 6px;
+}
+
+.info.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  background-color: #d9edf7; /* Light blue */
+  border-radius: 6px;
+}
+
+.warning.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  background-color: #fff3cd; /* Light yellow */
+  border-radius: 6px;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+    margin-bottom: 50px;
+    margin-right: 20px;
+    border-radius: 7px !important;
+}

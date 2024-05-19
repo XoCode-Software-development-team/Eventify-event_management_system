@@ -7,6 +7,7 @@ import {
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { SliderComponent } from '../../../Components/slider/slider.component';
 import { SortComponent } from '../../../Components/sort/sort.component';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 @Component({
   selector: 'app-all-service',
@@ -17,7 +18,7 @@ import { SortComponent } from '../../../Components/sort/sort.component';
 export class AllServiceAndResourceComponent implements OnInit {
   // Variables
   i = 0; // Counter for filtering
-  pageSize = 4; // Number of services/resources per page
+  pageSize = 5; // Number of services/resources per page
   currentPage = 0; // Current page number
   isLoading: boolean = false; // Flag to indicate loading state
   maxPrice: number = 0; // Maximum price of services
@@ -34,7 +35,10 @@ export class AllServiceAndResourceComponent implements OnInit {
   @ViewChild('slider') SliderComponent!: SliderComponent; // Reference to SliderComponent
   sortValue: any = ''; // Holds the current sorting value
 
-  constructor(private _serviceAndResource: ServiceAndResourceService) {}
+  constructor(
+    private _serviceAndResource: ServiceAndResourceService,
+    private _toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     // Load categories and services/resources on component initialization
@@ -75,6 +79,11 @@ export class AllServiceAndResourceComponent implements OnInit {
 
     this._serviceAndResource.getServicesAndResourcesForClients().subscribe({
       next: (res: any) => {
+        if (!res.length)
+          this._toastService.showMessage(
+            `No ${this.checkUrlString()}s found.`,
+            'info'
+          );
         // Map received services/resources data to local services/resources array
         this.servicesAndResources = res.map((item: any) => ({
           soRId: item.soRId,
@@ -97,7 +106,13 @@ export class AllServiceAndResourceComponent implements OnInit {
         this.sortServicesAndResources('sNameAZ');
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
+
+        // Show error toast message
+        this._toastService.showMessage(
+          `Failed to fetch ${this.checkUrlString()}s. Please try again later.`,
+          'error'
+        );
       },
       complete: () => {
         // Set loading state to false once services/resources are loaded
@@ -120,7 +135,20 @@ export class AllServiceAndResourceComponent implements OnInit {
         }));
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
+
+        // Show error toast message
+        let errorMessage = 'Failed to fetch categories.';
+
+        // Check if the error is due to a connection issue
+        if (err.status === 0) {
+          errorMessage +=
+            ' Please check your internet connection and try again.';
+        } else {
+          errorMessage += ' Please try again later.';
+        }
+
+        this._toastService.showMessage(errorMessage, 'error');
       },
     });
   }
@@ -165,8 +193,12 @@ export class AllServiceAndResourceComponent implements OnInit {
     } else {
       // Apply category filtering to the price-filtered services/resources
       let combinedFilteredServices = this.categoryFilteredServicesAndResources
-        .filter((serviceResource) => this.priceFilteredServicesAndResources.includes(serviceResource))
-        .filter((serviceResource) => this.rateFilteredServicesAndResources.includes(serviceResource));
+        .filter((serviceResource) =>
+          this.priceFilteredServicesAndResources.includes(serviceResource)
+        )
+        .filter((serviceResource) =>
+          this.rateFilteredServicesAndResources.includes(serviceResource)
+        );
 
       // Apply sorting to the combined filtered services/resources
       this.sortValue = this.SortComponent.sortValue(); // Get the sorting value from SortComponent
@@ -199,7 +231,7 @@ export class AllServiceAndResourceComponent implements OnInit {
   }
 
   // Identify whether service or resource
-  checkUrlString(): string{
+  checkUrlString(): string {
     return this._serviceAndResource.checkUrlString();
   }
 }

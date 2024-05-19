@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { ServiceResourceDetails } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 @Component({
   selector: 'app-service-details',
@@ -13,7 +14,8 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _serviceAndResource: ServiceAndResourceService,
-    private router: Router
+    private router: Router,
+    private _toastService: ToastService
   ) {}
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
@@ -57,8 +59,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     text: 'Update',
     icon: 'update',
     display: 'inline',
-  }
-
+  };
 
   // Service/Resource details object
   serviceResourceDetails: ServiceResourceDetails = {
@@ -73,7 +74,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     price: [],
     images: [],
     videos: [],
-    Manuals: []
+    Manuals: [],
   };
 
   ngOnInit(): void {
@@ -81,8 +82,10 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     this._route.params.subscribe((params) => {
       this.soRId = params['soRId'];
       this.serviceResourceName = params['name'];
-      this.updateButton.url = `/vendor/${this.checkUrlString()}s/update${this.capitalizedTag}/${this.soRId}/${this.serviceResourceName}`,
-      this.getServiceDetails();
+      (this.updateButton.url = `/vendor/${this.checkUrlString()}s/update${
+        this.capitalizedTag
+      }/${this.soRId}/${this.serviceResourceName}`),
+        this.getServiceDetails();
     });
 
     this.checkUser();
@@ -91,12 +94,14 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
   // Function to fetch service/resource details from the service/resource
   getServiceDetails() {
     this.isLoading = true;
-    this._serviceAndResource.getServiceAndResourceDetailsForClient(this.soRId).subscribe({
-      next: (res: any) => {
-        // Assuming response is an array, take the first item
-        if (Array.isArray(res) && res.length > 0) {
+    this._serviceAndResource
+      .getServiceAndResourceDetailsForClient(this.soRId)
+      .subscribe({
+        next: (res: any) => {
+          // Assuming response is an array, take the first item
+          if (Array.isArray(res) && res.length > 0) {
             const serviceResource = res[0];
-            console.log(serviceResource)
+            console.log(serviceResource);
             this.serviceResourceDetails = {
               name: serviceResource.name,
               vendor: serviceResource.vendor,
@@ -109,21 +114,31 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
               price: serviceResource.price,
               images: serviceResource.images,
               videos: serviceResource.videos,
-              Manuals: []
+              Manuals: [],
             };
 
-            this.serviceResourceDetails.Manuals = this.checkUrlString() === 'service' ? [] : serviceResource.manuals;
-
-        } else {
-          console.log(`No ${this.checkUrlString()} details found.`);
-        }
-        this.isLoading = false;
-      },
-      error: (err: any) => {
-        console.log(err);
-        this.isLoading = false;
-      },
-    });
+            this.serviceResourceDetails.Manuals =
+              this.checkUrlString() === 'service'
+                ? []
+                : serviceResource.manuals;
+          } else {
+            const message = `No ${this.checkUrlString()} details found.`;
+            this._toastService.showMessage(message, 'error');
+          }
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          console.error(err);
+          // Handle error
+          let errorMessage = `Failed to fetch ${this.checkUrlString()} details. Please try again later.`;
+          if (err.status === 0) {
+            errorMessage =
+              'Failed to connect to the server. Please check your internet connection and try again.';
+          }
+          this._toastService.showMessage(errorMessage, 'error');
+          this.isLoading = false;
+        },
+      });
   }
 
   checkUser() {
@@ -147,18 +162,19 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     // Check if a match is found
     if (match && match.length >= 2) {
       // Extract the text between symbols and decode URI components
-      const textBetweenSymbols = decodeURIComponent(match[1].replace(/\+/g, ' '));
+      const textBetweenSymbols = decodeURIComponent(
+        match[1].replace(/\+/g, ' ')
+      );
       return textBetweenSymbols;
     } else {
       // Log message if no match is found
       console.log('No match found.');
       return '';
     }
-}
+  }
 
-
-    // Identify whether service or resource
-    checkUrlString(): string{
-      return this._serviceAndResource.checkUrlString();
-    }
+  // Identify whether service or resource
+  checkUrlString(): string {
+    return this._serviceAndResource.checkUrlString();
+  }
 }

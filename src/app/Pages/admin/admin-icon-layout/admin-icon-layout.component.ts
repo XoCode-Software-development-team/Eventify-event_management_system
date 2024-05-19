@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AdminIconLayoutComponent {
   // Array of icons for admin layout
   icons = [
-    { Name: 'chat_bubble_outline', Url: '' }, // Chat icon
-    { Name: 'notifications_none', Url: '' } // Notification icon
+    { Name: 'chat_bubble_outline', Url: '',Badge: 5 }, // Chat icon
+    { Name: 'notifications_none', Url: '',Badge: 5 } // Notification icon
   ];
 }

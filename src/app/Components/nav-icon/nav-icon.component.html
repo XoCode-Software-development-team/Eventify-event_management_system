@@ -2,6 +2,6 @@
   <!-- Loop through each item in the iconList array -->
   <a class="d-flex align-items-center text-decoration-none" *ngFor="let item of iconList" (click)="callParent(item)">
     <!-- Display the icon with the name from the item -->
-    <mat-icon class="icon-item">{{item.Name}}</mat-icon>
+    <mat-icon role="img" aria-hidden="false" class="mat-icon notranslate mat-badge icon-item" matBadge="{{item.Badge}}">{{item.Name}}</mat-icon>
   </a>
 </div>

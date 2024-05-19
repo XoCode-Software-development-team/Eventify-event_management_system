@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import {
 } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 @Component({
   selector: 'app-vendor-update-service',
@@ -29,7 +30,8 @@ export class VendorUpdateServiceAndResourceComponent
     private _fireStorage: AngularFireStorage, // Service/Resource for interacting with Firebase Storage
     private _router: Router,
     private _route: ActivatedRoute,
-    private _http: HttpClient
+    private _http: HttpClient,
+    private _toastService: ToastService
   ) {}
 
   addOnBlur = true; // MatChipInputAddOnBlur
@@ -95,7 +97,7 @@ export class VendorUpdateServiceAndResourceComponent
     this.getPriceModels();
   }
 
-  // Image, Video, pdf file upload handlers
+  // Image,Video,Pdf file upload handlers
   onSelect(event: any, files: File[]) {
     if (files == this.imageFiles) {
       this.updateImages = true; // Set flag true when image file add
@@ -105,7 +107,22 @@ export class VendorUpdateServiceAndResourceComponent
       this.updatePdfs = true; // Set flag true when pdf file add
     }
     if (files.length < 5) {
-      files.push(...event.addedFiles); // Add selected files
+      // Check if the file already exists in the  array
+      const duplicate = files.some(
+        (file) => file.name === event.addedFiles[0].name
+      );
+      console.log(duplicate);
+
+      if (!duplicate) {
+        files.push(...event.addedFiles); // Add selected files to array
+      } else {
+        console.warn(`File ${event.addedFiles[0].name} is already added.`);
+        // Optionally, you can show a toast message or alert to the user
+        this._toastService.showMessage(
+          `File ${event.addedFiles[0].name} is already added.`,
+          'warning'
+        );
+      }
     }
     console.log(event);
   }
@@ -128,11 +145,21 @@ export class VendorUpdateServiceAndResourceComponent
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our feature
-    if (value) {
-      this.featuresAndFacilities.push({ name: value });
-    }
+    // Check if the value already exists in the array
+    const duplicate = this.featuresAndFacilities.some(
+      (feature) => feature.name === value
+    );
 
+    if (value && !duplicate) {
+      // Add the feature if it doesn't already exist
+      this.featuresAndFacilities.push({ name: value });
+    } else if (duplicate) {
+      // Show a warning message if the feature is a duplicate
+      this._toastService.showMessage(
+        `Feature "${value}" is already added.`,
+        'warning'
+      );
+    }
     // Clear the input value
     event.chipInput!.clear();
   }
@@ -281,6 +308,17 @@ export class VendorUpdateServiceAndResourceComponent
     control.removeAt(index);
   }
 
+  checkForDuplicateItems(arrayName: string): boolean {
+    const array = this.serviceResourceForm.get(
+      this.checkUrlString() + arrayName
+    ) as FormArray;
+
+    const values = array.value.map((item: any) => JSON.stringify(item));
+    const uniqueValues = new Set(values);
+
+    return values.length !== uniqueValues.size;
+  }
+
   // Helper functions for accessing form controls
   getControls(arrayName: string) {
     return (this.serviceResourceForm.get(arrayName) as FormArray).controls;
@@ -299,7 +337,29 @@ export class VendorUpdateServiceAndResourceComponent
     console.log(mouseEvent);
     this.isLoading = true;
     if (this.imageFiles.length < 5) {
-      alert('Minimum 5 images should upload');
+      this._toastService.showMessage(
+        'Minimum 5 images should be uploaded.',
+        'warning'
+      );
+      this.isLoading = false;
+      return;
+    }
+    if (this.checkForDuplicateItems('Locations')) {
+      this._toastService.showMessage(
+        'Duplicate locations detected! Please remove duplicates before updating.',
+        'warning'
+      );
+      this.isLoading = false;
+      return;
+    }
+
+    // Check for duplicate packages before submitting the form
+    if (this.checkForDuplicateItems('PricePackages')) {
+      this._toastService.showMessage(
+        'Duplicate packages detected! Please remove duplicates before updating.',
+        'warning'
+      );
+      this.isLoading = false;
       return;
     }
     if (this.checkUrlString() === 'service') {
@@ -308,7 +368,8 @@ export class VendorUpdateServiceAndResourceComponent
         !this.updateImages &&
         !this.updateVideos
       ) {
-        alert('Not any changes are found.');
+        this._toastService.showMessage('No changes found.', 'warning');
+        this.isLoading = false;
         return;
       }
     } else {
@@ -318,19 +379,9 @@ export class VendorUpdateServiceAndResourceComponent
         !this.updateVideos &&
         !this.updatePdfs
       ) {
-        alert('Not any changes are found.');
+        this._toastService.showMessage('No changes found.', 'warning');
+        this.isLoading = false;
         return;
-      } else {
-        if (this.updatePdfs) {
-          // If manual is edited delete current manual from firebase
-          await this.deleteFiles(this.pdfUrls);
-          this.pdfUrls = [];
-
-          // Upload new pdfs to firebase and get pdf Url
-          await this.getFirebaseLink(this.pdfFiles, this.pdfUrls, 'manuals');
-        }
-
-        this.serviceResourceForm.get('manuals')?.setValue(this.pdfUrls);
       }
     }
 
@@ -346,6 +397,7 @@ export class VendorUpdateServiceAndResourceComponent
 
       // Upload new images to firebase and get image Url
       await this.getFirebaseLink(this.imageFiles, this.imageUrls, 'images');
+      this._toastService.showMessage('Images uploaded successfully.', 'info');
     }
 
     this.serviceResourceForm.get('images')?.setValue(this.imageUrls);
@@ -357,9 +409,25 @@ export class VendorUpdateServiceAndResourceComponent
 
       // Upload new videos to firebase and get video Url
       await this.getFirebaseLink(this.videoFiles, this.videoUrls, 'videos');
+      this._toastService.showMessage('Videos uploaded successfully.', 'info');
     }
 
     this.serviceResourceForm.get('videos')?.setValue(this.videoUrls);
+
+    if (this.updatePdfs) {
+      // If manual is edited delete current manual from firebase
+      await this.deleteFiles(this.pdfUrls);
+      this.pdfUrls = [];
+
+      // Upload new pdfs to firebase and get pdf Url
+      await this.getFirebaseLink(this.pdfFiles, this.pdfUrls, 'manuals');
+      this._toastService.showMessage(
+        'User manuals uploaded successfully.',
+        'info'
+      );
+    }
+
+    this.serviceResourceForm.get('manuals')?.setValue(this.pdfUrls);
 
     console.log(this.serviceResourceForm.value);
 
@@ -379,6 +447,7 @@ export class VendorUpdateServiceAndResourceComponent
     this.imageFiles = []; // Clear images
     this.videoFiles = []; // Clear videos
     this.pdfFiles = []; // Clear manuals
+    this._toastService.showMessage('Form reset successfully.', 'info');
   }
 
   // Fetch categories from service/resource
@@ -395,7 +464,11 @@ export class VendorUpdateServiceAndResourceComponent
         }));
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
+        this._toastService.showMessage(
+          'Failed to fetch categories. Please try again later.',
+          'error'
+        );
       },
     });
   }
@@ -411,7 +484,11 @@ export class VendorUpdateServiceAndResourceComponent
         }));
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
+        this._toastService.showMessage(
+          'Failed to fetch price models. Please try again later.',
+          'error'
+        );
       },
     });
   }
@@ -504,14 +581,16 @@ export class VendorUpdateServiceAndResourceComponent
     // Check if a match is found
     if (match && match.length >= 2) {
       // Extract the text between symbols and decode URI components
-      const textBetweenSymbols = decodeURIComponent(match[1].replace(/\+/g, ' '));
+      const textBetweenSymbols = decodeURIComponent(
+        match[1].replace(/\+/g, ' ')
+      );
       return textBetweenSymbols;
     } else {
       // Log message if no match is found
       console.log('No match found.');
       return '';
     }
-}
+  }
 
   /**
    * Retrieves details of a service/resource.
@@ -530,8 +609,6 @@ export class VendorUpdateServiceAndResourceComponent
         next: (res: any) => {
           // Extract the first element from the response array
           res = res[0];
-          console.log(res);
-
           if (this.checkUrlString() === 'service') {
             // Populate the form fields with the service details
             this.serviceResourceForm.patchValue({
@@ -632,6 +709,10 @@ export class VendorUpdateServiceAndResourceComponent
             .catch((error) => {
               console.error('Error downloading images:', error);
               // Handle the error if necessary
+              this._toastService.showMessage(
+                'Failed to download image files. Please try again later.',
+                'error'
+              );
             });
 
           // Store video URLs
@@ -645,6 +726,10 @@ export class VendorUpdateServiceAndResourceComponent
             .catch((error) => {
               console.error('Error downloading videos:', error);
               // Handle the error if necessary
+              this._toastService.showMessage(
+                'Failed to download video files. Please try again later.',
+                'error'
+              );
             });
 
           // Store PDF URLs
@@ -657,6 +742,10 @@ export class VendorUpdateServiceAndResourceComponent
             })
             .catch((error) => {
               console.error('Error downloading PDFs:', error);
+              this._toastService.showMessage(
+                'Failed to download pdf files. Please try again later.',
+                'error'
+              );
               // Handle the error if necessary
             });
 
@@ -666,6 +755,10 @@ export class VendorUpdateServiceAndResourceComponent
         error: (err: any) => {
           // Handle errors
           console.log(err);
+          this._toastService.showMessage(
+            `Failed to fetch ${this.checkUrlString()} details. Please try again later.`,
+            'error'
+          );
         },
       });
   }
@@ -677,12 +770,23 @@ export class VendorUpdateServiceAndResourceComponent
       .subscribe({
         next: (res: any) => {
           console.log(res);
-          window.alert('Update successfully');
-          location.reload();
+          this._toastService.showMessage('Update successful', 'success');
         },
         error: (err: any) => {
           console.log(err);
-          alert(`${this.capitalizedTag} update failed`);
+          if (err instanceof HttpErrorResponse && err.status === 0) {
+            // Handle connection loss
+            this._toastService.showMessage(
+              'Connection lost. Please check your internet connection and try again.',
+              'error'
+            );
+          } else {
+            // Handle other errors
+            this._toastService.showMessage(
+              `Failed to update ${this.checkUrlString()}.`,
+              'error'
+            );
+          }
         },
       });
   }

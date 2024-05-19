@@ -3,6 +3,8 @@ import { TabCardComponent } from '../../../Components/tab-card/tab-card.componen
 import { Category } from 'src/app/Interfaces/interfaces';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
+import { ToastService } from 'src/app/Services/toast/toast.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-serviceAndResource',
@@ -12,7 +14,10 @@ import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 export class AdminServiceAndResourceComponent implements OnInit {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
-  constructor(private _serviceAndResource: ServiceAndResourceService) {}
+  constructor(
+    private _serviceAndResource: ServiceAndResourceService,
+    private _toastService: ToastService
+  ) {}
 
   noData: boolean = false;
   // Array to hold service/resource data
@@ -22,7 +27,7 @@ export class AdminServiceAndResourceComponent implements OnInit {
   categories: Category[] = [];
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
-  
+
   // Array of displayed columns
   displayedColumns: string[] = ['No', this.capitalizedTag, 'Rating', 'Action'];
 
@@ -43,7 +48,23 @@ export class AdminServiceAndResourceComponent implements OnInit {
           this.noData = res.length == 0 ? true : false;
         },
         error: (err: any) => {
-          console.log(err);
+          console.error(err);
+          if (err.status === 404) {
+            this._toastService.showMessage(
+              `No ${this.capitalizedTag}s found for the selected category.`,
+              'info'
+            );
+          } else if (err.status === 500) {
+            this._toastService.showMessage(
+              'Internal server error. Please try again later.',
+              'error'
+            );
+          } else {
+            this._toastService.showMessage(
+              `An error occurred while fetching ${this.checkUrlString()}s.`,
+              'error'
+            );
+          }
           this.noData = true;
         },
       });
@@ -63,7 +84,17 @@ export class AdminServiceAndResourceComponent implements OnInit {
         this.noData = res.length == 0 ? true : false;
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
+        if (err instanceof HttpErrorResponse && err.status === 0) {
+          // Connection issue
+          this._toastService.showMessage(
+            'Connection issue: The server is unreachable or refused the connection.',
+            'error'
+          );
+        } else {
+          // Other HTTP error
+          this._toastService.showMessage(`Error: ${err.error}`, 'error');
+        }
         this.noData = true;
       },
     });
@@ -71,27 +102,47 @@ export class AdminServiceAndResourceComponent implements OnInit {
 
   // Method to change suspend state of a service/resource
   changeSuspendState(id: string) {
+    this.dataSource = [];
     this._serviceAndResource.changeSuspendState(id).subscribe({
       next: (res: any) => {
         this.getServicesAndResources(res);
+        this._toastService.showMessage(
+          this.capitalizedTag+' state updated successfully.',
+          'success'
+        );
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
+        this._toastService.showMessage(
+          `Failed to update ${this.checkUrlString()} state. Please try again later.`,
+          'error'
+        );
       },
     });
   }
 
   // Method to delete a service/resource
   deleteServiceAndResource(id: string) {
+    this.dataSource = [];
     this._serviceAndResource.deleteServiceAndResource(id).subscribe({
       next: (res: any) => {
-        alert(`Delete ${this.checkUrlString()} successfully.`);
+        // Display a success toast message
+        this._toastService.showMessage(
+          `Delete ${this.checkUrlString()} successfully.`,
+          'success'
+        );
         if (res) {
           this.getServicesAndResources(res);
         }
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
+
+        // Display an error toast message
+        this._toastService.showMessage(
+          `Failed to delete ${this.checkUrlString()}. Please try again later.`,
+          'error'
+        );
       },
     });
   }

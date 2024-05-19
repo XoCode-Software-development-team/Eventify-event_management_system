@@ -1,8 +1,10 @@
+import { ToastService } from 'src/app/Services/toast/toast.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-delete-request',
@@ -13,7 +15,10 @@ export class AdminDeleteRequestComponent implements OnInit {
   // Reference to the TabCardComponent instance
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
-  constructor(private _serviceAndResource: ServiceAndResourceService) {}
+  constructor(
+    private _serviceAndResource: ServiceAndResourceService,
+    private _toastService: ToastService
+  ) {}
 
   noData: boolean = false;
   // Array to hold data for the table
@@ -46,7 +51,23 @@ export class AdminDeleteRequestComponent implements OnInit {
           }
         },
         error: (err: any) => {
-          console.log(err);
+          console.error(err);
+          if (err.status === 404) {
+            this._toastService.showMessage(
+              `No ${this.capitalizedTag}s found for the selected category.`,
+              'info'
+            );
+          } else if (err.status === 500) {
+            this._toastService.showMessage(
+              'Internal server error. Please try again later.',
+              'error'
+            );
+          } else {
+            this._toastService.showMessage(
+              `An error occurred while fetching ${this.checkUrlString()}s.`,
+              'error'
+            );
+          }
           this.noData = true;
         },
       });
@@ -57,6 +78,11 @@ export class AdminDeleteRequestComponent implements OnInit {
     this.noData = false;
     this._serviceAndResource.getCategoriesListOfDeleteRequest().subscribe({
       next: (res: any) => {
+        if (!res.length)
+          this._toastService.showMessage(
+            `No ${this.checkUrlString()}s found.`,
+            'info'
+          );
         if (res != null) {
           // Map received data to Category interface and assign to categories array
           this.categories = res.map((item: any) => ({
@@ -70,7 +96,34 @@ export class AdminDeleteRequestComponent implements OnInit {
         }
       },
       error: (err: any) => {
-        console.log(err);
+        console.error(err);
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 0) {
+            // Connection issue
+            this._toastService.showMessage(
+              'Connection issue: The server is unreachable or refused the connection.',
+              'error'
+            );
+          } else if (err.status === 404) {
+            // Resource not found
+            this._toastService.showMessage(
+              'Error: Resource not found. Please try again later.',
+              'error'
+            );
+          } else {
+            // Other HTTP error
+            this._toastService.showMessage(
+              `Error ${err.status}: ${err.error ? err.error : 'Unknown error'}`,
+              'error'
+            );
+          }
+        } else {
+          // Non-HTTP error
+          this._toastService.showMessage(
+            'An error occurred. Please try again later.',
+            'error'
+          );
+        }
         this.noData = true;
       },
     });
@@ -78,9 +131,16 @@ export class AdminDeleteRequestComponent implements OnInit {
 
   // Delete service/resource based on ID
   deleteServiceAndResource(id: string): void {
-    this._serviceAndResource.deleteServiceAndResourceFromVendorRequest(id).subscribe({
+    this.dataSource = [];
+    this._serviceAndResource
+      .deleteServiceAndResourceFromVendorRequest(id)
+      .subscribe({
         next: (res: any) => {
-          alert(`Delete ${this.checkUrlString()} successfully.`);
+          // Show success toast message
+          this._toastService.showMessage(
+            `Delete ${this.checkUrlString()} successfully.`,
+            'success'
+          );
           if (res.remainingCount > 0) {
             this.checkUrlString() === 'service'
               ? this.getServicesAndResources(res.deletedServiceCategoryId)
@@ -94,18 +154,30 @@ export class AdminDeleteRequestComponent implements OnInit {
           }
         },
         error: (err: any) => {
-          console.log(err);
+          // Log the error for debugging purposes
+          console.error(err);
+
+          // Show error toast message
+          this._toastService.showMessage(
+            `Failed to delete ${this.checkUrlString()}. Please try again later.`,
+            'error'
+          );
         },
       });
   }
 
   // Remove service/resource based on ID
   removeServiceAndResource(id: string): void {
+    this.dataSource = [];
     this._serviceAndResource
       .removeServiceAndResourceFromVendorRequest(id)
       .subscribe({
         next: (res: any) => {
-          alert('Delete request reject successfully.');
+          // Show success toast message
+          this._toastService.showMessage(
+            'Delete request reject successfully.',
+            'success'
+          );
           if (res.remainingCount > 0) {
             this.checkUrlString() === 'service'
               ? this.getServicesAndResources(res.deletedServiceCategoryId)
@@ -117,7 +189,14 @@ export class AdminDeleteRequestComponent implements OnInit {
           }
         },
         error: (err: any) => {
-          console.log(err);
+          // Log the error for debugging purposes
+          console.error(err);
+
+          // Show error toast message
+          this._toastService.showMessage(
+            'Failed to reject delete request. Please try again later.',
+            'error'
+          );
         },
       });
   }

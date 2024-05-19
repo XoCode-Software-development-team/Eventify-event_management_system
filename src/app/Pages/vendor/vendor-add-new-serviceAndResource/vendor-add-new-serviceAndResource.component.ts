@@ -1,3 +1,4 @@
+import { filter } from 'rxjs';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit } from '@angular/core';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
@@ -13,6 +14,7 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/s
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 @Component({
   selector: 'app-vendor-add-new-service',
@@ -24,7 +26,8 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     private _announcer: LiveAnnouncer, // Service/Resource for announcing messages for accessibility
     private _serviceAndResource: ServiceAndResourceService,
     private _fireStorage: AngularFireStorage, // Service/Resource for interacting with Firebase Storage
-    private _router: Router
+    private _router: Router,
+    private _toastService: ToastService
   ) {}
 
   addOnBlur = true; // MatChipInputAddOnBlur
@@ -42,7 +45,6 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   imageUrls: string[] = []; // Holds the URLs of uploaded images
   videoUrls: string[] = []; // Holds the URLs of uploaded videos
   pdfUrls: string[] = []; // Holds the URLs of uploaded pdfs
-
 
   // Maximum size allowed for images and videos
   maxImageSize = 10485760; // 10 megabytes (10 * 1024 * 1024 bytes)
@@ -84,10 +86,25 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     this.getPriceModels();
   }
 
-  // Image and Video file upload handlers
+  // Image,Video,Pdf file upload handlers
   onSelect(event: any, files: File[]) {
     if (files.length < 5) {
-      files.push(...event.addedFiles); // Add selected files
+      // Check if the file already exists in the  array
+      const duplicate = files.some(
+        (file) => file.name === event.addedFiles[0].name
+      );
+      console.log(duplicate);
+
+      if (!duplicate) {
+        files.push(...event.addedFiles); // Add selected files to array
+      } else {
+        console.warn(`File ${event.addedFiles[0].name} is already added.`);
+        // Optionally, you can show a toast message or alert to the user
+        this._toastService.showMessage(
+          `File ${event.addedFiles[0].name} is already added.`,
+          'warning'
+        );
+      }
     }
     console.log(event);
   }
@@ -103,11 +120,21 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our feature
-    if (value) {
-      this.featuresAndFacilities.push({ name: value });
-    }
+    // Check if the value already exists in the array
+    const duplicate = this.featuresAndFacilities.some(
+      (feature) => feature.name === value
+    );
 
+    if (value && !duplicate) {
+      // Add the feature if it doesn't already exist
+      this.featuresAndFacilities.push({ name: value });
+    } else if (duplicate) {
+      // Show a warning message if the feature is a duplicate
+      this._toastService.showMessage(
+        `Feature "${value}" is already added.`,
+        'warning'
+      );
+    }
     // Clear the input value
     event.chipInput!.clear();
   }
@@ -143,7 +170,6 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
 
   //Initialize form
   formHandle() {
-
     if (this.checkUrlString() === 'service') {
       this.serviceResourceForm = new FormGroup({
         serviceName: new FormControl(null),
@@ -174,7 +200,6 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         videos: new FormControl([]),
       });
     } else {
-
       this.serviceResourceForm = new FormGroup({
         resourceName: new FormControl(null),
         resourceCategory: new FormControl(null),
@@ -202,10 +227,9 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         ]),
         images: new FormControl([]),
         videos: new FormControl([]),
-        manuals: new FormControl([])
+        manuals: new FormControl([]),
       });
     }
-
 
     // Enable save button when form is valid
     this.serviceResourceForm.valueChanges.subscribe(() => {
@@ -215,7 +239,9 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
 
   // Location management
   addLocation() {
-    const control = this.serviceResourceForm.get(this.checkUrlString()+'Locations') as FormArray;
+    const control = this.serviceResourceForm.get(
+      this.checkUrlString() + 'Locations'
+    ) as FormArray;
     control.push(
       new FormGroup({
         country: new FormControl(null),
@@ -228,13 +254,17 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   }
 
   removeLocation(index: any) {
-    const control = this.serviceResourceForm.get(this.checkUrlString()+'Locations') as FormArray;
+    const control = this.serviceResourceForm.get(
+      this.checkUrlString() + 'Locations'
+    ) as FormArray;
     control.removeAt(index);
   }
 
   // Package management
   addPackage() {
-    const control = this.serviceResourceForm.get(this.checkUrlString()+'PricePackages') as FormArray;
+    const control = this.serviceResourceForm.get(
+      this.checkUrlString() + 'PricePackages'
+    ) as FormArray;
     control.push(
       new FormGroup({
         packageName: new FormControl(null),
@@ -245,9 +275,23 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   }
 
   removePackage(index: any) {
-    const control = this.serviceResourceForm.get(this.checkUrlString()+'PricePackages') as FormArray;
+    const control = this.serviceResourceForm.get(
+      this.checkUrlString() + 'PricePackages'
+    ) as FormArray;
     control.removeAt(index);
   }
+
+  checkForDuplicateItems(arrayName: string): boolean {
+    const array = this.serviceResourceForm.get(
+      this.checkUrlString() + arrayName
+    ) as FormArray;
+  
+    const values = array.value.map((item: any) => JSON.stringify(item));
+    const uniqueValues = new Set(values);
+    
+    return values.length !== uniqueValues.size;
+  }
+  
 
   // Helper functions for accessing form controls
   getControls(arrayName: string) {
@@ -264,34 +308,59 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
 
   // Submit form
   async saveForm(mouseEvent: MouseEvent) {
+    this.isLoading = true;
     if (this.imageFiles.length < 5) {
-      alert("Minimum five images are needed.");
-      return
+      this._toastService.showMessage(
+        'Minimum five images are needed.',
+        'error'
+      );
+      this.isLoading = false;
+      return;
     }
+
+    if (this.checkForDuplicateItems('Locations')) {
+      this._toastService.showMessage('Duplicate locations detected! Please remove duplicates before submitting.', 'warning');
+      return;
+    }
+
+    // Check for duplicate packages before submitting the form
+    if (this.checkForDuplicateItems('PricePackages')) {
+      this._toastService.showMessage('Duplicate packages detected! Please remove duplicates before submitting.', 'warning');
+      return;
+    }
+
     console.log(mouseEvent);
     this.isLoading = true;
 
     //when submit the form add featuresAndFacilities array to serviceResourceForm
     this.serviceResourceForm
-      .get(this.checkUrlString()+'Features')
+      .get(this.checkUrlString() + 'Features')
       ?.setValue(this.featuresAndFacilities);
 
     // Upload images videos and Pdfs to Firebase Storage and set URLs in form
     await this.getFirebaseLink(this.imageFiles, this.imageUrls, 'images');
     this.serviceResourceForm.get('images')?.setValue(this.imageUrls);
+    this._toastService.showMessage('Images uploaded successfully.', 'info');
 
-    await this.getFirebaseLink(this.videoFiles, this.videoUrls, 'videos');
-    this.serviceResourceForm.get('videos')?.setValue(this.videoUrls);
+    if (this.videoFiles && this.videoFiles.length > 0) {
+      await this.getFirebaseLink(this.videoFiles, this.videoUrls, 'videos');
+      this.serviceResourceForm.get('videos')?.setValue(this.videoUrls);
+      this._toastService.showMessage('Videos uploaded successfully.', 'info');
+    }
 
-    if (this.checkUrlString() != 'service') {
+    if (
+      this.checkUrlString() != 'service' &&
+      this.pdfFiles &&
+      this.pdfFiles.length > 0
+    ) {
       await this.getFirebaseLink(this.pdfFiles, this.pdfUrls, 'manuals');
       this.serviceResourceForm.get('manuals')?.setValue(this.pdfUrls);
+      this._toastService.showMessage('Manuals uploaded successfully.', 'info');
     }
 
     console.log(this.serviceResourceForm.value);
     // Add new service/resource using service
     await this.addNewServiceResource(this.serviceResourceForm.value);
-
     this._router.navigate([`/vendor/${this.checkUrlString()}s/all`]); //navigate to the services/resources page
 
     this.isLoading = false;
@@ -308,6 +377,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     this.imageFiles = []; // Clear images
     this.videoFiles = []; // Clear videos
     this.pdfFiles = []; //Clear manuals
+    this._toastService.showMessage('Form reset successfully.', 'info');
   }
 
   // Fetch categories from service/resource
@@ -324,7 +394,13 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         }));
       },
       error: (err: any) => {
-        console.log(err);
+        console.error('Error fetching categories:', err);
+
+        // Display an error toast message if categories fail to load
+        this._toastService.showMessage(
+          'Failed to load categories. Please try again later.',
+          'error'
+        );
       },
     });
   }
@@ -340,7 +416,12 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         }));
       },
       error: (err: any) => {
-        console.log(err);
+        console.error('Error fetching price models:', err);
+        // Display an error toast message
+        this._toastService.showMessage(
+          'Failed to load price models. Please try again later.',
+          'error'
+        );
       },
     });
   }
@@ -365,19 +446,27 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
 
   // Add new service/resource using service
   async addNewServiceResource(formData: any) {
-    this._serviceAndResource.addNewServiceAndResource(this.vendorId, formData).subscribe({
-      next: (res: any) => {
-        console.log(res);
-        alert(this.capitalizedTag+' Added Successfully');
-      },
-      error: (err: any) => {
-        console.log(err);
-        alert('Failed to add '+this.checkUrlString())
-      },
-    });
+    this._serviceAndResource
+      .addNewServiceAndResource(this.vendorId, formData)
+      .subscribe({
+        next: (res: any) => {
+          this._toastService.showMessage(
+            `${this.capitalizedTag} added successfully.`,
+            'success'
+          );
+        },
+        error: (err: any) => {
+          console.error(err);
+          this._toastService.showMessage(
+            `Failed to add ${this.checkUrlString()}. Please try again.`,
+            'error'
+          );
+        },
+      });
   }
-    // Identify whether service or resource
-    checkUrlString(): string {
-      return this._serviceAndResource.checkUrlString();
-    }
+
+  // Identify whether service or resource
+  checkUrlString(): string {
+    return this._serviceAndResource.checkUrlString();
+  }
 }

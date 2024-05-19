@@ -3,6 +3,7 @@ import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component
 import { Category } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 @Component({
   selector: 'app-vendor-service',
@@ -12,7 +13,10 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/s
 export class VendorServiceAndResourceComponent {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
-  constructor(private _serviceAndResource: ServiceAndResourceService) {}
+  constructor(
+    private _serviceAndResource: ServiceAndResourceService,
+    private _toastService: ToastService
+  ) {}
 
   noData: boolean = false;
   dataSource: string[] = [];
@@ -43,16 +47,24 @@ export class VendorServiceAndResourceComponent {
         },
         error: (err: any) => {
           this.noData = true;
-          console.log(err);
+          console.error(err);
+          // Display an error toast message
+          this._toastService.showMessage(
+            `Error fetching ${this.checkUrlString()}s`,
+            'error'
+          );
         },
       });
   }
 
   // Function to retrieve categories
   getCategories(id: string) {
+    // Reset the loading state
     this.noData = false;
+
     this._serviceAndResource.getCategoriesListByVendor(id).subscribe({
       next: (res: any) => {
+        // Map received category data to local categories array
         this.categories = res.map((item: any) => ({
           id: item.categoryId,
           categoryName:
@@ -60,10 +72,25 @@ export class VendorServiceAndResourceComponent {
               ? item.serviceCategoryName
               : item.resourceCategoryName,
         }));
-        this.noData = res.length == 0 ? true : false;
+
+        // Check if there are no categories
+        if (this.categories.length === 0) {
+          // Display a message indicating no categories found
+          this._toastService.showMessage(`No ${this.checkUrlString()}s were found`, 'info');
+          this.noData = true;
+        } else {
+          // Categories found, set the loading state accordingly
+          this.noData = false;
+        }
       },
       error: (err: any) => {
-        console.log(err);
+        console.error('Error fetching categories:', err);
+        // Display an error toast message
+        this._toastService.showMessage(
+          'Failed to fetch categories. Please try again later.',
+          'error'
+        );
+        // Set the loading state to true to handle UI accordingly
         this.noData = true;
       },
     });
@@ -73,16 +100,31 @@ export class VendorServiceAndResourceComponent {
   deleteServiceAndResource(id: string, deleteRequest: boolean) {
     this._serviceAndResource.RequestToDelete(id).subscribe({
       next: (res: any) => {
+        // Check if the delete request is being canceled or initiated
         if (deleteRequest) {
-          alert('Cancel the delete request');
+          // Display a success toast message for canceling the delete request
+          this._toastService.showMessage(
+            'Delete request canceled successfully',
+            'success'
+          );
         } else {
-          alert('Send delete request to admin');
+          // Display a success toast message for sending the delete request to admin
+          this._toastService.showMessage(
+            'Delete request sent to admin successfully',
+            'success'
+          );
         }
-        console.log(id, res);
+        // Refresh the service/resource list
         this.getServicesAndResources(res);
       },
       error: (err: any) => {
-        console.log(err);
+        // Log any errors
+        console.error('Error initiating delete request:', err);
+        // Display an error toast message
+        this._toastService.showMessage(
+          'Failed to initiate delete request. Please try again later.',
+          'error'
+        );
       },
     });
   }

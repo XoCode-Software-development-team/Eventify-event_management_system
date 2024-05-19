@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 @Component({
   selector: 'app-vendor-booked-services',
@@ -9,7 +10,10 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/s
   styleUrls: ['./vendor-booked-serviceAndResource.component.scss'],
 })
 export default class VendorBookedServiceAndResourceComponent implements OnInit {
-  constructor(private _serviceAndResource: ServiceAndResourceService) {}
+  constructor(
+    private _serviceAndResource: ServiceAndResourceService,
+    private _toastService: ToastService
+  ) {}
 
   noData: boolean = false;
   dataSource = []; // Data source for the table
@@ -38,11 +42,30 @@ export default class VendorBookedServiceAndResourceComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.dataSource = res; // Assigns the fetched data to the data source
-          this.noData = res.length == 0 ? true : false;
+
+          if (res.length > 0) {
+            this.noData = false;
+          } else {
+            // Display a toast message indicating no data found
+            this._toastService.showMessage(
+              `No booked ${this.checkUrlString()}s found for this category.`,
+              'error'
+            );
+            this.noData = true;
+          }
         },
         error: (err: any) => {
           this.noData = true;
-          console.log(err);
+          console.error(
+            `Error fetching booked ${this.checkUrlString()}s:`,
+            err
+          );
+
+          // Display an error toast message
+          this._toastService.showMessage(
+            `Failed to load booked ${this.checkUrlString()}s. Please try again later.`,
+            'error'
+          );
         },
       });
   }
@@ -66,10 +89,26 @@ export default class VendorBookedServiceAndResourceComponent implements OnInit {
                 ? item.serviceCategoryName
                 : item.resourceCategoryName,
           }));
-          this.noData = res.length == 0 ? true : false;
+          if (res.length > 0) {
+            this.noData = false;
+          } else {
+            // Display a toast message indicating no data found
+            this._toastService.showMessage(
+              'No booked '+this.checkUrlString()+'s were found.',
+              'info'
+            );
+            this.noData = true;
+          }
         },
         error: (err: any) => {
-          console.log(err);
+          console.error('Error fetching categories:', err);
+
+          // Display an error toast message
+          this._toastService.showMessage(
+            'Failed to load data. Please try again later.',
+            'error'
+          );
+
           this.noData = true;
         },
       });
