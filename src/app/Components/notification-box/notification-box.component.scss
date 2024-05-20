@@ -6,13 +6,25 @@
     min-height: 450px;
 }
 
-.container::before {
-    content: "";
-    position: absolute;
-    border: 15px solid;
-    top: -25px;
-    left: 50%;
-    border-color: transparent transparent black transparent;
-    transform: translateX(-50%);
-    z-index: 10;
+.title {
+    background-color: #AFDFE9;
+}
+
+// .container::before {
+//     content: "";
+//     position: absolute;
+//     border: 15px solid;
+//     top: -25px;
+//     left: 50%;
+//     border-color: transparent transparent black transparent;
+//     transform: translateX(-50%);
+//     z-index: 10;
+// }
+
+.p-button {
+    cursor: pointer;
+}
+
+.main-container {
+    background-color: rgba(250, 250, 250, 0.5);
 }

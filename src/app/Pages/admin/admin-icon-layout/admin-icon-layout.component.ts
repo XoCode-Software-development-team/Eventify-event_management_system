@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NotificationService } from 'src/app/Services/notification/notification.service';
 
 @Component({
   selector: 'app-admin-icon-layout',
@@ -6,9 +7,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-icon-layout.component.scss']
 })
 export class AdminIconLayoutComponent {
-  // Array of icons for admin layout
+  constructor(private _notificationService: NotificationService) {}
+
+  // Array containing icon data
   icons = [
-    { Name: 'chat_bubble_outline', Url: '',Badge: 5 }, // Chat icon
-    { Name: 'notifications_none', Url: '',Badge: 5 } // Notification icon
+    { IconName: 'chat_bubble_outline', Tag: 'chat', Badge: '' }, // Icon for chat
+    { IconName: 'notifications_none', Tag: 'notification', Badge: '5' }, // Icon for notifications
   ];
+
+  popUpNotification() {
+    this._notificationService.openPopup();
+  }
+
+  // Function to check if the notification popup is toggled
+  isNotificationToggled() {
+    return this._notificationService.popupToggle;
+  }
 }

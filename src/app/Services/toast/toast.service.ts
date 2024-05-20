@@ -17,7 +17,7 @@ export class ToastService {
         message: displayMessage,
         type: messageType,
       },
-      duration: 20000,
+      duration:5000,
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
       panelClass: [messageType, 'snackbar-animate-enter']

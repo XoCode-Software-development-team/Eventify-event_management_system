@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
+import { NotificationService } from 'src/app/Services/notification/notification.service';
 
 @Component({
   selector: 'app-common-icon-layout',
@@ -8,23 +7,21 @@ import { NotificationBoxComponent } from 'src/app/Components/notification-box/no
   styleUrls: ['./common-icon-layout.component.scss'],
 })
 export class CommonIconLayoutComponent {
-  constructor(private dialog: MatDialog) {}
+  constructor(private _notificationService: NotificationService) {}
 
   // Array containing icon data
   icons = [
-    { Name: 'compare', Url: '',Badge: '' }, // Icon for comparison
-    { Name: 'chat_bubble_outline', Url: '',Badge: '' }, // Icon for chat
-    { Name: 'notifications_none', Url: 'notification',Badge: '5' }, // Icon for notifications
+    { IconName: 'compare', Tag: 'compare', Badge: '' }, // Icon for comparison
+    { IconName: 'chat_bubble_outline', Tag: 'chat', Badge: '' }, // Icon for chat
+    { IconName: 'notifications_none', Tag: 'notification', Badge: '5' }, // Icon for notifications
   ];
 
-  // Open notification dialog
   popUpNotification() {
-    const dialogConfig = new MatDialogConfig();
+    this._notificationService.openPopup();
+  }
 
-    // Set dialog position
-    dialogConfig.position = { top: '170px', left: '950px' };
-
-    // Open notification dialog
-    this.dialog.open(NotificationBoxComponent, dialogConfig);
+  // Function to check if the notification popup is toggled
+  isNotificationToggled() {
+    return this._notificationService.popupToggle;
   }
 }

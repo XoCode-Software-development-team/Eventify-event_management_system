@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
+import { NotificationService } from 'src/app/Services/notification/notification.service';
 
 @Component({
   selector: 'app-client-icon-layout',
@@ -9,19 +10,21 @@ import { NotificationBoxComponent } from 'src/app/Components/notification-box/no
 })
 export class ClientIconLayoutComponent {
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private _notificationService: NotificationService) {}
 
-  // Array of icons to be displayed
+  // Array containing icon data
   icons = [
-    { Name: 'compare', Url: '' }, // Compare icon
-    { Name: 'chat_bubble_outline', Url: '' }, // Chat icon
-    { Name: 'notifications_none', Url: 'notification' } // Notification icon
+    { IconName: 'compare', Tag: 'compare', Badge: '' }, // Icon for comparison
+    { IconName: 'chat_bubble_outline', Tag: 'chat', Badge: '' }, // Icon for chat
+    { IconName: 'notifications_none', Tag: 'notification', Badge: '5' }, // Icon for notifications
   ];
 
-  // Function to open notification dialog
   popUpNotification() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.position = { top: '170px', left: '950px' };
-    this.dialog.open(NotificationBoxComponent, dialogConfig);
+    this._notificationService.openPopup();
+  }
+
+  // Function to check if the notification popup is toggled
+  isNotificationToggled() {
+    return this._notificationService.popupToggle;
   }
 }

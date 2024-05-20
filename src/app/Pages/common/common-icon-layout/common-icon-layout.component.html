@@ -1,7 +1,7 @@
 <div class="icons">
     <div class="right-side">
         <!-- Parent component -->
-        <app-nav-icon (buttonClick)="popUpNotification()" [iconList]="icons"></app-nav-icon>
+        <app-nav-icon [popupToggle]="isNotificationToggled()" (buttonClick)="popUpNotification()" [iconList]="icons"></app-nav-icon>
         <!-- Child component (app-nav-icon) -->
     </div>
 </div>

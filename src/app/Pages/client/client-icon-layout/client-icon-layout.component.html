@@ -5,6 +5,7 @@
         <!-- Custom Angular component for displaying icons -->
         <app-nav-icon 
             (buttonClick)="popUpNotification()" 
+            [popupToggle]="isNotificationToggled()"
             [iconList]="icons">
         </app-nav-icon>
     </div>

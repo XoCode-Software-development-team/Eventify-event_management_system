@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Button } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
+import { NotificationService } from 'src/app/Services/notification/notification.service';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
@@ -17,17 +18,10 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
   name: string = '';
   buttonToggle: boolean = false;
 
+  // Array containing icon data
   icons = [
-    {
-      Name: 'chat_bubble_outline', // Chat icon
-      Url: '',
-      Badge: 5
-    },
-    {
-      Name: 'notifications_none', // Notification icon
-      Url: '',
-      Badge: 5
-    }
+    { IconName: 'chat_bubble_outline', Tag: 'chat', Badge: '' }, // Icon for chat
+    { IconName: 'notifications_none', Tag: 'notification', Badge: '5' }, // Icon for notifications
   ];
 
   capitalizedTag = ''; // Initial empty string
@@ -44,7 +38,8 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private _serviceAndResource: ServiceAndResourceService
+    private _serviceAndResource: ServiceAndResourceService,
+    private _notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +58,15 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
     }
+  }
+
+  popUpNotification() {
+    this._notificationService.openPopup();
+  }
+
+  // Function to check if the notification popup is toggled
+  isNotificationToggled() {
+    return this._notificationService.popupToggle;
   }
 
   changeButton() {

@@ -28,7 +28,7 @@
                     <app-primary-button *ngIf="!isAdmin && !isVendor" [button]="chatButton"></app-primary-button>
                 </div>
                 <!-- Price, capacity, and description -->
-                <div class="d-flex gap-4 col-9">
+                <div class="d-flex gap-4 col-9 align-items-center">
                     <div *ngFor="let item of serviceResourceDetails.price">
                         <p>${{item.value}}/{{item.model}}</p>
                     </div>
@@ -37,7 +37,7 @@
                 </div>
                 <p>{{serviceResourceDetails.description}}</p>
                 <!-- Features and facilities -->
-                <div class="d-flex gap-2 flex-row">
+                <div class="d-flex gap-2 flex-row flex-wrap">
                     <p *ngFor="let item of serviceResourceDetails.featureAndFacility" mat-chip class="">{{item}}</p>
                 </div>
                 <!-- Button to book the service -->
@@ -65,11 +65,11 @@
         <div style="margin-top: 100px;"
             *ngIf="serviceResourceDetails.videos != null && serviceResourceDetails.videos.length>0">
             <h3 class="my-4">Videos</h3>
-            <div class="d-flex col-4">
-                <div class="container d-flex gap-4">
+            <div>
+                <div class="d-flex gap-4">
                     <!-- Display videos if available -->
-                    <video style="border-radius: 6px; max-height: 40vh;"
-                        *ngFor="let video of serviceResourceDetails.videos" controls class="w-100" [src]="video"
+                    <video style="border-radius: 6px; max-height: 20vh;"
+                        *ngFor="let video of serviceResourceDetails.videos" controls [src]="video"
                         type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
