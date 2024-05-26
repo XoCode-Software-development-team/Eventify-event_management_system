@@ -81,3 +81,10 @@ export interface ExtendedCategory extends Category {
     rate:number,
     count:number
   }
+
+  export interface Notification {
+    notificationId:number,
+    message:string,
+    timeStamp:Date,
+    read:boolean
+  }

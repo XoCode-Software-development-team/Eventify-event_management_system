@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from 'src/app/Services/notification/notification.service';
 
 @Component({
@@ -7,13 +7,15 @@ import { NotificationService } from 'src/app/Services/notification/notification.
   styleUrls: ['./common-icon-layout.component.scss'],
 })
 export class CommonIconLayoutComponent {
+  notificationBadge: number = 0;
+
   constructor(private _notificationService: NotificationService) {}
 
   // Array containing icon data
   icons = [
     { IconName: 'compare', Tag: 'compare', Badge: '' }, // Icon for comparison
     { IconName: 'chat_bubble_outline', Tag: 'chat', Badge: '' }, // Icon for chat
-    { IconName: 'notifications_none', Tag: 'notification', Badge: '5' }, // Icon for notifications
+    { IconName: 'notifications_none', Tag: 'notification', Badge: this.notificationBadge }, // Icon for notifications
   ];
 
   popUpNotification() {

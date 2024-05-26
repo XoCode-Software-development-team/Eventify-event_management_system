@@ -1,36 +1,37 @@
-<div class="position-fixed" style="width: 500px;z-index: 999;background-color: white;">
+<div class="position-fixed" style="width: 500px; z-index: 999; background-color: white; margin-bottom: 100px !important;">
     <h5 class="title p-3 px-3 pb-2">Notifications</h5>
     <div class="d-flex justify-content-between px-3" style="height: 10px;">
-        <!-- Unread messages count -->
-        <p class="m-0 fw-bold">Unread(1)</p>
-        <!-- Button to mark all messages as read -->
-        <p class="m-0 p-button">Mark as all read</p>
+        <p class="m-0 fw-bold">Unread({{ unreadCount }})</p>
+        <p [ngClass]="unreadCount == 0 ? 'hide' : 'p-button'" class="m-0 p-button" (click)="markAllRead()">Mark as all read</p>
     </div>
-    <!-- Horizontal line -->
     <hr class="mb-0">
 </div>
 
-<!-- Main container -->
 <div class="container p-3 pt-0 d-flex flex-column justify-content-between main-container"
-    style="padding-top: 100px !important; height: 40%;">
+    style="padding-top:100px !important; height: 40%; overflow-y: auto;" [ngClass]="notifications.length == 0? 'make-center' : 'remove-center'">
 
-
-    <div class="d-flex flex-column justify-content-lg-start gap-3">
-        <!-- Individual message container -->
-        <div class="container-fluid" *ngFor="let _ of [1,2,3,4,5,6,7,8,9,10,11,12]">
-            <!-- Message content -->
-            <p class="m-0">Dj equipment by Sonic Sound is added to Music festival</p>
-            <!-- Message timestamp -->
-            <p class="m-0 time">2m ago</p>
-            <!-- Horizontal line -->
-            <hr class="my-1">
+    <div *ngIf="notifications.length > 0" class="d-flex flex-column justify-content-lg-start gap-3">
+        <div class="container-fluid" *ngFor="let notification of notifications">
+            <div class="px-2" [ngClass]="notification.read ? null : 'unread'">
+                <p class="m-0" style="cursor: pointer;" (click)="clickNotification(notification)">
+                    {{ notification.message }}
+                </p>
+                <p class="m-0 time">{{ notification.timeStamp.toString()| timeAgo | async }}</p>
+                <hr class="my-1">
+            </div>
         </div>
     </div>
 
+    <div #scrollAnchor class="scroll-anchor" style="height: 1px;"></div>
+    <p *ngIf="!loading && notifications.length === 0" class="no-notifications-message">You're all caught up! No new
+        notifications.</p>
+    <p *ngIf="loading" class="loading-message">Loading {{notifications.length == 0 ? '': 'more'}} notifications...</p>
 
 </div>
-<!-- Clear all messages button -->
+
 <div class="d-flex justify-content-end m-0 p-0"
-    style="position: fixed; width: 500px; z-index: 999;background-color: white;">
-    <p mat-button class="btn m-0 fw-bold p-button mb-2">Clear all</p>
+    style="position: fixed; width: 500px; z-index: 999; background-color: white;">
+    <p [ngClass]="notifications.length > 0 ? null : 'hide'" class="btn m-0 fw-bold p-button mb-2" (click)="clearAll()">
+        Clear all
+    </p>
 </div>

@@ -57,6 +57,7 @@ import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/com
 import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
 import { CapitalizePipe } from './Pipes/Capitalize.pipe';
 import { ToastComponent } from './Components/toast/toast.component';
+import { TimeAgoPipe } from './Pipes/time-ago.pipe';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { ToastComponent } from './Components/toast/toast.component';
     CommonIconLayoutComponent,
     AdminDeleteRequestComponent,
     CapitalizePipe,
-    ToastComponent
+    ToastComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,
