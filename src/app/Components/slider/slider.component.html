@@ -1,35 +1,26 @@
 <div class="container">
-  <!-- Price Model Selection -->
   <div>
-      <h5>Filter price model</h5>
-      <!-- Radio group for selecting price model -->
-      <mat-radio-group [(ngModel)]="selectedPriceModel" (change)="onPriceModelChange()" class="radio-group">
-          <!-- Radio button for selecting all price models -->
-          <mat-radio-button class="radio-button" [color]="'primary'" value="All">
-            All
-          </mat-radio-button>
-          <!-- Iterating over price models to display radio buttons -->
-          <mat-radio-button *ngFor="let price of priceModels" class="radio-button" [color]="'primary'" [value]="price.id">
-            {{price.priceModelName}}
-          </mat-radio-button>
-      </mat-radio-group>          
+    <h5>Filter price model</h5>
+    <mat-radio-group [(ngModel)]="selectedPriceModel" (change)="onPriceModelChange()" class="radio-group">
+      <mat-radio-button class="radio-button" [color]="'primary'" value="All">
+        All
+      </mat-radio-button>
+      <mat-radio-button *ngFor="let price of priceModels" class="radio-button" [color]="'primary'" [value]="price.id">
+        {{price.priceModelName}}
+      </mat-radio-button>
+    </mat-radio-group>
   </div>
-  
-  <!-- Price Range Selection -->
+
   <div *ngIf="priceModelSelected" class="mt-2">
-      <h5>Price range</h5>
-      <!-- Container for displaying minimum and maximum price labels -->
-      <div class="label-container">
-          <label class="value-label">0$</label>
-          <label class="value-label">{{maxPrice}}$</label>
-      </div>
-      <!-- Slider for selecting price range -->
-      <mat-slider class="slider mt-0 mx-0" [disabled]="!priceModelSelected" [max]="maxPrice" [min]=0 [step]="calculateStep(maxPrice)"
-          [discrete]=true [showTickMarks]=true (input)="updateSliderValue()">
-          <!-- Input element for minimum value -->
-          <input [(ngModel)]="minValue" matSliderStartThumb [value]="minValue">
-          <!-- Input element for maximum value -->
-          <input [(ngModel)]="maxValue" matSliderEndThumb [value]="maxPrice">
-      </mat-slider>
+    <h5>Price range</h5>
+    <div class="label-container">
+      <label class="value-label">0$</label>
+      <label class="value-label">{{maxPrice}}$</label>
+    </div>
+    <mat-slider class="slider mt-0 mx-0" [disabled]="!priceModelSelected" [max]="maxPrice" [min]="0" [step]="calculateStep(maxPrice)"
+        [discrete]="true" [showTickMarks]="true" (input)="updateSliderValue()">
+        <input [(ngModel)]="minValue" matSliderStartThumb [value]="minValue">
+        <input [(ngModel)]="maxValue" matSliderEndThumb [value]="maxPrice">
+    </mat-slider>
   </div>
 </div>

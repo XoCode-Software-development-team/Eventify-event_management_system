@@ -1,76 +1,75 @@
-import { Category, ExtendedCategory } from './../../Interfaces/interfaces';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ExtendedCategory } from 'src/app/Interfaces/interfaces';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
 })
-export class CategoryComponent implements OnChanges {
-  @Input() CategoryList: Category[] = []; // Input property to receive the list of categories
-  @Input() dataSource: any[] = []; // Input property to receive the data source
-  @Output() categoryFilterDataSource: EventEmitter<any> = new EventEmitter<any>(); // Output property to emit the filtered data source
+export class CategoryComponent implements OnInit {
+  @Output() categoryFilterDataSource: EventEmitter<any> = new EventEmitter<any>();
 
-  firstCategory: boolean = true; // Flag to track the state of the first checkbox
-  selectedCategory: boolean = true; // Flag to track the state of selected category
-  originalDataSource: any[] = [];
-  tempDataSource: any = [];
-  newDataSource: any = [];
+  constructor(
+    private _serviceAndResource: ServiceAndResourceService,
+    private _toastService: ToastService
+  ) {}
+
+  firstCategory: boolean = true;
+  selectedCategory: boolean = true;
   extendedCategory: ExtendedCategory[] = [];
 
-  ngOnChanges(): void {
-    // Initialize original data source and extended category if not already initialized
-    if (this.originalDataSource.length === 0) {
-      this.originalDataSource = [...this.dataSource];
-    }
-    if (this.extendedCategory.length === 0) {
-      this.extendedCategory = this.CategoryList.map((category) => ({
-        ...(category as ExtendedCategory),
-        checked: true,
-      }));
-    }
-    // Apply category filtering
-    this.filterCategory();
+  ngOnInit(): void {
+    this.getAllCategories();
   }
 
   firstCheckboxChange(event: any) {
-    if (event.checked) {
-      // Toggle the checked state of all checkboxes when the first checkbox is checked
-      this.extendedCategory.forEach((category) => {
-        category.checked = true;
-      });
-      // Apply category filtering
-    } else {
-      // Toggle the checked state of all checkboxes when the first checkbox is checked
-      this.extendedCategory.forEach((category) => {
-        category.checked = false;
-      });
-      // Apply category filtering
-    }
+    this.extendedCategory.forEach((category) => {
+      category.checked = event.checked;
+    });
     this.filterCategory();
   }
 
   selectCategory() {
-    // Update the state of the first category flag
     this.firstCategory = false;
   }
 
   filterCategory() {
-    // Filter the data source based on the checked categories
     const checkedCategories = this.extendedCategory.filter(
-      (category) => category.checked === true
+      (category) => category.checked
     );
     const checkedCategoryIds = checkedCategories.map((category) => category.id);
-    this.dataSource = this.originalDataSource.filter((item) =>
-      checkedCategoryIds.includes(item.categoryId)
-    );
-    // Emit the filtered data source
-    this.categoryFilterDataSource.emit(this.dataSource);
+    this.categoryFilterDataSource.emit(checkedCategoryIds);
+  }
+
+  getAllCategories() {
+    this._serviceAndResource.getCategoriesList().subscribe({
+      next: (res: any) => {
+        this.extendedCategory = res.map((item: any) => ({
+          checked: true,
+          id: item.categoryId,
+          categoryName:
+            this.checkUrlString() === 'service'
+              ? item.serviceCategoryName
+              : item.resourceCategoryName,
+        }));
+        this.filterCategory();
+      },
+      error: (err: any) => {
+        console.error(err);
+        let errorMessage = 'Failed to fetch categories.';
+        if (err.status === 0) {
+          errorMessage += ' Please check your internet connection and try again.';
+        } else {
+          errorMessage += ' Please try again later.';
+        }
+        this._toastService.showMessage(errorMessage, 'error');
+      },
+    });
+  }
+
+  checkUrlString(): string {
+    return this._serviceAndResource.checkUrlString();
   }
 }
