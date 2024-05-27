@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as signalR from '@aspnet/signalr';
 import { Notification } from 'src/app/Interfaces/interfaces';
@@ -18,6 +18,8 @@ export class NotificationService {
   private dialogRef: MatDialogRef<NotificationBoxComponent> | null = null;
   private notificationBadgeSubject: BehaviorSubject<number> = new BehaviorSubject(0);
   notificationBadge$ = this.notificationBadgeSubject.asObservable();
+  private notificationUpdateSubject: Subject<Notification> = new Subject<Notification>();
+  notificationUpdates$ = this.notificationUpdateSubject.asObservable();
   private hubConnection: signalR.HubConnection | null = null;
 
   constructor(private _matDialog: MatDialog, private _http: HttpClient) {
@@ -29,34 +31,68 @@ export class NotificationService {
       .withUrl(this.HUB_URL)
       .configureLogging(signalR.LogLevel.Information)
       .build();
-  
-    this.hubConnection.start().then(() => {
-      console.log('SignalR connection established');
-      this.registerSignalREvents();
-      // After the connection is established, send the user ID to the server
-      this.sendUserIdToServer();
-    }).catch(err => console.error('SignalR connection error:', err));
+
+    this.hubConnection
+      .start()
+      .then(() => {
+        console.log('SignalR connection established');
+        this.registerSignalREvents();
+        this.sendUserIdToServer();
+      })
+      .catch((err) => console.error('SignalR connection error:', err));
   }
-  
+
   private sendUserIdToServer() {
     const userId = 'a0e3d4f5-8d53-4fb1-b36d-7316a31a4a41'; // Replace with your actual user ID
-    this.hubConnection?.invoke('SendNotificationCount', userId)
-      .catch(err => console.error('Failed to send user ID to server:', err));
+    this.hubConnection
+      ?.invoke('SendNotificationCount', userId)
+      .catch((err) => console.error('Failed to send user ID to server:', err));
   }
-  
+
   private registerSignalREvents() {
     this.hubConnection?.on('ReceiveNotificationCount', (unreadCount: number) => {
       console.log('Received notification count from server:', unreadCount);
       this.notificationBadgeSubject.next(unreadCount); // Update the badge count
     });
+
+    this.hubConnection?.on('ReceiveNotification', (notification: Notification) => {
+      console.log('Received new notification from server:', notification);
+      this.notificationUpdateSubject.next(notification); // Emit new notification
+    });
   }
 
-  getNotifications(userId: string, pageNumber: number, pageSize: number): Observable<Notification[]> {
-    return this._http.get<Notification[]>(`${this.url}/api/notifications/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+  getNotifications(
+    userId: string,
+    pageNumber: number,
+    pageSize: number
+  ): Observable<Notification[]> {
+    return this._http.get<Notification[]>(
+      `${this.url}/api/notifications/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`
+    );
   }
 
   markAsRead(userId: string, notificationId: number): Observable<any> {
-    return this._http.put<any>(`${this.url}/api/notifications/${userId}/${notificationId}`, null);
+    return this._http.put<any>(
+      `${this.url}/api/notifications/${userId}/${notificationId}`,
+      null
+    );
+  }
+
+  markAllRead(userId: string): Observable<any> {
+    return this._http.put<any>(
+      `${this.url}/api/notifications/markAllRead/${userId}`,
+      null
+    );
+  }
+
+  clearAll(userId: string): Observable<any> {
+    return this._http.delete(`${this.url}/api/notifications/deleteAll/${userId}`);
+  }
+
+  deleteNotification(userId: string, notificationId: number): Observable<any> {
+    return this._http.delete(
+      `${this.url}/api/notifications/delete/${userId}/${notificationId}`
+    );
   }
 
   openPopup() {

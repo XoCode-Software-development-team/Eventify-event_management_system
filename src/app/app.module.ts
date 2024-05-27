@@ -58,6 +58,7 @@ import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/
 import { CapitalizePipe } from './Pipes/Capitalize.pipe';
 import { ToastComponent } from './Components/toast/toast.component';
 import { TimeAgoPipe } from './Pipes/time-ago.pipe';
+import { TruncatePipe } from './Pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { TimeAgoPipe } from './Pipes/time-ago.pipe';
     AdminDeleteRequestComponent,
     CapitalizePipe,
     ToastComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,

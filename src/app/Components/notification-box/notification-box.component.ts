@@ -21,12 +21,16 @@ export class NotificationBoxComponent
 {
   notifications: Notification[] = [];
   notificationBadgeSubscription: Subscription | undefined;
+  notificationUpdateSubscription: Subscription | undefined;
   unreadCount: number = 0;
   userId = 'a0e3d4f5-8d53-4fb1-b36d-7316a31a4a41';
   pageNumber = 1;
   pageSize = 10;
   loading = false;
   noMoreNotifications = false;
+  isLoading: boolean = false;
+  clickedNotification: number = 0;
+  allLoading: boolean = false;
 
   @ViewChild('scrollAnchor', { static: false }) scrollAnchor!: ElementRef;
 
@@ -39,7 +43,15 @@ export class NotificationBoxComponent
     this._notificationService.notificationBadge$.subscribe((unreadCount) => {
       this.unreadCount = unreadCount;
     });
-    console.log(this.unreadCount);
+
+    this.notificationUpdateSubscription = this._notificationService.notificationUpdates$.subscribe(
+      (newNotification) => {
+        this.notifications.unshift(newNotification); // Add new notification to the top of the list
+        this._cdr.detectChanges();
+      }
+    );
+
+    this.getNotifications();
   }
 
   ngAfterViewInit(): void {
@@ -63,9 +75,12 @@ export class NotificationBoxComponent
   }
 
   ngOnDestroy(): void {
-    // Unsubscribe from the subscription to prevent memory leaks
     if (this.notificationBadgeSubscription) {
       this.notificationBadgeSubscription.unsubscribe();
+    }
+
+    if (this.notificationUpdateSubscription) {
+      this.notificationUpdateSubscription.unsubscribe();
     }
   }
 
@@ -96,36 +111,86 @@ export class NotificationBoxComponent
   }
 
   updateNotificationBadge() {
-    // Subscribe to the notification badge count
     this.notificationBadgeSubscription =
       this._notificationService.notificationBadge$.subscribe(
         (count: number) => {
-          this._cdr.detectChanges(); // Manually trigger change detection
+          this._cdr.detectChanges();
           this.unreadCount = count;
         }
       );
   }
 
   clickNotification(notification: Notification) {
+    if (this.clickedNotification == notification.notificationId) {
+      this.clickedNotification = 0;
+    } else {
+      this.clickedNotification = notification.notificationId;
+    }
+    if (notification.read) return;
+    this.isLoading = true;
     this._notificationService
       .markAsRead(this.userId, notification.notificationId)
       .subscribe({
         next: (res: any) => {
           notification.read = true;
+          this.isLoading = false;
         },
         error: (err: any) => {
           console.error(err);
+          this.isLoading = false;
         },
       });
   }
 
   markAllRead() {
-    this.notifications.forEach((notification) => (notification.read = true));
+    if (this.unreadCount == 0) return;
+    this.allLoading = true;
+    this._notificationService.markAllRead(this.userId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.notifications.forEach((notification) => (notification.read = true));
+        this.allLoading = false;
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.allLoading = false;
+      },
+    });
   }
 
   clearAll() {
-    this.notifications = [];
-    this.unreadCount = 0;
-    this.updateNotificationBadge();
+    if (this.notifications.length == 0) return;
+    this.allLoading = true;
+    this._notificationService.clearAll(this.userId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.notifications = [];
+        this.updateNotificationBadge();
+        this.allLoading = false;
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.allLoading = false;
+      },
+    });
+  }
+
+  deleteNotification(notificationId: number) {
+    this.isLoading = true;
+    this._notificationService
+      .deleteNotification(this.userId, notificationId)
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          this.notifications = this.notifications.filter(
+            (n) => n.notificationId !== notificationId
+          );
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          console.error(err);
+          this.isLoading = false;
+        },
+      });
   }
 }
