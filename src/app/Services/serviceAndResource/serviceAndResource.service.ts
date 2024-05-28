@@ -169,4 +169,7 @@ export class ServiceAndResourceService {
     return this._http.get<any>(`${this.Url}/api/${this.checkUrlString()}/details/${soRId}`);
   }
 
+  getRatingCount():Observable<any> {
+    return this._http.get<any>(`${this.Url}/api/${this.checkUrlString()}/ratingCount`);
+  }
 }

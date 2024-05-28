@@ -23,7 +23,7 @@
         </div>
 
         <!-- Display message when no services/resources available -->
-        <div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+        <div *ngIf="servicesAndResources.length == 0" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
             <p *ngIf="servicesAndResources.length == 0 && !isLoading">No available {{this.checkUrlString()}}s found</p>
             <div *ngIf="isLoading" class="spinner-container d-flex flex-column">
                 <p>Please wait</p>

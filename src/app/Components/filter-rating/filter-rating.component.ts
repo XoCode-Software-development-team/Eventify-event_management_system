@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Rating } from './../../Interfaces/interfaces';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
 
 @Component({
   selector: 'app-filter-rating',
@@ -7,7 +8,9 @@ import { Rating } from './../../Interfaces/interfaces';
   styleUrls: ['./filter-rating.component.scss'],
 })
 export class FilterRatingComponent implements OnInit {
+
   @Output() rateFilteredDataSource: EventEmitter<any> = new EventEmitter<any>();
+
   allRate: Rating = {
     rate: 0,
     count: 0
@@ -21,6 +24,8 @@ export class FilterRatingComponent implements OnInit {
 
   selectedModel: number = this.allRate.rate;
 
+  constructor(private _serviceAndResource: ServiceAndResourceService) {}
+
   ngOnInit(): void {
     this.allRateCount();
     this.filterRating(this.selectedModel);
@@ -32,7 +37,17 @@ export class FilterRatingComponent implements OnInit {
   }
 
   countRatingCount() {
-
+    this._serviceAndResource.getRatingCount().subscribe({
+      next:(res:any) => {
+        this.allRate.count = res[0]
+        this.ratings.forEach(r => {
+          r.count = res[r.rate];
+        })
+      },
+      error:(err:any)=> {
+        console.error(err);
+      }
+    })
   }
 
   allRateCount() {
