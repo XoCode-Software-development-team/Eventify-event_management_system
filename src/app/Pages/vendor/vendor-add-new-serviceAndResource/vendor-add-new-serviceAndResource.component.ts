@@ -309,14 +309,14 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   // Submit form
   async saveForm(mouseEvent: MouseEvent) {
     this.isLoading = true;
-    // if (this.imageFiles.length < 5) {
-    //   this._toastService.showMessage(
-    //     'Minimum five images are needed.',
-    //     'error'
-    //   );
-    //   this.isLoading = false;
-    //   return;
-    // }
+    if (this.imageFiles.length < 5) {
+      this._toastService.showMessage(
+        'Minimum five images are needed.',
+        'error'
+      );
+      this.isLoading = false;
+      return;
+    }
 
     if (this.checkForDuplicateItems('Locations')) {
       this._toastService.showMessage('Duplicate locations detected! Please remove duplicates before submitting.', 'warning');
