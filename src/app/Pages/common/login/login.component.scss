@@ -1,198 +1,22 @@
-// // body {font-family: lato;}
-// // form {border: 5px solid #f1f1f1;}
-// // *{
-// //   margin: 0;
-// //   padding: 0;
-// // }
+.left {
+  flex: 50%;
+}
 
-// // input[type=text], input[type=password] {
-// //   width: 50%;
-// //   padding: 12px 20px;
-// //   margin: 8px 0;
-// //   display: inline-block;
-// //   border: 1px solid #ccc;
-// //   box-sizing: border-box;
-// // }
-
-// // button {
-// //   background-color: #07076b;
-// //   color: white;
-// //   padding: 14px 20px;
-// //   margin: 8px 0;
-// //   border: none;
-// //   cursor: pointer;
-// //   width: 50%;
-// // }
-
-// // button:hover {
-// //   opacity: 0.8;
-// // }
+.right {
+  flex: 50%;
+}
 
 
+/* Styles for the footer section */
+.footer {
+  position: relative;
+  margin-top: auto;
+}
 
-// // .container {
-// //   padding: 16px;
-// // }
-// // .container.span{
-// //   padding: 10px;
-// //   margin-right: 200px;
-
-// // }
-
-// // span.psw {
-// //   float: left;
-// //   padding-top: 16px;
-// //   padding-bottom:16px;
-// // }
-
-// // /* Change styles for span and cancel button on extra small screens */
-// // @media screen and (max-width: 300px) {
-// //   span.psw {
-// //      display: block;
-// //      float: none;
-// //   }
-
-// // }
-// .form{
-// position: fixed;
-// top:50%;
-// left: 50%;
-// max-width: 720px;
-// width: 100%;
-
-// background: white;
-// border: 2px solid rgb(199, 192, 192);
-// transform: translate(-50%,-50%);
-// }
-
-// .form.form-box{
-//   display: flex;
-
-// }
-// .form-box.form-details{
-//   max-width: 330px;
-// }
-// .form-box h2{
-//   text-align: center;
-//   margin-bottom: 30px;
-// }
-// .form-box.container{
-//   width: 100%;
-//   padding: 35px;
-// }
-// form.input-field{
-//   width: 100%;
-//   height: 50%;
-// }
-// form.input-field input{
-//   width: 100%;
-//   height: 100%;
-//   border: 1px solid black;
-//   outline: none;
-//   padding: 0 15px;
-//   font-size: 0.95rem;
-//   border-radius: 3px;
-    
-// }
-// button{
- 
-//     width: 100%;
-//     outline: none;
-//     border:none;
-//     font-size: large;
-//     font-weight: 600;
-//     padding: 14px 0;
-//     border-radius: 3px;
-//     margin: 25px 0;
-//     margin-bottom: 10px;
-//     color: white;
-//     cursor: pointer;
-//     background-color: rgb(20, 73, 120);
-//     transition: 0.2s ease;
-
-// }
-// .form button:hover{
-//   background: rgb(9, 6, 60);
-// }
-// .form-box .forgot-pw{
-//   display: inline-flex;
-//   margin-top: 15px;
-//   font-size: 14px;
-// }
-// .form-box .bottom link{
-//   text-align: center;
-
-// }
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    width: 700px;
-  }
-  
-  .container{
-    width: 100%;
-    min-height: 100vh;
-    background-color: white;
-    display: flex;
-    justify-content: right;
-  align-items: right;
-    padding: 0px 3px;
-    margin-top: 20px;
-  
-  
-  }
-  
-  ::content.changepw{
-    padding-bottom: 20px;
-    font-weight: bold;
-    font-family: lato;
-  
-  }
-  ::content.changepw input{
-    width: 90%;
-    height: 30px;
-  
-  }
-  ::content.changepw{
-    border-style:solid ;
-    border-color: grayscale($color: #74777b82);
-    height: 100%;
-    width: 100%;
-    padding: 200px;
-    margin-left: 0;
-  }
-  ::content.changepw h2{
-    padding-bottom: 20px;
-  }
-  ::content.changepw input{
-    margin-bottom: 15px;
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  Button {
-    background-color: #1C5864;
-    border: none;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 10px 2px;
-    cursor: pointer;
-    width: 60%;
-  }
-  
+/* Host styles for the component */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Ensure at least full viewport height */
+}

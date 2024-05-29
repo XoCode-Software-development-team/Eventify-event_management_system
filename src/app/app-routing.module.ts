@@ -22,6 +22,7 @@ import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/ven
 import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
 import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
 import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
+import { SignupComponent } from './Pages/common/signup/signup.component';
 
 const routes: Routes = [
   // {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -29,8 +30,9 @@ const routes: Routes = [
   // {path: '**', component:},
 
   // {path: 'signUp'},
-  {path: 'login', component:LoginComponent},
   {path: 'forgotPassword', component:ForgetPasswordComponent},
+  {path: 'login', component:LoginComponent},
+  {path: 'signup', component:SignupComponent},
   {
     path:'',
     component:CommonLayoutComponent,

@@ -59,6 +59,8 @@ import { CapitalizePipe } from './Pipes/Capitalize.pipe';
 import { ToastComponent } from './Components/toast/toast.component';
 import { TimeAgoPipe } from './Pipes/time-ago.pipe';
 import { TruncatePipe } from './Pipes/truncate.pipe';
+import { LoginCoverComponent } from './Components/login-cover/login-cover.component';
+import { SignupComponent } from './Pages/common/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +108,9 @@ import { TruncatePipe } from './Pipes/truncate.pipe';
     CapitalizePipe,
     ToastComponent,
     TimeAgoPipe,
-    TruncatePipe
+    TruncatePipe,
+    LoginCoverComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

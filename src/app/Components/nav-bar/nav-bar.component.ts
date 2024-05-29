@@ -26,7 +26,7 @@ export class NavBarComponent implements OnInit {
 
   // Button configurations
   signUp: Button = {
-    url: 'signUp',
+    url: 'signup',
     type: 'button',
     text: 'Signup',
     icon:'',
