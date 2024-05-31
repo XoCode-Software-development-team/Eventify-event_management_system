@@ -1,0 +1,135 @@
+<div class="d-flex flex-colum">
+    <div class="left">
+        <app-login-cover></app-login-cover>
+    </div>
+    <div class="right">
+        <div class="upper-container d-flex flex-row justify-content-between">
+            <app-basic-button class="pt-5" style="padding: 0 60px;" [button]="goBackButton"></app-basic-button>
+            <small class="text-primary p-2 m-2 btn" *ngIf="isClient" (click)="becomeVendor()">Click here to become a
+                Vendor</small>
+        </div>
+        <div class="form-container d-flex flex-column">
+            <form class=".sign-up-form p-5 mx-5" [formGroup]="signUpForm" (ngSubmit)="signUpUser()">
+                <h1 class="py-2">Sign up</h1>
+                <table class="form-table" cellspacing="0">
+                    <tr *ngIf="isClient">
+                        <td class="first-td">
+                            <mat-form-field class="form-field" appearance="outline">
+                                <mat-label>First Name</mat-label>
+                                <input matInput class="input-data" required formControlName="firstName"
+                                    placeholder="Add FirstName">
+                                <mat-hint
+                                    *ngIf="signUpForm.controls['firstName'].invalid && signUpForm.controls['firstName'].touched">
+                                    <span class="small text-danger"> First name can not be left blank! </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="form-field" appearance="outline">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput class="input-data" required formControlName="lastName"
+                                    placeholder="Add LastName">
+                                <mat-hint
+                                    *ngIf="signUpForm.controls['lastName'].invalid && signUpForm.controls['lastName'].touched">
+                                    <span class="small text-danger">Last name can not be left blank! </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!isClient">
+                        <td class="first-td">
+                            <mat-form-field class="form-field" appearance="outline">
+                                <mat-label>Company Name</mat-label>
+                                <input matInput class="input-data" required formControlName="companyName"
+                                    placeholder="Add CompanyName">
+                                <mat-hint
+                                    *ngIf="signUpForm.controls['companyName'].invalid && signUpForm.controls['companyName'].touched">
+                                    <span class="small text-danger"> Company name can not be left blank! </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="form-field" appearance="outline">
+                                <mat-label>Contact Person Name</mat-label>
+                                <input matInput class="input-data" required formControlName="contactPersonName"
+                                    placeholder="Add Contact PersonName">
+                                <mat-hint
+                                    *ngIf="signUpForm.controls['contactPersonName'].invalid && signUpForm.controls['contactPersonName'].touched">
+                                    <span class="small text-danger">Contact person name can not be left blank! </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                    <tr>
+                        <td colspan="2">
+                            <mat-form-field class="form-field" appearance="outline">
+                                <mat-label>Email</mat-label>
+                                <input matInput class="input-data" required formControlName="email"
+                                    placeholder="Add Email">
+                                <mat-hint
+                                    *ngIf="signUpForm.controls['email'].invalid && signUpForm.controls['email'].touched">
+                                    <span *ngIf="signUpForm.get('email')?.errors?.['required']"
+                                        class="small text-danger">Email address can not be left blank! </span>
+                                    <span *ngIf="signUpForm.get('email')?.errors?.['email']"
+                                        class="small text-danger">Please enter a valid email address! </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <mat-form-field class="form-field" appearance="outline">
+                                <mat-label>Password</mat-label>
+                                <input matInput class="input-data" required formControlName="password"
+                                    placeholder="Add Password" [type]="isText ? 'text' : 'password'">
+                                    <mat-icon *ngIf="isText" matSuffix (click)="hideShowPass()">visibility</mat-icon>
+                                    <mat-icon *ngIf="!isText" matSuffix (click)="hideShowPass()">visibility_off</mat-icon>
+                                <mat-hint
+                                    *ngIf="signUpForm.controls['password'].invalid && signUpForm.controls['password'].touched">
+                                    <span *ngIf="signUpForm.get('password')?.errors?.['required']"
+                                        class="small text-danger">Password can not be left blank!</span>
+                                    <span class="small text-danger"
+                                        *ngIf="signUpForm.get('password')?.errors?.['passwordStrength']">Password must
+                                        be at least 8 characters long and include at least one uppercase letter, one
+                                        lowercase letter, one number, and one special character.
+                                    </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <mat-form-field class="form-field" appearance="outline">
+                                <mat-label>Confirm Password</mat-label>
+                                <input matInput class="input-data" required formControlName="confirmPassword"
+                                    placeholder="Add Confirm Password" [type]="isText ? 'text' : 'password'">
+                                    <mat-icon *ngIf="isText && signUpForm.controls['password'].valid" matSuffix (click)="hideShowPass()">visibility</mat-icon>
+                                    <mat-icon *ngIf="!isText && signUpForm.controls['password'].valid" matSuffix (click)="hideShowPass()">visibility_off</mat-icon>
+                                <mat-hint
+                                    *ngIf="signUpForm.controls['confirmPassword'].invalid && signUpForm.controls['confirmPassword'].touched">
+                                    <span *ngIf="signUpForm.get('confirmPassword')?.errors?.['required']" class="small text-danger">Confirm password can not be left blank! </span>
+                                    <span *ngIf="signUpForm.get('confirmPassword')?.errors?.['passwordMismatch']" class="small text-danger">
+                                        Confirm password must match the password.
+                                      </span>
+                                </mat-hint>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="signUp-button">
+                            <app-primary-button [button]="signUpButton"></app-primary-button></td>
+                    </tr>
+                </table>
+                <div class="d-flex justify-content-center align-items-baseline gap-2">
+                    <p class="pt-3 text-center">Don you have an account?</p>
+                    <h6 routerLink="/login" class="text-primary btn px-0">Login</h6>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <app-footer></app-footer>
+</div>

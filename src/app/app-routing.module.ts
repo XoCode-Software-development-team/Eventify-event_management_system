@@ -7,22 +7,21 @@ import { VendorBookingRequestsComponent } from './Pages/vendor/vendor-booking-re
 import { VendorAddNewServiceAndResourceComponent } from './Pages/vendor/vendor-add-new-serviceAndResource/vendor-add-new-serviceAndResource.component';
 import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layout.component';
 import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
-import { AllServiceAndResourceComponent } from './Pages/common/all-serviceAndResouce/all-serviceAndResource.component';
-import { ServiceAndResourceDetailsComponent } from './Pages/common/serviceAndResource-details/serviceAndResource-details.component';
-import { HomeComponent } from './Pages/common/home/home.component';
-import { CommonLayoutComponent } from './Pages/common/common-layout/common-layout.component';
-import { LoginComponent } from './Pages/common/login/login.component';
-import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-password.component';
 import { VendorUpdateServiceAndResourceComponent } from './Pages/vendor/vendor-update-serviceAndResource/vendor-update-service.AndResourcecomponent';
-import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
-import { ClientIconLayoutComponent } from './Pages/client/client-icon-layout/client-icon-layout.component';
 import { AdminIconLayoutComponent } from './Pages/admin/admin-icon-layout/admin-icon-layout.component';
 import { AdminSidenavLayoutComponent } from './Pages/admin/admin-sidenav-layout/admin-sidenav-layout.component';
 import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/vendor-icon-layout.component';
 import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
-import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
 import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
-import { SignupComponent } from './Pages/common/signup/signup.component';
+import { ForgotPasswordComponent } from './Pages/client/forgot-password/forgot-password.component';
+import { LoginComponent } from './Pages/client/login/login.component';
+import { SignupComponent } from './Pages/client/signup/signup.component';
+import { ClientIconLayoutComponent } from './Pages/client/client-icon-layout/client-icon-layout.component';
+import { HomeComponent } from './Pages/client/home/home.component';
+import { AllServiceAndResourceComponent } from './Pages/client/all-serviceAndResouce/all-serviceAndResource.component';
+import { ServiceAndResourceDetailsComponent } from './Pages/client/serviceAndResource-details/serviceAndResource-details.component';
+import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
+import { DashboardComponent } from './Pages/client/dashboard/dashboard.component';
 
 const routes: Routes = [
   // {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -30,39 +29,26 @@ const routes: Routes = [
   // {path: '**', component:},
 
   // {path: 'signUp'},
-  {path: 'forgotPassword', component:ForgetPasswordComponent},
+  {path: 'forgotPassword', component:ForgotPasswordComponent},
   {path: 'login', component:LoginComponent},
   {path: 'signup', component:SignupComponent},
+  {path: 'forgotPassword', component:ForgotPasswordComponent},
+
   {
     path:'',
-    component:CommonLayoutComponent,
-    children: [
-      {path: 'home', component:HomeComponent},
-      {path: '', component:CommonIconLayoutComponent,
-        children: [
-          {path: '', redirectTo: '/home', pathMatch: 'full'},
-          {path: 'services', component:AllServiceAndResourceComponent},
-          {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
-          {path: 'resources', component:AllServiceAndResourceComponent},
-          {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent}
-        ]
-      },
-    ]
-  },
-  {
-    path:'client',
     component:ClientLayoutComponent,
     children: [
+      {path: 'home', component:HomeComponent},
       {path: '', component:ClientIconLayoutComponent,
         children: [
-          {path: '', redirectTo: '/client/home', pathMatch: 'full'},
+          {path: '', redirectTo: '/home', pathMatch: 'full'},
+          {path: 'dashboard', component:DashboardComponent},
           {path: 'services', component:AllServiceAndResourceComponent},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources', component:AllServiceAndResourceComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent}
         ]
       },
-      {path: 'home', component:HomeComponent},
     ]
   },
   {

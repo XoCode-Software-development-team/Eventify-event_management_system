@@ -7,7 +7,7 @@ import {
   OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
-import { NotificationService } from 'src/app/Services/notification/notification.service';
+import { NotificationService } from 'src/app/Services/notification.service';
 import { Notification } from 'src/app/Interfaces/interfaces';
 import { Subscription } from 'rxjs';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
-import { NotificationService } from 'src/app/Services/notification/notification.service';
+import { NotificationService } from 'src/app/Services/notification.service';
 import { Subscription } from 'rxjs';
 
 @Component({

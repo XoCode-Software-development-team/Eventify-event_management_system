@@ -22,6 +22,7 @@ export interface ExtendedCategory extends Category {
     text: string,
     icon: string,
     class: string[],
+    iconClass:string[],
     disable: boolean
   }
 

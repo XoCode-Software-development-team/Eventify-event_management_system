@@ -10,11 +10,11 @@ import {
   FeatureAndFacility,
   PriceModel,
 } from 'src/app/Interfaces/interfaces';
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
-import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
-import { ToastService } from 'src/app/Services/toast/toast.service';
+import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
+import { ToastService } from 'src/app/Services/toast.service';
 
 @Component({
   selector: 'app-vendor-add-new-service',
@@ -57,7 +57,8 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     type: 'submit',
     text: `Save ${this.capitalizedTag}`,
     icon: '',
-    class: ['hideIcon'], // Scss class list
+    iconClass: ['hideIcon'], // Scss class list
+    class:[],
     disable: true, // Initially disabled until form is valid
   };
 
@@ -67,7 +68,8 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     type: 'reset',
     text: 'Reset',
     icon: '',
-    class: ['hideIcon', 'btn3', 'btn'],
+    class: ['btn3', 'btn'],
+    iconClass: [],
     disable: false,
   };
 

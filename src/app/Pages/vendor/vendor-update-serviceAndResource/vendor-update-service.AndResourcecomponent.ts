@@ -12,9 +12,9 @@ import {
   FeatureAndFacility,
   PriceModel,
 } from 'src/app/Interfaces/interfaces';
-import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
-import { ToastService } from 'src/app/Services/toast/toast.service';
+import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast.service';
 
 @Component({
   selector: 'app-vendor-update-service',
@@ -68,7 +68,8 @@ export class VendorUpdateServiceAndResourceComponent
     type: 'submit',
     text: 'Update',
     icon: '',
-    class: ['hideIcon'], // Scss class list
+    class:[],
+    iconClass: ['hideIcon'], // Scss class list
     disable: true, // Initially disabled until form is valid
   };
 

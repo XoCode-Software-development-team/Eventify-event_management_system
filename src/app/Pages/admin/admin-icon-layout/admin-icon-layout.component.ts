@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NotificationService } from 'src/app/Services/notification/notification.service';
+import { NotificationService } from 'src/app/Services/notification.service';
 
 @Component({
   selector: 'app-admin-icon-layout',

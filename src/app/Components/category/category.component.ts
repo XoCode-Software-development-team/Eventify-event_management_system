@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ExtendedCategory } from 'src/app/Interfaces/interfaces';
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
-import { ToastService } from 'src/app/Services/toast/toast.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast.service';
 
 @Component({
   selector: 'app-category',

@@ -1,0 +1,11 @@
+<div class="container">
+    <h1>{{userName}}</h1>
+<h2>{{role}}</h2>
+<h3>{{id}}</h3><br><br>
+<button class="btn btn-danger" (click)="signOut()">Sign out</button>
+<br><br><br>
+
+<ul *ngFor="let _ of service">
+    <li>{{_.modelName}}</li>
+</ul>
+</div>

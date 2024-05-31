@@ -1,9 +1,9 @@
-import { ToastService } from 'src/app/Services/toast/toast.service';
+import { ToastService } from 'src/app/Services/toast.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
-import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

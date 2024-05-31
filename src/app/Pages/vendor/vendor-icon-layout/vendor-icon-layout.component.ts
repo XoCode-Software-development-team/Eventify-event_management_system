@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Button } from 'src/app/Interfaces/interfaces';
-import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
-import { NotificationService } from 'src/app/Services/notification/notification.service';
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
+import { NotificationService } from 'src/app/Services/notification.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 
 @Component({
   selector: 'app-vendor-icon-layout',
@@ -31,6 +31,7 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     text: '',
     url: '',
     class: ['btn1'],
+    iconClass: [],
     type: 'button',
     disable: false
   };

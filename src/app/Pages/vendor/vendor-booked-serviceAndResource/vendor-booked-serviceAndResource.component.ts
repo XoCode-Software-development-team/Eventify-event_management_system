@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/Interfaces/interfaces';
-import { CapitalizePipe } from 'src/app/Pipes/Capitalize.pipe';
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
-import { ToastService } from 'src/app/Services/toast/toast.service';
+import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast.service';
 
 @Component({
   selector: 'app-vendor-booked-services',

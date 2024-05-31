@@ -1,4 +1,4 @@
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { Component, Input } from '@angular/core';
 
 @Component({

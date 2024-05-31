@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.component';
 import { MaterialModule } from './core/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -24,25 +24,20 @@ import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layou
 import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { PrimaryButtonComponent } from './Components/buttons/primary-button/primary-button.component';
-import { AllServiceAndResourceComponent } from './Pages/common/all-serviceAndResouce/all-serviceAndResource.component';
 import { SliderComponent } from './Components/slider/slider.component';
 import { CategoryComponent } from './Components/category/category.component';
 import { FilterRatingComponent } from './Components/filter-rating/filter-rating.component';
 import { SortComponent } from './Components/sort/sort.component';
 import { SearchComponent } from './Components/search/search.component';
 import { ItemCardComponent } from './Components/item-card/item-card.component';
-import { ServiceAndResourceDetailsComponent } from './Pages/common/serviceAndResource-details/serviceAndResource-details.component';
 import { ImageViewComponent } from './Components/image-view/image-view.component';
 import { SecondaryButtonComponent } from './Components/buttons/secondary-button/secondary-button.component';
 import { ReviewCardComponent } from './Components/review-card/review-card.component';
 import { NotificationBoxComponent } from './Components/notification-box/notification-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditProfileComponent } from './Pages/common/edit-profile/edit-profile.component';
-import { LoginComponent } from './Pages/common/login/login.component';
+import { LoginComponent } from './Pages/client/login/login.component';
 import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
-import { HomeComponent } from './Pages/common/home/home.component';
-import { CommonLayoutComponent } from './Pages/common/common-layout/common-layout.component';
-import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-password.component';
+import { HomeComponent } from './Pages/client/home/home.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
@@ -53,14 +48,18 @@ import { AdminIconLayoutComponent } from './Pages/admin/admin-icon-layout/admin-
 import { AdminSidenavLayoutComponent } from './Pages/admin/admin-sidenav-layout/admin-sidenav-layout.component';
 import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/vendor-icon-layout.component';
 import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
-import { CommonIconLayoutComponent } from './Pages/common/common-icon-layout/common-icon-layout.component';
 import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
-import { CapitalizePipe } from './Pipes/Capitalize.pipe';
+import { CapitalizePipe } from './Pipes/capitalize.pipe';
 import { ToastComponent } from './Components/toast/toast.component';
 import { TimeAgoPipe } from './Pipes/time-ago.pipe';
 import { TruncatePipe } from './Pipes/truncate.pipe';
 import { LoginCoverComponent } from './Components/login-cover/login-cover.component';
-import { SignupComponent } from './Pages/common/signup/signup.component';
+import { SignupComponent } from './Pages/client/signup/signup.component';
+import { ForgotPasswordComponent } from './Pages/client/forgot-password/forgot-password.component';
+import { TokenInterceptor } from './Interceptors/token.interceptor';
+import { DashboardComponent } from './Pages/client/dashboard/dashboard.component';
+import { AllServiceAndResourceComponent } from './Pages/client/all-serviceAndResouce/all-serviceAndResource.component';
+import { ServiceAndResourceDetailsComponent } from './Pages/client/serviceAndResource-details/serviceAndResource-details.component';
 
 @NgModule({
   declarations: [
@@ -90,12 +89,9 @@ import { SignupComponent } from './Pages/common/signup/signup.component';
     SecondaryButtonComponent,
     ReviewCardComponent,
     NotificationBoxComponent,
-    EditProfileComponent,
     LoginComponent,
     NavBarComponent,
     HomeComponent,
-    CommonLayoutComponent,
-    ForgetPasswordComponent,
     VendorUpdateServiceAndResourceComponent,
     ClientLayoutComponent,
     ClientIconLayoutComponent,
@@ -103,14 +99,15 @@ import { SignupComponent } from './Pages/common/signup/signup.component';
     AdminSidenavLayoutComponent,
     VendorIconLayoutComponent,
     VendorSidenavLayoutComponent,
-    CommonIconLayoutComponent,
     AdminDeleteRequestComponent,
     CapitalizePipe,
     ToastComponent,
     TimeAgoPipe,
     TruncatePipe,
     LoginCoverComponent,
-    SignupComponent
+    SignupComponent,
+    ForgotPasswordComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -131,7 +128,11 @@ import { SignupComponent } from './Pages/common/signup/signup.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
   ],
-  providers: [],
+  providers: [{
+    provide:HTTP_INTERCEPTORS,
+    useClass:TokenInterceptor,
+    multi:true
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

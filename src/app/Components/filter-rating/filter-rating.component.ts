@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Rating } from './../../Interfaces/interfaces';
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 
 @Component({
   selector: 'app-filter-rating',

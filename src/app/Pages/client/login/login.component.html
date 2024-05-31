@@ -1,0 +1,66 @@
+<div class="d-flex flex-colum">
+    <div class="left">
+      <app-login-cover></app-login-cover>
+    </div>
+    <div class="right">
+      <div class="upper-container d-flex flex-row justify-content-between">
+        <app-basic-button class="pt-5" style="padding: 0 60px;" [button]="goBackButton"></app-basic-button>
+      </div>
+      <div class="form-container d-flex flex-column">
+        <form class="login-form p-5 mx-5" [formGroup]="loginForm" (ngSubmit)="login()">
+          <h1 class="py-2">Login</h1>
+          <h6 class="subtext">Login with your email address and password</h6>
+          <table class="form-table" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput class="input-data" required formControlName="email" placeholder="Add Email">
+                  <mat-hint *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched">
+                    <span *ngIf="loginForm.get('email')?.errors?.['required']" class="small text-danger">Email address can
+                      not be left blank! </span>
+                    <span *ngIf="loginForm.get('email')?.errors?.['email']" class="small text-danger">Please enter a valid
+                      email address! </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input matInput class="input-data" required formControlName="password" placeholder="Add Password"
+                    [type]="isText ? 'text' : 'password'">
+                  <mat-icon *ngIf="isText" matSuffix (click)="hideShowPass()">visibility</mat-icon>
+                  <mat-icon *ngIf="!isText" matSuffix (click)="hideShowPass()">visibility_off</mat-icon>
+                  <mat-hint *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">
+                    <span *ngIf="loginForm.get('password')?.errors?.['required']" class="small text-danger">Password can
+                      not be left blank!</span>
+                    <span class="small text-danger"
+                      *ngIf="loginForm.get('password')?.errors?.['passwordStrength']">Password must
+                      be at least 8 characters long and include at least one uppercase letter, one
+                      lowercase letter, one number, and one special character.
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+            </tr>
+            <p class="text-primary btn m-0 px-0" routerLink="/forgotPassword">Forget password</p>
+            <tr>
+              <td class="login-button">
+                <app-primary-button [button]="loginButton"></app-primary-button>
+              </td>
+            </tr>
+            <div class="d-flex justify-content-center align-items-baseline gap-2">
+              <p class="pt-3 text-center">Don't you have an account?</p>
+              <h6 routerLink="/signup" class="text-primary btn px-0">Signup</h6>
+            </div>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <app-footer></app-footer>
+  </div>

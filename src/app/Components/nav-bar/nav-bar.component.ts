@@ -1,26 +1,27 @@
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Button } from 'src/app/Interfaces/interfaces';
+import { AuthenticationService } from 'src/app/Services/authentication.service';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+  styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
   @Input() nav: any; // Input for navigation items
-  @Input() user: any; // Input for user data
+  isLogin: boolean = false;
 
-  constructor(private _serviceAndResource: ServiceAndResourceService) {}
+  constructor(
+    private _serviceAndResource: ServiceAndResourceService,
+    private _auth: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
-    // Hide sign-up and login buttons if user is logged in
-    if (this.user) {
-      this.signUp.class = ['hide']; // Add 'hide' class to hide button
-      this.login.class = ['hide']; // Add 'hide' class to hide button
+    if (this._auth.isLoggedIn()) {
+      this.isLogin = true;
     } else {
-      this.signUp.class = ['']; // Remove 'hide' class to show button
-      this.login.class = ['']; // Remove 'hide' class to show button
+      this.isLogin = false;
     }
   }
 
@@ -29,22 +30,24 @@ export class NavBarComponent implements OnInit {
     url: 'signup',
     type: 'button',
     text: 'Signup',
-    icon:'',
-    class:[],
-    disable:false
+    icon: '',
+    class: [],
+    iconClass: [],
+    disable: false,
   };
 
   login: Button = {
     url: 'login',
     type: 'button',
     text: 'Login',
-    icon:'',
-    class:[],
-    disable:false
+    icon: '',
+    class: [],
+    iconClass: [],
+    disable: false,
   };
 
-    // Identify whether service or resource
-    checkUrlString(): string {
-      return this._serviceAndResource.checkUrlString();
-    }
+  // Identify whether service or resource
+  checkUrlString(): string {
+    return this._serviceAndResource.checkUrlString();
   }
+}

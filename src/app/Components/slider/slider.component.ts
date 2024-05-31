@@ -1,8 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PriceModel } from './../../Interfaces/interfaces';
-import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource/serviceAndResource.service';
-import { ToastService } from 'src/app/Services/toast/toast.service';
-import { P } from '@angular/cdk/keycodes';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
+import { ToastService } from 'src/app/Services/toast.service';
 
 @Component({
   selector: 'app-slider',
