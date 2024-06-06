@@ -9,7 +9,7 @@
                 Vendor</small>
         </div>
         <div class="form-container d-flex flex-column">
-            <form class=".sign-up-form p-5 mx-5" [formGroup]="signUpForm" (ngSubmit)="signUpUser()">
+            <form class="sign-up-form p-5 mx-5" [formGroup]="signUpForm" (ngSubmit)="signUpUser()">
                 <h1 class="py-2">Sign up</h1>
                 <table class="form-table" cellspacing="0">
                     <tr *ngIf="isClient">
@@ -122,7 +122,7 @@
                     </tr>
                 </table>
                 <div class="d-flex justify-content-center align-items-baseline gap-2">
-                    <p class="pt-3 text-center">Don you have an account?</p>
+                    <p class="pt-3 text-center">Do you have an account?</p>
                     <h6 routerLink="/login" class="text-primary btn px-0">Login</h6>
                   </div>
             </form>

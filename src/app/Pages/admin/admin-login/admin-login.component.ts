@@ -8,21 +8,11 @@ import { ToastService } from 'src/app/Services/toast.service';
 import { UserStoreService } from 'src/app/Services/user-store.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'app-admin-login',
+  templateUrl: './admin-login.component.html',
+  styleUrls: ['./admin-login.component.scss'],
 })
-export class LoginComponent {
-  goBackButton: Button = {
-    icon: 'arrow_back',
-    text: 'Go back',
-    url: '../',
-    class: ['btn2'],
-    iconClass: [],
-    type: 'button',
-    disable: false,
-  };
-
+export class AdminLoginComponent {
   loginButton: Button = {
     // Save button configuration
     url: '',
@@ -40,7 +30,7 @@ export class LoginComponent {
   constructor(
     private _router: Router,
     private _auth: AuthenticationService,
-    private toast: ToastService,
+    private _toast: ToastService,
     private _userStore: UserStoreService
   ) {}
 
@@ -65,13 +55,13 @@ export class LoginComponent {
     // })
   }
 
-  login() {
+  adminLogin() {
     if (this.loginForm.valid) {
       console.log(this.loginForm.value);
       this._auth.login(this.loginForm.value).subscribe({
         next: (res: any) => {
           console.log(res);
-          this.toast.showMessage(res.message, 'success');
+          this._toast.showMessage(res.message, 'success');
           this.loginForm.reset();
 
           //Store the token after login
@@ -87,7 +77,7 @@ export class LoginComponent {
         },
         error: (err: any) => {
           console.log(err);
-          this.toast.showMessage(err, 'error');
+          this._toast.showMessage(err.error, 'error');
         },
       });
     }
@@ -95,19 +85,24 @@ export class LoginComponent {
 
   navigate() {
     this._userStore.getRoleFromStore().subscribe((val) => {
-
       const role = val || this._auth.getRoleFromToken();
 
-      if (role === 'Client') this._router.navigate(['home']);
-      else if (role === 'Vendor') this._router.navigate(['vendor/home']);
-      else if (role === 'Admin') {
-        console.log("Error user login!");
-        this._auth.logout();
-      }
+      if (role === 'Admin') this._router.navigate(['admin/home']);
       else {
-        console.log('Error user role!');
+        console.log('Error user login!');
         this._auth.logout();
       }
+    });
+  }
+
+  createAdmin() {
+    this._auth.adminSignUp().subscribe({
+      next: (res: any) => {
+        this._toast.showMessage(res.message, 'success');
+      },
+      error: (err: any) => {
+        this._toast.showMessage(err, 'error');
+      },
     });
   }
 

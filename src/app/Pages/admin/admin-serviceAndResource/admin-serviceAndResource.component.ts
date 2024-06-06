@@ -61,7 +61,7 @@ export class AdminServiceAndResourceComponent implements OnInit {
             );
           } else {
             this._toastService.showMessage(
-              `An error occurred while fetching ${this.checkUrlString()}s.`,
+              `No ${this.checkUrlString()}s found in this category!`,
               'error'
             );
           }

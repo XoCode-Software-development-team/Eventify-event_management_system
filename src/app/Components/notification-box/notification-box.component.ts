@@ -10,6 +10,7 @@ import {
 import { NotificationService } from 'src/app/Services/notification.service';
 import { Notification } from 'src/app/Interfaces/interfaces';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from 'src/app/Services/authentication.service';
 
 @Component({
   selector: 'app-notification-box',
@@ -23,7 +24,6 @@ export class NotificationBoxComponent
   notificationBadgeSubscription: Subscription | undefined;
   notificationUpdateSubscription: Subscription | undefined;
   unreadCount: number = 0;
-  userId = 'a0e3d4f5-8d53-4fb1-b36d-7316a31a4a41';
   pageNumber = 1;
   pageSize = 10;
   loading = false;
@@ -36,25 +36,29 @@ export class NotificationBoxComponent
 
   constructor(
     private _notificationService: NotificationService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _auth: AuthenticationService
   ) {}
 
   ngOnInit(): void {
-    this._notificationService.notificationBadge$.subscribe((unreadCount) => {
-      this.unreadCount = unreadCount;
-    });
+    if (this._auth.isLoggedIn()) return
+      this._notificationService.notificationBadge$.subscribe((unreadCount) => {
+        this.unreadCount = unreadCount;
+      });
 
-    this.notificationUpdateSubscription = this._notificationService.notificationUpdates$.subscribe(
-      (newNotification) => {
-        this.notifications.unshift(newNotification); // Add new notification to the top of the list
-        this._cdr.detectChanges();
-      }
-    );
+      this.notificationUpdateSubscription =
+        this._notificationService.notificationUpdates$.subscribe(
+          (newNotification) => {
+            this.notifications.unshift(newNotification); // Add new notification to the top of the list
+            this._cdr.detectChanges();
+          }
+        );
 
-    this.getNotifications();
+      this.getNotifications();
   }
 
   ngAfterViewInit(): void {
+    if (!this._auth.isLoggedIn()) return
     const observer = new IntersectionObserver(
       (entries) => {
         if (
@@ -75,6 +79,8 @@ export class NotificationBoxComponent
   }
 
   ngOnDestroy(): void {
+    if (!this._auth.isLoggedIn()) return
+
     if (this.notificationBadgeSubscription) {
       this.notificationBadgeSubscription.unsubscribe();
     }
@@ -88,7 +94,7 @@ export class NotificationBoxComponent
     this.loading = true;
     if (this.notifications.length == 0) this.pageNumber = 1;
     this._notificationService
-      .getNotifications(this.userId, this.pageNumber, this.pageSize)
+      .getNotifications(this.pageNumber, this.pageSize)
       .subscribe({
         next: (res: any) => {
           if (res.length < this.pageSize) {
@@ -129,7 +135,7 @@ export class NotificationBoxComponent
     if (notification.read) return;
     this.isLoading = true;
     this._notificationService
-      .markAsRead(this.userId, notification.notificationId)
+      .markAsRead(notification.notificationId)
       .subscribe({
         next: (res: any) => {
           notification.read = true;
@@ -145,10 +151,12 @@ export class NotificationBoxComponent
   markAllRead() {
     if (this.unreadCount == 0) return;
     this.allLoading = true;
-    this._notificationService.markAllRead(this.userId).subscribe({
+    this._notificationService.markAllRead().subscribe({
       next: (res: any) => {
         console.log(res);
-        this.notifications.forEach((notification) => (notification.read = true));
+        this.notifications.forEach(
+          (notification) => (notification.read = true)
+        );
         this.allLoading = false;
       },
       error: (err: any) => {
@@ -161,7 +169,7 @@ export class NotificationBoxComponent
   clearAll() {
     if (this.notifications.length == 0) return;
     this.allLoading = true;
-    this._notificationService.clearAll(this.userId).subscribe({
+    this._notificationService.clearAll().subscribe({
       next: (res: any) => {
         console.log(res);
         this.notifications = [];
@@ -177,20 +185,18 @@ export class NotificationBoxComponent
 
   deleteNotification(notificationId: number) {
     this.isLoading = true;
-    this._notificationService
-      .deleteNotification(this.userId, notificationId)
-      .subscribe({
-        next: (res: any) => {
-          console.log(res);
-          this.notifications = this.notifications.filter(
-            (n) => n.notificationId !== notificationId
-          );
-          this.isLoading = false;
-        },
-        error: (err: any) => {
-          console.error(err);
-          this.isLoading = false;
-        },
-      });
+    this._notificationService.deleteNotification(notificationId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.notifications = this.notifications.filter(
+          (n) => n.notificationId !== notificationId
+        );
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.isLoading = false;
+      },
+    });
   }
 }

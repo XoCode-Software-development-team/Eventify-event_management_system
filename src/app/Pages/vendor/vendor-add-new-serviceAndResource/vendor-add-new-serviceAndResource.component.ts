@@ -73,9 +73,6 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     disable: false,
   };
 
-  vendorId: string = '2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee'; // Id of the vendor (temporary)
-  // vendorId: string = "b0ae24d4-03a5-4a3e-83b3-2e9c7f3245db";
-
   ngOnInit(): void {
     // Scroll to top on initialization
     window.onload = function () {
@@ -449,7 +446,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   // Add new service/resource using service
   async addNewServiceResource(formData: any) {
     this._serviceAndResource
-      .addNewServiceAndResource(this.vendorId, formData)
+      .addNewServiceAndResource(formData)
       .subscribe({
         next: (res: any) => {
           this._toastService.showMessage(

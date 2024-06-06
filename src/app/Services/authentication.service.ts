@@ -25,6 +25,10 @@ export class AuthenticationService {
     return this._http.post(`${this.Url}/api/authentication/vendorRegister`,userObj);
   }
 
+  adminSignUp(){
+    return this._http.post(`${this.Url}/api/authentication/adminRegister`,null);
+  }
+
   login(userObj:any) {
     return this._http.post(`${this.Url}/api/authentication/authenticate`,userObj);
   }

@@ -22,23 +22,23 @@ import { AllServiceAndResourceComponent } from './Pages/client/all-serviceAndRes
 import { ServiceAndResourceDetailsComponent } from './Pages/client/serviceAndResource-details/serviceAndResource-details.component';
 import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
 import { DashboardComponent } from './Pages/client/dashboard/dashboard.component';
+import { AdminLoginComponent } from './Pages/admin/admin-login/admin-login.component';
+import { VendorGuard } from './Guards/vendor.guard';
+import { AdminGuard } from './Guards/admin.guard';
+import { AuthGuard } from './Guards/auth.guard';
+import { ClientGuard } from './Guards/client.guard';
+import { HomeGuard } from './Guards/home.guard';
+import { ResetPasswordComponent } from './Pages/client/reset-password/reset-password.component';
 
 const routes: Routes = [
-  // {path: '', redirectTo: '/home', pathMatch: 'full'},
-
-  // {path: '**', component:},
-
-  // {path: 'signUp'},
-  {path: 'forgotPassword', component:ForgotPasswordComponent},
+  {path: 'forgotPassword', component:ForgotPasswordComponent,canActivate:[AuthGuard]},
+  {path: 'reset', component:ResetPasswordComponent,canActivate:[AuthGuard]},
   {path: 'login', component:LoginComponent},
-  {path: 'signup', component:SignupComponent},
-  {path: 'forgotPassword', component:ForgotPasswordComponent},
-
-  {
-    path:'',
-    component:ClientLayoutComponent,
+  {path: 'signup', component:SignupComponent,canActivate:[AuthGuard]},
+  {path: 'adminLogin',component: AdminLoginComponent,canActivate:[AuthGuard]},
+  {path:'',component:ClientLayoutComponent,
     children: [
-      {path: 'home', component:HomeComponent},
+      {path: 'home', component:HomeComponent,canActivate:[HomeGuard]},
       {path: '', component:ClientIconLayoutComponent,
         children: [
           {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -51,9 +51,7 @@ const routes: Routes = [
       },
     ]
   },
-  {
-    path: 'vendor',
-    component: VendorLayoutComponent,
+  {path: 'vendor',component: VendorLayoutComponent,canActivate:[VendorGuard],
     children: [
       {path: 'home', component:HomeComponent},
       {path: '',component: VendorIconLayoutComponent,
@@ -81,9 +79,7 @@ const routes: Routes = [
       },
     ]
   },
-  {
-    path: 'admin',
-    component: AdminLayoutComponent,
+  {path: 'admin',component: AdminLayoutComponent,canActivate:[AdminGuard],
     children: [
       {path: 'home', component:HomeComponent},
       {path: '',component: AdminIconLayoutComponent,
@@ -104,7 +100,8 @@ const routes: Routes = [
         ]
       },
     ]
-  }
+  },
+  {path: '**', redirectTo: '' }
 ];
 
 @NgModule({

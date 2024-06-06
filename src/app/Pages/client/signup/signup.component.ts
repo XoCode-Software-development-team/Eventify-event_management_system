@@ -70,7 +70,7 @@ export class SignupComponent implements OnInit {
           role: new FormControl('Client', Validators.required),
         },
         {
-          validators: this.confirmPasswordValidator(
+          validators: ValidateForm.confirmPasswordValidator(
             'password',
             'confirmPassword'
           ),
@@ -90,7 +90,7 @@ export class SignupComponent implements OnInit {
           role: new FormControl('Vendor', Validators.required),
         },
         {
-          validators: this.confirmPasswordValidator(
+          validators: ValidateForm.confirmPasswordValidator(
             'password',
             'confirmPassword'
           ),
@@ -154,31 +154,6 @@ export class SignupComponent implements OnInit {
         });
       }
     }
-  }
-
-  private confirmPasswordValidator(
-    passwordControlName: string,
-    confirmPasswordControlName: string
-  ): ValidatorFn {
-    return (formGroup: AbstractControl): ValidationErrors | null => {
-      const passwordControl = formGroup.get(passwordControlName);
-      const confirmPasswordControl = formGroup.get(confirmPasswordControlName);
-
-      if (!passwordControl || !confirmPasswordControl) {
-        return null;
-      }
-
-      const password = passwordControl.value;
-      const confirmPassword = confirmPasswordControl.value;
-
-      if (confirmPassword !== password) {
-        confirmPasswordControl.setErrors({ passwordMismatch: true });
-      } else {
-        confirmPasswordControl.setErrors(null);
-      }
-
-      return null;
-    };
   }
 
   hideShowPass() {

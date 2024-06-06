@@ -37,4 +37,29 @@ export default class ValidateForm {
       return null;
     };
   }
+
+  static confirmPasswordValidator(
+    passwordControlName: string,
+    confirmPasswordControlName: string
+  ): ValidatorFn {
+    return (formGroup: AbstractControl): ValidationErrors | null => {
+      const passwordControl = formGroup.get(passwordControlName);
+      const confirmPasswordControl = formGroup.get(confirmPasswordControlName);
+
+      if (!passwordControl || !confirmPasswordControl) {
+        return null;
+      }
+
+      const password = passwordControl.value;
+      const confirmPassword = confirmPasswordControl.value;
+
+      if (confirmPassword !== password) {
+        confirmPasswordControl.setErrors({ passwordMismatch: true });
+      } else {
+        confirmPasswordControl.setErrors(null);
+      }
+
+      return null;
+    };
+  }
 }

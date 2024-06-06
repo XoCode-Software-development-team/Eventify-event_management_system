@@ -38,7 +38,7 @@ export default class VendorBookedServiceAndResourceComponent implements OnInit {
     this.noData = false;
     this.dataSource = [];
     this._serviceAndResource
-      .getBookedServiceAndResourcesOfVendor(categoryId, this.vendorId)
+      .getBookedServiceAndResourcesOfVendor(categoryId)
       .subscribe({
         next: (res: any) => {
           this.dataSource = res; // Assigns the fetched data to the data source
@@ -69,16 +69,14 @@ export default class VendorBookedServiceAndResourceComponent implements OnInit {
         },
       });
   }
-
-  vendorId: string = '2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee'; // Vendor ID (temporary)
-
+  
   /**
    * Fetches the service/resource categories for booked services/resources
    */
   getCategories() {
     this.noData = false;
     this._serviceAndResource
-      .getServiceAndResourceCategoriesOfBookedServices(this.vendorId)
+      .getServiceAndResourceCategoriesOfBookedServices()
       .subscribe({
         next: (res: any) => {
           // Maps the received data to category objects

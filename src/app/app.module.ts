@@ -60,6 +60,8 @@ import { TokenInterceptor } from './Interceptors/token.interceptor';
 import { DashboardComponent } from './Pages/client/dashboard/dashboard.component';
 import { AllServiceAndResourceComponent } from './Pages/client/all-serviceAndResouce/all-serviceAndResource.component';
 import { ServiceAndResourceDetailsComponent } from './Pages/client/serviceAndResource-details/serviceAndResource-details.component';
+import { AdminLoginComponent } from './Pages/admin/admin-login/admin-login.component';
+import { ResetPasswordComponent } from './Pages/client/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +109,9 @@ import { ServiceAndResourceDetailsComponent } from './Pages/client/serviceAndRes
     LoginCoverComponent,
     SignupComponent,
     ForgotPasswordComponent,
-    DashboardComponent
+    DashboardComponent,
+    AdminLoginComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

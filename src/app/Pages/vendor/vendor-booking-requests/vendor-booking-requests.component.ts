@@ -19,8 +19,6 @@ export class VendorBookingRequestsComponent {
   dataSource = []; // Holds data source for the table
   categories: Category[] = []; // Holds categories for booking requests
 
-  vendorId: string = "2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee"; // Vendor ID
-
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
 
   ngOnInit(): void {
@@ -40,7 +38,7 @@ export class VendorBookingRequestsComponent {
   getServicesAndResources(categoryId: string) {
     this.noData = false;
     this.dataSource = [];
-    this._serviceAndResource.getServicesAndResourcesOfBookingRequest(categoryId, this.vendorId).subscribe({
+    this._serviceAndResource.getServicesAndResourcesOfBookingRequest(categoryId).subscribe({
       next: (res: any) => {
         this.dataSource = res; // Updates data source with fetched services
         this.noData = res.length == 0 ? true : false;
@@ -48,7 +46,7 @@ export class VendorBookingRequestsComponent {
           this.noData = false;
         } else {
           // Display a toast message indicating no data found
-          this._toastService.showMessage(`No ${this.checkUrlString()}s found for the selected category.`, 'error');
+          // this._toastService.showMessage(`No ${this.checkUrlString()}s found for the selected category.`, 'error');
           this.noData = true;
         }
       },
@@ -67,7 +65,7 @@ export class VendorBookingRequestsComponent {
 getCategories() {
   this.noData = false;
   this.categories = [];
-  this._serviceAndResource.getCategoriesOfBookingRequest(this.vendorId).subscribe({
+  this._serviceAndResource.getCategoriesOfBookingRequest().subscribe({
     next: (res: any) => {
       // Maps the received data to category objects
       this.categories = res.map((item: any) => ({
@@ -107,7 +105,7 @@ RejectServiceAndResource(eventId: string, soRId: string) {
       
       this.categories = []; // Clears categories array
       this.getCategories(); // Fetches updated categories
-      this.tabCardComponent.ngOnInit(); // Reinitializes the TabCardComponent
+      this.tabCardComponent.ngOnInit(); // Re initializes the TabCardComponent
     },
     error: (err: any) => {
       console.error(`Error rejecting ${this.checkUrlString()} booking request:`, err);
@@ -129,7 +127,7 @@ bookServiceAndResource(eventId: string, soRId: string) {
       
       this.categories = []; // Clears categories array
       this.getCategories(); // Fetches updated categories
-      this.tabCardComponent.ngOnInit(); // Reinitializes the TabCardComponent
+      this.tabCardComponent.ngOnInit(); // Re initializes the TabCardComponent
     },
     error: (err: any) => {
       console.error(`Error booking ${this.checkUrlString()}:`, err);

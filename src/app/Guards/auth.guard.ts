@@ -10,11 +10,11 @@ export class AuthGuard implements CanActivate {
   constructor(private _auth: AuthenticationService,private _router:Router,private _toast:ToastService) {}
 
   canActivate(): boolean {
-    if (this._auth.isLoggedIn()) {
+    if (!this._auth.isLoggedIn()) {
       return true;
     } else {
-      this._toast.showMessage("Please login first!",'error');
-      this._router.navigate(['login']);
+      this._toast.showMessage("Please Logout first!",'error');
+      this._router.navigate(['/']);
       return false;
     }
   }

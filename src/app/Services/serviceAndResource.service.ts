@@ -25,7 +25,7 @@ export class ServiceAndResourceService {
     } else if (resourceUrlPattern.test(currentUrl)) {
       return 'resource';
     } else {
-      console.log('Unknown URL');
+      // console.log('Unknown URL');
       return ''
     }
   }
@@ -71,8 +71,8 @@ export class ServiceAndResourceService {
   }
 
   // Get category list of vendor
-  getCategoriesListByVendor(id:string):Observable<any> {
-    return this._http.get<string[]>(`${this.Url}/api/${this.checkUrlString()}/categories/${id}`);
+  getCategoriesListByVendor():Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/${this.checkUrlString()}/vendor/categories/all`);
   }
 
   // Vendor request to delete service
@@ -81,28 +81,28 @@ export class ServiceAndResourceService {
   }
 
   // Get service or resource list by category of vendor
-  getVendorServiceAndResourceListByCategory(categoryId: string, vendorId: string): Observable<any> {
-    return this._http.get<any>(`${this.Url}/api/vendor${this.checkUrlString()}/${categoryId}/${vendorId}`);
+  getVendorServiceAndResourceListByCategory(categoryId: string): Observable<any> {
+    return this._http.get<any>(`${this.Url}/api/vendor${this.checkUrlString()}/${categoryId}`);
   }  
 
   // Get categories of booked services of vendor
-  getServiceAndResourceCategoriesOfBookedServices(id:string):Observable<any> {
-    return this._http.get<string[]>(`${this.Url}/api/booked${this.checkUrlString()}/categories/${id}`);
+  getServiceAndResourceCategoriesOfBookedServices():Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/booked${this.checkUrlString()}/categories`);
   }
 
   // Get Booked services by category of vendor
-  getBookedServiceAndResourcesOfVendor(categoryId:string, vendorId:string):Observable<any> {
-    return this._http.get<string[]>(`${this.Url}/api/booked${this.checkUrlString()}/${categoryId}/${vendorId}`);
+  getBookedServiceAndResourcesOfVendor(categoryId:string):Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/booked${this.checkUrlString()}/${categoryId}`);
   }
 
   // Get Category list of booking request services of vendor
-  getCategoriesOfBookingRequest(vendorId:string):Observable<any> {
-    return this._http.get<string[]>(`${this.Url}/api/bookingRequest${this.checkUrlString()}/${vendorId}`);
+  getCategoriesOfBookingRequest():Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/bookingRequest${this.checkUrlString()}`);
   }
 
   // Get Booking requested services by category of vendor
-  getServicesAndResourcesOfBookingRequest(categoryId:string, vendorId:string):Observable<any> {
-    return this._http.get<string[]>(`${this.Url}/api/bookingRequest${this.checkUrlString()}/${categoryId}/${vendorId}`);
+  getServicesAndResourcesOfBookingRequest(categoryId:string):Observable<any> {
+    return this._http.get<string[]>(`${this.Url}/api/bookingRequest${this.checkUrlString()}/${categoryId}`);
   }
 
   // Approve the booking request by vendor
@@ -125,13 +125,13 @@ export class ServiceAndResourceService {
   }
 
   // Add new Service or Resource by vendor
-  addNewServiceAndResource(vendorId:string, data:any): Observable<any> {
-    return this._http.post<any>(`${this.Url}/api/${this.checkUrlString()}/addNew/${vendorId}`,data);
+  addNewServiceAndResource(data:any): Observable<any> {
+    return this._http.post<any>(`${this.Url}/api/${this.checkUrlString()}/addNew`,data);
   }
 
     // Update the service or resource by vendor
-  updateServiceAndResource(vendorId:string,soRId:number, data:any): Observable<any> {
-    return this._http.put<any>(`${this.Url}/api/${this.checkUrlString()}/update/${vendorId}/${soRId}`,data);
+  updateServiceAndResource(soRId:number, data:any): Observable<any> {
+    return this._http.put<any>(`${this.Url}/api/${this.checkUrlString()}/update/${soRId}`,data);
   }
 
   // Get max price of service/resource according to provided price model

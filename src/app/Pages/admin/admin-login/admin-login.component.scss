@@ -1,0 +1,49 @@
+// complete form
+.login-form {
+    width: 100%;
+}
+
+.form-container {
+    padding: 0 108px;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn {
+    border: none;
+}
+
+/* Styles for form fields */
+.form-field {
+    border-radius: 6px;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.login-button {
+    padding: 10px 0;
+}
+
+// structure of each section
+.form-table {
+    width: 100%;
+}
+
+// input field
+td .input-data {
+    width: 100%;
+}
+
+/* Styles for the footer section */
+.footer {
+    position: relative;
+    margin-top: auto;
+}
+
+/* Host styles for the component */
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* Ensure at least full viewport height */
+}

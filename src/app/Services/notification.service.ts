@@ -62,36 +62,35 @@ export class NotificationService {
   }
 
   getNotifications(
-    userId: string,
     pageNumber: number,
     pageSize: number
   ): Observable<Notification[]> {
     return this._http.get<Notification[]>(
-      `${this.url}/api/notifications/${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`
+      `${this.url}/api/notifications/?pageNumber=${pageNumber}&pageSize=${pageSize}`
     );
   }
 
-  markAsRead(userId: string, notificationId: number): Observable<any> {
+  markAsRead(notificationId: number): Observable<any> {
     return this._http.put<any>(
-      `${this.url}/api/notifications/${userId}/${notificationId}`,
+      `${this.url}/api/notifications/${notificationId}`,
       null
     );
   }
 
-  markAllRead(userId: string): Observable<any> {
+  markAllRead(): Observable<any> {
     return this._http.put<any>(
-      `${this.url}/api/notifications/markAllRead/${userId}`,
+      `${this.url}/api/notifications/markAllRead/`,
       null
     );
   }
 
-  clearAll(userId: string): Observable<any> {
-    return this._http.delete(`${this.url}/api/notifications/deleteAll/${userId}`);
+  clearAll(): Observable<any> {
+    return this._http.delete(`${this.url}/api/notifications/deleteAll`);
   }
 
-  deleteNotification(userId: string, notificationId: number): Observable<any> {
+  deleteNotification(notificationId: number): Observable<any> {
     return this._http.delete(
-      `${this.url}/api/notifications/delete/${userId}/${notificationId}`
+      `${this.url}/api/notifications/delete/${notificationId}`
     );
   }
 

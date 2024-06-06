@@ -25,11 +25,8 @@ export class VendorServiceAndResourceComponent {
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
 
-  vendorId: string = '2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee'; // Vendor Id (temporary)
-  // vendorId: string = "b0ae24d4-03a5-4a3e-83b3-2e9c7f3245db";
-
   ngOnInit(): void {
-    this.getCategories(this.vendorId);
+    this.getCategories();
   }
 
   displayedColumns: string[] = ['No', `${this.capitalizedTag}`, 'Action'];
@@ -39,7 +36,7 @@ export class VendorServiceAndResourceComponent {
     this.noData = false;
     this.dataSource = [];
     this._serviceAndResource
-      .getVendorServiceAndResourceListByCategory(categoryId, this.vendorId)
+      .getVendorServiceAndResourceListByCategory(categoryId)
       .subscribe({
         next: (res: any) => {
           this.dataSource = res;
@@ -58,11 +55,11 @@ export class VendorServiceAndResourceComponent {
   }
 
   // Function to retrieve categories
-  getCategories(id: string) {
+  getCategories() {
     // Reset the loading state
     this.noData = false;
 
-    this._serviceAndResource.getCategoriesListByVendor(id).subscribe({
+    this._serviceAndResource.getCategoriesListByVendor().subscribe({
       next: (res: any) => {
         // Map received category data to local categories array
         this.categories = res.map((item: any) => ({

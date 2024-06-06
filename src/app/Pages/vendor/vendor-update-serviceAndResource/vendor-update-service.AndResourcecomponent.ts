@@ -73,9 +73,6 @@ export class VendorUpdateServiceAndResourceComponent
     disable: true, // Initially disabled until form is valid
   };
 
-  vendorId: string = '2a5e7b73-df8e-4b43-b2b1-32a1e82e03ee'; // Id of the vendor (temporary)
-  // vendorId: string = "b0ae24d4-03a5-4a3e-83b3-2e9c7f3245db";
-
   ngOnInit(): void {
     // Scroll to top on initialization
     window.onload = function () {
@@ -562,7 +559,7 @@ export class VendorUpdateServiceAndResourceComponent
       return files;
     } catch (error) {
       // Handle errors during file download
-      console.error('Error downloading files:', error);
+      // console.error('Error downloading files:', error);
       // Return an empty array if there is an error
       return [];
     }
@@ -767,7 +764,7 @@ export class VendorUpdateServiceAndResourceComponent
   // Update service/resource using service
   updateServiceResource(formData: any) {
     this._serviceAndResource
-      .updateServiceAndResource(this.vendorId, this.soRId, formData)
+      .updateServiceAndResource(this.soRId, formData)
       .subscribe({
         next: (res: any) => {
           console.log(res);
