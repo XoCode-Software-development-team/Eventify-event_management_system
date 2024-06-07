@@ -43,8 +43,10 @@ const routes: Routes = [
     path:'client',
     component:ClientLayoutComponent,
     children: [
+      {path: 'home', component:HomeComponent},
       {path: 'event', component:EventComponent, children: [
         { path: 'create', component: EventCreateFormComponent},
+        { path: 'update/:id', component: EventCreateFormComponent },
         { path: 'view/:id', component: EventViewComponent },
         { path: '', redirectTo: '/create', pathMatch: 'full' },
       ]},

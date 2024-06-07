@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute,Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { EventUpdateService } from '../../shared/shared.service';
+
+
 
 @Component({
   selector: 'app-event-view',
@@ -10,10 +13,15 @@ import { Location } from '@angular/common';
 })
 export class EventViewComponent {
 
+
+
+
   allEvents: any[] = [];
   selectedEvent: any;
+  isUpdateFormActive = false;
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router,private location: Location) { }
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router,private location: Location, private updateService: EventUpdateService ) { }
 
   ngOnInit(): void {
     this.http.get<any[]>('https://localhost:7128/api/Event/GetEvent').subscribe(events => {
@@ -38,20 +46,19 @@ export class EventViewComponent {
         const previousIndex = selectedIndex - 1;
         if (previousIndex >= 0) {
           const previousEventId = this.allEvents[previousIndex].id;
-          this.router.navigate(['/view', previousEventId]).then(() => {
+          this.router.navigate(['client/event/view', previousEventId]).then(() => {
             this.location.go(this.location.path());
-            //window.scrollTo(0, 0);
+            window.scrollTo(0, 0);
             location.reload(); 
           });
         } else {
-          this.router.navigate(['/create']).then(() => {   // edit
+          this.router.navigate(['client/event/create']).then(() => {   // edit
             this.location.go(this.location.path());
           });
         }
       });
     }
   }
-  
   
 
 
@@ -75,5 +82,17 @@ export class EventViewComponent {
   hasEventResourceCards(): boolean {
     return this.Rcards && this.Rcards.length > 0;
   }
+
+
+
+
+  updateEvent(eventId: number): void{
+    this.updateService.setIsUpdateFormActive(true);
+    this.updateService.setCurrentEvent(eventId);
+    this.router.navigate(['/client/event/update',eventId]);
+
+
+  }
+ 
 
 }

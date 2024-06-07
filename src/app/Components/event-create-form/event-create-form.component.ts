@@ -1,29 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { EventSideBarComponent } from '../event-side-bar/event-side-bar.component';
-
+import { EventUpdateService } from '../../shared/shared.service';
 
 @Component({
   selector: 'app-event-create-form',
   templateUrl: './event-create-form.component.html',
   styleUrls: ['./event-create-form.component.scss']
 })
-export class EventCreateFormComponent implements OnInit{
-  @ViewChild("event-side-bar") eventSidebarComponent! : EventSideBarComponent
-
-  
+export class EventCreateFormComponent implements OnInit {
+  formName = '';
+  BtnName = '';
   form: FormGroup;
   eventArray: any[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
   currentEventID = '';
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private router: Router, private location: Location) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private router: Router, private location: Location, private updateService: EventUpdateService) {
     this.form = this.fb.group({
-      eventName: ['', Validators.required],       //edit
+      eventName: ['', Validators.required],
       description: ['', Validators.required],
       eventDate: ['', Validators.required],
       location: ['', Validators.required],
@@ -35,89 +33,106 @@ export class EventCreateFormComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.updateService.isUpdateFormActive$.subscribe(isActive => {
+      this.isUpdateFormActive = isActive;
+      this.formName = isActive ? 'Update Event' : 'Create New Event';
+      this.BtnName = isActive ? 'Update' : 'Create';
+    });
+
+    this.updateService.currentEvent$.subscribe(Selectedevent => {
+      this.currentEventID = Selectedevent;
+      if (this.isUpdateFormActive) {
+        this.getAllEvent();
+      } else {
+        this.form.reset();
+      }
+    });
+
+    // Make sure to initially load events
     this.getAllEvent();
   }
+
   getAllEvent() {
     this.http.get("https://localhost:7128/api/Event/GetEvent")
       .subscribe((resultData: any) => {
         this.isResultLoaded = true;
-        console.log(resultData);
         this.eventArray = resultData;
+        if (this.isUpdateFormActive) {
+          this.fillFormData();
+        }
       });
   }
 
   register() {
     if (this.form.valid) {
-      let bodyData = {
-        "eventName": this.form.value.eventName,    //edit
-        "description": this.form.value.description,
-        "eventDate": this.form.value.eventDate,
-        "location": this.form.value.location,
-        "startTime": this.form.value.startTime,
-        "endTime": this.form.value.startTime,
-        "guestCount": this.form.value.guestCount,
-        "coverImage":this.form.value.coverImage
+      const bodyData = {
+        eventName: this.form.value.eventName,
+        description: this.form.value.description,
+        eventDate: this.form.value.eventDate,
+        location: this.form.value.location,
+        startTime: this.form.value.startTime,
+        endTime: this.form.value.endTime,
+        guestCount: this.form.value.guestCount,
+        coverImage: this.form.value.coverImage
       };
 
       this.http.post("https://localhost:7128/api/Event/AddEvent", bodyData).subscribe((resultData: any) => {
-        console.log(resultData);
-        alert("Event Registered Successfully")
-        const newEventId = resultData.id;
-        this.router.navigate(['/view', newEventId]);
-        this.getAllEvent();
+        alert("Event Registered Successfully");
+        this.router.navigate(['/client/event/view', resultData.id]);
         this.form.reset();
-        this.location.go(this.location.path());
-        this.eventSidebarComponent.ngOnInit();
-
+        this.isUpdateFormActive = false;
       });
-
-    }else {
+    } else {
       alert("Form is not valid. Please check your inputs.");
+    }
   }
 
-    
+  fillFormData() {
+    const selectedEvent = this.eventArray.find(event => event.id === this.currentEventID);
+
+    if (selectedEvent) {
+      this.form.patchValue({
+        eventName: selectedEvent.eventName,
+        description: selectedEvent.description,
+        eventDate: selectedEvent.eventDate,
+        location: selectedEvent.location,
+        startTime: selectedEvent.startTime,
+        endTime: selectedEvent.endTime,
+        guestCount: selectedEvent.guestCount,
+        coverImage: selectedEvent.coverImage
+      });
+    }
   }
 
-//-----------------------------------------------------------------------------------------
-
-  setUpdate(data: any) {
-    this.form.patchValue({
-      eventName: data.eventName,             //edit
-      description: data.description,
-      eventDate: data.eventDate, 
-      location: data.location, 
-      startTime: data.startTime, 
-      endTime: data.endTime, 
-      guestCount: data.guestCount, 
-    });
-    this.currentEventID = data.id;
-    this.isUpdateFormActive = true;
-  }
-
-  
   updateRecord() {
     if (this.form.valid) {
-      let bodyData = {
-        "eventName": this.form.value.eventName,    //edit
-        "description": this.form.value.description,
-        "eventDate": this.form.value.eventDate,
-        "location": this.form.value.location,
-        "startTime": this.form.value.startTime,
-        "endTime": this.form.value.startTime,
-        "guestCount": this.form.value.guestCount
+      const bodyData = {
+        id: this.currentEventID,
+        eventName: this.form.value.eventName,
+        description: this.form.value.description,
+        eventDate: this.form.value.eventDate,
+        location: this.form.value.location,
+        startTime: this.form.value.startTime,
+        endTime: this.form.value.endTime,
+        guestCount: this.form.value.guestCount,
+        coverImage: this.form.value.coverImage
       };
-  
+
       this.http.patch("https://localhost:7128/api/Event/UpdateEvent/" + this.currentEventID, bodyData)
-        .subscribe((resultData: any) => {
-          console.log(resultData);
-          alert("Event Updated Successfully");
-          this.getAllEvent();
-          this.form.reset();
-          this.isUpdateFormActive = false;
-        }, (error) => {
-          console.error("Error updating event:", error);
-          alert("Failed to update event. Please try again.");
+        .subscribe({
+          next: (resultData: any) => {
+            alert("Event Updated Successfully");
+            this.form.reset();
+            this.isUpdateFormActive = false;
+            this.router.navigate(['/client/event/view', this.currentEventID]);
+          },
+          error: (error) => {
+            console.error("Error updating event:", error);
+            alert("Failed to update event. Please try again.");
+          }
         });
+    } else {
+      alert("Form is not valid. Please check your inputs.");
     }
   }
 
@@ -129,25 +144,20 @@ export class EventCreateFormComponent implements OnInit{
     }
   }
 
-  
   imageUrl: any;
   onFileSelected(event: any) {
-      const file: File = event.target.files[0];
-      if (file) {
-          const reader = new FileReader();
-          reader.onload = (e: any) => {
-              this.imageUrl = e.target.result;
-          };
-          reader.readAsDataURL(file);
-      }
-      
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imageUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
-
 
   isInvalid(controlName: string): boolean {
     const control = this.form.get(controlName);
     return !!control && control.invalid && (control.touched || control.dirty);
-}
-
-
+  }
 }

@@ -2,7 +2,7 @@
     <p class="event-name">{{ selectedEvent.eventName }}</p>
     <div><mat-divider></mat-divider></div><br/><br/>
 
-   <img src="../../../assets/Images/Event_cover.jpg" class="cover-img"/>
+   <img src="../../../assets/Images/eventify_cover.jpg" class="cover-img"/>
     
     <div class="event-detail-panel">
         <div class="section">
@@ -82,7 +82,7 @@
     <div class="mat-line"><mat-divider></mat-divider></div>
     <div class="del-up-button">
     <button class="btn btn-danger mt-4" (click)="setDelete(selectedEvent.id)"> <i class="fas fa-trash-alt"></i>  Delete "{{selectedEvent.eventName}}"</button>
-    <button class="btn btn-primary mt-4"> <i class="fas fa-edit update-icon"></i> Update "{{selectedEvent.eventName}}"</button>
+    <button class="btn btn-primary mt-4" (click)="updateEvent(selectedEvent.id)"> <i class="fas fa-edit update-icon"></i> Update "{{selectedEvent.eventName}}"</button>
     </div>
 </div>
 

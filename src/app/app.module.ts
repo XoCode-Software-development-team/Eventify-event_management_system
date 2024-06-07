@@ -54,7 +54,6 @@ import { EventServiceResCardComponent } from './Components/event-service-res-car
 import { NgxStarsModule } from 'ngx-stars';
 import { EventComponent } from './Pages/client/event/event.component';
 import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
-
 @NgModule({
   declarations: [
     AppComponent,

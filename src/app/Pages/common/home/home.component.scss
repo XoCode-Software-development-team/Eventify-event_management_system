@@ -1,0 +1,147 @@
+
+.home-elements{
+    width: 85%;
+    margin: 0 auto; 
+}
+.cover-image {
+    position: relative;
+    width: 100%;
+    margin: 0 auto; 
+    overflow: hidden; 
+}
+
+.cover-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1;
+}
+
+.cover-image img {
+    width: 100%;
+    height: 440px;
+    display: block;
+    z-index: 0; 
+}
+
+.cover-text {
+    position: absolute;
+    top: 35%;
+    left: 36%;
+    transform: translate(-50%, -50%);
+    color: rgb(4, 51, 79);
+    text-align: left;
+    z-index: 2;
+}
+
+.cover-text h2{
+    position: absolute;
+    bottom: 45px;
+}
+.cover-text h6{
+position: relative;
+top: 80px;
+    
+}
+
+.cover-text h1{
+    font-size: 65px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    
+}
+.cover-text h1:nth-child(2){
+    color: rgb(19, 67, 72);
+}
+.cover-text h1:nth-child(3){
+    color: #35cee6;
+    animation: animate 4s ease-in-out infinite;
+}
+
+.cover-text h2{
+    font-size: 45px;
+}
+.cover-text p{
+    font-size: 16px;
+    width: 700px;
+}
+//Slider CSS--------------------
+.slider-container {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .slider {
+    align-items: center;
+    display: flex;
+    transition: transform 0.5s;
+  }
+  
+  .card {
+    width: 300px;
+    height: 350px;
+    margin-right: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    align-items: center;
+  }
+  .card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom:  20px;
+  }
+  .card h3{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom:  20px;
+  }
+  .card p{
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  
+  
+  .dots {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background-color: #333;
+  }
+  
+@keyframes animate 
+{
+    0%,100%
+    {
+        clip-path: polygon(0 100%, 0 56%, 18% 55%, 38% 59%, 50% 64%, 64% 61%, 76% 55%, 90% 54%, 99% 59%, 100% 100%);
+
+    }
+    60%{
+        clip-path: polygon(0 100%, 0 56%, 15% 65%, 26% 67%, 45% 58%, 59% 57%, 79% 61%, 90% 68%, 100% 75%, 100% 100%);
+
+    }
+}
