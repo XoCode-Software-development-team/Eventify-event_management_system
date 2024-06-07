@@ -62,6 +62,8 @@ import { AllServiceAndResourceComponent } from './Pages/client/all-serviceAndRes
 import { ServiceAndResourceDetailsComponent } from './Pages/client/serviceAndResource-details/serviceAndResource-details.component';
 import { AdminLoginComponent } from './Pages/admin/admin-login/admin-login.component';
 import { ResetPasswordComponent } from './Pages/client/reset-password/reset-password.component';
+import { UserCardComponent } from './Components/user-card/user-card.component';
+import { EditProfileComponent } from './Pages/client/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -112,6 +114,8 @@ import { ResetPasswordComponent } from './Pages/client/reset-password/reset-pass
     DashboardComponent,
     AdminLoginComponent,
     ResetPasswordComponent,
+    UserCardComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

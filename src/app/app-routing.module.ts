@@ -29,6 +29,7 @@ import { AuthGuard } from './Guards/auth.guard';
 import { ClientGuard } from './Guards/client.guard';
 import { HomeGuard } from './Guards/home.guard';
 import { ResetPasswordComponent } from './Pages/client/reset-password/reset-password.component';
+import { EditProfileComponent } from './Pages/client/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {path: 'forgotPassword', component:ForgotPasswordComponent,canActivate:[AuthGuard]},
@@ -46,7 +47,8 @@ const routes: Routes = [
           {path: 'services', component:AllServiceAndResourceComponent},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources', component:AllServiceAndResourceComponent},
-          {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent}
+          {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
+          {path: 'updateProfile', component:EditProfileComponent,canActivate:[ClientGuard]}
         ]
       },
     ]
@@ -59,6 +61,7 @@ const routes: Routes = [
           {path: '', redirectTo: '/vendor/home', pathMatch: 'full'},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
+          {path: 'updateProfile', component:EditProfileComponent,canActivate:[VendorGuard]},
           {path: '',component: VendorSidenavLayoutComponent,
             children: [
               {path: 'services', redirectTo: 'services/all', pathMatch: 'full'},
@@ -72,7 +75,7 @@ const routes: Routes = [
               {path: 'resources/bookedResources',component: VendorBookedServiceAndResourceComponent},
               {path: 'resources/bookingRequests',component: VendorBookingRequestsComponent},
               {path: 'resources/addNewResource',component: VendorAddNewServiceAndResourceComponent},
-              {path: 'resources/updateResource/:soRId/:name', component:VendorUpdateServiceAndResourceComponent}
+              {path: 'resources/updateResource/:soRId/:name', component:VendorUpdateServiceAndResourceComponent},
             ]
           },
         ]
@@ -87,6 +90,7 @@ const routes: Routes = [
           {path: '', redirectTo: '/admin/home', pathMatch: 'full'},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
+          {path: 'updateProfile', component:EditProfileComponent,canActivate:[AdminGuard]},
           {path: '',component: AdminSidenavLayoutComponent,
             children: [
               {path: 'services', redirectTo: 'services/all', pathMatch: 'full'},
@@ -94,7 +98,7 @@ const routes: Routes = [
               {path: 'services/all',component: AdminServiceAndResourceComponent},
               {path: 'services/deleteRequests', component: AdminDeleteRequestComponent},
               {path: 'resources/all',component: AdminServiceAndResourceComponent},
-              {path: 'resources/deleteRequests', component: AdminDeleteRequestComponent}
+              {path: 'resources/deleteRequests', component: AdminDeleteRequestComponent},
             ]
           },
         ]

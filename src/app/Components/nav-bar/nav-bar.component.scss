@@ -32,3 +32,8 @@
   height: 60px;
   vertical-align: middle;
 }
+
+.active-image {
+  z-index: 1200 !important;
+  opacity: 1 !important;
+}

@@ -71,9 +71,6 @@ export class LoginComponent {
       this._auth.login(this.loginForm.value).subscribe({
         next: (res: any) => {
           console.log(res);
-          this.toast.showMessage(res.message, 'success');
-          this.loginForm.reset();
-
           //Store the token after login
           this._auth.storeToken(res.token.accessToken);
           this._auth.storeRefreshToken(res.token.refreshToken);
@@ -83,7 +80,7 @@ export class LoginComponent {
           this._userStore.setUserNameForStore(tokenPayload.name);
           this._userStore.setRoleForStore(tokenPayload.role);
 
-          this.navigate();
+          this.navigate(res.message);
         },
         error: (err: any) => {
           console.log(err);
@@ -93,18 +90,23 @@ export class LoginComponent {
     }
   }
 
-  navigate() {
+  navigate(message: string) {
     this._userStore.getRoleFromStore().subscribe((val) => {
-
       const role = val || this._auth.getRoleFromToken();
 
-      if (role === 'Client') this._router.navigate(['home']);
-      else if (role === 'Vendor') this._router.navigate(['vendor/home']);
-      else if (role === 'Admin') {
-        console.log("Error user login!");
+      if (role === 'Client') {
+        this.loginForm.reset();
+        this._router.navigate(['home']);
+        this.toast.showMessage(message, 'success');
+      } else if (role === 'Vendor') {
+        this.loginForm.reset();
+        this._router.navigate(['vendor/home']);
+        this.toast.showMessage(message, 'success');
+      } else if (role === 'Admin') {
+        console.log('Error user login!');
+        this.toast.showMessage('Error user login!', 'error');
         this._auth.logout();
-      }
-      else {
+      } else {
         console.log('Error user role!');
         this._auth.logout();
       }
