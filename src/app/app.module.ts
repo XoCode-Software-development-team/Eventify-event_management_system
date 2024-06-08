@@ -54,6 +54,8 @@ import { EventServiceResCardComponent } from './Components/event-service-res-car
 import { NgxStarsModule } from 'ngx-stars';
 import { EventComponent } from './Pages/client/event/event.component';
 import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
+import { EventUpdateService } from './shared/shared.service';
+import { EventService } from '../app/Services/event.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -116,7 +118,7 @@ import { ClientLayoutComponent } from './Pages/client/client-layout/client-layou
     AngularFireStorageModule,
     NgxStarsModule
   ],
-  providers: [],
+  providers: [EventService, EventUpdateService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

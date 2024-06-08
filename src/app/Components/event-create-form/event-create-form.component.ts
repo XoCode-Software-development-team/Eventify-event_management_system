@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { EventUpdateService } from '../../shared/shared.service';
+import { EventService } from '../../Services/event.service';
 
 @Component({
   selector: 'app-event-create-form',
@@ -19,7 +19,13 @@ export class EventCreateFormComponent implements OnInit {
   isUpdateFormActive = false;
   currentEventID = '';
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private router: Router, private location: Location, private updateService: EventUpdateService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private location: Location,
+    private updateService: EventUpdateService,
+    private eventService: EventService
+  ) {
     this.form = this.fb.group({
       eventName: ['', Validators.required],
       description: ['', Validators.required],
@@ -39,28 +45,25 @@ export class EventCreateFormComponent implements OnInit {
       this.BtnName = isActive ? 'Update' : 'Create';
     });
 
-    this.updateService.currentEvent$.subscribe(Selectedevent => {
-      this.currentEventID = Selectedevent;
+    this.updateService.currentEvent$.subscribe(selectedEvent => {
+      this.currentEventID = selectedEvent;
       if (this.isUpdateFormActive) {
-        this.getAllEvent();
+        this.getAllEvents();
       } else {
         this.form.reset();
       }
     });
-
-    // Make sure to initially load events
-    this.getAllEvent();
+    this.getAllEvents();
   }
 
-  getAllEvent() {
-    this.http.get("https://localhost:7128/api/Event/GetEvent")
-      .subscribe((resultData: any) => {
-        this.isResultLoaded = true;
-        this.eventArray = resultData;
-        if (this.isUpdateFormActive) {
-          this.fillFormData();
-        }
-      });
+  getAllEvents() {
+    this.eventService.getAllEvents().subscribe((resultData: any[]) => {
+      this.isResultLoaded = true;
+      this.eventArray = resultData;
+      if (this.isUpdateFormActive) {
+        this.fillFormData();
+      }
+    });
   }
 
   register() {
@@ -76,14 +79,14 @@ export class EventCreateFormComponent implements OnInit {
         coverImage: this.form.value.coverImage
       };
 
-      this.http.post("https://localhost:7128/api/Event/AddEvent", bodyData).subscribe((resultData: any) => {
-        alert("Event Registered Successfully");
+      this.eventService.addEvent(bodyData).subscribe((resultData: { id: any; }) => {
+        alert('Event Registered Successfully');
         this.router.navigate(['/client/event/view', resultData.id]);
         this.form.reset();
         this.isUpdateFormActive = false;
       });
     } else {
-      alert("Form is not valid. Please check your inputs.");
+      alert('Form is not valid. Please check your inputs.');
     }
   }
 
@@ -118,21 +121,20 @@ export class EventCreateFormComponent implements OnInit {
         coverImage: this.form.value.coverImage
       };
 
-      this.http.patch("https://localhost:7128/api/Event/UpdateEvent/" + this.currentEventID, bodyData)
-        .subscribe({
-          next: (resultData: any) => {
-            alert("Event Updated Successfully");
-            this.form.reset();
-            this.isUpdateFormActive = false;
-            this.router.navigate(['/client/event/view', this.currentEventID]);
-          },
-          error: (error) => {
-            console.error("Error updating event:", error);
-            alert("Failed to update event. Please try again.");
-          }
-        });
+      this.eventService.updateEvent(this.currentEventID, bodyData).subscribe({
+        next: () => {
+          alert('Event Updated Successfully');
+          this.form.reset();
+          this.isUpdateFormActive = false;
+          this.router.navigate(['/client/event/view', this.currentEventID]);
+        },
+        error: (error: any) => {
+          console.error('Error updating event:', error);
+          alert('Failed to update event. Please try again.');
+        }
+      });
     } else {
-      alert("Form is not valid. Please check your inputs.");
+      alert('Form is not valid. Please check your inputs.');
     }
   }
 

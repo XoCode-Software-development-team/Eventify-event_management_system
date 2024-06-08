@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -12,7 +12,7 @@ export class EventUpdateService {
 
   private currentEventSource = new BehaviorSubject<any>(null);
   currentEvent$ = this.currentEventSource.asObservable();
-
+  private eventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   constructor() { }
 
   setIsUpdateFormActive(isActive: boolean) {
@@ -26,5 +26,7 @@ export class EventUpdateService {
     this.isUpdateFormActiveSource.next(false);
     this.currentEventSource.next('');
   }
+
+
 }
 

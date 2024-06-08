@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventUpdateService } from '../../shared/shared.service';
+import { EventService } from '../../Services/event.service';
 
 @Component({
   selector: 'app-event-side-bar',
@@ -14,19 +14,22 @@ export class EventSideBarComponent implements OnInit {
   panelOpenState = false;
   eventArray: any[] = [];
   isResultLoaded = false;
-  constructor(private http: HttpClient, private router: Router,private updateService: EventUpdateService) { }
+
+  constructor(
+    private router: Router,
+    private updateService: EventUpdateService,
+    private eventService: EventService
+  ) { }
 
   ngOnInit(): void {
-    this.getAllEvent();
+    this.getAllEvents();
   }
 
-  getAllEvent() {
-    this.http.get("https://localhost:7128/api/Event/GetEvent")
-      .subscribe((resultData: any) => {
-        this.isResultLoaded = true;
-        console.log(resultData);
-        this.eventArray = resultData;
-      });
+  getAllEvents() {
+    this.eventService.getAllEvents().subscribe((resultData: any[]) => {
+      this.isResultLoaded = true;
+      this.eventArray = resultData;
+    });
   }
 
   toggleEventsList(): void {
@@ -40,6 +43,4 @@ export class EventSideBarComponent implements OnInit {
   onCreateButtonClick() {
     this.updateService.resetFormState();
   }
-
 }
-
