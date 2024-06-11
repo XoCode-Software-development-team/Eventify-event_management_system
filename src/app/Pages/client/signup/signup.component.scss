@@ -1,63 +1,43 @@
 .left {
-    flex: 50%;
-  }
-  
-  .right {
-    flex: 50%;
-  }
-  
-  // complete form
-  .sign-up-form {
-    width: 100%;
-  }
-  
-  .btn {
-    border: none;
-  }
-  
-  .form-container {
-    padding: 0 60px;
-    justify-content: center;
-  }
-  
-  /* Styles for form fields */
-  .form-field {
-    border-radius: 6px;
-    width: 100%;
-    padding: 10px 0;
-  }
-  
-  .signUp-button {
-    padding: 10px 0;
-  }
-  
-  // structure of each section
-  .form-table {
-    width: 100%;
-  }
-  
-  // input field
-  td .input-data {
-    width: 100%;
-  }
-  
-  // first element of the each row
-  .first-td {
-    width: 50%;
-    padding-right: 20px;
-  }
-  
-  
-  /* Styles for the footer section */
-  .footer {
-    position: relative;
-    margin-top: auto;
-  }
-  
-  /* Host styles for the component */
-  :host {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    /* Ensure at least full viewport height */
-  }
+  flex: 50%;
+}
+
+.right {
+  flex: 50%;
+}
+
+.sign-up-form {
+  width: 100%;
+}
+
+.btn {
+  border: none;
+}
+
+.form-container {
+  padding: 0 60px;
+  justify-content: center;
+}
+
+.form-field {
+  border-radius: 6px;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.signUp-button {
+  padding: 10px 0;
+}
+
+.form-table {
+  width: 100%;
+}
+
+td .input-data {
+  width: 100%;
+}
+
+.first-td {
+  width: 50%;
+  padding-right: 20px;
+}

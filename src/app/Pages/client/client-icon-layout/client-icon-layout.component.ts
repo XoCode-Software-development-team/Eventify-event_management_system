@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
 import { NotificationService } from 'src/app/Services/notification.service';
-import { Subscription } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-icon-layout',
@@ -11,6 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class ClientIconLayoutComponent implements OnInit, OnDestroy {
   notificationBadgeSubscription: Subscription | undefined;
+  private routerSubscription!: Subscription;
 
   // Array containing icon data
   icons = [
@@ -21,11 +23,13 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy {
 
   constructor(
     private _notificationService: NotificationService,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
     this.updateNotificationBadge();
+    this.hideCompareButton();
   }
 
   ngOnDestroy(): void {
@@ -33,6 +37,18 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy {
     if (this.notificationBadgeSubscription) {
       this.notificationBadgeSubscription.unsubscribe();
     }
+
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
+
+  routerSubscribe() {
+    this.routerSubscription = this._router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.hideCompareButton();
+      }
+    });
   }
 
   updateNotificationBadge() {
@@ -53,5 +69,22 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy {
   // Function to check if the notification popup is toggled
   isNotificationToggled() {
     return this._notificationService.popupToggle;
+  }
+
+  hideCompareButton() {
+    let currentUrl = this._router.url;
+
+    if (currentUrl === '/updateProfile' || currentUrl === '/updatePassword') {
+      // Hide button if the URL is exactly '/vendor/updateProfile' or '/vendor/updatePassword'
+      this.icons = this.icons.filter((icon) => icon.IconName !== 'compare');
+    } else {
+      // Add back the "compare" button if the URL doesn't match '/vendor/updateProfile' or '/vendor/updatePassword'
+      const compareButtonExists = this.icons.some(
+        (icon) => icon.IconName === 'compare'
+      );
+      if (!compareButtonExists) {
+        this.icons.push({ IconName: 'compare', Tag: 'compare', Badge: 0 });
+      }
+    }
   }
 }

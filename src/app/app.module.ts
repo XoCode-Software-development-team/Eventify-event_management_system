@@ -64,6 +64,7 @@ import { AdminLoginComponent } from './Pages/admin/admin-login/admin-login.compo
 import { ResetPasswordComponent } from './Pages/client/reset-password/reset-password.component';
 import { UserCardComponent } from './Components/user-card/user-card.component';
 import { EditProfileComponent } from './Pages/client/edit-profile/edit-profile.component';
+import { DeleteButtonComponent } from './Components/buttons/delete-button/delete-button.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { EditProfileComponent } from './Pages/client/edit-profile/edit-profile.c
     ResetPasswordComponent,
     UserCardComponent,
     EditProfileComponent,
+    DeleteButtonComponent,
   ],
   imports: [
     BrowserModule,

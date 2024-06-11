@@ -1,0 +1,12 @@
+<button mat-button
+        [type]="button.type" 
+        [disabled]="button.disable"
+        [ngClass]="button.class"
+        (click)="navigate()"
+        class="primary-btn btn px-5" 
+        style="color: #ff1a1a;">
+
+    <mat-icon *ngIf="button.icon" [ngClass]="button.iconClass">{{button.icon}}</mat-icon>
+    
+    {{button.text}}
+</button>

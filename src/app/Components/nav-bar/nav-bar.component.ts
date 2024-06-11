@@ -12,28 +12,28 @@ import { UserProfileService } from 'src/app/Services/user-profile.service';
 export class NavBarComponent implements OnInit {
   @Input() nav: any; // Input for navigation items
   isLogin: boolean = false;
-  userImage:string = '';
+  userImage: string = '';
 
-    // Button configurations
-    signUp: Button = {
-      url: 'signup',
-      type: 'button',
-      text: 'Signup',
-      icon: '',
-      class: [],
-      iconClass: [],
-      disable: false,
-    };
-  
-    login: Button = {
-      url: 'login',
-      type: 'button',
-      text: 'Login',
-      icon: '',
-      class: [],
-      iconClass: [],
-      disable: false,
-    };
+  // Button configurations
+  signUp: Button = {
+    url: 'signup',
+    type: 'button',
+    text: 'Signup',
+    icon: '',
+    class: [],
+    iconClass: [],
+    disable: false,
+  };
+
+  login: Button = {
+    url: 'login',
+    type: 'button',
+    text: 'Login',
+    icon: '',
+    class: [],
+    iconClass: [],
+    disable: false,
+  };
 
   constructor(
     private _serviceAndResource: ServiceAndResourceService,
@@ -42,12 +42,13 @@ export class NavBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this._auth.isLoggedIn()) {
-      this.isLogin = true;
-      this.getAvatar();
-    } else {
-      this.isLogin = false;
-    }
+    this._userProfile.imageUpdated$.subscribe(() => {
+      if (this._auth.isLoggedIn()) {
+        this.isLogin = true;
+        this.getAvatar();
+      } else {
+        this.isLogin = false;
+      }    });
   }
 
   // Identify whether service or resource
@@ -57,18 +58,19 @@ export class NavBarComponent implements OnInit {
 
   getAvatar() {
     this._userProfile.getUserAvatar().subscribe({
-      next:(res:any) => {
+      next: (res: any) => {
         console.log(res.message);
         this.userImage = res.userImage;
       },
-      error:(err:any) => {
+      error: (err: any) => {
         console.log(err.message);
-      }
-    })
+      },
+    });
   }
 
   openProfileCard() {
     this._userProfile.openPopup();
+    this._userProfile.setUserImage(this.userImage);
   }
 
   isToggled() {

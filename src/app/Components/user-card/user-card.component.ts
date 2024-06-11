@@ -43,22 +43,18 @@ export class UserCardComponent implements OnInit {
   }
 
   getAvatar() {
-    this._userProfile.getUserAvatar().subscribe({
-      next: (res: any) => {
-        console.log(res.message);
-        this.userImage = res.userImage;
-      },
-      error: (err: any) => {
-        console.log(err.message);
-      },
-    });
+    this._userProfile.getUserImage().subscribe(
+      (val) => {
+        this.userImage = val;
+      }
+    )
   }
 
   editProfile() {
     if (this.role != 'Client') {
-      this._router.navigate([`${this.role.toLowerCase()}/updateProfile`]);
+      this._router.navigate([`${this.role.toLowerCase()}/profile`]);
     } else {
-      this._router.navigate([`updateProfile`]);
+      this._router.navigate([`profile`]);
     }
     this._userProfile.closePopup();
   }

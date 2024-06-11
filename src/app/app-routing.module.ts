@@ -48,7 +48,8 @@ const routes: Routes = [
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources', component:AllServiceAndResourceComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
-          {path: 'updateProfile', component:EditProfileComponent,canActivate:[ClientGuard]}
+          {path: 'profile', component:EditProfileComponent,canActivate:[ClientGuard]},
+          {path: 'password', component:EditProfileComponent,canActivate:[ClientGuard]}
         ]
       },
     ]
@@ -61,7 +62,8 @@ const routes: Routes = [
           {path: '', redirectTo: '/vendor/home', pathMatch: 'full'},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
-          {path: 'updateProfile', component:EditProfileComponent,canActivate:[VendorGuard]},
+          {path: 'profile', component:EditProfileComponent,canActivate:[VendorGuard]},
+          {path: 'password', component:EditProfileComponent,canActivate:[VendorGuard]},
           {path: '',component: VendorSidenavLayoutComponent,
             children: [
               {path: 'services', redirectTo: 'services/all', pathMatch: 'full'},
@@ -90,7 +92,8 @@ const routes: Routes = [
           {path: '', redirectTo: '/admin/home', pathMatch: 'full'},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
-          {path: 'updateProfile', component:EditProfileComponent,canActivate:[AdminGuard]},
+          {path: 'profile', component:EditProfileComponent,canActivate:[AdminGuard]},
+          {path: 'password', component:EditProfileComponent,canActivate:[AdminGuard]},
           {path: '',component: AdminSidenavLayoutComponent,
             children: [
               {path: 'services', redirectTo: 'services/all', pathMatch: 'full'},

@@ -35,8 +35,10 @@ export class AuthenticationService {
 
   logout(){
     localStorage.clear();
+    sessionStorage.clear();
     // localStorage.removeItem('token');
     this._router.navigate(['login']);
+    location.reload();
   }
 
   storeToken(token:string){

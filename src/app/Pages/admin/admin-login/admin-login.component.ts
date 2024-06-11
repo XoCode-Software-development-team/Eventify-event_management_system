@@ -50,9 +50,9 @@ export class AdminLoginComponent {
   }
 
   formSubscribe() {
-    // this.loginForm.statusChanges.subscribe((status)=> {
-    //   this.loginButton.disable = status !== 'VALID';
-    // })
+    this.loginForm.statusChanges.subscribe((status)=> {
+      this.loginButton.disable = status !== 'VALID';
+    })
   }
 
   adminLogin() {
