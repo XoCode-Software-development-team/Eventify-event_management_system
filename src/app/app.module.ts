@@ -7,8 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.component';
-import { MaterialModule } from './core/material.module';
-import { MaterialModule } from './core/material.module';
+import { MaterialModule } from './Core/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminServiceAndResourceComponent } from './Pages/admin/admin-serviceAndResource/admin-serviceAndResource.component';
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
@@ -66,6 +65,11 @@ import { ResetPasswordComponent } from './Pages/client/reset-password/reset-pass
 import { UserCardComponent } from './Components/user-card/user-card.component';
 import { EditProfileComponent } from './Pages/client/edit-profile/edit-profile.component';
 import { DeleteButtonComponent } from './Components/buttons/delete-button/delete-button.component';
+import { EventCreateFormComponent } from './Components/event-create-form/event-create-form.component';
+import { EventViewComponent } from './Components/event-view/event-view.component';
+import { EventComponent } from './Pages/client/event/event.component';
+import { EventServiceResCardComponent } from './Components/event-service-res-card/event-service-res-card.component';
+import { EventSideBarComponent } from './Components/event-side-bar/event-side-bar.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +123,11 @@ import { DeleteButtonComponent } from './Components/buttons/delete-button/delete
     UserCardComponent,
     EditProfileComponent,
     DeleteButtonComponent,
+    EventSideBarComponent,
+    EventCreateFormComponent,
+    EventViewComponent,
+    EventServiceResCardComponent,
+    EventComponent,
   ],
   imports: [
     BrowserModule,
@@ -131,7 +140,6 @@ import { DeleteButtonComponent } from './Components/buttons/delete-button/delete
     NgbModule,
     AppRoutingModule,
     ConfirmationPopoverModule.forRoot({
-      confirmButtonType: 'danger',
       confirmButtonType: 'danger',
     }),
     NgxDropzoneModule,
@@ -147,5 +155,4 @@ import { DeleteButtonComponent } from './Components/buttons/delete-button/delete
   }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
 export class AppModule {}

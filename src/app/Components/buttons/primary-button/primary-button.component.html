@@ -7,8 +7,10 @@
         style="color: white;">
 
     <ng-container *ngIf="!loading; else spinner">
-        <mat-icon *ngIf="button.icon" [ngClass]="button.iconClass">{{button.icon}}</mat-icon>
-        {{button.text}}
+        <div class="d-flex justify-content-center align-items-center gap-1">
+            <mat-icon *ngIf="button.icon" [ngClass]="button.iconClass">{{button.icon}}</mat-icon>
+            {{button.text}}
+        </div>
     </ng-container>
 
     <ng-template #spinner>

@@ -1,30 +1,30 @@
-<mat-card class="event-service-res-card">
+<mat-card class="event-service-res-card" *ngFor="let item of dataSource">
 
-    <mat-card-header>
-        <img  mat-card-sm-image src="../../../assets/Images/Djservice.jpg" >
-      <mat-card-title-group>
-        <mat-card-title>Groove Sound</mat-card-title>
+  <mat-card-header>
+    <img mat-card-sm-image [src]="item.image ? item.image :'../../../assets/Images/Djservice.jpg'">
+    <mat-card-title-group>
+      <mat-card-title>{{item.name}}</mat-card-title>
 
-        <mat-card-subtitle>
-          <span style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5"
-            [readonly]="true"></ngb-rating>
-    </span>
+      <mat-card-subtitle>
+        <span >({{item.overallRate}}) <ngb-rating style="color: #FDCC0D; font-size: medium;" [max]="5"
+            [rate]="item.overallRate" [readonly]="true"></ngb-rating>
+        </span>
 
-        </mat-card-subtitle>
+      </mat-card-subtitle>
 
-        <mat-card-content>
-        <mat-card-title *ngIf="acceptVendor; else pendingSubtitle">
-          <img src="../../../assets/Images/accepted.png" alt="Accepted" >
+      <mat-card-content>
+        <mat-card-title *ngIf="item.isApprove; else pendingSubtitle">
+          <img src="../../../assets/Images/accepted.png" alt="Accepted">
         </mat-card-title>
         <ng-template #pendingSubtitle>
           <mat-card-subtitle class="pending">Pending...</mat-card-subtitle>
         </ng-template>
       </mat-card-content>
-      
-        <mat-card-subtitle>from SonicMix Pro </mat-card-subtitle>
 
-      </mat-card-title-group>
-    </mat-card-header>
-    
+      <mat-card-subtitle>from {{item.companyName}} </mat-card-subtitle>
 
-  </mat-card>
+    </mat-card-title-group>
+  </mat-card-header>
+
+
+</mat-card>

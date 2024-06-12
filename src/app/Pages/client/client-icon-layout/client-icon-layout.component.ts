@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
 import { NotificationService } from 'src/app/Services/notification.service';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, filter, startWith } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 
 @Component({
@@ -74,7 +74,7 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy {
   hideCompareButton() {
     let currentUrl = this._router.url;
 
-    if (currentUrl === '/profile' || currentUrl === '/password') {
+    if (currentUrl === '/profile' || currentUrl === '/password' || currentUrl.startsWith('/event')) {
       // Hide button if the URL is exactly '/vendor/updateProfile' or '/vendor/updatePassword'
       this.icons = this.icons.filter((icon) => icon.IconName !== 'compare');
     } else {

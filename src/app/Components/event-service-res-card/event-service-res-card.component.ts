@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-event-service-res-card',
@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./event-service-res-card.component.scss']
 })
 export class EventServiceResCardComponent {
-  
-  acceptVendor: boolean = true;
+  @Input() dataSource:any;
 }
