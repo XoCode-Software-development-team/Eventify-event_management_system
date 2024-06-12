@@ -6,7 +6,7 @@
   <div *ngIf="showEventsList" class="expand-list">
     <ng-container *ngIf="eventArray.length; else noEvents" [@expandCollapse]="showEventsList ? 'expanded' : 'collapsed'">
       <div *ngFor="let event of eventArray" class="event-area">
-        <a (click)="goToEventDetails(event.id)">{{ event.eventName }}</a>
+        <a (click)="goToEventDetails(event.id)">{{ event.name }}</a>
       </div>
     </ng-container>
     <ng-template #noEvents>

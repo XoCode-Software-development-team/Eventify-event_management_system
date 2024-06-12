@@ -37,7 +37,9 @@ export class EventSideBarComponent implements OnInit {
   }
 
   goToEventDetails(Id: number): void {
-    this.router.navigate(['/client/event/view', Id]);
+    this.router.navigate(['/client/event/view', Id]).then(() => {
+      window.scrollTo(0, 0);
+    });
   }
 
   onCreateButtonClick() {

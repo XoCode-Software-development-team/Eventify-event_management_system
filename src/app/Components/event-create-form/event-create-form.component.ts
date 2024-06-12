@@ -27,14 +27,15 @@ export class EventCreateFormComponent implements OnInit {
     private eventService: EventService
   ) {
     this.form = this.fb.group({
-      eventName: ['', Validators.required],
+      name: ['', Validators.required],
       description: ['', Validators.required],
-      eventDate: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
       location: ['', Validators.required],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       guestCount: ['', Validators.required],
-      coverImage: ['']
+      thumbnail: ['']
     });
   }
 
@@ -69,9 +70,10 @@ export class EventCreateFormComponent implements OnInit {
   register() {
     if (this.form.valid) {
       const bodyData = {
-        eventName: this.form.value.eventName,
+        name: this.form.value.name,
         description: this.form.value.description,
-        eventDate: this.form.value.eventDate,
+        startDate: this.form.value.startDate,
+        endDate: this.form.value.endDate,
         location: this.form.value.location,
         startTime: this.form.value.startTime,
         endTime: this.form.value.endTime,
@@ -84,6 +86,7 @@ export class EventCreateFormComponent implements OnInit {
         this.router.navigate(['/client/event/view', resultData.id]);
         this.form.reset();
         this.isUpdateFormActive = false;
+        window.scrollTo(0, 0);
       });
     } else {
       alert('Form is not valid. Please check your inputs.');
@@ -95,14 +98,15 @@ export class EventCreateFormComponent implements OnInit {
 
     if (selectedEvent) {
       this.form.patchValue({
-        eventName: selectedEvent.eventName,
+        name: selectedEvent.name,
         description: selectedEvent.description,
-        eventDate: selectedEvent.eventDate,
+        startDate: selectedEvent.startDate,
+        endDate: selectedEvent.endDate,
         location: selectedEvent.location,
         startTime: selectedEvent.startTime,
         endTime: selectedEvent.endTime,
         guestCount: selectedEvent.guestCount,
-        coverImage: selectedEvent.coverImage
+        thumbnail: selectedEvent.thumbnail
       });
     }
   }
@@ -111,14 +115,15 @@ export class EventCreateFormComponent implements OnInit {
     if (this.form.valid) {
       const bodyData = {
         id: this.currentEventID,
-        eventName: this.form.value.eventName,
+        name: this.form.value.name,
         description: this.form.value.description,
-        eventDate: this.form.value.eventDate,
+        startDate: this.form.value.startDate,
+        endDate: this.form.value.endDate,
         location: this.form.value.location,
         startTime: this.form.value.startTime,
         endTime: this.form.value.endTime,
         guestCount: this.form.value.guestCount,
-        coverImage: this.form.value.coverImage
+        thumbnail: this.form.value.thumbnail
       };
 
       this.eventService.updateEvent(this.currentEventID, bodyData).subscribe({
@@ -126,7 +131,9 @@ export class EventCreateFormComponent implements OnInit {
           alert('Event Updated Successfully');
           this.form.reset();
           this.isUpdateFormActive = false;
-          this.router.navigate(['/client/event/view', this.currentEventID]);
+          this.router.navigate(['/client/event/view', this.currentEventID]).then(() => {
+            window.scrollTo(0, 0);
+          });
         },
         error: (error: any) => {
           console.error('Error updating event:', error);

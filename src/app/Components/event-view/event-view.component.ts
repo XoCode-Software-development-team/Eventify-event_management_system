@@ -47,13 +47,13 @@ export class EventViewComponent implements OnInit {
         if (previousIndex >= 0) {
           const previousEventId = this.allEvents[previousIndex].id;
           this.router.navigate(['client/event/view', previousEventId]).then(() => {
-            this.location.go(this.location.path());
+            this.location.back();
             window.scrollTo(0, 0);
             location.reload(); 
           });
         } else {
           this.router.navigate(['client/event/create']).then(() => {
-            this.location.go(this.location.path());
+            this.location.back();
           });
         }
       });
@@ -79,6 +79,8 @@ export class EventViewComponent implements OnInit {
   updateEvent(eventId: number): void {
     this.updateService.setIsUpdateFormActive(true);
     this.updateService.setCurrentEvent(eventId);
-    this.router.navigate(['/client/event/update', eventId]);
+    this.router.navigate(['/client/event/update', eventId]).then(() => {
+      window.scrollTo(0, 0);
+    });
   }
 }

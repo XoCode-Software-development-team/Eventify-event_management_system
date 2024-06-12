@@ -1,5 +1,5 @@
 <div class="event-cover" *ngIf="selectedEvent">
-    <p class="event-name">{{ selectedEvent.eventName }}</p>
+    <p class="event-name">{{ selectedEvent.name }}</p>
     <div><mat-divider></mat-divider></div><br/><br/>
 
    <img src="../../../assets/Images/eventify_cover.jpg" class="cover-img"/>
@@ -7,7 +7,7 @@
     <div class="event-detail-panel">
         <div class="section">
             <a routerLink="#"><img src="../../../assets/Images/calendar.png" class="count" height="27px" width="28px"/></a>
-            <p class="text" >{{ selectedEvent.eventDate }}</p>
+            <p class="text" >{{ selectedEvent.startDate }}</p>
         </div>
         <div class="section">
             <a routerLink="#"><img src="../../../assets/Images/Time.png" class="count" height="27px" width="28px"/></a>
@@ -81,8 +81,8 @@
 
     <div class="mat-line"><mat-divider></mat-divider></div>
     <div class="del-up-button">
-    <button class="btn btn-danger mt-4" (click)="setDelete(selectedEvent.id)"> <i class="fas fa-trash-alt"></i>  Delete "{{selectedEvent.eventName}}"</button>
-    <button class="btn btn-primary mt-4" (click)="updateEvent(selectedEvent.id)"> <i class="fas fa-edit update-icon"></i> Update "{{selectedEvent.eventName}}"</button>
+    <button class="btn btn-danger mt-4" (click)="setDelete(selectedEvent.id)"> <i class="fas fa-trash-alt"></i>  Delete "{{selectedEvent.name}}"</button>
+    <button class="btn btn-primary mt-4" (click)="updateEvent(selectedEvent.id)"> <i class="fas fa-edit update-icon"></i> Update "{{selectedEvent.name}}"</button>
     </div>
 </div>
 
