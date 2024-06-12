@@ -24,6 +24,8 @@
     "@angular/router": "^16.2.0",
     "@aspnet/signalr": "^1.0.27",
     "@auth0/angular-jwt": "^5.2.0",
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "ngx-stars": "^1.6.5",
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@popperjs/core": "^2.11.6",
     "angular-confirmation-popover": "^7.0.0",
@@ -50,3 +52,4 @@
     "typescript": "~5.1.3"
   }
 }
+

@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.component';
 import { MaterialModule } from './core/material.module';
+import { MaterialModule } from './core/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminServiceAndResourceComponent } from './Pages/admin/admin-serviceAndResource/admin-serviceAndResource.component';
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
@@ -131,6 +132,7 @@ import { DeleteButtonComponent } from './Components/buttons/delete-button/delete
     AppRoutingModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger',
+      confirmButtonType: 'danger',
     }),
     NgxDropzoneModule,
     FormsModule,
@@ -145,4 +147,5 @@ import { DeleteButtonComponent } from './Components/buttons/delete-button/delete
   }],
   bootstrap: [AppComponent],
 })
+export class AppModule {}
 export class AppModule {}

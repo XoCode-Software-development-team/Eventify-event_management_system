@@ -1,0 +1,63 @@
+<div class="container mt-4 lato-black-font">
+    <div class="card border-0">
+        <p class="title"><img src="../../../assets/Images/create.png" width="30px" height="34px" class="icons"/>{{formName}}</p>
+        <div class="mat-line"><mat-divider></mat-divider></div><br/><br/>
+        <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-group">
+                <label class="lable">Event name</label>
+                <input type="text" formControlName="name" class="form-control" placeholder="Enter event name" required [ngClass]="{ 'border border-danger': isInvalid('name') }"   >
+            </div>
+
+            <div class="form-group">
+                <label class="lable">Description</label>
+                <textarea formControlName="description" class="form-control" rows="3" placeholder="Enter description" required [ngClass]="{ 'border border-danger': isInvalid('description') }"></textarea>
+            </div>
+
+            <div class="form-row d-flex">
+            <div class="form-group col-md-5 line-fields">
+                <label class="lable">Start Date</label>
+                <input type="date" formControlName="startDate" class="form-control"  required [ngClass]="{ 'border border-danger': isInvalid('startDate') }">
+            </div> 
+            <div class="form-group col-md-5 line-fields">
+                <label class="lable">Start time</label>
+                <input type="time" formControlName="startTime" class="form-control" required [ngClass]="{ 'border border-danger': isInvalid('startTime') }">
+            </div>
+            </div>
+
+            <div class="form-row d-flex">
+                <div class="form-group col-md-5 line-fields">
+                    <label class="lable">End Date</label>
+                    <input type="date" formControlName="endDate" class="form-control"  required [ngClass]="{ 'border border-danger': isInvalid('endDate') }">
+                </div>  
+                <div class="form-group col-md-5 line-fields">
+                    <label class="lable">End time</label>
+                    <input type="time" formControlName="endTime" class="form-control" required [ngClass]="{ 'border border-danger': isInvalid('endTime') }">
+                </div>
+            </div>
+
+            <div class="form-row d-flex">
+                <div class="form-group col-md-5 line-fields">
+                    <label class="lable">Location</label>
+                    <input type="text" formControlName="location" class="form-control" placeholder="Enter event location" required [ngClass]="{ 'border border-danger': isInvalid('location') }">
+                </div>
+                <div class="form-group col-md-5 line-fields1">
+                    <label class="lable">Guest count</label>
+                    <input type="number" formControlName="guestCount" class="form-control" placeholder="Enter guest count" required [ngClass]="{ 'border border-danger': isInvalid('guestCount') }">
+                </div>
+            </div>
+
+ 
+            <div class="form-group Image-input">
+                <label>Add event cover image</label>
+                <input type="file" (change)="onFileSelected($event)" class="form-control-file" formControlName="thumbnail">
+                
+            </div>
+            <div class="form-group" *ngIf="imageUrl">
+                <img [src]="imageUrl" alt="Event Cover Image" class="img-fluid" style="width: 100%; max-height: 400px;">
+            </div>
+
+
+            <button type="submit" class="btn btn-primary mt-4">{{BtnName}}</button>
+        </form>
+    </div>
+</div>
