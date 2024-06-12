@@ -30,6 +30,7 @@ export class ResetPasswordComponent {
   emailToReset!:string;
   emailToken!:string;
   isText: boolean = false;
+  isButtonLoading:boolean = false;
 
   constructor(
     private _router: Router,
@@ -91,22 +92,25 @@ export class ResetPasswordComponent {
   }
 
   resetPassword() {
+    this.isButtonLoading = true;
     if (this.resetPasswordForm.valid) {
       this.resetPasswordObj.email=this.emailToReset;
       this.resetPasswordObj.emailToken=this.emailToken;
       this.resetPasswordObj.newPassword=this.resetPasswordForm.value.password;
       this.resetPasswordObj.confirmPassword=this.resetPasswordForm.value.confirmPassword;
-      console.log(this.resetPasswordObj);
+      // console.log(this.resetPasswordObj);
       this._resetPassword.resetPassword(this.resetPasswordObj).subscribe({
         next: (res: any) => {
-          console.log(res);
+          // console.log(res);
           this._toast.showMessage(res.message, 'success');
           this.resetPasswordForm.reset();
           this._router.navigate(['login']);
+          this.isButtonLoading = false;
         },
         error: (err: any) => {
-          console.error(err);
+          // console.error(err);
           this._toast.showMessage(err.message, 'error');
+          this.isButtonLoading = false;
         },
       });
     }

@@ -33,6 +33,7 @@ export class ForgotPasswordComponent {
   };
 
   emailForm!:FormGroup;
+  isButtonLoading:boolean = false;
 
   constructor(
     private _router: Router,
@@ -59,18 +60,21 @@ export class ForgotPasswordComponent {
   }
 
   reset() {
+    this.isButtonLoading = true;
     if (this.emailForm.valid) {
-      console.log(this.emailForm.value)
+      // console.log(this.emailForm.value)
       this._resetPwd.sendResetPasswordLink(this.emailForm.value.email).subscribe({
         next:(res:any) => {
-          console.log(res);
+          // console.log(res);
           this._toast.showMessage(res.message,'success');
           this.emailForm.reset();
-          this._router.navigate(['/']);
+          this._router.navigate(['/login']);
+          this.isButtonLoading = false;
         },
         error:(err:any) => {
-          console.log(err);
+          // console.log(err);
           this._toast.showMessage("Email doesn't exist!",'error');
+          this.isButtonLoading = false;
         }
       })
     }

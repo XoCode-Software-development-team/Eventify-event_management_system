@@ -43,6 +43,10 @@ export class UserProfileService {
   deleteUser() {
     return this._http.delete(`${this.Url}/api/userProfile/`);
   }
+
+  updatePassword(password:any) {
+    return this._http.post(`${this.Url}/api/userProfile/updatePassword`,password);
+  }
   
   openPopup() {
     if (!this.popupToggle) {

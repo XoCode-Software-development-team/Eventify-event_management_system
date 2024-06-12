@@ -48,7 +48,8 @@ export class NavBarComponent implements OnInit {
         this.getAvatar();
       } else {
         this.isLogin = false;
-      }    });
+      }
+    });
   }
 
   // Identify whether service or resource
@@ -59,11 +60,11 @@ export class NavBarComponent implements OnInit {
   getAvatar() {
     this._userProfile.getUserAvatar().subscribe({
       next: (res: any) => {
-        console.log(res.message);
+        // console.log(res.message);
         this.userImage = res.userImage;
       },
       error: (err: any) => {
-        console.log(err.message);
+        // console.log(err.message);
       },
     });
   }

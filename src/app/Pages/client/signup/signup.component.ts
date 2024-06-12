@@ -43,6 +43,7 @@ export class SignupComponent implements OnInit {
   signUpForm!: FormGroup;
   isClient: boolean = true;
   isText: boolean = false;
+  isButtonLoading: boolean = false;
 
   constructor(
     private _router: Router,
@@ -112,9 +113,9 @@ export class SignupComponent implements OnInit {
       }
     });
 
-    // this.signUpForm.statusChanges.subscribe((status)=> {
-    //   this.signUpButton.disable = status !== 'VALID';
-    // })
+    this.signUpForm.statusChanges.subscribe((status) => {
+      this.signUpButton.disable = status !== 'VALID';
+    });
   }
 
   becomeVendor() {
@@ -124,32 +125,46 @@ export class SignupComponent implements OnInit {
   }
 
   signUpUser() {
+    this.isButtonLoading = true;
     if (this.signUpForm.valid) {
-      console.log(this.signUpForm.value);
+      // console.log(this.signUpForm.value);
       if (this.isClient) {
         this._auth.clientSignUp(this.signUpForm.value).subscribe({
           next: (res: any) => {
-            console.log(res);
+            // console.log(res);
             this.toast.showMessage(res.message, 'success');
             this.signUpForm.reset();
             this._router.navigate(['login']);
+            this.isButtonLoading = false;
           },
           error: (err: any) => {
-            console.error(err);
-            this.toast.showMessage(err.error, 'error');
+            // console.error(err);
+            // Bad request error
+            this.toast.showMessage(
+              err ||
+                'An error occurred. Please check your input and try again.',
+              'error'
+            );
+            this.isButtonLoading = false;
           },
         });
       } else {
         this._auth.vendorSignUp(this.signUpForm.value).subscribe({
           next: (res: any) => {
-            console.log(res);
+            // console.log(res);
             this.toast.showMessage(res.message, 'success');
             this.signUpForm.reset();
             this._router.navigate(['login']);
+            this.isButtonLoading = false;
           },
           error: (err: any) => {
-            console.error(err);
-            this.toast.showMessage(err.error, 'error');
+            // console.error(err);
+            this.toast.showMessage(
+              err ||
+                'An error occurred. Please check your input and try again.',
+              'error'
+            );
+            this.isButtonLoading = false;
           },
         });
       }

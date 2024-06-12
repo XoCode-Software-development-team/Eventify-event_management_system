@@ -74,7 +74,7 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy {
   hideCompareButton() {
     let currentUrl = this._router.url;
 
-    if (currentUrl === '/updateProfile' || currentUrl === '/updatePassword') {
+    if (currentUrl === '/profile' || currentUrl === '/password') {
       // Hide button if the URL is exactly '/vendor/updateProfile' or '/vendor/updatePassword'
       this.icons = this.icons.filter((icon) => icon.IconName !== 'compare');
     } else {

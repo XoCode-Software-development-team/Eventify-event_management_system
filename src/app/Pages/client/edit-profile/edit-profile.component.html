@@ -5,33 +5,40 @@
   </div>
   <!-- Main content area -->
   <div class="main">
-    <div *ngIf="isProfile">
-      <div class="form-container d-flex flex-column">
+    <div class="form-container d-flex flex-column">
 
-        <h4 class="pb-3">{{isReadOnly ? role : 'Edit'}} Profile</h4>
+      <h4 class="pb-3">{{isReadOnly ? role : 'Edit'}} Profile</h4>
+
+
+      <div class="d-flex flex-row justify-content-start align-items-center gap-5 pb-4">
+        <img class="avatar" [ngClass]="!userImage ? 'avatar-padding' : null"
+          [src]="userImage ? userImage : '../../../../assets/default/user.png'">
+
+        <div class="d-flex justify-content-between align-items-center gap-5">
+
+          <app-primary-button *ngIf="!isLoading" [loading]="isUpdatingAvatar" [button]="updateImageButton" (click)="fileInput.click()"></app-primary-button>
+          <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput>
+
+          <app-delete-button *ngIf="!deleteButton.disable" [isLoading]="isDeletingAvatar" mwlConfirmationPopover popoverTitle="Avatar Delete confirmation"
+            popoverMessage="Do you really want to delete?" placement="bottom" confirmButtonType="danger"
+            (confirm)="deleteProfilePicture()" (cancel)="true" [button]="deleteButton"></app-delete-button>
+
+        </div>
+      </div>
+
+      <div *ngIf="isLoading" class="spinner-container d-flex flex-column mt-5">
+        <p>Please wait</p>
+        <mat-spinner diameter="32"></mat-spinner>
+      </div>
+
+      <div *ngIf="isProfile && !isLoading">
+        <div class="my-3 mt-5">
+          <app-secondary-button *ngIf="isReadOnly" (click)="toggleReadOnly()"
+            [button]="editButton"></app-secondary-button>
+        </div>
+        
 
         <form class="edit-profile-form" [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
-
-          <div class="d-flex flex-row justify-content-start align-items-center gap-5 pb-4">
-            <img class="avatar" [ngClass]="!userImage ? 'avatar-padding' : null"
-              [src]="userImage ? userImage : '../../../../assets/default/user.png'">
-
-            <div class="d-flex justify-content-between align-items-center gap-5">
-
-              <app-primary-button [button]="updateImageButton" (click)="fileInput.click()"></app-primary-button>
-              <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput>
-
-              <app-delete-button mwlConfirmationPopover popoverTitle="Avatar Delete confirmation"
-                popoverMessage="Do you really want to delete?" placement="bottom" confirmButtonType="danger"
-                (confirm)="deleteProfilePicture()" (cancel)="true" [button]="deleteButton"></app-delete-button>
-
-            </div>
-          </div>
-
-          <div class="my-3 mt-5">
-            <app-secondary-button *ngIf="isReadOnly" (click)="toggleReadOnly()"
-              [button]="editButton"></app-secondary-button>
-          </div>
 
           <table class="form-table" cellspacing="0">
             <!-- Client fields -->
@@ -149,15 +156,95 @@
           </table>
           <div>
             <div class="button d-flex gap-3">
-              <app-primary-button *ngIf="!isReadOnly" [button]="saveButton"></app-primary-button>
-              <app-delete-button (click)="deleteUser()" [button]="deleteAccount"></app-delete-button>
+              <app-primary-button [loading]="isSaveButtonLoading" *ngIf="!isReadOnly" [button]="saveButton"></app-primary-button>
+              <app-delete-button [isLoading]="isDeletingAccount" [button]="deleteAccount" mwlConfirmationPopover popoverTitle="Account Delete confirmation"
+              popoverMessage="Do you really want to delete?" placement="right" confirmButtonType="danger"
+              (confirm)="deleteUser()" (cancel)="true"></app-delete-button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <div *ngIf="!isProfile">
-      <h1>Change password</h1>
+    <div *ngIf="!isProfile && !isLoading">
+      <div class="form-container d-flex flex-column">
+        <div class="my-3 mt-5">
+          <h4 class="pb-3">Update password</h4>
+        </div>
+        <form class="w-50" [formGroup]="updatePasswordForm" (ngSubmit)="updatePassword()">
+          <table class="form-table" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Current password</mat-label>
+                  <input matInput class="input-data" required formControlName="currentPassword"
+                    placeholder="Add Password" [type]="isText ? 'text' : 'password'">
+                  <mat-icon *ngIf="isText" matSuffix (click)="hideShowPass()">visibility</mat-icon>
+                  <mat-icon *ngIf="!isText" matSuffix (click)="hideShowPass()">visibility_off</mat-icon>
+                  <mat-hint
+                    *ngIf="updatePasswordForm.controls['currentPassword'].invalid && updatePasswordForm.controls['currentPassword'].touched">
+                    <span *ngIf="updatePasswordForm.get('currentPassword')?.errors?.['required']"
+                      class="small text-danger">Current password can not be left blank!</span>
+                    <span class="small text-danger"
+                      *ngIf="updatePasswordForm.get('password')?.errors?.['passwordStrength']">Password must
+                      be at least 8 characters long and include at least one uppercase letter, one
+                      lowercase letter, one number, and one special character.
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>New Password</mat-label>
+                  <input matInput class="input-data" required formControlName="newPassword"
+                    placeholder="Add New Password" [type]="isText ? 'text' : 'password'">
+                  <mat-icon *ngIf="isText && updatePasswordForm.controls['currentPassword'].valid" matSuffix
+                    (click)="hideShowPass()">visibility</mat-icon>
+                  <mat-icon *ngIf="!isText && updatePasswordForm.controls['currentPassword'].valid" matSuffix
+                    (click)="hideShowPass()">visibility_off</mat-icon>
+                  <mat-hint
+                    *ngIf="updatePasswordForm.controls['newPassword'].invalid && updatePasswordForm.controls['newPassword'].touched">
+                    <span *ngIf="updatePasswordForm.get('newPassword')?.errors?.['required']"
+                      class="small text-danger">New password can not be left blank! </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Confirm Password</mat-label>
+                  <input matInput class="input-data" required formControlName="confirmPassword"
+                    placeholder="Add Confirm Password" [type]="isText ? 'text' : 'password'">
+                  <mat-icon *ngIf="isText && updatePasswordForm.controls['newPassword'].valid" matSuffix
+                    (click)="hideShowPass()">visibility</mat-icon>
+                  <mat-icon *ngIf="!isText && updatePasswordForm.controls['newPassword'].valid" matSuffix
+                    (click)="hideShowPass()">visibility_off</mat-icon>
+                  <mat-hint
+                    *ngIf="updatePasswordForm.controls['confirmPassword'].invalid && updatePasswordForm.controls['confirmPassword'].touched">
+                    <span *ngIf="updatePasswordForm.get('confirmPassword')?.errors?.['required']"
+                      class="small text-danger">Confirm password can not be left blank! </span>
+                    <span *ngIf="updatePasswordForm.get('confirmPassword')?.errors?.['passwordMismatch']"
+                      class="small text-danger">
+                      Confirm password must match the new password.
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="signUp-button">
+                <app-primary-button [loading]="isSaveButtonLoading" [button]="saveButton"></app-primary-button>
+              </td>
+              <td></td>
+            </tr>
+          </table>
+
+        </form>
+      </div>
     </div>
   </div>
-</div>

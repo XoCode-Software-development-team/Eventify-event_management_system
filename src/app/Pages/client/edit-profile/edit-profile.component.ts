@@ -20,6 +20,7 @@ import { UserProfileService } from 'src/app/Services/user-profile.service';
 import { UserStoreService } from 'src/app/Services/user-store.service';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import ValidateForm from 'src/app/Helpers/validateForm';
 
 @Component({
   selector: 'app-edit-profile',
@@ -37,7 +38,7 @@ export class EditProfileComponent
     icon: '',
     class: ['btn3', 'btn'],
     iconClass: [],
-    disable: false,
+    disable: true,
   };
 
   updateImageButton: Button = {
@@ -48,7 +49,7 @@ export class EditProfileComponent
     icon: '',
     class: [''],
     iconClass: [], // Scss class list
-    disable: false, // Initially disabled until form is valid
+    disable: true, // Initially disabled until form is valid
   };
 
   saveButton: Button = {
@@ -86,10 +87,17 @@ export class EditProfileComponent
   navbar: { Tag: string; Url: string | null }[] = [];
   role: string = '';
   editProfileForm!: FormGroup;
+  updatePasswordForm!: FormGroup;
   userImage!: string;
   isReadOnly: boolean = true;
   isProfile: boolean = true;
   routerSubscription: Subscription | undefined;
+  isText: boolean = false;
+  isSaveButtonLoading:boolean = false;
+  isUpdatingAvatar:boolean = false;
+  isDeletingAvatar:boolean = false;
+  isDeletingAccount:boolean = false;
+  isLoading:boolean = false;
 
   constructor(
     private _fb: FormBuilder,
@@ -103,14 +111,18 @@ export class EditProfileComponent
 
   ngOnInit(): void {
     this.setNavBar();
+    this.findUserRole();
+    this.getUserImage();
 
     this._activateRoute.url.subscribe((UrlSegment) => {
       this.isProfile = UrlSegment[0].path === 'profile';
     });
 
     if (this.isProfile) {
-      this.findUserRole();
-      this.getUserImage();
+      this.initializeProfileForm();
+    } else {
+      this.initializePasswordForm();
+      this.saveButton.text = 'Update';
     }
   }
 
@@ -118,7 +130,6 @@ export class EditProfileComponent
     if (this.isProfile) {
       this.getUserDetails();
     }
-    this.initializeForm();
   }
 
   ngOnDestroy(): void {}
@@ -144,32 +155,78 @@ export class EditProfileComponent
   }
 
   editProfile() {
+    this.isSaveButtonLoading = true;
     if (this.editProfileForm.valid) {
-      console.log(this.editProfileForm.value);
+      // console.log(this.editProfileForm.value);
       this._userProfile
         .updateUserDetails(this.editProfileForm.value)
         .subscribe({
           next: (res: any) => {
             this._toast.showMessage(res.message, 'success');
             this.isReadOnly = !this.isReadOnly;
+            this.isSaveButtonLoading = false;
           },
           error: (err: any) => {
-            console.log(err);
+            // console.log(err);
             this._toast.showMessage(err.message, 'error');
+            this.isSaveButtonLoading = false;
           },
         });
     }
   }
 
+  updatePassword() {
+    this.isSaveButtonLoading = true;
+    if (this.updatePasswordForm.valid) {
+      // console.log(this.updatePasswordForm.value);
+      const payload = {
+        currentPassword: this.updatePasswordForm.value.currentPassword,
+        newPassword: this.updatePasswordForm.value.newPassword,
+        confirmPassword: this.updatePasswordForm.value.confirmPassword,
+      };
+      if (payload.currentPassword === payload.newPassword) {
+        this._toast.showMessage('Password is not changed!', 'warning');
+        this.isSaveButtonLoading = false;
+        return;
+      }
+
+      this._userProfile.updatePassword(payload).subscribe({
+        next: (res: any) => {
+          this._toast.showMessage(res.message, 'success');
+          this.updatePasswordForm.reset();
+          this.updatePasswordForm.markAsUntouched;
+          this.updatePasswordForm.markAsPristine;
+          this.clearFormErrors();
+          this.isSaveButtonLoading = false;
+        },
+        error: (err: any) => {
+          console.log(err);
+          this._toast.showMessage(err.message, 'success');
+          this.isSaveButtonLoading = false;
+        },
+      });
+    }
+  }
+
+  clearFormErrors() {
+    Object.keys(this.updatePasswordForm.controls).forEach((controlName) => {
+      const control = this.updatePasswordForm.get(controlName) as FormControl;
+      control.setErrors(null);
+    });
+  }
+
   deleteUser() {
+    this.isDeletingAccount = true;
     this._userProfile.deleteUser().subscribe({
       next: (res: any) => {
         this._toast.showMessage(res.message, 'success');
         this._auth.logout();
+        this.isDeletingAccount = false;
       },
       error: (err: any) => {
         console.log(err);
         this._toast.showMessage(err.message, 'error');
+        this.isDeletingAccount = false;
       },
     });
   }
@@ -177,30 +234,40 @@ export class EditProfileComponent
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      console.log('Selected file:', file);
+      let file = input.files[0];
+      // console.log('Selected file:', file);
       // Handle the file upload logic here, e.g., upload to the server
 
       this.updateImageInDatabase(file);
+      input.value = '';
     }
   }
 
   async updateImageInDatabase(file: File) {
+    this.isUpdatingAvatar = true;
     let fileUrls: string[] = [];
+    let pastImg = this.userImage;
 
     await this.getFirebaseLink([file], fileUrls, 'Avatar');
-    console.log(fileUrls[0]);
+    // console.log(fileUrls[0]);
     let imageUrl = fileUrls[0];
     this._userProfile.updateAvatar(imageUrl).subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this._toast.showMessage(res.message, 'success');
         this.userImage = imageUrl;
         this._userProfile.setUserImage(imageUrl);
+        this.deleteButton.disable = false;
+        this.updateImageButton.text = 'Update avatar'
+        this.isUpdatingAvatar = false;
+        if (pastImg.length != 0) {
+          this.deleteFiles([pastImg]);
+        }
       },
       error: (err: any) => {
-        console.log(err);
+        // console.log(err);
         this._toast.showMessage(err.message, 'error');
+        this.isUpdatingAvatar = false;
       },
     });
   }
@@ -213,7 +280,7 @@ export class EditProfileComponent
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        console.log(file);
+        // console.log(file);
         const path = `User-${fileContent}/${file.name}`;
         const uploadTask = await this._fireStorage.upload(path, file);
         const url = await uploadTask.ref.getDownloadURL();
@@ -229,14 +296,14 @@ export class EditProfileComponent
       for (const filePath of filePaths) {
         // Delete the file
         await this._fireStorage.storage.refFromURL(filePath).delete();
-        console.log('file deleted successfully');
+        // console.log('file deleted successfully');
       }
     } catch (error) {
       console.error('Error deleting files:', error);
     }
   }
 
-  initializeForm() {
+  initializeProfileForm() {
     this.editProfileForm = this._fb.group({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
@@ -259,36 +326,102 @@ export class EditProfileComponent
     });
   }
 
+  initializePasswordForm() {
+    this.updatePasswordForm = this._fb.group(
+      {
+        currentPassword: new FormControl('', [
+          Validators.required,
+          ValidateForm.passwordValidator(),
+        ]),
+        newPassword: new FormControl('', [
+          Validators.required,
+          ValidateForm.passwordValidator(),
+        ]),
+        confirmPassword: new FormControl('', [
+          Validators.required,
+          ValidateForm.passwordValidator,
+        ]),
+      },
+      {
+        validators: ValidateForm.confirmPasswordValidator(
+          'newPassword',
+          'confirmPassword'
+        ),
+      }
+    );
+
+    this.updatePasswordForm.get('newPassword')?.disable();
+    this.updatePasswordForm.get('confirmPassword')?.disable();
+
+    this.updatePasswordForm.statusChanges.subscribe((status) => {
+      this.saveButton.disable = status !== 'VALID';
+    });
+
+    this.updatePasswordForm
+      .get('currentPassword')
+      ?.statusChanges.subscribe((status) => {
+        if (status === 'VALID') {
+          this.updatePasswordForm.get('newPassword')?.enable();
+        } else {
+          this.updatePasswordForm.get('newPassword')?.disable();
+        }
+      });
+
+    this.updatePasswordForm
+      .get('newPassword')
+      ?.statusChanges.subscribe((status) => {
+        if (status === 'VALID') {
+          this.updatePasswordForm.get('confirmPassword')?.enable();
+        } else {
+          this.updatePasswordForm.get('confirmPassword')?.disable();
+        }
+      });
+  }
+
   getUserImage() {
     this._userProfile.getUserAvatar().subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.userImage = res.userImage;
+        if (this.userImage.length == 0){
+          this.deleteButton.disable = true;
+          this.updateImageButton.text = 'Add avatar'
+          this.updateImageButton.disable = false;
+        } else {
+          this.deleteButton.disable = false;
+          this.updateImageButton.disable = false;
+          this.updateImageButton.text = 'Update avatar'
+        }
       },
       error: (err: any) => {
-        console.log(err);
+        // console.log(err);
       },
     });
   }
 
   deleteProfilePicture() {
+    this.isDeletingAvatar = true;
     this._userProfile.deleteAvatar().subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.deleteFiles([this.userImage]);
         this.getUserImage();
         this._toast.showMessage(res.message, 'success');
+        this.isDeletingAvatar = false;
       },
       error: (err: any) => {
-        console.log(err);
+        // console.log(err);
+        this._toast.showMessage(err.message, 'error');
+        this.isDeletingAvatar = false;
       },
     });
   }
 
   getUserDetails() {
+    this.isLoading = true;
     this._userProfile.getUserDetails().subscribe({
       next: (res: any) => {
-        console.log(res);
+        // console.log(res);
         this.editProfileForm.patchValue({
           firstName: res.userDetails.firstName,
           lastName: res.userDetails.lastName,
@@ -314,14 +447,20 @@ export class EditProfileComponent
           this.editProfileForm.removeControl('companyName');
           this.editProfileForm.removeControl('contactPersonName');
         }
+        this.isLoading = false;
       },
       error: (err: any) => {
-        console.log(err);
+        // console.log(err);
+        this.isLoading = false;
       },
     });
   }
 
   toggleReadOnly() {
     this.isReadOnly = !this.isReadOnly;
+  }
+
+  hideShowPass() {
+    this.isText = !this.isText;
   }
 }

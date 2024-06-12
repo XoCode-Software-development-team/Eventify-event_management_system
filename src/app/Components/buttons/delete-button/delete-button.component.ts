@@ -10,6 +10,7 @@ export class DeleteButtonComponent {
   constructor(private _router:Router) {}
 
   @Input() button: any;
+  @Input() isLoading:boolean = false;
 
   navigate() {
     if (this.button.url != '') {

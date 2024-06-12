@@ -31,11 +31,12 @@ export class LoginComponent {
     icon: '',
     class: ['fullWidth'],
     iconClass: [], // Scss class list
-    disable: false, // Initially disabled until form is valid
+    disable: true, // Initially disabled until form is valid
   };
 
   loginForm!: FormGroup;
   isText: boolean = false;
+  isButtonLoading:boolean = false;
 
   constructor(
     private _router: Router,
@@ -60,17 +61,18 @@ export class LoginComponent {
   }
 
   formSubscribe() {
-    // this.loginForm.statusChanges.subscribe((status)=> {
-    //   this.loginButton.disable = status !== 'VALID';
-    // })
+    this.loginForm.statusChanges.subscribe((status)=> {
+      this.loginButton.disable = status !== 'VALID';
+    })
   }
 
   login() {
+    this.isButtonLoading = true;
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      // console.log(this.loginForm.value);
       this._auth.login(this.loginForm.value).subscribe({
         next: (res: any) => {
-          console.log(res);
+          // console.log(res);
           //Store the token after login
           this._auth.storeToken(res.token.accessToken);
           this._auth.storeRefreshToken(res.token.refreshToken);
@@ -81,10 +83,18 @@ export class LoginComponent {
           this._userStore.setRoleForStore(tokenPayload.role);
 
           this.navigate(res.message);
+          this.isButtonLoading = false;
         },
-        error: (err: any) => {
-          console.log(err);
-          this.toast.showMessage(err, 'error');
+        error: (error: any) => {
+          // console.log(err);
+          // this.toast.showMessage(err, 'error');
+          if (error.status === 0) {
+            this.toast.showMessage('No internet connection. Please check your network connection and try again.', 'error');
+          } else {
+            // Display other error messages
+            this.toast.showMessage(error.message || 'An error occurred during login. Please try again later.', 'error');
+          }
+          this.isButtonLoading = false;
         },
       });
     }
@@ -103,11 +113,11 @@ export class LoginComponent {
         this._router.navigate(['vendor/home']);
         this.toast.showMessage(message, 'success');
       } else if (role === 'Admin') {
-        console.log('Error user login!');
+        // console.log('Error user login!');
         this.toast.showMessage('Error user login!', 'error');
         this._auth.logout();
       } else {
-        console.log('Error user role!');
+        // console.log('Error user role!');
         this._auth.logout();
       }
     });

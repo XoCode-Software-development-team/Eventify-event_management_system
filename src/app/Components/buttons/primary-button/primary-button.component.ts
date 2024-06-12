@@ -11,6 +11,7 @@ export class PrimaryButtonComponent {
   constructor(private _router:Router) {}
 
   @Input() button: any;
+  @Input() loading:boolean = false;
 
   navigate() {
     if (this.button.url != '') {

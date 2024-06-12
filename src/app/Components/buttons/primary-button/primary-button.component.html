@@ -6,7 +6,12 @@
         class="primary-btn btn px-5" 
         style="color: white;">
 
-    <mat-icon *ngIf="button.icon" [ngClass]="button.iconClass">{{button.icon}}</mat-icon>
-    
-    {{button.text}}
+    <ng-container *ngIf="!loading; else spinner">
+        <mat-icon *ngIf="button.icon" [ngClass]="button.iconClass">{{button.icon}}</mat-icon>
+        {{button.text}}
+    </ng-container>
+
+    <ng-template #spinner>
+        <mat-spinner diameter="20"></mat-spinner>
+    </ng-template>
 </button>

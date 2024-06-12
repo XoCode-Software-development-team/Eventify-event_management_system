@@ -48,7 +48,7 @@
             <p class="text-primary btn m-0 px-0" routerLink="/forgotPassword">Forget password</p>
             <tr>
               <td class="login-button">
-                <app-primary-button [button]="loginButton"></app-primary-button>
+                <app-primary-button [loading]="isButtonLoading" [button]="loginButton"></app-primary-button>
               </td>
             </tr>
             <div class="d-flex justify-content-center align-items-baseline gap-2">

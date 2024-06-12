@@ -21,11 +21,12 @@ export class AdminLoginComponent {
     icon: '',
     class: ['fullWidth'],
     iconClass: [], // Scss class list
-    disable: false, // Initially disabled until form is valid
+    disable: true, // Initially disabled until form is valid
   };
 
   loginForm!: FormGroup;
   isText: boolean = false;
+  isButtonLoading:boolean = false;
 
   constructor(
     private _router: Router,
@@ -56,11 +57,12 @@ export class AdminLoginComponent {
   }
 
   adminLogin() {
+    this.isButtonLoading = true;
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      // console.log(this.loginForm.value);
       this._auth.login(this.loginForm.value).subscribe({
         next: (res: any) => {
-          console.log(res);
+          // console.log(res);
           this._toast.showMessage(res.message, 'success');
           this.loginForm.reset();
 
@@ -76,8 +78,9 @@ export class AdminLoginComponent {
           this.navigate();
         },
         error: (err: any) => {
-          console.log(err);
+          // console.log(err);
           this._toast.showMessage(err.error, 'error');
+          this.isButtonLoading = false;
         },
       });
     }
@@ -89,9 +92,10 @@ export class AdminLoginComponent {
 
       if (role === 'Admin') this._router.navigate(['admin/home']);
       else {
-        console.log('Error user login!');
+        // console.log('Error user login!');
         this._auth.logout();
       }
+      this.isButtonLoading = false;
     });
   }
 
