@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EventDialogComponent } from 'src/app/Components/event-dialog/event-dialog.component';
 import { ServiceResourceDetails } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
+import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { ToastService } from 'src/app/Services/toast.service';
 
@@ -15,7 +18,9 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     private _route: ActivatedRoute,
     private _serviceAndResource: ServiceAndResourceService,
     private router: Router,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private _dialog:MatDialog,
+    private _auth:AuthenticationService
   ) {}
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
@@ -176,5 +181,16 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
   // Identify whether service or resource
   checkUrlString(): string {
     return this._serviceAndResource.checkUrlString();
+  }
+
+  openDialog() {
+    if(this._auth.isLoggedIn()) {
+      this._dialog.open(EventDialogComponent, {
+        data: { soRId: this.soRId }
+      });
+    } else {
+      this._toastService.showMessage("Please login first!",'info');
+      return;
+    }
   }
 }

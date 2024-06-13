@@ -30,9 +30,9 @@
                 <!-- Price, capacity, and description -->
                 <div class="d-flex gap-4 col-9 align-items-center">
                     <div *ngFor="let item of serviceResourceDetails.price">
-                        <p>${{item.value}}/{{item.model}}</p>
+                        <p>LKR{{item.value}}/{{item.model}}</p>
                     </div>
-                    <span *ngIf="serviceResourceDetails.capacity != 0">|</span>
+                    <span class="pb-3" *ngIf="serviceResourceDetails.capacity != 0">|</span>
                     <p *ngIf="serviceResourceDetails.capacity != 0">{{serviceResourceDetails.capacity}} Max Capacity</p>
                 </div>
                 <p>{{serviceResourceDetails.description}}</p>
@@ -41,7 +41,7 @@
                     <p *ngFor="let item of serviceResourceDetails.featureAndFacility" mat-chip class="">{{item}}</p>
                 </div>
                 <!-- Button to book the service -->
-                <app-secondary-button *ngIf="!isAdmin && !isVendor" [button]="bookButton"></app-secondary-button>
+                <app-secondary-button (click)="openDialog()" *ngIf="!isAdmin && !isVendor" [button]="bookButton"></app-secondary-button>
                 <app-primary-button *ngIf="isAdmin" [button]="chatButton"></app-primary-button>
                 <app-primary-button *ngIf="isVendor" [button]="updateButton"></app-primary-button>
             </div>

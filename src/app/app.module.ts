@@ -70,6 +70,7 @@ import { EventViewComponent } from './Components/event-view/event-view.component
 import { EventComponent } from './Pages/client/event/event.component';
 import { EventServiceResCardComponent } from './Components/event-service-res-card/event-service-res-card.component';
 import { EventSideBarComponent } from './Components/event-side-bar/event-side-bar.component';
+import { EventDialogComponent } from './Components/event-dialog/event-dialog.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { EventSideBarComponent } from './Components/event-side-bar/event-side-ba
     EventViewComponent,
     EventServiceResCardComponent,
     EventComponent,
+    EventDialogComponent,
   ],
   imports: [
     BrowserModule,

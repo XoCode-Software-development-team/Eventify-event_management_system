@@ -39,4 +39,12 @@ export class EventService {
   deleteEvent(eventId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/DeleteEvent/${eventId}`);
   }
+
+  getAllEventBySoRId(soRId:number) {
+    return this.http.get(`${this.apiUrl}/getEvents/${soRId}`);
+  }
+
+  addServiceResourceToEvent(soRId:number,eventList:any) {
+    return this.http.post<any>(`${this.apiUrl}/AddServiceResource/${soRId}`, eventList);
+  }
 }
