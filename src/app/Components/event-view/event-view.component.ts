@@ -15,6 +15,7 @@ export class EventViewComponent implements OnInit {
   selectedEvent: any;
   isUpdateFormActive = false;
   isLoading: boolean = false;
+  eventId!:number;
 
   Scards: any[] = [];
   Rcards: any[] = [];
@@ -29,8 +30,8 @@ export class EventViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const eventId = Number(params.get('id'));
-      this.getEventById(eventId);
+      this.eventId = Number(params.get('id'));
+      this.getEventById(this.eventId);
     });
   }
 
@@ -38,6 +39,7 @@ export class EventViewComponent implements OnInit {
     this.isLoading = true;
     this.eventService.getEventById(eventId).subscribe({
       next: (res: any) => {
+        // console.log(res)
         if (res != null && res.length > 0) { // Check if result is not null and contains data
           this.selectedEvent = res[0];
           // console.log(res);
@@ -62,7 +64,7 @@ export class EventViewComponent implements OnInit {
           this.router.navigate(['/event/view', res.nextEventId]).then(() => {
             this.location.back();
             window.scrollTo(0, 0);
-            location.reload();
+            this.eventService.announceEventAdded();
             this.isLoading = false;
           });
         } else {

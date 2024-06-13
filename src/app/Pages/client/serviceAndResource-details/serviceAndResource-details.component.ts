@@ -133,7 +133,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
           this.isLoading = false;
         },
         error: (err: any) => {
-          console.error(err);
+          // console.error(err);
           // Handle error
           let errorMessage = `Failed to fetch ${this.checkUrlString()} details. Please try again later.`;
           if (err.status === 0) {
@@ -173,7 +173,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
       return textBetweenSymbols;
     } else {
       // Log message if no match is found
-      console.log('No match found.');
+      // console.log('No match found.');
       return '';
     }
   }

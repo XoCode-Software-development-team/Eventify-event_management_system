@@ -29,8 +29,9 @@ export default class VendorBookedServiceAndResourceComponent implements OnInit {
   displayedColumns: string[] = [
     'No',
     this.capitalizedTag,
+    'Event Name',
     'Event Date',
-    'End Date',
+    'End Date'
   ]; // Columns to be displayed in the table
 
   //Fetches booked services/resources based on the category ID
@@ -42,6 +43,7 @@ export default class VendorBookedServiceAndResourceComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.dataSource = res; // Assigns the fetched data to the data source
+          // console.log(this.dataSource)
 
           if (res.length > 0) {
             this.noData = false;

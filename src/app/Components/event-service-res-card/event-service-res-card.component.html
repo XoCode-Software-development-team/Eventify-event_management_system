@@ -1,30 +1,37 @@
 <mat-card class="event-service-res-card" *ngFor="let item of dataSource">
+  <div *ngIf="!isLoading[item.serviceId ? item.serviceId : item.resourceId]">
+    <mat-card-header>
+      <img mat-card-sm-image [src]="item.image ? item.image :'../../../assets/Images/Djservice.jpg'">
+      <mat-card-title-group>
+        <mat-card-title
+          routerLink="../../../services/service/{{item.serviceId ? item.serviceId : item.resourceId}}/{{item.name}}">{{item.name}}</mat-card-title>
+        <mat-card-subtitle>
+          <span>({{item.overallRate}})
+            <ngb-rating style="color: #FDCC0D; font-size: medium;" [max]="5" [rate]="item.overallRate" [readonly]="true"></ngb-rating>
+          </span>
+        </mat-card-subtitle>
+        <mat-card-content>
+          <mat-card-title *ngIf="item.isApprove; else pendingSubtitle">
+            <img src="../../../assets/Images/accepted.png" alt="Accepted">
+          </mat-card-title>
+          <ng-template #pendingSubtitle>
+            <mat-card-subtitle class="pending">Pending...</mat-card-subtitle>
+          </ng-template>
+        </mat-card-content>
+        <mat-card-subtitle>from {{item.companyName}} </mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
 
-  <mat-card-header>
-    <img mat-card-sm-image [src]="item.image ? item.image :'../../../assets/Images/Djservice.jpg'">
-    <mat-card-title-group>
-      <mat-card-title>{{item.name}}</mat-card-title>
+    <button mat-icon-button color="warn" class="p-2 m-2" style="position: absolute; right: 0; bottom: 0;" 
+            *ngIf="!item.isApprove" mwlConfirmationPopover popoverTitle="Delete Confirmation"
+            popoverMessage="Do you really want to delete?" placement="bottom" confirmButtonType="danger"
+            (confirm)="remove(item.serviceId ? item.serviceId : item.resourceId)" (cancel)="true">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
 
-      <mat-card-subtitle>
-        <span >({{item.overallRate}}) <ngb-rating style="color: #FDCC0D; font-size: medium;" [max]="5"
-            [rate]="item.overallRate" [readonly]="true"></ngb-rating>
-        </span>
-
-      </mat-card-subtitle>
-
-      <mat-card-content>
-        <mat-card-title *ngIf="item.isApprove; else pendingSubtitle">
-          <img src="../../../assets/Images/accepted.png" alt="Accepted">
-        </mat-card-title>
-        <ng-template #pendingSubtitle>
-          <mat-card-subtitle class="pending">Pending...</mat-card-subtitle>
-        </ng-template>
-      </mat-card-content>
-
-      <mat-card-subtitle>from {{item.companyName}} </mat-card-subtitle>
-
-    </mat-card-title-group>
-  </mat-card-header>
-
-
+  <div *ngIf="isLoading[item.serviceId ? item.serviceId : item.resourceId]" class="spinner-container d-flex flex-column">
+    <p>Please wait</p>
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
 </mat-card>

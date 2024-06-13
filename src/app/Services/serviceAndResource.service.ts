@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { baseApiUrl } from 'src/environments/environment';
 import { Location } from '@angular/common';
@@ -10,6 +10,13 @@ import { Location } from '@angular/common';
   providedIn: 'root'
 })
 export class ServiceAndResourceService {
+  private refresh = new Subject<void>
+
+  refresh$ = this.refresh.asObservable();
+
+  announceRefresh() {
+    this.refresh.next();
+  }
 
   constructor(private _http:HttpClient,private _location: Location) { }
 

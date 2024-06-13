@@ -109,12 +109,12 @@ export class VendorUpdateServiceAndResourceComponent
       const duplicate = files.some(
         (file) => file.name === event.addedFiles[0].name
       );
-      console.log(duplicate);
+      // console.log(duplicate);
 
       if (!duplicate) {
         files.push(...event.addedFiles); // Add selected files to array
       } else {
-        console.warn(`File ${event.addedFiles[0].name} is already added.`);
+        // console.warn(`File ${event.addedFiles[0].name} is already added.`);
         // Optionally, you can show a toast message or alert to the user
         this._toastService.showMessage(
           `File ${event.addedFiles[0].name} is already added.`,
@@ -122,7 +122,7 @@ export class VendorUpdateServiceAndResourceComponent
         );
       }
     }
-    console.log(event);
+    // console.log(event);
   }
 
   onRemove(event: any, files: File[]) {
@@ -133,7 +133,7 @@ export class VendorUpdateServiceAndResourceComponent
     } else if (files == this.pdfFiles) {
       this.updatePdfs = true; // Set flag true when pdf file remove
     }
-    console.log(event);
+    // console.log(event);
     files.splice(files.indexOf(event), 1); // Remove file
   }
 
@@ -332,7 +332,7 @@ export class VendorUpdateServiceAndResourceComponent
 
   // Submit form
   async updateForm(mouseEvent: MouseEvent) {
-    console.log(mouseEvent);
+    // console.log(mouseEvent);
     this.isLoading = true;
     if (this.imageFiles.length < 5) {
       this._toastService.showMessage(
@@ -427,7 +427,7 @@ export class VendorUpdateServiceAndResourceComponent
 
     this.serviceResourceForm.get('manuals')?.setValue(this.pdfUrls);
 
-    console.log(this.serviceResourceForm.value);
+    // console.log(this.serviceResourceForm.value);
 
     this.updateServiceResource(this.serviceResourceForm.value);
     this._router.navigate([`/vendor/${this.checkUrlString()}s/all`]); // Navigate the the service/resource page
@@ -462,7 +462,7 @@ export class VendorUpdateServiceAndResourceComponent
         }));
       },
       error: (err: any) => {
-        console.error(err);
+        // console.error(err);
         this._toastService.showMessage(
           'Failed to fetch categories. Please try again later.',
           'error'
@@ -482,7 +482,7 @@ export class VendorUpdateServiceAndResourceComponent
         }));
       },
       error: (err: any) => {
-        console.error(err);
+        // console.error(err);
         this._toastService.showMessage(
           'Failed to fetch price models. Please try again later.',
           'error'
@@ -500,7 +500,7 @@ export class VendorUpdateServiceAndResourceComponent
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        console.log(file);
+        // console.log(file);
         const path = `${this.checkUrlString()}-${fileContent}/${file.name}`;
         const uploadTask = await this._fireStorage.upload(path, file);
         const url = await uploadTask.ref.getDownloadURL();
@@ -516,10 +516,10 @@ export class VendorUpdateServiceAndResourceComponent
       for (const filePath of filePaths) {
         // Delete the file
         await this._fireStorage.storage.refFromURL(filePath).delete();
-        console.log('file deleted successfully');
+        // console.log('file deleted successfully');
       }
     } catch (error) {
-      console.error('Error deleting files:', error);
+      // console.error('Error deleting files:', error);
     }
   }
 
@@ -548,7 +548,7 @@ export class VendorUpdateServiceAndResourceComponent
             return new File([blob], this.getFileName(url), { type: mimeType });
           } catch (error) {
             // Handle errors during file fetch
-            console.error('Error fetching file:', error);
+            // console.error('Error fetching file:', error);
             // Re-throw the error to propagate it to the caller
             throw error;
           }
@@ -585,7 +585,7 @@ export class VendorUpdateServiceAndResourceComponent
       return textBetweenSymbols;
     } else {
       // Log message if no match is found
-      console.log('No match found.');
+      // console.log('No match found.');
       return '';
     }
   }
@@ -705,7 +705,7 @@ export class VendorUpdateServiceAndResourceComponent
               this.imageLoading = false;
             })
             .catch((error) => {
-              console.error('Error downloading images:', error);
+              // console.error('Error downloading images:', error);
               // Handle the error if necessary
               this._toastService.showMessage(
                 'Failed to download image files. Please try again later.',
@@ -722,7 +722,7 @@ export class VendorUpdateServiceAndResourceComponent
               this.videoLoading = false;
             })
             .catch((error) => {
-              console.error('Error downloading videos:', error);
+              // console.error('Error downloading videos:', error);
               // Handle the error if necessary
               this._toastService.showMessage(
                 'Failed to download video files. Please try again later.',
@@ -739,7 +739,7 @@ export class VendorUpdateServiceAndResourceComponent
               this.pdfLoading = false;
             })
             .catch((error) => {
-              console.error('Error downloading PDFs:', error);
+              // console.error('Error downloading PDFs:', error);
               this._toastService.showMessage(
                 'Failed to download pdf files. Please try again later.',
                 'error'
@@ -752,7 +752,7 @@ export class VendorUpdateServiceAndResourceComponent
         },
         error: (err: any) => {
           // Handle errors
-          console.log(err);
+          // console.log(err);
           this._toastService.showMessage(
             `Failed to fetch ${this.checkUrlString()} details. Please try again later.`,
             'error'
@@ -767,11 +767,11 @@ export class VendorUpdateServiceAndResourceComponent
       .updateServiceAndResource(this.soRId, formData)
       .subscribe({
         next: (res: any) => {
-          console.log(res);
+          // console.log(res);
           this._toastService.showMessage('Update successful', 'success');
         },
         error: (err: any) => {
-          console.log(err);
+          // console.log(err);
           if (err instanceof HttpErrorResponse && err.status === 0) {
             // Handle connection loss
             this._toastService.showMessage(

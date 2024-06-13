@@ -61,7 +61,7 @@
             Services ({{ Scards.length }})
         </ng-container>
         <div class="Card" *ngIf="Scards != null && Scards.length > 0">
-            <app-event-service-res-card [dataSource]="Scards"></app-event-service-res-card>
+            <app-event-service-res-card (refreshEvent)="ngOnInit()" [eventId]="eventId" [dataSource]="Scards"></app-event-service-res-card>
         </div>
         <div class="add">
             <a mat-button routerLink="../../../services">Add {{Scards.length > 0 ? 'more' : null}} services <b>
@@ -78,7 +78,7 @@
             Resources ({{ Rcards.length }})
         </ng-container>
         <div class="Card" *ngIf="Rcards.length > 0 && Rcards != null">
-            <app-event-service-res-card [dataSource]="Rcards"></app-event-service-res-card>
+            <app-event-service-res-card (refreshEvent)="ngOnInit()" [eventId]="eventId" [dataSource]="Rcards"></app-event-service-res-card>
         </div>
         <div class="add">
             <a mat-button routerLink="../../../resources">Add {{Rcards.length > 0 ? 'more' : null}} resources <b>

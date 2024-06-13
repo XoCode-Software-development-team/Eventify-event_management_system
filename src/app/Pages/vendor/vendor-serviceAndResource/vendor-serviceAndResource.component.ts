@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
@@ -8,9 +9,9 @@ import { ToastService } from 'src/app/Services/toast.service';
 @Component({
   selector: 'app-vendor-service',
   templateUrl: './vendor-serviceAndResource.component.html',
-  styleUrls: ['./vendor-serviceAndResource.component.scss'],
+  styleUrls: ['./vendor-serviceAndResource.component.scss']
 })
-export class VendorServiceAndResourceComponent {
+export class VendorServiceAndResourceComponent implements OnInit, OnDestroy {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent;
 
   constructor(
@@ -20,13 +21,22 @@ export class VendorServiceAndResourceComponent {
 
   noData: boolean = false;
   dataSource: string[] = [];
+  private subscription!: Subscription;
+
 
   categories: Category[] = [];
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
 
   ngOnInit(): void {
+    this.subscription = this._serviceAndResource.refresh$.subscribe(() => {
+      this.getCategories();
+    });
     this.getCategories();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   displayedColumns: string[] = ['No', `${this.capitalizedTag}`, 'Action'];
@@ -95,6 +105,7 @@ export class VendorServiceAndResourceComponent {
 
   // Function to initiate service/resource deletion request
   deleteServiceAndResource(id: string, deleteRequest: boolean) {
+    this.dataSource = [];
     this._serviceAndResource.RequestToDelete(id).subscribe({
       next: (res: any) => {
         // Check if the delete request is being canceled or initiated

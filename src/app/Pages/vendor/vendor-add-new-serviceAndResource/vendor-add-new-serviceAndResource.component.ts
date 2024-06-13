@@ -92,12 +92,12 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
       const duplicate = files.some(
         (file) => file.name === event.addedFiles[0].name
       );
-      console.log(duplicate);
+      // console.log(duplicate);
 
       if (!duplicate) {
         files.push(...event.addedFiles); // Add selected files to array
       } else {
-        console.warn(`File ${event.addedFiles[0].name} is already added.`);
+        // console.warn(`File ${event.addedFiles[0].name} is already added.`);
         // Optionally, you can show a toast message or alert to the user
         this._toastService.showMessage(
           `File ${event.addedFiles[0].name} is already added.`,
@@ -105,11 +105,11 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         );
       }
     }
-    console.log(event);
+    // console.log(event);
   }
 
   onRemove(event: any, files: File[]) {
-    console.log(event);
+    // console.log(event);
     files.splice(files.indexOf(event), 1); // Remove file
   }
 
@@ -328,7 +328,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
       return;
     }
 
-    console.log(mouseEvent);
+    // console.log(mouseEvent);
     this.isLoading = true;
 
     //when submit the form add featuresAndFacilities array to serviceResourceForm
@@ -357,12 +357,9 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
       this._toastService.showMessage('Manuals uploaded successfully.', 'info');
     }
 
-    console.log(this.serviceResourceForm.value);
+    // console.log(this.serviceResourceForm.value);
     // Add new service/resource using service
-    await this.addNewServiceResource(this.serviceResourceForm.value);
-    this._router.navigate([`/vendor/${this.checkUrlString()}s/all`]); //navigate to the services/resources page
-
-    this.isLoading = false;
+    this.addNewServiceResource(this.serviceResourceForm.value);
   }
 
   // Reset form to initial state
@@ -393,7 +390,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         }));
       },
       error: (err: any) => {
-        console.error('Error fetching categories:', err);
+        // console.error('Error fetching categories:', err);
 
         // Display an error toast message if categories fail to load
         this._toastService.showMessage(
@@ -415,7 +412,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         }));
       },
       error: (err: any) => {
-        console.error('Error fetching price models:', err);
+        // console.error('Error fetching price models:', err);
         // Display an error toast message
         this._toastService.showMessage(
           'Failed to load price models. Please try again later.',
@@ -434,7 +431,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     if (files) {
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        console.log(file);
+        // console.log(file);
         const path = `${this.checkUrlString()}-${fileContent}/${file.name}`;
         const uploadTask = await this._fireStorage.upload(path, file);
         const url = await uploadTask.ref.getDownloadURL();
@@ -444,7 +441,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
   }
 
   // Add new service/resource using service
-  async addNewServiceResource(formData: any) {
+  addNewServiceResource(formData: any) {
     this._serviceAndResource
       .addNewServiceAndResource(formData)
       .subscribe({
@@ -453,13 +450,17 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
             `${this.capitalizedTag} added successfully.`,
             'success'
           );
+          this._serviceAndResource.announceRefresh();
+          this._router.navigate([`/vendor/${this.checkUrlString()}s/all`]); //navigate to the services/resources page
+          this.isLoading = false;
         },
         error: (err: any) => {
-          console.error(err);
+          // console.error(err);
           this._toastService.showMessage(
             `Failed to add ${this.checkUrlString()}. Please try again.`,
             'error'
           );
+          this.isLoading = false;
         },
       });
   }
