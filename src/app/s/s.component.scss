@@ -1,0 +1,32 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #b01e1e;
+
+  padding-bottom: 400px;
+  padding-top: 100px;
+
+
+}
+
+li a {
+  display: block;
+  color: #1C5864;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+/* Change the link color on hover */
+li a:hover {
+  background-color: #555;
+  color: white;
+}
+.nav{
+  border: #868585;
+
+  border-radius: 3px;
+  border-style: dotted;
+  margin: 40px;
+  background-color: #1C5864;
+}

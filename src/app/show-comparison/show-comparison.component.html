@@ -1,0 +1,80 @@
+<div class="header">
+  <div class="navbar">
+    <a href="#"> < Go Back</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="side">
+    <app-s></app-s>
+  </div>
+
+  <div class="main">
+    <div class="head">
+      <h1>Vendor Comparison</h1>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let vendor of vendors">
+            <p><strong>Category:</strong> {{ vendor.category }}</p>
+            <p><strong>Vendor:</strong> {{ vendor.vendorName }}</p>
+            <div *ngFor="let image of vendor.images">
+              <img [src]="image" alt="Image" style="height: 100px; width: 100px; border: 1px solid;">
+            </div>
+            <button class="btn">Follow</button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th *ngFor="let vendor of vendors">
+            <p><strong>Features & Facilities</strong></p>
+            <ul>
+              <li *ngFor="let feature of vendor.features">{{ feature }}</li>
+            </ul>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let vendor of vendors">
+            <p><strong>Photos & Videos</strong></p>
+            <div *ngFor="let photo of vendor.photos">
+              <img [src]="photo" alt="Photo" style="height: 200px; width: 200px; border: 1px solid;">
+            </div>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let vendor of vendors">
+            <p><strong>Prices</strong></p>
+            <p style="font-size: xx-large;">{{ vendor.prices }}</p>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let vendor of vendors">
+            <p><strong>Location</strong></p>
+            <p>{{ vendor.location }}</p>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let vendor of vendors">
+            <p><strong>User Ratings</strong></p>
+            <p style="font-size: xxx-large;">{{ vendor.ratings }}</p>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let vendor of vendors">
+            <p><strong>User Manuals</strong></p>
+            <ul>
+              <li *ngFor="let manual of vendor.userManuals">{{ manual }}</li>
+            </ul>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  <p>&copy; 2024 Eventify.lk. All Rights Reserved</p>
+</div>
