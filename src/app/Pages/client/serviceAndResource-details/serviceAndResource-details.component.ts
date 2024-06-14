@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventDialogComponent } from 'src/app/Components/event-dialog/event-dialog.component';
-import { ServiceResourceDetails } from 'src/app/Interfaces/interfaces';
+import { Button, ServiceResourceDetails } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { ToastService } from 'src/app/Services/toast.service';
+import { VendorFollowService } from 'src/app/Services/vendor-follow.service';
 
 @Component({
   selector: 'app-service-details',
@@ -20,7 +21,8 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     private router: Router,
     private _toastService: ToastService,
     private _dialog:MatDialog,
-    private _auth:AuthenticationService
+    private _auth:AuthenticationService,
+    private _vendorFollow:VendorFollowService
   ) {}
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
@@ -30,6 +32,8 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
   isLoading: boolean = false; // Flag to indicate loading state
   soRId: number = 0;
   serviceResourceName: string = '';
+  isFollow!:boolean
+  btnLoading!:boolean;
 
   // Button configurations
   compareButton = {
@@ -39,12 +43,24 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     icon: 'compare',
     display: 'inline',
   };
-  followButton = {
+  followButton: Button = {
     url: '',
     type: 'button',
     text: 'Follow',
-    icon: 'subscriptions',
-    display: 'inline',
+    icon: 'person_add',
+    class: ['follow'],
+    iconClass: [],
+    disable: false,
+  };
+
+  followedButton: Button = {
+    url: '',
+    type: 'button',
+    text: 'Following',
+    icon: 'person',
+    class: ['following'],
+    iconClass: [],
+    disable: false,
   };
   chatButton = {
     url: '',
@@ -94,6 +110,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     });
 
     this.checkUser();
+    this.checkFollow(this.soRId);
   }
 
   // Function to fetch service/resource details from the service/resource
@@ -191,6 +208,43 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     } else {
       this._toastService.showMessage("Please login first!",'info');
       return;
+    }
+  }
+
+  checkFollow(soRId: number){
+    this.btnLoading = true;
+    this._vendorFollow.isFollow(soRId).subscribe({
+      next:(res:any) => {
+        // console.log(res);
+        this.isFollow = res.isFollow;
+        this.btnLoading =false;
+      },
+      error:(err:any) => {
+        // console.error(err);
+        this.btnLoading = false;
+      }
+    })
+  }
+
+  toggleFollow(soRId: number): void {
+    if (this._auth.isLoggedIn()) {
+      this.btnLoading = true;
+      this._vendorFollow.toggleFollow(soRId).subscribe({
+        next: (res: any) => {
+          // console.log(res)
+          this._toastService.showMessage(res.message, 'success');
+          this.checkFollow(soRId);
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          // console.log(err);
+          this._toastService.showMessage(err.message, 'error');
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this._toastService.showMessage("Please login to follow!", 'info');
+      this.isLoading = false;
     }
   }
 }

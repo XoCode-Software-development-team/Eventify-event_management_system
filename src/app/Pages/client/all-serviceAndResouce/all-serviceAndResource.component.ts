@@ -54,7 +54,7 @@ export class AllServiceAndResourceComponent implements OnInit {
     ) {
       setTimeout(() => {
         this.isLoading = false;
-      }, 3000);
+      }, 5000);
       return;
     }
     this._serviceAndResource
@@ -68,6 +68,7 @@ export class AllServiceAndResourceComponent implements OnInit {
         next: (res: any) => {
           this.servicesAndResources = res.data;
           this.totalItems = res.totalItems;
+          // console.log(this.servicesAndResources)
         },
         error: (err: any) => {
           console.error(err);

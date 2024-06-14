@@ -45,6 +45,7 @@ export class AuthenticationService {
   }
 
   logout() {
+    localStorage.removeItem('token');
     localStorage.clear();
     sessionStorage.clear();
     // localStorage.removeItem('token');
