@@ -1,3 +1,4 @@
+import { EventReviewComponent } from './Components/event-review/event-review.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminServiceComponent } from './Pages/admin/admin-service/admin-service.component';

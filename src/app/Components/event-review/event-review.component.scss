@@ -1,0 +1,91 @@
+.modal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+}
+.event-review{
+  width: 700px;
+  padding: 10px;
+  border-width:1px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  background-color: #ffffff;
+
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e8f4f6;
+    padding: 1rem;
+    border-radius: 5px;
+  }
+  
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  .name{
+    font-size: 22px;
+  }
+  
+  .close {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    font-size: 1.5rem;
+  }
+  .modal-body {
+    padding: 1rem;
+    border:1px solid #d9d9d9;
+    margin: 5px;
+    border-radius: 10px;
+  }
+  
+  .modal-body label {
+    font-weight: 600;
+  }
+  .rateText{
+    font-size: 20px;
+  }
+  
+  #reviewText {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    resize: vertical;
+  }
+  
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.75rem;
+    border-top: 1px solid #dee2e6;
+  }
+
+  
+  .modal-footer .btn {
+    margin-left: 0.5rem;
+  }
+  
+  .modal-footer .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  
+  .modal-footer .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  

@@ -56,6 +56,7 @@ import { EventComponent } from './Pages/client/event/event.component';
 import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
 import { EventUpdateService } from './shared/shared.service';
 import { EventService } from '../app/Services/event.service';
+import { EventReviewComponent } from './Components/event-review/event-review.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,7 +97,8 @@ import { EventService } from '../app/Services/event.service';
     EventViewComponent,
     EventServiceResCardComponent,
     EventComponent,
-    ClientLayoutComponent
+    ClientLayoutComponent,
+    EventReviewComponent
   ],
   imports: [
     BrowserModule,

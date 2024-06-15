@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { EventUpdateService } from '../../shared/shared.service';
 import { EventService } from '../../Services/event.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EventReviewComponent } from '../event-review/event-review.component';
 
 @Component({
   selector: 'app-event-view',
@@ -23,7 +25,8 @@ export class EventViewComponent implements OnInit {
     private router: Router,
     private location: Location,
     private updateService: EventUpdateService,
-    private eventService: EventService
+    private eventService: EventService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -83,4 +86,16 @@ export class EventViewComponent implements OnInit {
       window.scrollTo(0, 0);
     });
   }
+
+  completeEvent(eventId: number) {
+    const dialogRef = this.dialog.open(EventReviewComponent, {
+      width: '700px',
+      data: { eventId: eventId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
 }
