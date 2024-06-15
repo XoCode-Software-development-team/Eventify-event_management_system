@@ -16,7 +16,7 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
   private routerSubscription!: Subscription;
   soRId: string = '';
   name: string = '';
-  buttonToggle: boolean = false;
+  popUpItem!: string;
   
 
   // Array containing icon data
@@ -69,14 +69,16 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  popUpNotification() {
-    this._notificationService.openPopup();
+  popUp(item: string) {
+    if (item === 'notification') {
+      this._notificationService.openPopup();
+    } else if (item === 'chat') {
+      console.log(item);
+    }
+    this.popUpItem = item;
   }
 
-  // Function to check if the notification popup is toggled
-  isNotificationToggled() {
-    return this._notificationService.popupToggle;
-  }
+
 
   changeButton() {
     // Get the current URL

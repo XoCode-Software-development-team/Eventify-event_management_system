@@ -7,7 +7,7 @@
     <!-- Right side icons -->
     <div class="right-side">
         <!-- Navigation icon component -->
-        <app-nav-icon [popupToggle]="isNotificationToggled()" (buttonClick)="popUpNotification()" [iconList]="icons"></app-nav-icon>
+        <app-nav-icon (buttonClick)="popUp($event)" [popupToggle]="popUpItem" [iconList]="icons"></app-nav-icon>
     </div>
 </div>
 <!-- Router outlet for dynamic component rendering -->

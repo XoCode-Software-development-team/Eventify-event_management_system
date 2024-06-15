@@ -45,7 +45,7 @@ export interface ExtendedCategory extends Category {
       companyName:string
     },
     capacity:number,
-    Category:string,
+    category:category,
     description:string,
     reviewAndRating: ReviewAndRating[],
     featureAndFacility:string[],
@@ -54,6 +54,11 @@ export interface ExtendedCategory extends Category {
     images: string[],
     videos: string[],
     Manuals: string[]
+  }
+
+  interface category {
+    categoryId:number;
+    categoryName:string;
   }
 
   interface Price {
@@ -88,4 +93,10 @@ export interface ExtendedCategory extends Category {
     message:string,
     timeStamp:Date,
     read:boolean
+  }
+
+  export interface CompareList {
+    soRId: number;
+    name: string;
+    categoryId:number;
   }

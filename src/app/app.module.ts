@@ -71,6 +71,7 @@ import { EventComponent } from './Pages/client/event/event.component';
 import { EventServiceResCardComponent } from './Components/event-service-res-card/event-service-res-card.component';
 import { EventSideBarComponent } from './Components/event-side-bar/event-side-bar.component';
 import { EventDialogComponent } from './Components/event-dialog/event-dialog.component';
+import { CompareBoxComponent } from './Components/compare-box/compare-box.component';
 
 @NgModule({
   declarations: [
@@ -130,6 +131,7 @@ import { EventDialogComponent } from './Components/event-dialog/event-dialog.com
     EventServiceResCardComponent,
     EventComponent,
     EventDialogComponent,
+    CompareBoxComponent,
   ],
   imports: [
     BrowserModule,

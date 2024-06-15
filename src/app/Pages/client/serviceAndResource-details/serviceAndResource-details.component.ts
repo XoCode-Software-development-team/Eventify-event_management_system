@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventDialogComponent } from 'src/app/Components/event-dialog/event-dialog.component';
-import { Button, ServiceResourceDetails } from 'src/app/Interfaces/interfaces';
+import { Button, CompareList, ServiceResourceDetails, servicesAndResourcesCard } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
+import { CompareService } from 'src/app/Services/compare.service';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { ToastService } from 'src/app/Services/toast.service';
 import { VendorFollowService } from 'src/app/Services/vendor-follow.service';
@@ -22,7 +23,8 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     private _toastService: ToastService,
     private _dialog:MatDialog,
     private _auth:AuthenticationService,
-    private _vendorFollow:VendorFollowService
+    private _vendorFollow:VendorFollowService,
+    private _compare:CompareService
   ) {}
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
@@ -87,7 +89,10 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     name: '',
     vendor: { vendorId: '', companyName: '' },
     capacity: 0,
-    Category: '',
+    category: {
+      categoryId:0,
+      categoryName:''
+    },
     description: '',
     reviewAndRating: [],
     featureAndFacility: [],
@@ -127,7 +132,10 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
             this.serviceResourceDetails = {
               name: serviceResource.name,
               vendor: serviceResource.vendor,
-              Category: serviceResource.serviceResourceCategory,
+              category: {
+                categoryId:0,
+                categoryName:''
+              },
               capacity: serviceResource.capacity,
               description: serviceResource.description,
               reviewAndRating: serviceResource.reviewAndRating,
@@ -138,6 +146,13 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
               videos: serviceResource.videos,
               Manuals: [],
             };
+
+            if (this.checkUrlString() === 'service') {
+              this.serviceResourceDetails.category.categoryId = serviceResource.serviceCategory.categoryId;
+              this.serviceResourceDetails.category.categoryName = serviceResource.serviceCategory.serviceCategoryName;
+            } else {
+              this.serviceResourceDetails.category.categoryId = serviceResource.resourceCategory.categoryId;
+              this.serviceResourceDetails.category.categoryName = serviceResource.resourceCategory.resourceCategoryName;            }
 
             this.serviceResourceDetails.Manuals =
               this.checkUrlString() === 'service'
@@ -246,5 +261,33 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
       this._toastService.showMessage("Please login to follow!", 'info');
       this.isLoading = false;
     }
+  }
+
+  addToCompare() {
+    let list: CompareList = {
+      soRId:this.soRId,
+      name:this.serviceResourceName,
+      categoryId:this.serviceResourceDetails.category.categoryId
+    }
+
+    let isInList = this._compare.IsInList(list.soRId);
+    if (isInList) {
+      this._toastService.showMessage(`This ${this.checkUrlString()} already in compare box`,'info');
+      return;
+    }
+
+    if (this.checkUrlString() === 'service') {
+      this.addServiceToCompare(list);
+    } else {
+      this.addResourceToCompare(list);
+    }
+  }
+
+  addServiceToCompare(item: CompareList) {
+    this._compare.addServiceToCompare(item);
+  }
+
+  addResourceToCompare(item: CompareList) {
+    this._compare.addResourceToCompare(item);
   }
 }

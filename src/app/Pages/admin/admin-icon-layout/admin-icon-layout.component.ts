@@ -9,6 +9,8 @@ import { NotificationService } from 'src/app/Services/notification.service';
 })
 export class AdminIconLayoutComponent implements OnInit, OnDestroy {
   notificationBadgeSubscription: Subscription | undefined;
+  popUpItem!: string;
+
 
   constructor(private _notificationService: NotificationService, private _cdr: ChangeDetectorRef) {}
 
@@ -29,13 +31,13 @@ export class AdminIconLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  popUpNotification() {
-    this._notificationService.openPopup();
-  }
-
-  // Function to check if the notification popup is toggled
-  isNotificationToggled() {
-    return this._notificationService.popupToggle;
+  popUp(item: string) {
+    if (item === 'notification') {
+      this._notificationService.openPopup();
+    } else if (item === 'chat') {
+      console.log(item);
+    }
+    this.popUpItem = item;
   }
 
   updateNotificationBadge() {

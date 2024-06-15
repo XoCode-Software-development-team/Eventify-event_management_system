@@ -8,9 +8,10 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
-import { Button } from 'src/app/Interfaces/interfaces';
+import { Button, CompareList } from 'src/app/Interfaces/interfaces';
 import { VendorFollowService } from 'src/app/Services/vendor-follow.service';
 import { Observable, catchError, map, of, tap, filter } from 'rxjs';
+import { CompareService } from 'src/app/Services/compare.service';
 
 @Component({
   selector: 'app-item-card',
@@ -28,16 +29,19 @@ export class ItemCardComponent implements OnInit, OnChanges {
     private _serviceAndResource: ServiceAndResourceService,
     private _auth: AuthenticationService,
     private _vendorFollow: VendorFollowService,
-    private _toast: ToastService
+    private _toast: ToastService,
+    private _compare: CompareService
   ) {}
 
   // Button configuration for Compare action
-  compareButton = {
+  compareButton : Button = {
     url: '',
     type: 'button',
     text: 'Compare',
     icon: 'compare',
-    display: 'inline',
+    class: [],
+    iconClass: [],
+    disable: false,
   };
 
   // Button configuration for Follow action
@@ -81,6 +85,7 @@ export class ItemCardComponent implements OnInit, OnChanges {
         });
       });
     }
+    console.log(this.dataSource)
   }
   
 
@@ -137,5 +142,33 @@ export class ItemCardComponent implements OnInit, OnChanges {
     } else {
       return this.followButton;
     }
+  }
+
+  addToCompare(item:any) {
+    let list: CompareList = {
+      soRId:item.soRId,
+      name:item.name,
+      categoryId:item.categoryId
+    }
+
+    let isInList = this._compare.IsInList(list.soRId);
+    if (isInList) {
+      this._toast.showMessage(`This ${this.checkUrlString()} already in compare box`,'info');
+      return;
+    }
+
+    if (this.checkUrlString() === 'service') {
+      this.addServiceToCompare(list);
+    } else {
+      this.addResourceToCompare(list);
+    }
+  }
+
+  addServiceToCompare(item: CompareList) {
+    this._compare.addServiceToCompare(item);
+  }
+
+  addResourceToCompare(item: CompareList) {
+    this._compare.addResourceToCompare(item);
   }
 }

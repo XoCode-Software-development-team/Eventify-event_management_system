@@ -39,7 +39,7 @@ export class NotificationService {
       this._userStore.getIdFromStore().subscribe((val) => {
         const userIdFromToken = this._auth.getIdFromToken();
         this.userId = val || userIdFromToken;
-  
+
         // Start the SignalR connection only when userId is available
         if (this.userId) {
           // console.log(this.userId)
