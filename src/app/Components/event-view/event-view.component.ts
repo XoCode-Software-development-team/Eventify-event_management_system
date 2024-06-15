@@ -98,4 +98,17 @@ export class EventViewComponent implements OnInit {
     });
   }
 
+  isEventCompleted(): boolean {
+    if (!this.selectedEvent || !this.selectedEvent.endDate || !this.selectedEvent.endTime) {
+      return false;
+    }
+
+    const endDateTime = new Date(this.selectedEvent.endDate + 'T' + this.selectedEvent.endTime);
+    return new Date() > endDateTime;
+  }
+
+  
+  canUpdateEvent(): boolean {
+    return !this.isEventCompleted();
+  }
 }

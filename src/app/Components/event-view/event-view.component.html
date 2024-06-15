@@ -81,9 +81,11 @@
 
     <div class="mat-line"><mat-divider></mat-divider></div>
     <div class="del-up-button">
-    <button class="btn btn-danger mt-4" (click)="setDelete(selectedEvent.id)"> <i class="fas fa-trash-alt"></i>  Delete "{{selectedEvent.name}}"</button>
-    <button class="btn btn-primary mt-4" (click)="updateEvent(selectedEvent.id)"> <i class="fas fa-edit update-icon"></i> Update "{{selectedEvent.name}}"</button>
-    <button class="btn btn-primary mt-4 bg-success border-success" (click)="completeEvent(selectedEvent.id)"> <i class="fas fa-check-circle update-icon mark-icon"></i> Mark as Complete "{{selectedEvent.name}}"</button>
+        <button class="btn btn-danger mt-4" (click)="setDelete(selectedEvent.id)"><i class="fas fa-trash-alt"></i> Delete "{{selectedEvent.name}}"</button>
+        <button class="btn btn-primary mt-4" *ngIf="canUpdateEvent()" (click)="updateEvent(selectedEvent.id)"><i class="fas fa-edit update-icon"></i> Update "{{selectedEvent.name}}"</button>
+        <button class="btn btn-primary mt-4 bg-success border-success" *ngIf="isEventCompleted()" (click)="completeEvent(selectedEvent.id)">
+          <i class="fas fa-check-circle update-icon mark-icon"></i> Mark as Complete "{{selectedEvent.name}}"
+        </button>
     </div>
 </div>
 
