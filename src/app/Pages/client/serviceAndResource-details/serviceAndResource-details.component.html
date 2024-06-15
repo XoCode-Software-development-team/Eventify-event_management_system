@@ -1,0 +1,89 @@
+<div class="row mb-5 w-100">
+    <!-- Spinner container displayed when loading -->
+    <div *ngIf="isLoading" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
+        <mat-spinner diameter="32"></mat-spinner>
+    </div>
+    <!-- Service/resource details displayed when not loading -->
+    <div *ngIf="!isLoading">
+        <!-- Title and action buttons -->
+        <div class="d-flex flex-row justify-content-between my-4 mb-5">
+            <h1>{{serviceResourceDetails.name}}</h1>
+            <div class="d-flex flex-row justify-content-between gap-3" *ngIf="!isAdmin && !isVendor">
+                <app-primary-button [button]="compareButton"></app-primary-button>
+                <app-primary-button [loading]="btnLoading" (click)="toggleFollow(soRId)" [button]="isFollow ? followedButton : followButton"></app-primary-button>
+            </div>
+        </div>
+        <!-- Service details content -->
+        <div class="d-flex flex-row justify-content-between gap-4">
+            <!-- Left section with images -->
+            <div class="left">
+                <app-image-view [images]="serviceResourceDetails.images"></app-image-view>
+            </div>
+            <!-- Right section with service information -->
+            <div class="right">
+                <!-- Vendor information and action button -->
+                <div class="d-flex justify-content-between gap-5">
+                    <p class="fs-2">from {{serviceResourceDetails.vendor.companyName}}</p>
+                    <app-primary-button *ngIf="!isAdmin && !isVendor" [button]="chatButton"></app-primary-button>
+                </div>
+                <!-- Price, capacity, and description -->
+                <div class="d-flex gap-4 col-9 align-items-center">
+                    <div *ngFor="let item of serviceResourceDetails.price">
+                        <p>LKR{{item.value}}/{{item.model}}</p>
+                    </div>
+                    <span class="pb-3" *ngIf="serviceResourceDetails.capacity != 0">|</span>
+                    <p *ngIf="serviceResourceDetails.capacity != 0">{{serviceResourceDetails.capacity}} Max Capacity</p>
+                </div>
+                <p>{{serviceResourceDetails.description}}</p>
+                <!-- Features and facilities -->
+                <div class="d-flex gap-2 flex-row flex-wrap">
+                    <p *ngFor="let item of serviceResourceDetails.featureAndFacility" mat-chip class="">{{item}}</p>
+                </div>
+                <!-- Button to book the service -->
+                <app-secondary-button (click)="openDialog()" *ngIf="!isAdmin && !isVendor" [button]="bookButton"></app-secondary-button>
+                <app-primary-button *ngIf="isAdmin" [button]="chatButton"></app-primary-button>
+                <app-primary-button *ngIf="isVendor" [button]="updateButton"></app-primary-button>
+            </div>
+        </div>
+        <!-- Manual section -->
+        <div style="margin-top: 100px;"
+            *ngIf="serviceResourceDetails.Manuals != null && serviceResourceDetails.Manuals.length>0">
+            <h3 class="my-4">User manuals</h3>
+            <div class="d-flex justify-content-start mx-5">
+                <div class=" d-flex" *ngFor="let item of serviceResourceDetails.Manuals">
+                    <!-- Display manual if available -->
+                    <a href="{{item}}" target="_blank" class="d-flex flex-column align-items-center m-2 p-2">
+                        <img src="../../../../assets/icons/pdf.png" alt="PDF" class="pdf-icon"
+                            style="border-radius: 6px;">
+                        <p class="p-2">{{this.getFileName(item)}}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- Videos section -->
+        <div style="margin-top: 100px;"
+            *ngIf="serviceResourceDetails.videos != null && serviceResourceDetails.videos.length>0">
+            <h3 class="my-4">Videos</h3>
+            <div>
+                <div class="d-flex gap-4">
+                    <!-- Display videos if available -->
+                    <video style="border-radius: 6px; max-height: 20vh;"
+                        *ngFor="let video of serviceResourceDetails.videos" controls [src]="video"
+                        type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+        <!-- Reviews section -->
+        <div style="margin-top: 100px;"
+            *ngIf="serviceResourceDetails.reviewAndRating != null && serviceResourceDetails.reviewAndRating.length>0">
+            <h3 class="my-4">User reviews</h3>
+            <div>
+                <!-- Display review cards -->
+                <app-review-card [review]="serviceResourceDetails.reviewAndRating"></app-review-card>
+            </div>
+        </div>
+    </div>
+</div>

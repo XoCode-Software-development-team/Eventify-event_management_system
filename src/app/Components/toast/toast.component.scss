@@ -1,0 +1,28 @@
+.success {
+    background-color: #d4edda;
+    /* Light green */
+    color: #155724;
+    /* Dark green text */
+}
+
+.error {
+    background-color: #f8d7da;
+    /* Light red */
+    color: #721c24;
+    /* Dark red text */
+}
+
+.info {
+    background-color: #d9edf7; /* Light blue */
+    color: #0c5460; /* Dark blue text */
+}
+
+.warning {
+    background-color: #fff3cd; /* Light yellow */
+    color: #856404; /* Dark yellow text */
+  }
+
+.icon:hover {
+    border: 50%;
+    opacity: 0.5;
+}

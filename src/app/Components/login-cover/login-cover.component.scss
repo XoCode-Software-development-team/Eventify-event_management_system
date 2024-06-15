@@ -1,0 +1,35 @@
+.left {
+    position: relative;
+    flex: 50%;
+    align-items: center;
+    width: 100%;
+}
+
+.back-image {
+    width: 100%;
+    height: 91.5vh;
+    filter: brightness(90%);
+    /* Decrease brightness to make the image darker */
+    opacity: 0.6;
+}
+
+
+.logo-image {
+    width: 50%;
+    z-index: 999;
+}
+
+.logo-back {
+    position: absolute;
+    width: 50%;
+    aspect-ratio: 1 / 1;
+    /* This ensures the height is always equal to the width */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    /* Add the gradient */
+    border-radius: 50%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 995;
+}

@@ -1,0 +1,19 @@
+<button mat-button
+        [type]="button.type" 
+        [disabled]="button.disable"
+        [ngClass]="button.class"
+        (click)="navigate()"
+        class="primary-btn btn px-5" 
+        style="color: white;">
+
+    <ng-container *ngIf="!loading; else spinner">
+        <div class="d-flex justify-content-center align-items-center gap-1">
+            <mat-icon *ngIf="button.icon" [ngClass]="button.iconClass">{{button.icon}}</mat-icon>
+            {{button.text}}
+        </div>
+    </ng-container>
+
+    <ng-template #spinner>
+        <mat-spinner diameter="20"></mat-spinner>
+    </ng-template>
+</button>

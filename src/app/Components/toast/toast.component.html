@@ -1,0 +1,12 @@
+<div [ngClass]="data.type" class="d-flex justify-content-between gap-5 px-2">
+    <div class="d-flex align-items-center gap-3">
+        <div>
+            <mat-icon>{{data.type === 'success' ? 'check_circle' : data.type === 'error' ? 'cancel' : data.type === 'info' ? 'info' : 'warning'}}</mat-icon>
+        </div>
+        <div>
+            <h6 class="p-0 m-0">{{data.type | capitalize}}</h6>
+            <p class="p-0 m-0">{{data.message}}</p>
+        </div>
+    </div>
+    <mat-icon class="icon" mat-icon-button style="cursor: pointer;font-size: 24px;" (click)="snackBarRef.dismiss()">close</mat-icon>
+</div>

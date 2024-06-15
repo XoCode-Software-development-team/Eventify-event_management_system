@@ -1,0 +1,8 @@
+<div class="row" style="width: 100%; min-height: 64.7vh;"> <!-- Row container with inline styles for width and minimum height -->
+    <div class="side"> <!-- Side navigation section -->
+        <app-side-nav-bar [navigationTabs]="navbar"></app-side-nav-bar> <!-- Side navigation bar component -->
+    </div>
+    <div class="main"> <!-- Main content section -->
+        <router-outlet></router-outlet> <!-- Router outlet for rendering different components based on the current route -->
+    </div>
+</div>

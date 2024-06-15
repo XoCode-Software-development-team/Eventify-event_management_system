@@ -1,0 +1,30 @@
+<div class="container p-4" *ngIf="eventList != null && eventList.length> 0">
+    <div class="d-flex flex-row justify-content-between align-items-start">
+        <h4>Select event</h4>
+        <button (click)="closeDialog()" class="btn m-0" style="cursor: pointer;">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="d-flex justify-content-between align-items-baseline gap-2">
+        <mat-form-field>
+            <mat-label>Available events</mat-label>
+            <mat-select [formControl]="events" multiple>
+                <mat-select-trigger>
+                    {{ events.value?.length ? events.value?.length + ' selected' : 'Select events' }}
+                </mat-select-trigger>
+                <mat-option *ngFor="let event of eventList" [value]="event.eventId" [disabled]="event.isInVendorSr">
+                    {{ event.name }}
+                    <span *ngIf="event.isInVendorSr" class="badge badge-info">Vendor</span>
+                    <span *ngIf="event.isPending" class="badge badge-warning">Pending</span>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <app-primary-button (click)="save()" [button]="okButton"></app-primary-button>
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="spinner-container d-flex flex-column p-5">
+    <p>Please wait</p>
+    <!-- Loading Spinner -->
+    <mat-spinner diameter="32"></mat-spinner>
+</div>

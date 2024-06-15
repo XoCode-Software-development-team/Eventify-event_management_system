@@ -1,0 +1,147 @@
+.event-cover{
+    width: fit-content;
+    padding: 30px;
+    border: #cecece solid;
+    border-width:1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    //border-radius: 10px;
+    margin-top: 24px;
+    //margin-left: 58px;
+    max-width: 880px;
+    margin-bottom: 20px;
+    
+}
+.event-name{
+    font-size: 30px;
+    color: rgb(0, 0, 0);
+    font-weight: 400;
+
+}
+.cover-img{
+    height: 312px;
+    width: 820px;
+    margin-bottom: 10px;
+    
+}
+.section {
+    margin-bottom: 20px;
+    display: inline-block;
+    margin-right: 30px;
+}
+.date{
+    display: inline-block;
+    padding-inline: 10px;
+}
+.time{
+    display: inline-block;
+    padding-inline: 10px;
+}
+.description{
+    max-width: 100%;
+}
+.text{
+    display: inline-block;
+    padding-inline: 10px;
+    font-size: 18px;
+}
+.des-text{
+    font-size: 18px;
+    color: rgb(28, 28, 28);
+}
+.section{
+    display: inline-block;
+     padding-inline: 0px;
+     margin-top: 10px;
+   
+}
+
+.topic{
+    font-size: 23px;
+    color: rgb(4, 4, 4);
+
+}
+a:hover{
+    opacity: 0.5;
+    transition: .4s;
+}
+
+
+.buttons button{
+    background-color: rgb(84, 84, 84);
+    border: rgb(53, 53, 53) solid 1px;
+    padding: 10px 50px; 
+    margin-top: 20px;
+    margin-right: 70px;
+    font-size: 18px;
+    width: 250px;
+  }
+
+  .servicecards{
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .resourcecards{
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    }
+
+  .add a{
+    color: rgb(31, 127, 146);
+    text-decoration: none;
+  }
+
+
+
+  .add:hover{
+    color: black;
+  }
+
+  button:hover{
+    transition: box-shadow 0.3s, transform 0.3s;
+    box-shadow: 0 6px 12px rgba(119, 119, 119, 0.15);
+    transform: scale(1.02);
+    cursor: pointer;
+  }
+
+.mat-line{
+    margin-top: 40px;
+}
+.del-up-button button{
+ margin: 20px;
+}
+
+
+
+@media only screen and (min-width: 200px) and (max-width: 1024px) {
+    .cover-img {
+        object-fit: cover;
+        width:95%;
+        
+    }
+    .event-cover{
+        width: fit-content;
+
+    }
+    .discription{
+        width: 80%;
+    }
+    .buttons button{
+        font-size: 13px;
+        width: 200px;
+    }
+
+}
+
+.spinner-container {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
