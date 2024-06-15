@@ -21,7 +21,7 @@
                         <p *ngIf="!isLoading || clickedNotification!=notification.notificationId" class="m-0 time">{{ notification.timeStamp.toString()| timeAgo | async }}</p>
             
                     </div>
-                    <mat-icon (click)="deleteNotification(notification.notificationId)" class="delete-button" *ngIf="!isLoading && clickedNotification==notification.notificationId" style="cursor: pointer;" color="warn">close</mat-icon>
+                    <mat-icon (click)="deleteNotification(notification.notificationId)" *ngIf="!isLoading && clickedNotification==notification.notificationId" style="cursor: pointer; padding-right: 20px;" color="warn">close</mat-icon>
                 </div>
                 <div *ngIf="isLoading && clickedNotification==notification.notificationId" class="spinner-container d-flex flex-column">
                     <mat-spinner diameter="32"></mat-spinner>

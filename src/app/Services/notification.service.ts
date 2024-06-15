@@ -6,29 +6,54 @@ import * as signalR from '@aspnet/signalr';
 import { Notification } from 'src/app/Interfaces/interfaces';
 import { baseApiUrl } from 'src/environments/environment';
 import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
+import { UserStoreService } from './user-store.service';
+import { AuthenticationService } from './authentication.service';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
+  private userId!: string;
   private url = baseApiUrl.Url;
   private HUB_URL = 'https://localhost:7164/notificationHub'; // Change to your SignalR hub URL
 
   popupToggle: boolean = false;
   private dialogRef: MatDialogRef<NotificationBoxComponent> | null = null;
-  private notificationBadgeSubject: BehaviorSubject<number> = new BehaviorSubject(0);
+  private notificationBadgeSubject: BehaviorSubject<number> =
+    new BehaviorSubject(0);
   notificationBadge$ = this.notificationBadgeSubject.asObservable();
-  private notificationUpdateSubject: Subject<Notification> = new Subject<Notification>();
+  private notificationUpdateSubject: Subject<Notification> =
+    new Subject<Notification>();
   notificationUpdates$ = this.notificationUpdateSubject.asObservable();
   private hubConnection: signalR.HubConnection | null = null;
 
-  constructor(private _matDialog: MatDialog, private _http: HttpClient) {
-    this.startSignalRConnection();
+  constructor(
+    private _matDialog: MatDialog,
+    private _http: HttpClient,
+    private _userStore: UserStoreService,
+    private _auth: AuthenticationService,
+    private _toast: ToastService
+  ) {
+    if (this._auth.isLoggedIn()) {
+      this._userStore.getIdFromStore().subscribe((val) => {
+        const userIdFromToken = this._auth.getIdFromToken();
+        this.userId = val || userIdFromToken;
+  
+        // Start the SignalR connection only when userId is available
+        if (this.userId) {
+          // console.log(this.userId)
+          this.startSignalRConnection(this.userId);
+        } else {
+          console.error('User ID not found.');
+        }
+      });
+    }
   }
 
-  startSignalRConnection() {
+  startSignalRConnection(userId: string) {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(this.HUB_URL)
+      .withUrl(`${this.HUB_URL}?userId=${userId}`)
       .configureLogging(signalR.LogLevel.Information)
       .build();
 
@@ -37,28 +62,36 @@ export class NotificationService {
       .then(() => {
         console.log('SignalR connection established');
         this.registerSignalREvents();
-        this.sendUserIdToServer();
+        this.requestNotificationCount(userId); // Request initial unread count
       })
       .catch((err) => console.error('SignalR connection error:', err));
   }
 
-  private sendUserIdToServer() {
-    const userId = 'a0e3d4f5-8d53-4fb1-b36d-7316a31a4a41'; // Replace with your actual user ID
-    this.hubConnection
-      ?.invoke('SendNotificationCount', userId)
-      .catch((err) => console.error('Failed to send user ID to server:', err));
+  private registerSignalREvents() {
+    this.hubConnection?.on(
+      'ReceiveNotificationCount',
+      (unreadCount: number) => {
+        // console.log('Received notification count from server:', unreadCount);
+        this.notificationBadgeSubject.next(unreadCount); // Update the badge count
+      }
+    );
+
+    this.hubConnection?.on(
+      'ReceiveNotification',
+      (notification: Notification) => {
+        // console.log('Received new notification from server:', notification);
+        this._toast.showMessage(notification.message, 'info');
+        this.notificationUpdateSubject.next(notification); // Emit new notification
+      }
+    );
   }
 
-  private registerSignalREvents() {
-    this.hubConnection?.on('ReceiveNotificationCount', (unreadCount: number) => {
-      console.log('Received notification count from server:', unreadCount);
-      this.notificationBadgeSubject.next(unreadCount); // Update the badge count
-    });
-
-    this.hubConnection?.on('ReceiveNotification', (notification: Notification) => {
-      console.log('Received new notification from server:', notification);
-      this.notificationUpdateSubject.next(notification); // Emit new notification
-    });
+  private requestNotificationCount(userId: string) {
+    this.hubConnection
+      ?.invoke('SendNotificationCount', userId)
+      .catch((err) =>
+        console.error('Error requesting notification count:', err)
+      );
   }
 
   getNotifications(

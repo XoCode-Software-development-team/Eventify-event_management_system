@@ -1,7 +1,9 @@
 <mat-card class="event-service-res-card" *ngFor="let item of dataSource">
   <div *ngIf="!isLoading[item.serviceId ? item.serviceId : item.resourceId]">
     <mat-card-header>
-      <img mat-card-sm-image [src]="item.image ? item.image :'../../../assets/Images/Djservice.jpg'">
+      <div class="img-container">
+        <img mat-card-sm-image [src]="item.image ? item.image : '../../../assets/Images/Djservice.jpg'" class="card-image">
+      </div>
       <mat-card-title-group>
         <mat-card-title
           routerLink="../../../services/service/{{item.serviceId ? item.serviceId : item.resourceId}}/{{item.name}}">{{item.name}}</mat-card-title>

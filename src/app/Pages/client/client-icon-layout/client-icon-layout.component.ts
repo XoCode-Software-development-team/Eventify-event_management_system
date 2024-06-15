@@ -55,9 +55,11 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy {
     // Subscribe to the notification badge count
     this.notificationBadgeSubscription =
       this._notificationService.notificationBadge$.subscribe(
-        (count: number) => {
+        (count: any) => {
           this._cdr.detectChanges(); // Manually trigger change detection
-          this.icons[2].Badge = count;
+          const notificationIcon = this.icons.find(icon => icon.Tag === 'notification');
+          notificationIcon!.Badge = count;
+          // this.icons[2].Badge = count;
         }
       );
   }

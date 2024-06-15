@@ -63,3 +63,15 @@ mat-card-title-group {
     align-items: center;
     justify-content: center;
 }
+
+.card-image {
+    width: 100%;
+    height: auto; /* Allow images to maintain aspect ratio */
+    max-height: 200px; /* Set maximum height as needed */
+    object-fit: cover; /* Ensure the image covers the entire container */
+  }
+
+  .img-container {
+    width: 250px;
+  }
+  

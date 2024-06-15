@@ -48,17 +48,15 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     localStorage.clear();
     sessionStorage.clear();
-    // localStorage.removeItem('token');
-    // Navigate to the login page and wait for the navigation to complete
-    this._router
-      .navigate(['login'])
-      .then(() => {
-        // Optional: Perform any additional actions after navigation
-      })
-      .catch((err) => {
-        console.error('Navigation error:', err);
-      });
+    this._router.navigate(['login']).then(() => {
+      // Optional: Perform any additional actions after navigation
+      window.location.reload();
+    }).catch((err) => {
+      console.error('Navigation error:', err);
+    });
   }
+  
+  
 
   storeToken(token: string) {
     localStorage.setItem('token', token);
