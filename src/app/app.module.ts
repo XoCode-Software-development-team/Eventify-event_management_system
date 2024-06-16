@@ -5,100 +5,133 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.component';
 import { MaterialModule } from './core/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AdminServiceComponent } from './Pages/admin/admin-service/admin-service.component';
+import { AdminServiceAndResourceComponent } from './Pages/admin/admin-serviceAndResource/admin-serviceAndResource.component';
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request/admin-delete-request.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NavIconComponent } from './Components/nav-icon/nav-icon.component';
-import { VendorServiceComponent } from './Pages/vendor/vendor-service/vendor-service.component';
+import { VendorServiceAndResourceComponent } from './Pages/vendor/vendor-serviceAndResource/vendor-serviceAndResource.component';
 import { BasicButtonComponent } from './Components/buttons/basic-button/basic-button.component';
-import VendorBookedServicesComponent from './Pages/vendor/vendor-booked-services/vendor-booked-services.component';
+import VendorBookedServicesComponent from './Pages/vendor/vendor-booked-serviceAndResource/vendor-booked-serviceAndResource.component';
 import { VendorBookingRequestsComponent } from './Pages/vendor/vendor-booking-requests/vendor-booking-requests.component';
-import { VendorAddNewServiceComponent } from './Pages/vendor/vendor-add-new-service/vendor-add-new-service.component';
+import { VendorAddNewServiceAndResourceComponent } from './Pages/vendor/vendor-add-new-serviceAndResource/vendor-add-new-serviceAndResource.component';
 import { VendorLayoutComponent } from './Pages/vendor/vendor-layout/vendor-layout.component';
 import { AdminLayoutComponent } from './Pages/admin/admin-layout/admin-layout.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { PrimaryButtonComponent } from './Components/buttons/primary-button/primary-button.component';
-import { AllServiceComponent } from './Pages/common/all-service/all-service.component';
 import { SliderComponent } from './Components/slider/slider.component';
 import { CategoryComponent } from './Components/category/category.component';
 import { FilterRatingComponent } from './Components/filter-rating/filter-rating.component';
 import { SortComponent } from './Components/sort/sort.component';
 import { SearchComponent } from './Components/search/search.component';
 import { ItemCardComponent } from './Components/item-card/item-card.component';
-import { ServiceDetailsComponent } from './Pages/common/service-details/service-details.component';
 import { ImageViewComponent } from './Components/image-view/image-view.component';
 import { SecondaryButtonComponent } from './Components/buttons/secondary-button/secondary-button.component';
 import { ReviewCardComponent } from './Components/review-card/review-card.component';
 import { NotificationBoxComponent } from './Components/notification-box/notification-box.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EditProfileComponent } from './Pages/common/edit-profile/edit-profile.component';
-import { LoginComponent } from './Pages/common/login/login.component';
+import { LoginComponent } from './Pages/client/login/login.component';
 import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
-import { HomeComponent } from './Pages/common/home/home.component';
-import { CommonLayoutComponent } from './Pages/common/common-layout/common-layout.component';
-import { ForgetPasswordComponent } from './Pages/common/forget-password/forget-password.component';
+import { HomeComponent } from './Pages/client/home/home.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
-import { EventSideBarComponent } from './Components/event-side-bar/event-side-bar.component';
+import { VendorUpdateServiceAndResourceComponent } from './Pages/vendor/vendor-update-serviceAndResource/vendor-update-service.AndResourcecomponent';
+import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
+import { ClientIconLayoutComponent } from './Pages/client/client-icon-layout/client-icon-layout.component';
+import { AdminIconLayoutComponent } from './Pages/admin/admin-icon-layout/admin-icon-layout.component';
+import { AdminSidenavLayoutComponent } from './Pages/admin/admin-sidenav-layout/admin-sidenav-layout.component';
+import { VendorIconLayoutComponent } from './Pages/vendor/vendor-icon-layout/vendor-icon-layout.component';
+import { VendorSidenavLayoutComponent } from './Pages/vendor/vendor-sidenav-layout/vendor-sidenav-layout.component';
+import { AdminDeleteRequestComponent } from './Pages/admin/admin-delete-request/admin-delete-request.component';
+import { CapitalizePipe } from './Pipes/capitalize.pipe';
+import { ToastComponent } from './Components/toast/toast.component';
+import { TimeAgoPipe } from './Pipes/time-ago.pipe';
+import { TruncatePipe } from './Pipes/truncate.pipe';
+import { LoginCoverComponent } from './Components/login-cover/login-cover.component';
+import { SignupComponent } from './Pages/client/signup/signup.component';
+import { ForgotPasswordComponent } from './Pages/client/forgot-password/forgot-password.component';
+import { TokenInterceptor } from './Interceptors/token.interceptor';
+import { DashboardComponent } from './Pages/client/dashboard/dashboard.component';
+import { AllServiceAndResourceComponent } from './Pages/client/all-serviceAndResouce/all-serviceAndResource.component';
+import { ServiceAndResourceDetailsComponent } from './Pages/client/serviceAndResource-details/serviceAndResource-details.component';
+import { AdminLoginComponent } from './Pages/admin/admin-login/admin-login.component';
+import { ResetPasswordComponent } from './Pages/client/reset-password/reset-password.component';
+import { UserCardComponent } from './Components/user-card/user-card.component';
+import { EditProfileComponent } from './Pages/client/edit-profile/edit-profile.component';
+import { DeleteButtonComponent } from './Components/buttons/delete-button/delete-button.component';
 import { EventCreateFormComponent } from './Components/event-create-form/event-create-form.component';
 import { EventViewComponent } from './Components/event-view/event-view.component';
-import { EventServiceResCardComponent } from './Components/event-service-res-card/event-service-res-card.component';
-import { NgxStarsModule } from 'ngx-stars';
 import { EventComponent } from './Pages/client/event/event.component';
-import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
-import { EventUpdateService } from './shared/shared.service';
-import { EventService } from '../app/Services/event.service';
-import { EventReviewComponent } from './Components/event-review/event-review.component';
+
+import { EventServiceResCardComponent } from './Components/event-service-res-card/event-service-res-card.component';
+import { EventSideBarComponent } from './Components/event-side-bar/event-side-bar.component';
+import { EventDialogComponent } from './Components/event-dialog/event-dialog.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     SideNavBarComponent,
-    AdminServiceComponent,
+    AdminServiceAndResourceComponent,
     TabCardComponent,
     FooterComponent,
-    AdminDeleteRequestComponent,
     NavIconComponent,
-    VendorServiceComponent,
+    VendorServiceAndResourceComponent,
     BasicButtonComponent,
     VendorBookedServicesComponent,
     VendorBookingRequestsComponent,
-    VendorAddNewServiceComponent,
+    VendorAddNewServiceAndResourceComponent,
     VendorLayoutComponent,
     AdminLayoutComponent,
     PrimaryButtonComponent,
-    AllServiceComponent,
+    AllServiceAndResourceComponent,
     SliderComponent,
     CategoryComponent,
     FilterRatingComponent,
     SortComponent,
     SearchComponent,
     ItemCardComponent,
-    ServiceDetailsComponent,
+    ServiceAndResourceDetailsComponent,
     ImageViewComponent,
     SecondaryButtonComponent,
     ReviewCardComponent,
     NotificationBoxComponent,
-    EditProfileComponent,
     LoginComponent,
     NavBarComponent,
     HomeComponent,
-    CommonLayoutComponent,
-    ForgetPasswordComponent,
+    VendorUpdateServiceAndResourceComponent,
+    ClientLayoutComponent,
+    ClientIconLayoutComponent,
+    AdminIconLayoutComponent,
+    AdminSidenavLayoutComponent,
+    VendorIconLayoutComponent,
+    VendorSidenavLayoutComponent,
+    AdminDeleteRequestComponent,
+    CapitalizePipe,
+    ToastComponent,
+    TimeAgoPipe,
+    TruncatePipe,
+    LoginCoverComponent,
+    SignupComponent,
+    ForgotPasswordComponent,
+    DashboardComponent,
+    AdminLoginComponent,
+    ResetPasswordComponent,
+    UserCardComponent,
+    EditProfileComponent,
+    DeleteButtonComponent,
     EventSideBarComponent,
     EventCreateFormComponent,
     EventViewComponent,
     EventServiceResCardComponent,
     EventComponent,
-    ClientLayoutComponent,
-    EventReviewComponent
+    EventDialogComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -118,9 +151,12 @@ import { EventReviewComponent } from './Components/event-review/event-review.com
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    NgxStarsModule
   ],
-  providers: [EventService, EventUpdateService],
+  providers: [{
+    provide:HTTP_INTERCEPTORS,
+    useClass:TokenInterceptor,
+    multi:true
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Button } from 'src/app/Interfaces/interfaces';
 
 @Component({
   selector: 'app-vendor-layout',
@@ -7,67 +6,19 @@ import { Button } from 'src/app/Interfaces/interfaces';
   styleUrls: ['./vendor-layout.component.scss']
 })
 export class VendorLayoutComponent {
-
+  // Navigation links list for the vendor layout
   navList = [
     {
       text: "Home",
-      url: "homePage"
+      url: "home"
     },
     {
       text: "Service",
-      url: "service"
+      url: "services"
     },
     {
       text: "Resource",
-      url: "resource"
-    },
-    {
-      text: "Checklist",
-      url: "checklist"
-    },
-    {
-      text: "User guide",
-      url: ""
+      url: "resources"
     }
   ]
-
-  navbar = [
-    {
-      Tag: 'All Services',
-      Url: 'allServices',
-    },
-    {
-      Tag: 'Booked Services',
-      Url: 'bookedServices',
-    },
-    {
-      Tag: 'Booking Requests',
-      Url: 'bookingRequests',
-    }
-  ];
-
-  icons = [
-    {
-      Name: 'chat_bubble_outline',
-      Url: '',
-    },
-    {
-      Name: 'notifications_none',
-      Url: '',
-    }
-  ];
-
-  buttonToggle: boolean = false;
-
-  button: Button =
-    {
-      icon: 'add',
-      text: 'Add New Services',
-      url: 'addNewService',
-      class: ['btn1'],
-      type:'button',
-      disable:false
-    };
 }
-
-

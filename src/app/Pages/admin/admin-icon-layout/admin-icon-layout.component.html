@@ -1,0 +1,11 @@
+<!-- Container for displaying icons -->
+<div class="icons">
+    <!-- Right side of the icon container -->
+    <div class="right-side">
+        <!-- Custom Angular component for displaying icons -->
+        <app-nav-icon [popupToggle]="isNotificationToggled()" [iconList]="icons" (buttonClick)="popUpNotification()"></app-nav-icon>
+    </div>
+</div>
+
+<!-- Placeholder for rendering different components based on the current route -->
+<router-outlet></router-outlet>

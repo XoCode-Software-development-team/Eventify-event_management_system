@@ -1,0 +1,12 @@
+<div class="d-flex flex-row m-3 justify-content-start align-items-center gap-3" style="min-width: 250px;">
+    <a style="cursor: pointer;" (click)="editProfile()">
+        <img class="user-image" src="{{userImage ? userImage : '../../../assets/default/user.png'}}" alt="">
+    </a>
+    <div>
+        <div (click)="editProfile()" style="cursor: pointer;">
+            <h5 class="p-0 m-0">{{userName}}</h5>
+            <p class="p-0 m-0 px-2 border-bottom">{{role}}</p>
+        </div>
+        <button class="btn logout-btn p-0 px-2" (click)="signOut()">Log out</button>
+    </div>
+</div>

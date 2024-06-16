@@ -1,10 +1,14 @@
 export interface Category {
-    id: string;
-    categoryName: string;
-  }
+  id: string;
+  categoryName: string;
+}
+
+export interface ExtendedCategory extends Category {
+  checked: boolean;
+}
   
   export interface PriceModel {
-    id: string,
+    id: number,
     priceModelName: string
   }
   
@@ -18,10 +22,11 @@ export interface Category {
     text: string,
     icon: string,
     class: string[],
+    iconClass:string[],
     disable: boolean
   }
 
-  export interface servicesCard {
+  export interface servicesAndResourcesCard {
       soRId:number,
       name:string,
       rating:{
@@ -33,29 +38,54 @@ export interface Category {
       image:string
     }
 
-  export interface ServiceDetails {
+  export interface ServiceResourceDetails {
     name:string,
     vendor: {
       vendorId:string,
       companyName:string
     },
     capacity:number,
+    Category:string,
     description:string,
-    reviewAndRating: reviewAndRating[],
+    reviewAndRating: ReviewAndRating[],
     featureAndFacility:string[],
+    location: Location[],
     price: Price[],
-    images: string[]
-    videos: string[]
+    images: string[],
+    videos: string[],
+    Manuals: string[]
   }
 
   interface Price {
     value: number;
     model: string;
+    modelId: string;
+    name: string;
   }
 
-  interface reviewAndRating {
+  interface Location {
+    houseNo: string,
+    area: string,
+    district: string,
+    country: string,
+    state: string
+  }
+
+  interface ReviewAndRating {
     avatar:string,
     name:string,
     rate:number,
     comment:string
+  }
+
+  export interface Rating {
+    rate:number,
+    count:number
+  }
+
+  export interface Notification {
+    notificationId:number,
+    message:string,
+    timeStamp:Date,
+    read:boolean
   }

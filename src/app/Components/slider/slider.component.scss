@@ -1,23 +1,39 @@
+/* Container styling */
 .container {
     padding: 10px;
 }
 
-
+/* Slider styling */
 .slider {
     margin: 8px;
 }
 
+/* Styling for value labels */
 .value-label {
     padding-top: 10px;
     font-size: 14px;
 }
 
+/* Slider width */
 .mat-mdc-slider {
     max-width: 300px;
     width: 100%;
 }
 
+/* Container for value labels */
 .label-container {
     display: flex;
     justify-content: space-between;
+}
+
+/* Styling for radio group */
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Styling for individual radio buttons */
+.radio-button {
+    flex-basis: 100%;
+    box-sizing: border-box;
 }

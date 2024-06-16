@@ -1,65 +1,103 @@
 <div class="container">
-    <app-tab-card #tabCard [card]="categories"  *ngIf="categories && categories.length > 0"
-        (childEvent)="getServices($event)"></app-tab-card>
+    <!-- Container for the service/resource categories -->
+    <div *ngIf="categories && categories.length > 0">
+        <!-- Check if there are categories available -->
+        <h4 class="pb-3">Booking Requested {{this.capitalizedTag}} Categories</h4>
+        <!-- Display the service/resource categories in tabs -->
+        <app-tab-card #tabCard [card]="categories" *ngIf="categories && categories.length > 0"
+            (childEvent)="getServicesAndResources($event)"></app-tab-card>
+    </div>
 </div>
+
 <div class="table">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
-        *ngIf="categories && categories.length > 0">
+    <!-- Container for the table -->
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 service-table"
+        *ngIf="dataSource && dataSource.length > 0">
+        <!-- Check if there are categories available -->
         <ng-container matColumnDef="No">
+            <!-- Column definition for numbering -->
             <th mat-header-cell *matHeaderCellDef>No</th>
+            <!-- Header cell for numbering -->
             <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
+            <!-- Data cell for numbering -->
         </ng-container>
 
-        <ng-container matColumnDef="Service">
-            <th mat-header-cell *matHeaderCellDef>Service</th>
-            <td mat-cell *matCellDef="let element">{{element.service}}</td>
+        <ng-container matColumnDef="{{this.capitalizedTag}}">
+            <!-- Column definition for service/resource -->
+            <th mat-header-cell *matHeaderCellDef>{{this.capitalizedTag}}</th>
+            <!-- Header cell for service/resource -->
+            <td mat-cell *matCellDef="let element"
+                routerLink="/vendor/{{this.checkUrlString()}}s/{{this.checkUrlString()}}/{{element.soRId}}/{{element[this.checkUrlString()]}}">
+                <!-- Data cell for service/resource with router link -->
+                {{element[this.checkUrlString()]}}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="Event Name">
+            <!-- Column definition for event name -->
             <th mat-header-cell *matHeaderCellDef>Event Name</th>
+            <!-- Header cell for event name -->
             <td mat-cell *matCellDef="let element" class="check-icon">
+                <!-- Data cell for event name -->
                 {{element.eventName}}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="Event Date">
-            <th mat-header-cell *matHeaderCellDef class="eventdate">Event Date</th>
-            <td mat-cell *matCellDef="let element" class="check-icon eventdate">
+            <!-- Column definition for event date -->
+            <th mat-header-cell *matHeaderCellDef class="event-date">Event Date</th>
+            <!-- Header cell for event date -->
+            <td mat-cell *matCellDef="let element" class="check-icon event-date">
+                <!-- Data cell for event date -->
                 {{element.eventDate}}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="Pickup Date">
-            <th mat-header-cell *matHeaderCellDef class="pickupdate">Pickup Date</th>
-            <td mat-cell *matCellDef="let element" class="check-icon enddate">
+            <!-- Column definition for pickup date -->
+            <th mat-header-cell *matHeaderCellDef class="pickup-date">Pickup Date</th>
+            <!-- Header cell for pickup date -->
+            <td mat-cell *matCellDef="let element" class="check-icon pickup-date">
+                <!-- Data cell for pickup date -->
                 {{element.endDate}}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="Action">
+            <!-- Column definition for actions -->
             <th mat-header-cell *matHeaderCellDef>Action</th>
+            <!-- Header cell for actions -->
             <td class="action" mat-cell *matCellDef="let element">
-                <div class="accept" mwlConfirmationPopover
-                    Confirmation="Service booking accept confirmation"
-                    popoverMessage="Do you really want to add service?" placement="left"
-                    confirmButtonType="primary"
-                    (confirm)="bookService(element.eventId,element.soRId)" (cancel)="true">
-                    Accept</div>
+                <!-- Data cell for actions -->
+                <div class="accept" mwlConfirmationPopover popoverTitle="{{this.capitalizedTag}} booking accept confirmation"
+                    popoverMessage="Do you really want to add {{this.checkUrlString()}}?" placement="left" confirmButtonType="primary"
+                    (confirm)="bookServiceAndResource(element.eventId,element.soRId)">
+                    <!-- Button to accept booking -->
+                    Accept
+                </div>
                 <span style="margin-left: 5px;"></span>
-                <div class="delete" mwlConfirmationPopover Confirmation="Service booking reject confirmation"
+                <!-- Spacer -->
+                <div class="delete" mwlConfirmationPopover popoverTitle="{{this.capitalizedTag}} booking reject confirmation"
                     popoverMessage="Do you really want to reject?" placement="left"
-                    (confirm)="RejectService(element.eventId,element.soRId)" (cancel)="true">
+                    (confirm)="RejectServiceAndResource(element.eventId,element.soRId)">
+                    <!-- Button to reject booking -->
                     Reject
                 </div>
             </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- Header row for the table -->
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Data row for the table -->
     </table>
-
-    <div class="empty" *ngIf="!categories || categories.length == 0">
-        <img src="../../../assets/common/No data.jpg" alt="no data found image">
-        <p>No available Services</p>
+</div>
+<!-- Display message when no services/resources available -->
+<div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+    <p *ngIf="noData">No available {{this.checkUrlString()}}s found</p>
+    <div *ngIf="dataSource.length == 0 && !noData" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
+        <!-- Loading Spinner -->
+        <mat-spinner diameter="32"></mat-spinner>
     </div>
 </div>

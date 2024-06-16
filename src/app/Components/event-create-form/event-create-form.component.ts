@@ -1,30 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { EventUpdateService } from '../../shared/shared.service';
 import { EventService } from '../../Services/event.service';
+import { ToastService } from 'src/app/Services/toast.service';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'app-event-create-form',
   templateUrl: './event-create-form.component.html',
-  styleUrls: ['./event-create-form.component.scss']
+  styleUrls: ['./event-create-form.component.scss'],
 })
 export class EventCreateFormComponent implements OnInit {
+
   formName = '';
   BtnName = '';
   form: FormGroup;
   eventArray: any[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
-  currentEventID = '';
+  currentEventID!: number;
+  imageUrl!: string;
+  image!: File;
+  file!: File;
+  isLoading!: boolean;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private location: Location,
-    private updateService: EventUpdateService,
-    private eventService: EventService
+    private eventService: EventService,
+    private _toast: ToastService,
+    private _fireStorage: AngularFireStorage,
+    private _router: Router,
+    private _activateRoute: ActivatedRoute
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -35,113 +44,170 @@ export class EventCreateFormComponent implements OnInit {
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       guestCount: ['', Validators.required],
-      thumbnail: ['']
+      thumbnail: [''],
     });
   }
 
   ngOnInit(): void {
-    this.updateService.isUpdateFormActive$.subscribe(isActive => {
-      this.isUpdateFormActive = isActive;
-      this.formName = isActive ? 'Update Event' : 'Create New Event';
-      this.BtnName = isActive ? 'Update' : 'Create';
-    });
-
-    this.updateService.currentEvent$.subscribe(selectedEvent => {
-      this.currentEventID = selectedEvent;
-      if (this.isUpdateFormActive) {
-        this.getAllEvents();
-      } else {
-        this.form.reset();
+    this._activateRoute.url.subscribe((url) => {
+      const urlString = this._router.url;
+      if (urlString.includes('/event/update/')) {
+        this.isUpdateFormActive = true;
+        this.formName = 'Update Event';
+        this.BtnName = 'Update';
+        this._activateRoute.paramMap.subscribe((params) => {
+          const eventId = Number(params.get('id'));
+          this.currentEventID = eventId;
+          this.getEventById(eventId);
+        });
+      } else if (urlString.includes('/event/create')) {
+        this.isUpdateFormActive = false;
+        this.formName = 'Create New Event';
+        this.BtnName = 'Create';
       }
     });
-    this.getAllEvents();
+  }
+
+  getEventById(eventId: number) {
+    this.isLoading = true;
+    this.eventService.getEventById(eventId).subscribe({
+      next: (res: any) => {
+        this.fillFormData(res[0]);
+        this.isLoading = false;
+      },
+    });
   }
 
   getAllEvents() {
     this.eventService.getAllEvents().subscribe((resultData: any[]) => {
       this.isResultLoaded = true;
       this.eventArray = resultData;
-      if (this.isUpdateFormActive) {
-        this.fillFormData();
-      }
     });
   }
 
-  register() {
+  async register() {
+    this.isLoading = true;
     if (this.form.valid) {
+      
+      if (this.file) {
+        await this.getFirebaseLink([this.file]);
+      }
+
       const bodyData = {
         name: this.form.value.name,
         description: this.form.value.description,
-        startDate: this.form.value.startDate,
-        endDate: this.form.value.endDate,
         location: this.form.value.location,
-        startTime: this.form.value.startTime,
-        endTime: this.form.value.endTime,
         guestCount: this.form.value.guestCount,
-        coverImage: this.form.value.coverImage
+        Thumbnail: this.imageUrl,
+        startDateTime: this.combineDateAndTime(
+          this.form.value.startDate,
+          this.form.value.startTime
+        ),
+        endDateTime: this.combineDateAndTime(
+          this.form.value.endDate,
+          this.form.value.endTime
+        ),
       };
 
-      this.eventService.addEvent(bodyData).subscribe((resultData: { id: any; }) => {
-        alert('Event Registered Successfully');
-        this.router.navigate(['/client/event/view', resultData.id]);
-        this.form.reset();
-        this.isUpdateFormActive = false;
-        window.scrollTo(0, 0);
+      this.eventService.addEvent(bodyData).subscribe({
+        next: async (res: any) => {
+          this._toast.showMessage('Event create successfully!', 'success');
+          if (res.eventId != null) {
+            this.eventService.announceEventAdded();
+            this.form.reset();
+            this.isUpdateFormActive = false;
+            window.scrollTo(0, 0);
+            this.router.navigate(['/event/view', res.eventId]);
+            this.isLoading = false;
+          }
+        },
+        error: (err: any) => {
+          // console.log(err);
+          this._toast.showMessage(
+            err.message || 'Event create failed',
+            'error'
+          );
+          this.isLoading = false;
+        },
       });
     } else {
-      alert('Form is not valid. Please check your inputs.');
+      this._toast.showMessage(
+        'Form is not valid. Please check your inputs.',
+        'error'
+      );
+      this.isLoading = false;
     }
   }
 
-  fillFormData() {
-    const selectedEvent = this.eventArray.find(event => event.id === this.currentEventID);
-
+  fillFormData(selectedEvent: any) {
     if (selectedEvent) {
+      const startDate = new Date(selectedEvent.startDateTime);
+      const endDate = new Date(selectedEvent.endDateTime);
+
       this.form.patchValue({
         name: selectedEvent.name,
         description: selectedEvent.description,
-        startDate: selectedEvent.startDate,
-        endDate: selectedEvent.endDate,
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0],
         location: selectedEvent.location,
-        startTime: selectedEvent.startTime,
-        endTime: selectedEvent.endTime,
+        startTime: startDate.toTimeString().substr(0, 5),
+        endTime: endDate.toTimeString().substr(0, 5),
         guestCount: selectedEvent.guestCount,
-        thumbnail: selectedEvent.thumbnail
       });
+      this.image = selectedEvent.thumbnail;
     }
   }
 
-  updateRecord() {
+  async updateRecord() {
+    this.isLoading = true;
     if (this.form.valid) {
+      if (this.file != null) {
+        await this.getFirebaseLink([this.file]);
+      }
+
       const bodyData = {
-        id: this.currentEventID,
         name: this.form.value.name,
         description: this.form.value.description,
-        startDate: this.form.value.startDate,
-        endDate: this.form.value.endDate,
         location: this.form.value.location,
-        startTime: this.form.value.startTime,
-        endTime: this.form.value.endTime,
         guestCount: this.form.value.guestCount,
-        thumbnail: this.form.value.thumbnail
+        thumbnail: this.imageUrl,
+        startDateTime: this.combineDateAndTime(
+          this.form.value.startDate,
+          this.form.value.startTime
+        ),
+        endDateTime: this.combineDateAndTime(
+          this.form.value.endDate,
+          this.form.value.endTime
+        ),
       };
 
       this.eventService.updateEvent(this.currentEventID, bodyData).subscribe({
-        next: () => {
-          alert('Event Updated Successfully');
+        next: (res: any) => {
+          this._toast.showMessage('Event update successfully!', 'success');
           this.form.reset();
           this.isUpdateFormActive = false;
-          this.router.navigate(['/client/event/view', this.currentEventID]).then(() => {
-            window.scrollTo(0, 0);
-          });
+          this.router
+            .navigate(['/event/view', this.currentEventID])
+            .then(() => {
+              window.scrollTo(0, 0);
+            });
+          this.isLoading = false;
         },
         error: (error: any) => {
-          console.error('Error updating event:', error);
-          alert('Failed to update event. Please try again.');
-        }
+          console.log(error);
+          this._toast.showMessage(
+            'Failed to update event. Please try again.',
+            'error'
+          );
+          this.isLoading = false;
+        },
       });
     } else {
-      alert('Form is not valid. Please check your inputs.');
+      this._toast.showMessage(
+        'Form is not valid. Please check your inputs.',
+        'error'
+      );
+      this.isLoading = false;
     }
   }
 
@@ -153,16 +219,35 @@ export class EventCreateFormComponent implements OnInit {
     }
   }
 
-  imageUrl: any;
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
+    this.file = file;
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.imageUrl = e.target.result;
+        this.image = e.target.result;
       };
       reader.readAsDataURL(file);
     }
+  }
+
+  async getFirebaseLink(files: File[]) {
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const path = `event-cover/${file.name}`;
+        const uploadTask = await this._fireStorage.upload(path, file);
+        const url = await uploadTask.ref.getDownloadURL();
+        this.imageUrl = url;
+      }
+    }
+  }
+
+  combineDateAndTime(date: string, time: string): Date {
+    const datePart = new Date(date);
+    const timeParts = time.split(':');
+    datePart.setHours(+timeParts[0], +timeParts[1]);
+    return datePart;
   }
 
   isInvalid(controlName: string): boolean {

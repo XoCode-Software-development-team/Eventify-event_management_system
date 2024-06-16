@@ -13,6 +13,7 @@
     color: #2C98AD !important;
     padding: 5px;
     padding: 0 1.25rem;
+    cursor: pointer;
 }
 
 .hideButton {
@@ -57,6 +58,11 @@
 }
 
 .active-link {
+    color: #21606C;
+    background-color: #ededed;
+}
+
+.update-btn {
     color: #21606C;
     background-color: #ededed;
 }

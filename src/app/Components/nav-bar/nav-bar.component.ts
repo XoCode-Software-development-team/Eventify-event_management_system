@@ -1,29 +1,80 @@
-import { Component, Input } from '@angular/core';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { Button } from 'src/app/Interfaces/interfaces';
+import { AuthenticationService } from 'src/app/Services/authentication.service';
+import { UserProfileService } from 'src/app/Services/user-profile.service';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss']
+  styleUrls: ['./nav-bar.component.scss'],
 })
-export class NavBarComponent {
-  @Input() nav: any;
+export class NavBarComponent implements OnInit {
+  @Input() nav: any; // Input for navigation items
+  isLogin: boolean = false;
+  userImage: string = '';
 
+  // Button configurations
   signUp: Button = {
-    url: 'signUp',
+    url: 'signup',
     type: 'button',
     text: 'Signup',
-    icon:'',
-    class:[],
-    disable:false
+    icon: '',
+    class: [],
+    iconClass: [],
+    disable: false,
   };
 
   login: Button = {
     url: 'login',
     type: 'button',
     text: 'Login',
-    icon:'',
-    class:[],
-    disable:false
+    icon: '',
+    class: [],
+    iconClass: [],
+    disable: false,
   };
+
+  constructor(
+    private _serviceAndResource: ServiceAndResourceService,
+    private _auth: AuthenticationService,
+    private _userProfile: UserProfileService
+  ) {}
+
+  ngOnInit(): void {
+    this._userProfile.imageUpdated$.subscribe(() => {
+      if (this._auth.isLoggedIn()) {
+        this.isLogin = true;
+        this.getAvatar();
+      } else {
+        this.isLogin = false;
+      }
+    });
+  }
+
+  // Identify whether service or resource
+  checkUrlString(): string {
+    return this._serviceAndResource.checkUrlString();
+  }
+
+  getAvatar() {
+    this._userProfile.getUserAvatar().subscribe({
+      next: (res: any) => {
+        // console.log(res.message);
+        this.userImage = res.userImage;
+      },
+      error: (err: any) => {
+        // console.log(err.message);
+      },
+    });
+  }
+
+  openProfileCard() {
+    this._userProfile.openPopup();
+    this._userProfile.setUserImage(this.userImage);
+  }
+
+  isToggled() {
+    return this._userProfile.popupToggle;
+  }
 }

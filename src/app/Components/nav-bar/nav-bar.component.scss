@@ -25,3 +25,15 @@
 .active-link {
   color: #21606C;
 }
+
+.user-image {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  vertical-align: middle;
+}
+
+.active-image {
+  z-index: 1200 !important;
+  opacity: 1 !important;
+}

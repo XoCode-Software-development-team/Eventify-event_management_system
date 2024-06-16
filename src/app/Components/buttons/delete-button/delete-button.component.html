@@ -1,0 +1,10 @@
+<button mat-button [type]="button.type" [disabled]="button.disable" [ngClass]="button.class" (click)="navigate()"
+    class="primary-btn btn px-5" style="color: #ff1a1a; position: relative;">
+
+    <ng-template #spinner>
+        <mat-spinner diameter="20" color="warn"></mat-spinner>
+    </ng-template>
+    <mat-icon *ngIf="!isLoading && button.icon" [ngClass]="button.iconClass">{{button.icon}}</mat-icon>
+
+    <span *ngIf="!isLoading else spinner">{{button.text}}</span> <!-- Hide button text when isLoading is true -->
+</button>

@@ -17,14 +17,11 @@
     margin: 0;
 }
 
-
-
-.demo-table {
+.service-table {
     width: 100%;
     border: none;
     box-shadow: none;
 }
-
 
 th {
     color: #000;
@@ -35,17 +32,13 @@ th {
     letter-spacing: 0.54px;
 }
 
+// Style for the accept and delete button
 .accept {
     color: blue;
     display: inline;
     cursor: pointer;
     opacity: 0.7;
 
-}
-
-.sus {
-    opacity: 0.4;
-    color: #21606C;
 }
 
 .delete {
@@ -67,38 +60,24 @@ th {
     width: 100%;
 }
 
-.empty img {
-    width: 50vh;
-}
-
+// When services are empty this p tag will show
 .empty p {
     color: #667085;
-    display: none;
 }
 
-
-@media screen and (max-width: 700px) {
-    th {
-        font-size: 12px;
-    }
-
-    .eventdate,pickup {
-        display: none;
-    }
-
+th, td {
+    width: 10vw;
 }
 
-
-@media screen and (max-width: 450px) {
-    .rating {
-        display: none;
-    }
-
-    .empty img {
-        display: none;
-    }
-
-    .empty p {
-        display: contents;
-    }
+/* Spinner container */
+.spinner-container {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

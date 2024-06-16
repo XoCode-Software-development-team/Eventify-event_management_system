@@ -1,0 +1,22 @@
+.icons {
+    /* Flex container properties */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 112px; /* Padding for the entire container */
+}
+
+.left-side {
+    /* Left side properties */
+    flex: 20%; /* Take up 20% of the container width */
+    padding: 20px; /* Padding for the left side content */
+    align-items: center; /* Center alignment for child elements */
+    justify-content: center; /* Center alignment for child elements */
+}
+
+.right-side {
+    /* Right side properties */
+    flex: 70%; /* Take up 70% of the container width */
+    align-items: center; /* Center alignment for child elements */
+    margin: 0; /* Remove margin */
+}

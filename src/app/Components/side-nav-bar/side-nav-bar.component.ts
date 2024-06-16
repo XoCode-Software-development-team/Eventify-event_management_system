@@ -6,6 +6,7 @@ import { Component,Input } from '@angular/core';
   styleUrls: ['./side-nav-bar.component.scss'],
 })
 export class SideNavBarComponent {
+  clickItem : string = '';
   @Input() navigationTabs:any;
    
 }

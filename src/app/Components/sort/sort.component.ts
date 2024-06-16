@@ -1,21 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
+import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 
 @Component({
   selector: 'app-sort',
   templateUrl: './sort.component.html',
   styleUrls: ['./sort.component.scss']
 })
-export class SortComponent {
-  selectedFood: string;
+export class SortComponent {  
+  @Output() sortChange = new EventEmitter<string>();
+  selectedSort: string;
 
-  constructor() {
-    // Set the initial value of selectedFood to the value of the first option
-    this.selectedFood = this.foods[0].value;
-  }
+  capitalizedTag = new CapitalizePipe().transform(this.checkUrlString());
 
-  foods = [
-    {value: 'steak-0', viewValue: 'Price lowest to hight'},
-    {value: 'pizza-1', viewValue: 'Price hightest to low'},
+  sortBy = [
+    {value: 'sNameAZ', viewValue: `${this.capitalizedTag} name A to Z`},
+    {value: 'sNameZA', viewValue: `${this.capitalizedTag} name Z to A`},
+    {value: 'RateLH', viewValue: 'Rating low to high'},
+    {value: 'RateHL', viewValue: 'Rating high to low'},
   ];
 
+  constructor(private _serviceAndResource: ServiceAndResourceService) {
+    this.selectedSort = this.sortBy[0].value;
+  }
+
+  sortService(value: string) {
+    this.selectedSort = value;
+    this.sortChange.emit(this.selectedSort);
+  }
+
+  checkUrlString(): string {
+    return this._serviceAndResource.checkUrlString();
+  }
 }
