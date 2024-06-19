@@ -68,6 +68,12 @@
     padding-bottom: 3px;
 }
 
+.text-danger.small p {
+    font-size: 0.75rem; /* Adjust the font size as needed */
+    margin-top: 0.25rem;
+}
+
+
 @media screen and (min-width: 820px) {
     .line-fields{
         display: inline-block;

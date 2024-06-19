@@ -208,6 +208,11 @@
                     *ngIf="updatePasswordForm.controls['newPassword'].invalid && updatePasswordForm.controls['newPassword'].touched">
                     <span *ngIf="updatePasswordForm.get('newPassword')?.errors?.['required']"
                       class="small text-danger">New password can not be left blank! </span>
+                      <span class="small text-danger" style="white-space: nowrap;"
+                      *ngIf="updatePasswordForm.get('newPassword')?.errors?.['passwordStrength']">Password must
+                      be at least 8 characters long and include at least one uppercase letter, one
+                      lowercase letter, one number, and one special character.
+                    </span>
                   </mat-hint>
                 </mat-form-field>
               </td>

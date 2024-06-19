@@ -1,5 +1,11 @@
 import { Component, OnInit, Pipe, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ValidatorFn,
+  AbstractControl,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { EventService } from '../../Services/event.service';
@@ -12,10 +18,9 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
   styleUrls: ['./event-create-form.component.scss'],
 })
 export class EventCreateFormComponent implements OnInit {
-
   formName = '';
   BtnName = '';
-  form: FormGroup;
+  form!: FormGroup;
   eventArray: any[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
@@ -34,21 +39,11 @@ export class EventCreateFormComponent implements OnInit {
     private _fireStorage: AngularFireStorage,
     private _router: Router,
     private _activateRoute: ActivatedRoute
-  ) {
-    this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      location: ['', Validators.required],
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required],
-      guestCount: ['', Validators.required],
-      thumbnail: [''],
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+
     this._activateRoute.url.subscribe((url) => {
       const urlString = this._router.url;
       if (urlString.includes('/event/update/')) {
@@ -68,6 +63,46 @@ export class EventCreateFormComponent implements OnInit {
     });
   }
 
+  initializeForm() {
+    const now = new Date();
+
+    // Format today's date to YYYY-MM-DD
+    const today = this.formatDate(now);
+
+    // Set initial time to 00:00
+    const initialTime = '00:00';
+
+    this.form = this.fb.group(
+      {
+        name: ['', Validators.required],
+        description: ['', Validators.required],
+        startDate: [
+          today,
+          [Validators.required, dateGreaterThanTodayValidator()],
+        ],
+        endDate: [
+          today,
+          [Validators.required, dateGreaterThanTodayValidator()],
+        ],
+        location: ['', Validators.required],
+        startTime: [initialTime, Validators.required],
+        endTime: [initialTime, Validators.required],
+        guestCount: [0, Validators.required],
+        thumbnail: [''],
+      },
+      {
+        Validators: [endDateGreaterThanOrEqualValidator()],
+      }
+    );
+  }
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   getEventById(eventId: number) {
     this.isLoading = true;
     this.eventService.getEventById(eventId).subscribe({
@@ -85,13 +120,26 @@ export class EventCreateFormComponent implements OnInit {
     });
   }
 
+  private convertToISODateTime(date: Date): string {
+    return date.toISOString(); // Returns ISO 8601 formatted string
+  }
+
   async register() {
     this.isLoading = true;
     if (this.form.valid) {
-      
       if (this.file) {
         await this.getFirebaseLink([this.file]);
       }
+
+      // Convert startDate and startTime to a JavaScript Date object
+      const startDateTime = new Date(
+        `${this.form.value.startDate}T${this.form.value.startTime}:00Z`
+      );
+
+      // Convert endDate and endTime to a JavaScript Date object
+      const endDateTime = new Date(
+        `${this.form.value.endDate}T${this.form.value.endTime}:00Z`
+      );
 
       const bodyData = {
         name: this.form.value.name,
@@ -99,18 +147,15 @@ export class EventCreateFormComponent implements OnInit {
         location: this.form.value.location,
         guestCount: this.form.value.guestCount,
         Thumbnail: this.imageUrl,
-        startDateTime: this.combineDateAndTime(
-          this.form.value.startDate,
-          this.form.value.startTime
-        ),
-        endDateTime: this.combineDateAndTime(
-          this.form.value.endDate,
-          this.form.value.endTime
-        ),
+        startDateTime: this.convertToISODateTime(startDateTime),
+        endDateTime: this.convertToISODateTime(endDateTime),
       };
+
+      console.log(bodyData);
 
       this.eventService.addEvent(bodyData).subscribe({
         next: async (res: any) => {
+          // console.log(res)
           this._toast.showMessage('Event create successfully!', 'success');
           if (res.eventId != null) {
             this.eventService.announceEventAdded();
@@ -165,20 +210,24 @@ export class EventCreateFormComponent implements OnInit {
         await this.getFirebaseLink([this.file]);
       }
 
+      // Convert startDate and startTime to a JavaScript Date object
+      const startDateTime = new Date(
+        `${this.form.value.startDate}T${this.form.value.startTime}:00Z`
+      );
+
+      // Convert endDate and endTime to a JavaScript Date object
+      const endDateTime = new Date(
+        `${this.form.value.endDate}T${this.form.value.endTime}:00Z`
+      );
+
       const bodyData = {
         name: this.form.value.name,
         description: this.form.value.description,
         location: this.form.value.location,
         guestCount: this.form.value.guestCount,
-        thumbnail: this.imageUrl,
-        startDateTime: this.combineDateAndTime(
-          this.form.value.startDate,
-          this.form.value.startTime
-        ),
-        endDateTime: this.combineDateAndTime(
-          this.form.value.endDate,
-          this.form.value.endTime
-        ),
+        Thumbnail: this.imageUrl,
+        startDateTime: this.convertToISODateTime(startDateTime),
+        endDateTime: this.convertToISODateTime(endDateTime),
       };
 
       this.eventService.updateEvent(this.currentEventID, bodyData).subscribe({
@@ -212,6 +261,10 @@ export class EventCreateFormComponent implements OnInit {
   }
 
   save() {
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+    });
+
     if (this.isUpdateFormActive) {
       this.updateRecord();
     } else {
@@ -243,15 +296,41 @@ export class EventCreateFormComponent implements OnInit {
     }
   }
 
-  combineDateAndTime(date: string, time: string): Date {
-    const datePart = new Date(date);
-    const timeParts = time.split(':');
-    datePart.setHours(+timeParts[0], +timeParts[1]);
-    return datePart;
-  }
-
   isInvalid(controlName: string): boolean {
     const control = this.form.get(controlName);
     return !!control && control.invalid && (control.touched || control.dirty);
   }
+}
+
+export function dateGreaterThanTodayValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const currentDate = new Date();
+    // Set the time to 0:00:00 for a fair comparison
+    currentDate.setHours(0, 0, 0, 0);
+
+    const selectedDate = control.value ? new Date(control.value) : null;
+
+    if (selectedDate) {
+      // Set the time to 0:00:00 for a fair comparison
+      selectedDate.setHours(0, 0, 0, 0);
+
+      if (selectedDate < currentDate) {
+        return { dateGreaterThanToday: { value: control.value } };
+      }
+    }
+    return null;
+  };
+}
+
+// Custom validator to check if endDate is greater than or equal to startDate
+export function endDateGreaterThanOrEqualValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const startDate = control.get('startDate')?.value;
+    const endDate = control.get('endDate')?.value;
+
+    if (startDate && endDate && new Date(endDate) < new Date(startDate)) {
+      return { endDateLessThanStartDate: true };
+    }
+    return null;
+  };
 }

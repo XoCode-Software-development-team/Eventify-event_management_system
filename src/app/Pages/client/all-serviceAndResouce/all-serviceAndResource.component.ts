@@ -71,7 +71,7 @@ export class AllServiceAndResourceComponent implements OnInit {
           // console.log(this.servicesAndResources)
         },
         error: (err: any) => {
-          console.error(err);
+          // console.error(err);
           this._toastService.showMessage(
             `Failed to fetch ${this.checkUrlString()}s. Please try again later.`,
             'error'

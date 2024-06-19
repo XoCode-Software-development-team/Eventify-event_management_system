@@ -4,60 +4,96 @@
         <div class="mat-line"><mat-divider></mat-divider></div><br/><br/>
         <form [formGroup]="form" (ngSubmit)="save()">
             <div class="form-group">
-                <label class="lable">Event name</label>
-                <input type="text" formControlName="name" class="form-control" placeholder="Enter event name" required [ngClass]="{ 'border border-danger': isInvalid('name') }"   >
+                <label class="label">Event name</label>
+                <input type="text" formControlName="name" class="form-control" placeholder="Enter event name" required 
+                       [ngClass]="{ 'border border-danger': form.get('name')?.invalid && form.get('name')?.touched }">
+                <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger small">
+                    <p *ngIf="form.get('name')?.hasError('required')">Event name is required.</p>
+                </div>
             </div>
 
             <div class="form-group">
-                <label class="lable">Description</label>
-                <textarea formControlName="description" class="form-control" rows="3" placeholder="Enter description" required [ngClass]="{ 'border border-danger': isInvalid('description') }"></textarea>
-            </div>
-
-            <div class="form-row d-flex">
-            <div class="form-group col-md-5 line-fields">
-                <label class="lable">Start Date</label>
-                <input type="date" formControlName="startDate" class="form-control"  required [ngClass]="{ 'border border-danger': isInvalid('startDate') }">
-            </div> 
-            <div class="form-group col-md-5 line-fields">
-                <label class="lable">Start time</label>
-                <input type="time" formControlName="startTime" class="form-control" required [ngClass]="{ 'border border-danger': isInvalid('startTime') }">
-            </div>
-            </div>
-
-            <div class="form-row d-flex">
-                <div class="form-group col-md-5 line-fields">
-                    <label class="lable">End Date</label>
-                    <input type="date" formControlName="endDate" class="form-control"  required [ngClass]="{ 'border border-danger': isInvalid('endDate') }">
-                </div>  
-                <div class="form-group col-md-5 line-fields">
-                    <label class="lable">End time</label>
-                    <input type="time" formControlName="endTime" class="form-control" required [ngClass]="{ 'border border-danger': isInvalid('endTime') }">
+                <label class="label">Description</label>
+                <textarea formControlName="description" class="form-control" rows="3" placeholder="Enter description" required 
+                          [ngClass]="{ 'border border-danger': form.get('description')?.invalid && form.get('description')?.touched }"></textarea>
+                <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="text-danger small">
+                    <p *ngIf="form.get('description')?.hasError('required')">Description is required.</p>
                 </div>
             </div>
 
             <div class="form-row d-flex">
                 <div class="form-group col-md-5 line-fields">
-                    <label class="lable">Location</label>
-                    <input type="text" formControlName="location" class="form-control" placeholder="Enter event location" required [ngClass]="{ 'border border-danger': isInvalid('location') }">
+                    <label class="label">Start Date</label>
+                    <input type="date" formControlName="startDate" class="form-control" required 
+                           [ngClass]="{ 'border border-danger': form.get('startDate')?.invalid && form.get('startDate')?.touched }">
+                    <div *ngIf="form.get('startDate')?.invalid && form.get('startDate')?.touched" class="text-danger small">
+                        <p *ngIf="form.get('startDate')?.hasError('required')">Start Date is required.</p>
+                        <p *ngIf="form.get('startDate')?.hasError('dateGreaterThanToday')">Start Date must be greater than or equal to today.</p>
+                    </div>
                 </div>
+
+                <div class="form-group col-md-5 line-fields">
+                    <label class="label">Start time</label>
+                    <input type="time" formControlName="startTime" class="form-control" required 
+                           [ngClass]="{ 'border border-danger': form.get('startTime')?.invalid && form.get('startTime')?.touched }">
+                    <div *ngIf="form.get('startTime')?.invalid && form.get('startTime')?.touched" class="text-danger small">
+                        <p *ngIf="form.get('startTime')?.hasError('required')">Start Time is required.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row d-flex">
+                <div class="form-group col-md-5 line-fields">
+                    <label class="label">End Date</label>
+                    <input type="date" formControlName="endDate" class="form-control" required 
+                           [ngClass]="{ 'border border-danger': form.get('endDate')?.invalid && form.get('endDate')?.touched }">
+                    <div *ngIf="form.get('endDate')?.invalid && form.get('endDate')?.touched" class="text-danger small">
+                        <p *ngIf="form.get('endDate')?.hasError('required')">End Date is required.</p>
+                        <p *ngIf="form.get('endDate')?.hasError('endDateLessThanStartDate')">End Date must be greater than or equal to Start Date.</p>
+                        <p *ngIf="form.get('endDate')?.hasError('dateGreaterThanToday')">End Date must be greater than or equal to today.</p>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-5 line-fields">
+                    <label class="label">End time</label>
+                    <input type="time" formControlName="endTime" class="form-control" required 
+                           [ngClass]="{ 'border border-danger': form.get('endTime')?.invalid && form.get('endTime')?.touched }">
+                    <div *ngIf="form.get('endTime')?.invalid && form.get('endTime')?.touched" class="text-danger small">
+                        <p *ngIf="form.get('endTime')?.hasError('required')">End Time is required.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row d-flex">
+                <div class="form-group col-md-5 line-fields">
+                    <label class="label">Location</label>
+                    <input type="text" formControlName="location" class="form-control" placeholder="Enter event location" required 
+                           [ngClass]="{ 'border border-danger': form.get('location')?.invalid && form.get('location')?.touched }">
+                    <div *ngIf="form.get('location')?.invalid && form.get('location')?.touched" class="text-danger small">
+                        <p *ngIf="form.get('location')?.hasError('required')">Location is required.</p>
+                    </div>
+                </div>
+
                 <div class="form-group col-md-5 line-fields1">
-                    <label class="lable">Guest count</label>
-                    <input type="number" formControlName="guestCount" class="form-control" placeholder="Enter guest count" required [ngClass]="{ 'border border-danger': isInvalid('guestCount') }">
+                    <label class="label">Guest count</label>
+                    <input type="number" formControlName="guestCount" class="form-control" placeholder="Enter guest count" required 
+                           [ngClass]="{ 'border border-danger': form.get('guestCount')?.invalid && form.get('guestCount')?.touched }">
+                    <div *ngIf="form.get('guestCount')?.invalid && form.get('guestCount')?.touched" class="text-danger small">
+                        <p *ngIf="form.get('guestCount')?.hasError('required')">Guest count is required.</p>
+                    </div>
                 </div>
             </div>
 
- 
             <div class="form-group Image-input">
-                <label>{{isUpdateFormActive? 'Update' : 'Add'}} event cover image</label>
+                <label>{{ isUpdateFormActive ? 'Update' : 'Add' }} event cover image</label>
                 <input type="file" (change)="onFileSelected($event)" class="form-control-file">
-                
             </div>
+
             <div class="form-group" *ngIf="image">
                 <img [src]="image" alt="Event Cover Image" class="img-fluid" style="width: 100%; max-height: 400px;">
             </div>
 
-
-            <button type="submit" class="btn btn-primary mt-4">{{BtnName}}</button>
+            <button type="submit" class="btn btn-primary mt-4">{{ BtnName }}</button>
         </form>
     </div>
 </div>

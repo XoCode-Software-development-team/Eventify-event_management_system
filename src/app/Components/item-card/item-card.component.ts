@@ -5,7 +5,6 @@ import {
   Input,
   OnInit,
   OnChanges,
-  SimpleChanges,
 } from '@angular/core';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { Button, CompareList } from 'src/app/Interfaces/interfaces';
@@ -68,7 +67,7 @@ export class ItemCardComponent implements OnInit, OnChanges {
   ngOnInit(): void {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this._auth.isLoggedIn()) {
       this.btnLoading = true; // Set loading state to true initially
       let completedCount = 0; // Track the number of completed async operations
@@ -85,7 +84,7 @@ export class ItemCardComponent implements OnInit, OnChanges {
         });
       });
     }
-    console.log(this.dataSource)
+    // console.log(this.dataSource)
   }
   
 

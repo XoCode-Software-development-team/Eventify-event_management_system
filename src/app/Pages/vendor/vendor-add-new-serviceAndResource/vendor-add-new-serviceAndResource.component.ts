@@ -181,7 +181,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         serviceFeatures: new FormControl([]),
         serviceLocations: new FormArray([
           new FormGroup({
-            country: new FormControl(null),
+            country: new FormControl('Sri Lanka'),
             stateProvinceRegion: new FormControl(null),
             district: new FormControl(null),
             cityTownArea: new FormControl(null),
@@ -210,7 +210,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
         resourceFeatures: new FormControl([]),
         resourceLocations: new FormArray([
           new FormGroup({
-            country: new FormControl(null),
+            country: new FormControl('Sri Lanka'),
             stateProvinceRegion: new FormControl(null),
             district: new FormControl(null),
             cityTownArea: new FormControl(null),
@@ -243,7 +243,7 @@ export class VendorAddNewServiceAndResourceComponent implements OnInit {
     ) as FormArray;
     control.push(
       new FormGroup({
-        country: new FormControl(null),
+        country: new FormControl('Sri lanka'),
         stateProvinceRegion: new FormControl(null),
         cityTownArea: new FormControl(null),
         district: new FormControl(null),

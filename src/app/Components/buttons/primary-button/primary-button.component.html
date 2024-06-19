@@ -1,5 +1,5 @@
 <button mat-button
-        [type]="button.type" 
+        [type]="button.type || button" 
         [disabled]="button.disable"
         [ngClass]="button.class"
         (click)="navigate()"

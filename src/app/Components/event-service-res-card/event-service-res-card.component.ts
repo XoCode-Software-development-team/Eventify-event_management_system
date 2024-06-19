@@ -9,7 +9,7 @@ import { ToastService } from 'src/app/Services/toast.service';
 })
 export class EventServiceResCardComponent {
   @Input() dataSource: any;
-  @Input() eventId!: number;
+  @Input() eventId: number = 0;
   @Output() refreshEvent: EventEmitter<any> = new EventEmitter<any>();
   isLoading: { [key: number]: boolean } = {};
 
