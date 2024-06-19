@@ -1,0 +1,40 @@
+<div>
+    <div class="agenda">Create checkList</div>
+    <app-to-do-form (EmitTaskData)="createToDoForm($event)" [includeTaskTime]="false"></app-to-do-form>
+  
+    <div class="popup" *ngIf="popupVisible">
+      <div class="popup-inner">
+        <div class="popup-body">
+          <div *ngIf="formData">
+            <div class="popup-header">
+              <div class="agenda-head">
+                <div class="agenda-title">{{ formData.title }}</div>
+                <div class="agenda-date"><p>Date: {{ formData.date }}</p></div>
+              </div>
+              <button class="close-btn" (click)="closePopup()">X</button>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div *ngFor="let description of formData.descriptions; let i = index">
+                  <div class="task-description">{{ description.descriptionText }}</div>
+                  <ul *ngFor="let task of description.checkListTasks">
+                    <li class="popup-taskName">
+                      <div class="task-item">
+                        <div class="task-checkbox"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" /></div>
+                        <div class="task-text">{{ task.taskName }}</div>
+                      </div>
+                    </li> 
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-container">
+          <button mat-button type="submit" class="form-btn" (click)="createCheckList()">Save</button>
+          <button mat-button type="button" class="form-btn" (click)="generatePdf()">Export</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.component';
-import { MaterialModule } from './Core/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminServiceAndResourceComponent } from './Pages/admin/admin-serviceAndResource/admin-serviceAndResource.component';
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
@@ -73,6 +72,10 @@ import { EventSideBarComponent } from './Components/event-side-bar/event-side-ba
 import { EventDialogComponent } from './Components/event-dialog/event-dialog.component';
 import { CompareBoxComponent } from './Components/compare-box/compare-box.component';
 import { CompareViewComponent } from './Pages/client/compare-view/compare-view.component';
+import { ChecklistComponent } from './Pages/client/checklist/checklist.component';
+import { AgendaComponent } from './Pages/client/agenda/agenda.component';
+import { ToDoFormComponent } from './Components/to-do-form/to-do-form.component';
+import { MaterialModule } from './Core/material.module';
 
 @NgModule({
   declarations: [
@@ -134,6 +137,9 @@ import { CompareViewComponent } from './Pages/client/compare-view/compare-view.c
     EventDialogComponent,
     CompareBoxComponent,
     CompareViewComponent,
+    ChecklistComponent,
+    AgendaComponent,
+    ToDoFormComponent,
   ],
   imports: [
     BrowserModule,
