@@ -72,6 +72,7 @@ import { EventServiceResCardComponent } from './Components/event-service-res-car
 import { EventSideBarComponent } from './Components/event-side-bar/event-side-bar.component';
 import { EventDialogComponent } from './Components/event-dialog/event-dialog.component';
 import { CompareBoxComponent } from './Components/compare-box/compare-box.component';
+import { CompareViewComponent } from './Pages/client/compare-view/compare-view.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { CompareBoxComponent } from './Components/compare-box/compare-box.compon
     EventComponent,
     EventDialogComponent,
     CompareBoxComponent,
+    CompareViewComponent,
   ],
   imports: [
     BrowserModule,

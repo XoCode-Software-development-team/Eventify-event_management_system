@@ -68,7 +68,7 @@ export interface ExtendedCategory extends Category {
     name: string;
   }
 
-  interface Location {
+  export interface Location {
     houseNo: string,
     area: string,
     district: string,

@@ -33,6 +33,8 @@ import { EditProfileComponent } from './Pages/client/edit-profile/edit-profile.c
 import { EventComponent } from './Pages/client/event/event.component';
 import { EventCreateFormComponent } from './Components/event-create-form/event-create-form.component';
 import { EventViewComponent } from './Components/event-view/event-view.component';
+import { CompareViewComponent } from './Pages/client/compare-view/compare-view.component';
+import { QueryParamsGuard } from './Guards/query-params.guard';
 
 const routes: Routes = [
   {path: 'forgotPassword', component:ForgotPasswordComponent,canActivate:[AuthGuard]},
@@ -56,8 +58,10 @@ const routes: Routes = [
           {path: 'dashboard', component:DashboardComponent},
           {path: 'services', component:AllServiceAndResourceComponent},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
+          {path: 'services/compare', component:CompareViewComponent,canActivate:[QueryParamsGuard]},
           {path: 'resources', component:AllServiceAndResourceComponent},
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
+          {path: 'resources/compare', component:CompareViewComponent,canActivate:[QueryParamsGuard]},
           {path: 'profile', component:EditProfileComponent,canActivate:[ClientGuard]},
           {path: 'password', component:EditProfileComponent,canActivate:[ClientGuard]}
         ]
@@ -122,7 +126,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {anchorScrolling: 'enabled',scrollPositionRestoration: 'enabled', scrollOffset:[0,170]})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

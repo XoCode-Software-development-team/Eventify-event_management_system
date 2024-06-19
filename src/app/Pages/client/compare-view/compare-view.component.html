@@ -1,0 +1,411 @@
+<div class="row" style="width: 100%; min-height: 64.7vh;">
+    <!-- Side navigation bar -->
+    <div class="side">
+        <div class="container side-container">
+            <div class="list-container align-items-start">
+                <a [routerLink]="[]" [ngClass]="item.fragment === fragment ? 'active-link': null"
+                    [fragment]="item.fragment" *ngFor="let item of navbar"
+                    class="d-flex justify-content-center align-items-center gap-1 element" mat-button>
+                    <mat-icon>{{item.icon}}</mat-icon>
+                    {{item.tag}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Main content area -->
+    <div class="main" id="overview">
+
+
+        <div class="container mb-4 pb-4">
+            <h4 class="pb-3 center">
+                <a routerLink="/{{getItemName()}}s/{{getItemName()}}/{{data[0].soRid}}/{{data[0].name}}">{{data[0].name
+                    | capitalize}}</a>
+                Vs
+                <a routerLink="/{{getItemName()}}s/{{getItemName()}}/{{data[1].soRid}}/{{data[1].name}}">{{data[1].name
+                    | capitalize}}</a>
+                Vs
+                <a routerLink="/{{getItemName()}}s/{{getItemName()}}/{{data[2].soRid}}/{{data[2].name}}">{{data[2].name
+                    | capitalize}}</a>
+            </h4>
+        </div>
+
+
+        <table class="w-100 table-responsive">
+
+            <ng-container>
+                <tr>
+                    <td colspan="3" class="tag">
+                        <div class="container">
+                            <h4 class="tag p-1 mt-1">
+                                <div class="d-flex gap-2 element" mat-button>
+                                    <mat-icon>info</mat-icon>
+                                    Overview
+                                </div>
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+                <ng-container *ngIf="!overviewLoading">
+                    <tr>
+                        <td colspan="3" class="py-2">
+                            <div class="element">Category : <span class="para">{{categoryName}}</span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td *ngFor="let i of [0,1,2]">
+                            <div class="card p-3 m-2 d-flex align-items-center">
+                                <span class="para element">{{dataSource[i].overview.companyName}}</span>
+                                <div class="p-3">
+                                    <img class="avatar-image"
+                                        src="{{dataSource[i].overview.avatarUrl}} || ../../../../../../assets/defaultService.jpg"
+                                        alt="{{dataSource[i].overview.companyName}} image">
+                                </div>
+                                <div>
+                                    <app-primary-button [loading]="btnLoading[this.dataSource[i].soRid]"
+                                        (click)="toggleFollow(dataSource[i].soRid)"
+                                        [button]="followState[dataSource[i].soRid] || followButton"></app-primary-button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr *ngIf="overviewLoading">
+                    <td colspan="3">
+                        <div class="spinner-container d-flex flex-column align-items-center">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="3" style="height: 50px;"></td>
+                </tr>
+            </ng-container>
+
+
+
+            <ng-container>
+                <tr>
+                    <td colspan="3" class="tag">
+                        <div class="container" id="features">
+                            <h4 class="tag p-1 mt-1">
+                                <div class="d-flex gap-2 element" mat-button>
+                                    <mat-icon>list</mat-icon>
+                                    Features & facilities
+                                </div>
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="!featuresLoading">
+                    <td class="align-baseline" *ngFor="let i of [0,1,2]">
+                        <div class="card fixed-card p-3 m-2 mb-0 pb-0 d-flex align-items-start">
+                            <ul
+                                *ngIf="this.dataSource[i].features && this.dataSource[i].features.length > 0; else noFeature">
+                                <li *ngFor="let feature of dataSource[i].features">
+                                    <p class="para">
+                                        {{ feature }}
+                                    </p>
+                                </li>
+                            </ul>
+                            <ng-template #noFeature>
+                                <p class="p-2 m-0">No features available.</p>
+                            </ng-template>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr *ngIf="featuresLoading">
+                    <td colspan="3">
+                        <div class="spinner-container d-flex flex-column align-items-center">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 50px;"></td>
+                </tr>
+            </ng-container>
+
+            <ng-container>
+                <tr>
+                    <td colspan="3" class="tag">
+                        <div class="container" id="images">
+                            <h4 class="tag p-1 mt-1">
+                                <div class="d-flex gap-2 element" mat-button>
+                                    <mat-icon>photo</mat-icon>
+                                    Images
+                                </div>
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+                <ng-container *ngIf="!imagesLoading">
+                    <tr *ngFor="let j of [0,1,2,3,4]">
+                        <td class="col" style="width: 33.33%;" [ngClass]="i == 1 ? 'td-border': null"
+                            *ngFor="let i of [0,1,2]">
+                            <div class="card m-2" [style]="">
+                                <img class="img-fluid img-custom"
+                                    [src]="dataSource[i].images[j] || '../../../../../../assets/defaultService.jpg'"
+                                    alt="image-{{j+1}}">
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr *ngIf="imagesLoading">
+                    <td colspan="3">
+                        <div class="spinner-container d-flex flex-column align-items-center">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 50px;"></td>
+                </tr>
+            </ng-container>
+
+
+            <ng-container>
+                <tr>
+                    <td colspan="3" class="tag">
+                        <div class="container" id="videos">
+                            <h4 class="tag p-1 mt-1">
+                                <div class="d-flex gap-2 element" mat-button>
+                                    <mat-icon>videocam</mat-icon>
+                                    Videos
+                                </div>
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+                <ng-container *ngIf="!videosLoading">
+                    <tr *ngFor="let j of [].constructor(maxVideoLength); let rowIndex = index">
+                        <td *ngFor="let i of [0,1,2]" [ngClass]="{'td-border': i == 1}">
+                            <div class="card m-2 mb-0 pb-0 d-flex align-items-center" style="border: none;">
+                                <ng-container class=""
+                                    *ngIf="dataSource[i]?.videos && dataSource[i].videos.length > rowIndex; else noVideosTemplate">
+                                    <video class="img-fluid img-custom" controls
+                                        [src]="dataSource[i].videos[rowIndex] || '../../../../../../assets/defaultService.jpg'"
+                                        type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </ng-container>
+                                <ng-template #noVideosTemplate>
+                                    <p *ngIf="rowIndex == ((maxVideoLength - 1)/2)" class="p-2">No videos available.</p>
+                                </ng-template>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr *ngIf="videosLoading">
+                    <td colspan="3">
+                        <div class="spinner-container d-flex flex-column align-items-center">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td colspan="3" style="height: 50px;"></td>
+                </tr>
+            </ng-container>
+
+
+
+            <ng-container *ngIf="!isService()">
+                <tr>
+                    <td colspan="3" class="tag">
+                        <div class="container" id="manuals">
+                            <h4 class="tag p-1 mt-1">
+                                <div class="d-flex gap-2 element" mat-button>
+                                    <mat-icon>description</mat-icon>
+                                    User manuals
+                                </div>
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="!manualsLoading">
+                    <td class="align-baseline" *ngFor="let i of [0,1,2]" [ngClass]="{'td-border': i == 1}">
+                        <div class="p-3 m-2 mx-1 px-0 mb-0 pb-0 d-flex align-items-start">
+                            <ul style="list-style: none; padding-left: 0;">
+                                <li *ngFor="let manual of dataSource[i]?.manuals" class="m-0 p-0">
+                                    <a href="{{manual}}" target="_blank" class="d-flex align-items-baseline gap-1">
+                                        <img src="../../../../assets/icons/pdf.png" alt="PDF"
+                                            style="border-radius: 6px; width: 16px; height: 16px; vertical-align: middle;">
+                                        <p class="para">{{getFileName(manual)}}</p>
+                                    </a>
+                                </li>
+                                <li *ngIf="!(dataSource[i].manuals.length > 0)">
+                                    <p class="p-2 para">No manuals available</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="manualsLoading">
+                    <td colspan="3">
+                        <div class="spinner-container d-flex flex-column align-items-center">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 50px;"></td>
+                </tr>
+            </ng-container>
+
+            <ng-container>
+                <tr>
+                    <td colspan="3" class="tag">
+                        <div class="container" id="prices">
+                            <h4 class="tag p-1 mt-1">
+                                <div class="d-flex gap-2 element" mat-button>
+                                    <mat-icon>attach_money</mat-icon>
+                                    Prices
+                                </div>
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+                <ng-container *ngIf="!priceLoading">
+                    <tr *ngFor="let j of [].constructor(maxPriceLength); let rowIndex = index;">
+                        <td *ngFor="let i of [0,1,2]" [ngClass]="{'td-border': i == 1}">
+                            <div class="p-3 m-2 mb-0 pb-0 d-flex align-items-start">
+                                <ng-container *ngIf="dataSource[i].prices.length > rowIndex; else noPricesTemplate">
+                                    <div class="card mb-3 p-2 px-5"
+                                        style="padding-left: 10px !important; padding-bottom: 20px !important;">
+                                        <span class="para">{{dataSource[i].prices[rowIndex].name}}</span>
+                                        <span class="element">LKR {{dataSource[i].prices[rowIndex].value}}</span>
+                                        <sub>{{dataSource[i].prices[rowIndex].modelName.toLowerCase()}}</sub>
+                                    </div>
+                                </ng-container>
+                                <ng-template #noPricesTemplate>
+                                    <div *ngIf="rowIndex == 0" class="d-flex align-items-center justify-content-center"
+                                        style="text-align: center;">
+                                        <p>No prices</p>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!(maxPriceLength>0)">
+                        <td colspan="3">
+                            <div style="text-align: center;">
+                                <p class="p-2 para">No prices available</p>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+
+                <tr *ngIf="priceLoading">
+                    <td colspan="3">
+                        <div class="spinner-container d-flex flex-column align-items-center">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="3" style="height: 50px;"></td>
+                </tr>
+            </ng-container>
+
+            <ng-container>
+                <tr>
+                    <td colspan="3" class="tag">
+                        <div class="container" id="locations">
+                            <h4 class="tag p-1 mt-1">
+                                <div class="d-flex gap-2 element" mat-button>
+                                    <mat-icon>place</mat-icon>
+                                    Locations
+                                </div>
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+                <ng-container *ngIf="!locationLoading">
+                    <tr *ngFor="let j of [].constructor(3); let rowIndex = index;">
+                        <td *ngFor="let i of [0,1,2]" [ngClass]="{'td-border': i == 1}">
+                            <div class="card p-2 m-2 mb-0 pb-0 d-flex align-items-start" [ngClass]="!(dataSource[i].locations[rowIndex]) ? 'no-border' : ''">
+                                <ng-container class=""
+                                    *ngIf="dataSource[i]?.locations && dataSource[i].locations.length > rowIndex;">
+                                    <p>HouseNo= {{dataSource[i].locations[rowIndex].houseNo}}</p>
+                                    <p>Area = {{dataSource[i].locations[rowIndex].area}}</p>
+                                    <p>District = {{dataSource[i].locations[rowIndex].district}}</p>
+                                    <p>State = {{dataSource[i].locations[rowIndex].state}}</p>
+                                    <p>Country = {{dataSource[i].locations[rowIndex].country}}</p>
+                                </ng-container>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!(3>0)">
+                        <td colspan="3">
+                            <div style="text-align: center;">
+                                <p class="p-2 para">No locations available</p>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr *ngIf="locationLoading">
+                    <td colspan="3">
+                        <div class="spinner-container d-flex flex-column align-items-center">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 50px;"></td>
+                </tr>
+            </ng-container>
+
+            <ng-container>
+                <tr>
+                    <td colspan="3" class="tag">
+                        <div class="container" id="ratings">
+                            <h4 class="tag p-1 mt-1">
+                                <div class="d-flex gap-2 element" mat-button>
+                                    <mat-icon>star</mat-icon>
+                                    User ratings
+                                </div>
+                            </h4>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="!ratingLoading">
+                    <td class="" *ngFor="let i of [0,1,2]">
+                        <div class="card p-5 m-2 mb-0 d-flex align-items-center">
+                            <span class="px-2 element para" style="font-size: 24px;">{{ dataSource[i].overallRate |
+                                number: '1.1-1' }}</span>
+                            <p style="color: #FDCC0D; font-size: 24px;">
+                                <ngb-rating [max]="5" [rate]="dataSource[i].overallRate" [readonly]="true"></ngb-rating>
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="ratingLoading">
+                    <td colspan="3">
+                        <div class="spinner-container d-flex flex-column align-items-center">
+                            <p>Please wait</p>
+                            <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="height: 50px;"></td>
+                </tr>
+            </ng-container>
+
+        </table>
+
+    </div>
+</div>

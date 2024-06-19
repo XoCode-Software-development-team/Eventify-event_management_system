@@ -5,6 +5,7 @@ import { ToastService } from 'src/app/Services/toast.service';
 import { CompareService } from 'src/app/Services/compare.service';
 import { Observable } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-compare-box',
@@ -32,11 +33,12 @@ export class CompareBoxComponent implements OnInit {
   constructor(
     private _toast: ToastService,
     private _serviceAndResources: ServiceAndResourceService,
-    private compareService: CompareService,
-    private dialogRef: MatDialogRef<CompareBoxComponent>// Inject MatDialogRef
+    private _compare: CompareService,
+    private dialogRef: MatDialogRef<CompareBoxComponent>,// Inject MatDialogRef
+    private _router : Router
   ) {
-    this.serviceCompareList$ = this.compareService.serviceCompareList$;
-    this.resourceCompareList$ = this.compareService.resourceCompareList$;
+    this.serviceCompareList$ = this._compare.serviceCompareList$;
+    this.resourceCompareList$ = this._compare.resourceCompareList$;
   }
 
   ngOnInit() {
@@ -50,31 +52,35 @@ export class CompareBoxComponent implements OnInit {
 
   compare() {
     const compareList = this.getCurrentCompareList();
+
+
     if (compareList.length >= 3) {
-      // Proceed with comparison logic
+
       if (this._serviceAndResources.checkUrlString() === 'service') {
-        console.log(this.serviceCompareList)
+        const list = this.serviceCompareList
+        this.navigateToCompareView(list);
+
       } else {
-        console.log(this.resourceCompareList)
+        const list = this.resourceCompareList
+        this.navigateToCompareView(list);
+
       }
+      this.closePopUP();
+
+
     } else {
+
       const length = compareList.length;
-      this._toast.showMessage(
-        `Add ${3 - length} ${
-          length == 0 ? '' : 'more'
-        } ${this.isServiceOrResource()}${
-          length < 1 ? 's' : ''
-        } to compare list`,
-        'info'
-      );
+      this._toast.showMessage(`Add ${3 - length} ${length == 0 ? '' : 'more'} ${this.isServiceOrResource()}${length < 1 ? 's' : ''} to compare list`,'info');
+      this._router.navigate([`/${this.isServiceOrResource()}s`]);
     }
   }
 
   remove(index: number) {
     if (this.isServiceOrResource() === 'service') {
-      this.compareService.removeServiceFromCompare(index);
+      this._compare.removeServiceFromCompare(index);
     } else {
-      this.compareService.removeResourceFromCompare(index);
+      this._compare.removeResourceFromCompare(index);
     }
   }
 
@@ -87,9 +93,22 @@ export class CompareBoxComponent implements OnInit {
       ? this.serviceCompareList
       : this.resourceCompareList;
   }
+
+  navigate() {
+    this._router.navigate([`/${this.isServiceOrResource()}s`])
+    this.dialogRef?.close();
+  }
   
   closePopUP() {
     this.dialogRef?.close();
-    this._toast.showMessage(`Compare ${this.isServiceOrResource()}s by adding to compare box`,'info');
+    if(this.getCurrentCompareList().length < 3) {
+      this._toast.showMessage(`Compare ${this.isServiceOrResource()}s by adding to compare box`,'info');
+    }
+  }
+
+  navigateToCompareView(list:CompareList[]) {
+    const queryParams = JSON.stringify(list.map(item => ({ soRid: item.soRId, name: item.name })));
+    // console.log(queryParams)
+    this._router.navigate([`${this.isServiceOrResource()}s/compare`],{ queryParams: { data: queryParams }});
   }
 }
