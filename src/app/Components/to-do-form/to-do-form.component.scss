@@ -1,0 +1,118 @@
+.description {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .flex-grow-1 {
+    flex-grow: 1;
+  }
+  
+  .event-head {
+    border: 1px solid#00000033;
+    border-radius: 6px;
+    width: 100%;
+    font-family: Lato;
+    font-size: larger;
+    padding-left: 30px;
+    margin-left: 25px;
+    color: #898989;
+  }
+  
+  .head-required{
+    font-family: Lato;
+    margin-left: 50px;
+  }
+  
+   .event-description{
+    border: 0;border-bottom: 0.5px solid#00000033;
+    border-radius: 2px;
+    font-family: Lato;
+  
+  } 
+  
+  .task-time{
+    border: 1px solid#00000033; 
+    border-radius: 2px; 
+    margin-left: 10px;
+    height: 25px; 
+    font-family: Lato;
+  }
+  
+  .event-task{
+    border: 0;
+    border-bottom: 1px solid; 
+    border-radius: 2px; 
+    height: 20px; 
+    font-family: Lato;
+  }
+  
+  .ms-2 {
+    margin-left: 0.5rem;
+  }
+  .card{
+    width: 100%;
+    border: 1px solid #00000033;
+    border-radius: 6px;
+    margin-top: 300px;
+    margin-left: 300px;
+    max-width: 900px;
+    height: 420px;
+    margin: 0 230px auto;
+  }
+  .card-body{
+    padding-top: 30px;
+    padding-left: 30px;
+  
+  }
+  .form-btn {
+    width: 200px;
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.54px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid #2C98AD;
+    color: #ffffff !important;
+    background-color: #2C98AD;
+    padding: 5px;
+    padding: 0 1.25rem;
+    margin: 10px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end; 
+    width: 100%; 
+  }
+  
+  .task{
+    margin-top: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+  
+  }
+  .add-btn{
+    width: 200px;
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.54px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 6px;
+    border: 1px solid #2C98AD;
+    color:  #ffffff !important;
+    background-color: #898989;
+    padding: 5px;
+    padding: 0 1.25rem;
+    margin: 10px;
+  }
+  
+  
