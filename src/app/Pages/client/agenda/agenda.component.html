@@ -1,0 +1,83 @@
+<!-- <div>
+    <div class="agenda">Create CheckList</div>
+    <app-to-do-form (EmitTaskData)="createToDoForm($event)"></app-to-do-form>
+  
+    <div class="popup" *ngIf="popupVisible">
+      <div class="popup-inner">
+        <div class="popup-header">
+          <h2>CheckList</h2>
+          <button class="close-btn" (click)="closePopup()">X</button>
+        </div>
+        <div class="popup-body">
+          <div *ngIf="formData">
+            <div class="agenda-head">
+              <div class="agenda-title">{{ formData.eventTitle }}</div>
+              <div class="agenda-date"><p>Date: {{ formData.eventDate }}</p></div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div *ngFor="let taskGroup of formData.taskGroup; let i = index">
+                  <p><strong>Description:</strong> {{ taskGroup.description }}</p>
+                  <ul>
+                    <li *ngFor="let task of taskGroup.listOfTask">
+                      <p><strong>Task:</strong> {{ task.task }}</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+            <div class="button-container">
+            <button mat-button type="submit" class="form-btn">save</button>
+            <button mat-button type="button" class="form-btn" (click)="generatePdf()">export</button>
+            </div>
+      </div>
+     
+    </div>
+    
+  </div>
+   -->
+
+
+   <div>
+    <div class="agenda">Create agenda</div>
+    <app-to-do-form (EmitTaskData)="createToDoForm($event)" [includeTaskTime]="true"></app-to-do-form>
+  
+    <div class="popup" *ngIf="popupVisible">
+      <div class="popup-inner">
+        <div class="popup-body">
+          <div *ngIf="formData">
+            <div class="popup-header">
+              <div class="agenda-head">
+                <div class="agenda-title">{{ formData.title }}</div>
+                <div class="agenda-date"><p>Date: {{ formData.date }}</p></div>
+              </div>
+              <button class="close-btn" (click)="closePopup()">X</button>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div *ngFor="let description of formData.descriptions; let i = index">
+                  <div class="task-description">{{ description.descriptionText }}</div>
+                  <ul *ngFor="let task of description.checkListTasks">
+                    <li class="popup-taskName">
+                      <div class="task-item">
+                        <div class="task-time">{{ formatTime(task.taskTime) }}</div>
+                        <div class="task-text">{{ task.taskName }}</div>
+                      </div>
+                    </li> 
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-container">
+          <button mat-button type="submit" class="form-btn" >Save</button>
+          <button mat-button type="button" class="form-btn" (click)="generatePdf()">Export</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
