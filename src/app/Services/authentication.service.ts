@@ -45,7 +45,7 @@ export class AuthenticationService {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     localStorage.clear();
     sessionStorage.clear();
     this._router.navigate(['login']).then(() => {
@@ -59,24 +59,24 @@ export class AuthenticationService {
   
 
   storeToken(token: string) {
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
   }
 
   storeRefreshToken(token: string) {
-    localStorage.setItem('refreshToken', token);
+    sessionStorage.setItem('refreshToken', token);
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
 
   getRefreshToken() {
-    return localStorage.getItem('refreshToken');
+    return sessionStorage.getItem('refreshToken');
   }
 
   isLoggedIn(): boolean {
     //Convert string to boolean
-    return !!localStorage.getItem('token');
+    return !!sessionStorage.getItem('token');
   }
 
   decodedToken() {

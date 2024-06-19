@@ -92,7 +92,7 @@ export class LoginComponent {
             this.toast.showMessage('No internet connection. Please check your network connection and try again.', 'error');
           } else {
             // Display other error messages
-            this.toast.showMessage(error.message || 'An error occurred during login. Please try again later.', 'error');
+            this.toast.showMessage(error.message || 'Please check your username and password and try again later.', 'error');
           }
           this.isButtonLoading = false;
         },

@@ -21,8 +21,9 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy, AfterViewIn
   notificationBadgeSubscription: Subscription | undefined;
   compareBadgeSubscription:Subscription | undefined;
   private routerSubscription!: Subscription;
+  private notificationClosedSubscription!:Subscription;
   private dialogRef: MatDialogRef<CompareBoxComponent> | null = null;
-  popUpItem!: string;
+  popUpItem: string = '';
 
   // Array containing icon data
   icons = [
@@ -48,6 +49,7 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy, AfterViewIn
 
   ngAfterViewInit(): void {
       this.updateCompareBadge();
+      this.notificationClosedSubscribe();
   }
 
   ngOnDestroy(): void {
@@ -63,6 +65,10 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy, AfterViewIn
     if(this.compareBadgeSubscription) {
       this.compareBadgeSubscription.unsubscribe();
     }
+
+    if(this.notificationClosedSubscription) {
+      this.notificationClosedSubscription.unsubscribe();
+    }
   }
 
   routerSubscribe() {
@@ -71,6 +77,12 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy, AfterViewIn
         this.hideCompareButton();
         this.updateCompareBadge();
       }
+    });
+  }
+
+  notificationClosedSubscribe() {
+    this.notificationClosedSubscription = this._notificationService.notificationClosed$.subscribe(() => {
+      this.popUpItem = '';
     });
   }
 

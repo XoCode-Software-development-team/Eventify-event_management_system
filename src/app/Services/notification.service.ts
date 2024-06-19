@@ -23,6 +23,8 @@ export class NotificationService {
   private notificationBadgeSubject: BehaviorSubject<number> =
     new BehaviorSubject(0);
   notificationBadge$ = this.notificationBadgeSubject.asObservable();
+  private notificationClosedSubject: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
+  notificationClosed$ = this.notificationClosedSubject.asObservable();
   private notificationUpdateSubject: Subject<Notification> =
     new Subject<Notification>();
   notificationUpdates$ = this.notificationUpdateSubject.asObservable();
@@ -128,20 +130,27 @@ export class NotificationService {
   }
 
   openPopup() {
-    if (!this.popupToggle) {
-      this.dialogRef = this._matDialog.open(NotificationBoxComponent, {
-        width: '500px',
-        height: '50%',
-        position: { top: '165px', right: '130px' },
-      });
-      this.popupToggle = true;
-
-      this.dialogRef.afterClosed().subscribe(() => {
-        this.popupToggle = false;
-        this.dialogRef = null;
-      });
-    } else if (this.dialogRef) {
-      this.dialogRef.close();
+    if (this._auth.isLoggedIn()) {
+      if (!this.popupToggle) {
+        this.dialogRef = this._matDialog.open(NotificationBoxComponent, {
+          width: '500px',
+          height: '50%',
+          position: { top: '165px', right: '130px' },
+        });
+        this.popupToggle = true;
+  
+        this.dialogRef.afterClosed().subscribe(() => {
+          this.popupToggle = false;
+          this.dialogRef = null;
+          this.notificationClosedSubject.next();
+        });
+      } else if (this.dialogRef) {
+        this.dialogRef.close();
+        this.notificationClosedSubject.next();
+      }
+    } else {
+      this._toast.showMessage("Please login to show notifications",'info');
     }
-  }
+    }
+
 }

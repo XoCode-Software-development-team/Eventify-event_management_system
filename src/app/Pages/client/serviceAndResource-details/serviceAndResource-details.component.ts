@@ -115,7 +115,9 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     });
 
     this.checkUser();
-    this.checkFollow(this.soRId);
+    if(this._auth.isLoggedIn()) {
+      this.checkFollow(this.soRId);
+    }
   }
 
   // Function to fetch service/resource details from the service/resource
@@ -128,7 +130,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
           // Assuming response is an array, take the first item
           if (Array.isArray(res) && res.length > 0) {
             const serviceResource = res[0];
-            console.log(serviceResource);
+            // console.log(serviceResource);
             this.serviceResourceDetails = {
               name: serviceResource.name,
               vendor: serviceResource.vendor,
