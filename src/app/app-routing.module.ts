@@ -35,6 +35,8 @@ import { EventCreateFormComponent } from './Components/event-create-form/event-c
 import { EventViewComponent } from './Components/event-view/event-view.component';
 import { CompareViewComponent } from './Pages/client/compare-view/compare-view.component';
 import { QueryParamsGuard } from './Guards/query-params.guard';
+import { ChecklistComponent } from './Pages/client/checklist/checklist.component';
+import { AgendaComponent } from './Pages/client/agenda/agenda.component';
 
 const routes: Routes = [
   {path: 'forgotPassword', component:ForgotPasswordComponent,canActivate:[AuthGuard]},
@@ -48,6 +50,8 @@ const routes: Routes = [
       {path: '', component:ClientIconLayoutComponent,
         children: [
           {path: '', redirectTo: '/home', pathMatch: 'full'},
+          {path: 'checklist', component:ChecklistComponent,canActivate:[AuthGuard]},
+          {path: 'agenda',component:AgendaComponent,canActivate:[AuthGuard]},
           {path: 'event', component:EventComponent, 
             children: [
             { path: 'create', component: EventCreateFormComponent},

@@ -74,7 +74,6 @@ import { CompareBoxComponent } from './Components/compare-box/compare-box.compon
 import { CompareViewComponent } from './Pages/client/compare-view/compare-view.component';
 import { ChecklistComponent } from './Pages/client/checklist/checklist.component';
 import { AgendaComponent } from './Pages/client/agenda/agenda.component';
-import { ToDoFormComponent } from './Components/to-do-form/to-do-form.component';
 import { MaterialModule } from './Core/material.module';
 
 @NgModule({
@@ -139,7 +138,6 @@ import { MaterialModule } from './Core/material.module';
     CompareViewComponent,
     ChecklistComponent,
     AgendaComponent,
-    ToDoFormComponent,
   ],
   imports: [
     BrowserModule,

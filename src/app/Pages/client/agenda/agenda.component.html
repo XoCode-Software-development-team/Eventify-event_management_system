@@ -1,83 +1,146 @@
-<!-- <div>
-    <div class="agenda">Create CheckList</div>
-    <app-to-do-form (EmitTaskData)="createToDoForm($event)"></app-to-do-form>
-  
-    <div class="popup" *ngIf="popupVisible">
-      <div class="popup-inner">
-        <div class="popup-header">
-          <h2>CheckList</h2>
-          <button class="close-btn" (click)="closePopup()">X</button>
-        </div>
-        <div class="popup-body">
-          <div *ngIf="formData">
-            <div class="agenda-head">
-              <div class="agenda-title">{{ formData.eventTitle }}</div>
-              <div class="agenda-date"><p>Date: {{ formData.eventDate }}</p></div>
-            </div>
-            <div class="card">
-              <div class="card-body">
-                <div *ngFor="let taskGroup of formData.taskGroup; let i = index">
-                  <p><strong>Description:</strong> {{ taskGroup.description }}</p>
-                  <ul>
-                    <li *ngFor="let task of taskGroup.listOfTask">
-                      <p><strong>Task:</strong> {{ task.task }}</p>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> 
-            <div class="button-container">
-            <button mat-button type="submit" class="form-btn">save</button>
-            <button mat-button type="button" class="form-btn" (click)="generatePdf()">export</button>
-            </div>
-      </div>
-     
+<div class="container p-3">
+  <h2 class="mb-2">Create agenda</h2>
+
+  <form [formGroup]="agendaForm" id="pdfContent">
+    <div class="d-flex mb-2 mx-5" style="align-items: center; justify-content: end;"
+      [ngClass]="exportAgenda ? 'p-5': ''">
+      <p class="p-0 m-0 px-2">Date</p>
+      <input formControlName="date" style="border: none; width: 85px;" class="date-input" type="datetime"
+        [ngStyle]="{'border-bottom': (exportAgenda) ? 'none': '1px solid #ccc ' }">
+      <!-- Add error message for date -->
+      <div *ngIf="agendaForm.get('date')?.invalid && agendaForm.get('date')?.touched" class="text-danger small">
+        Date is required</div>
     </div>
-    
-  </div>
-   -->
+
+    <div class="mb-4">
+      <div class="mx-5 p-5" style="min-height: 39vh;" [ngClass]="exportAgenda ? '' : 'card'">
+        <div class="container mb-4 mx-2 position-absolute" style="right: 10px; top: 20px;" *ngIf="!exportAgenda">
 
 
-   <div>
-    <div class="agenda">Create agenda</div>
-    <app-to-do-form (EmitTaskData)="createToDoForm($event)" [includeTaskTime]="true"></app-to-do-form>
-  
-    <div class="popup" *ngIf="popupVisible">
-      <div class="popup-inner">
-        <div class="popup-body">
-          <div *ngIf="formData">
-            <div class="popup-header">
-              <div class="agenda-head">
-                <div class="agenda-title">{{ formData.title }}</div>
-                <div class="agenda-date"><p>Date: {{ formData.date }}</p></div>
+          <form [formGroup]="timeForm">
+
+            <div class="d-flex align-items-baseline justify-content-end gap-2">
+              <div>
+                <label class="px-2" for="startTime">Start Time</label>
+                <input formControlName="startTime" id="startTime" type="time" class="p-1 time-input" (change)="null">
               </div>
-              <button class="close-btn" (click)="closePopup()">X</button>
+              <div>
+                <label class="px-2" for="stepTime">Step Time</label>
+                <input id="stepTime" formControlName="stepTime" type="datetime" style="width: 50px;"
+                  class="p-1 time-input" (change)="null">
+                <div *ngIf="timeForm.get('stepTime')?.invalid && timeForm.get('stepTime')?.touched"
+                  class="text-danger small px-2">Expected HH:MM</div>
+              </div>
             </div>
-            <div class="card">
-              <div class="card-body">
-                <div *ngFor="let description of formData.descriptions; let i = index">
-                  <div class="task-description">{{ description.descriptionText }}</div>
-                  <ul *ngFor="let task of description.checkListTasks">
-                    <li class="popup-taskName">
-                      <div class="task-item">
-                        <div class="task-time">{{ formatTime(task.taskTime) }}</div>
-                        <div class="task-text">{{ task.taskName }}</div>
+          </form>
+
+        </div>
+
+
+        <div class="container mt-2 mb-4">
+          <!-- Title input field with larger placeholder -->
+          <input class="form-control date-input title-input mb-2 w-50"
+            style="outline: none !important; border: none !important;" type="text" placeholder="Agenda title"
+            formControlName="title">
+          <!-- Add error message for title -->
+          <div *ngIf="agendaForm.get('title')?.invalid && agendaForm.get('title')?.touched"
+            class="text-danger small mx-2">Agenda title is required</div>
+
+          <!-- Description input field with default placeholder size -->
+          <input class="form-control date-input description-input w-50"
+            style="outline: none !important; border: none !important;" type="text" placeholder="Description"
+            formControlName="description">
+          <!-- Add error message for description -->
+          <div *ngIf="agendaForm.get('description')?.invalid && agendaForm.get('description')?.touched"
+            class="text-danger small mx-2">Agenda description is required</div>
+        </div>
+
+        <!-- Task Form Array Fields -->
+        <div formArrayName="tasks">
+          <div *ngFor="let task of tasks.controls; let i = index" [formGroupName]="i">
+            <div class="container mt-2 mx-2 d-flex mb-2 align-items-baseline justify-content-start gap-2"
+              *ngIf="hasTaskValue(i,'taskName') || (i == tasks.controls.length-1 && showTaskField && !hasTaskValue(i,'taskDescription')) || (i == 0 && !showTaskField)">
+
+              <div class="" style="width: 100px;">
+                <input formControlName="time" style="border: none;" class="form-control date-input task-input w-100"
+                  type="datetime">
+              </div>
+
+              <span>-</span>
+
+              <div>
+                <div class="d-flex">
+                  <div class="d-flex">
+                    <div style="width: 37.5vw;">
+                      <input class="form-control date-input task-input w-100" style="border: none;"
+                        [ngStyle]="{'border-bottom': (i == tasks.controls.length - 1) ? '1px solid #ccc': 'none' }"
+                        type="text" placeholder="Task" formControlName="taskName" (keypress)="handleEnterKey($event, i)"
+                        [id]="'taskNameInput' + i" #taskInput>
+                    </div>
+
+
+                    <div class="d-flex gap-2"
+                      *ngIf="(i == tasks.controls.length - 1 || !(hasTaskValue(i,'taskName'))) && (!(hasTaskValue(i,'taskName') && i == tasks.controls.length -1 && !showTaskField)) && !exportAgenda">
+                      <div class="p-0 m-0 add-button" (click)="toggleShowTaskField(true,i)"><mat-icon class="card"
+                          [ngClass]="{'active': showTaskField}">add</mat-icon>
                       </div>
-                    </li> 
-                  </ul>
+                      <div class="p-0 m-0 add-button" (click)="toggleShowTaskField(false,i)"><mat-icon class="card"
+                          [ngClass]="{'active': !showTaskField}">text_fields</mat-icon>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex gap-2"
+                    *ngIf="hasTaskValue(i,'taskName') && i != tasks.controls.length - 1 || (!showTaskField && i == tasks.controls.length - 1) && !(i == 0 && !undefined) && !exportAgenda">
+                    <div *ngIf="hasTaskValue(i,'taskName') && !exportAgenda" class="p-0 m-0 add-button"
+                      (click)="deleteTask(i,'taskName')">
+                      <mat-icon class="card" color="warn">close</mat-icon>
+                    </div>
+                  </div>
+
+                </div>
+                <!-- Add error message for taskName -->
+                <div *ngIf="taskNameErr && tasks.at(i).get('taskName')?.touched" class="text-danger small mx-2">Task is
+                  required
+                </div>
+              </div>
+
+
+            </div>
+
+
+
+            <div class="container mt-2 mx-4 d-flex mb-3"
+              *ngIf="hasTaskValue(i,'taskDescription') || (i == tasks.controls.length -1 && !showTaskField) && !(i == 0 && !showTaskField)">
+              <input class="form-control date-input description-input w-75 small"
+                style="margin-left: 106.5px; color: #4A4A4A; margin-right: -82.6px;" type="text"
+                placeholder="Task description" #taskInput formControlName="taskDescription"
+                (keypress)="handleEnterKey($event, i)">
+              <div class="d-flex gap-2" *ngIf="i === tasks.controls.length - 1 && !exportAgenda">
+                <div class="p-0 m-0 add-button" (click)="toggleShowTaskField(true,i)"><mat-icon class="card"
+                    [ngClass]="{'active': showTaskField}">add</mat-icon>
+                </div>
+                <div class="p-0 m-0 add-button" (click)="toggleShowTaskField(false,i)"><mat-icon class="card"
+                    [ngClass]="{'active': !showTaskField}">text_fields</mat-icon></div>
+              </div>
+              <div class="d-flex gap-2"
+                *ngIf="hasTaskValue(i,'taskDescription') && i != tasks.controls.length - 1 && !exportAgenda">
+                <div class="p-0 m-0 add-button" (click)="deleteTask(i,'taskDescription')"><mat-icon class="card"
+                    color="warn">close</mat-icon>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="button-container">
-          <button mat-button type="submit" class="form-btn" >Save</button>
-          <button mat-button type="button" class="form-btn" (click)="generatePdf()">Export</button>
-        </div>
+
       </div>
     </div>
+  </form>
+
+  <div class="container px-5 d-flex gap-3 justify-content-end py-5 mb-5">
+    <app-primary-button (click)="saveAgenda()" [loading]="saveButtonLoading" [button]="saveButton"></app-primary-button>
+    <app-primary-button (click)="reset()" [button]="ResetButton"></app-primary-button>
+    <app-primary-button [loading]="exportButtonLoading" (click)="generatePdf()"
+      [button]="ExportButton"></app-primary-button>
   </div>
-  
-  
+
+</div>

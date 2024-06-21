@@ -1,38 +1,45 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CheckList, CheckListTask, Description } from '../Pages/client/checklist/checklist.component';
-import { Observable } from 'rxjs';
+import { Checklist } from '../Interfaces/interfaces';
+import { Agenda } from '../Pages/client/agenda/agenda.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChecklistAgendaService {
+  checklistKey: string = 'checklist';
+  agendaKey: string = 'agenda';
 
-  private baseUrl = 'https://localhost:793/api/CheckList'; // Replace with your actual API URL
-
-  constructor(private http: HttpClient) { }
-
-  createCheckList(checkList: CheckList): Observable<CheckList> {
-    return this.http.post<CheckList>(this.baseUrl, checkList, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
+  saveChecklist(checklist: Checklist) {
+    localStorage.setItem(this.checklistKey, JSON.stringify(checklist));
   }
 
-  createCheckListTask(checkListId: number, task: CheckListTask): Observable<CheckListTask> {
-    return this.http.post<CheckListTask>(`${this.baseUrl}/${checkListId}/tasks`, task, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
+  saveAgenda(agenda: Agenda) {
+    localStorage.setItem(this.agendaKey, JSON.stringify(agenda));
   }
 
-  createDescription(checkListId: number, description: Description): Observable<Description> {
-    return this.http.post<Description>(`${this.baseUrl}/${checkListId}/descriptions`, description, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
+  getChecklist(): Checklist | null {
+    const checklistJson = localStorage.getItem(this.checklistKey);
+    if (checklistJson) {
+      const checklist: Checklist = JSON.parse(checklistJson);
+      return checklist;
+    }
+    return null;
+  }
+
+  getAgenda(): Agenda | null {
+    const AgendaJson = localStorage.getItem(this.agendaKey);
+    if (AgendaJson) {
+      const agenda: Agenda = JSON.parse(AgendaJson);
+      return agenda;
+    }
+    return null;
+  }
+
+  removeChecklist(): void {
+    localStorage.removeItem(this.checklistKey);
+  }
+
+  removeAgenda(): void {
+    localStorage.removeItem(this.agendaKey);
   }
 }

@@ -100,3 +100,16 @@ export interface ExtendedCategory extends Category {
     name: string;
     categoryId:number;
   }
+
+  export interface Checklist {
+    date: Date;
+    title: string;
+    description: string;
+    tasks: Task[];
+  }
+  
+  export interface Task {
+    checked: boolean;
+    taskName: string;
+    taskDescription: string;
+  }

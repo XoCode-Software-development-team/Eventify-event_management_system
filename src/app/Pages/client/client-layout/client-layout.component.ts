@@ -12,7 +12,8 @@ export class ClientLayoutComponent implements OnInit {
     { text: 'Home', url: 'home' },
     { text: 'Service', url: 'services' },
     { text: 'Resource', url: 'resources' },
-    { text: 'CheckList', url: 'checklist' },
+    { text: 'Checklist', url: 'checklist' },
+    { text: 'Agenda', url: 'agenda' },
   ];
 
   afterLogNavList = [
