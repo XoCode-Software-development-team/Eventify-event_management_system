@@ -1,19 +1,40 @@
 <div class="container p-3">
-  <h2 class="mb-2">Create agenda</h2>
+  <div *ngIf="!eventLoading">
+  <h2 class="mb-2">{{titleName}} agenda</h2>
 
   <form [formGroup]="agendaForm" id="pdfContent">
-    <div class="d-flex mb-2 mx-5" style="align-items: center; justify-content: end;"
-      [ngClass]="exportAgenda ? 'p-5': ''">
-      <p class="p-0 m-0 px-2">Date</p>
-      <input formControlName="date" style="border: none; width: 85px;" class="date-input" type="datetime"
-        [ngStyle]="{'border-bottom': (exportAgenda) ? 'none': '1px solid #ccc ' }">
-      <!-- Add error message for date -->
-      <div *ngIf="agendaForm.get('date')?.invalid && agendaForm.get('date')?.touched" class="text-danger small">
-        Date is required</div>
+    <div class="d-flex mb-2 mx-5" style="align-items: end;" [ngClass]="{
+      'p-5': exportAgenda,
+      'justify-content-between': (events.length > 0 && !exportAgenda),
+      'justify-content-end': (events.length === 0 || exportAgenda)
+    }">
+      <div *ngIf="!exportAgenda && events.length>0">
+        <form [formGroup]="eventForm" class="position-relative">
+          <mat-form-field class="mt-4 p-0" appearance="outline">
+            <mat-label>Select Event</mat-label>
+            <mat-select formControlName="selectedEventId">
+              <mat-option *ngFor="let event of events" [value]="event.eventId">
+                {{ event.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="eventForm.get('selectedEventId')?.invalid && eventForm.get('selectedEventId')?.touched"
+          class="text-danger small p-0 position-absolute" style="top: 81px;">Event is required</div>
+        </form>
+        
+      </div>
+      <div class="d-flex align-items-center justify-content-end">
+        <p class="p-0 m-0 px-2">Date</p>
+        <input formControlName="date" style="border: none; width: 85px;" class="date-input" type="datetime"
+          [ngStyle]="{'border-bottom': (exportAgenda) ? 'none': '1px solid #ccc ' }">
+        <!-- Add error message for date -->
+        <div *ngIf="agendaForm.get('date')?.invalid && agendaForm.get('date')?.touched" class="text-danger small">
+          Date is required</div>
+      </div>
     </div>
 
     <div class="mb-4">
-      <div class="mx-5 p-5" style="min-height: 39vh;" [ngClass]="exportAgenda ? '' : 'card'">
+      <div class="mx-5 p-5" [ngStyle]="{ 'min-height': (events.length > 0) ? '31vh' : '39vh' }" [ngClass]="exportAgenda ? '' : 'card'">
         <div class="container mb-4 mx-2 position-absolute" style="right: 10px; top: 20px;" *ngIf="!exportAgenda">
 
 
@@ -80,8 +101,8 @@
 
 
                     <div class="d-flex gap-2"
-                      *ngIf="(i == tasks.controls.length - 1 || !(hasTaskValue(i,'taskName'))) && (!(hasTaskValue(i,'taskName') && i == tasks.controls.length -1 && !showTaskField)) && !exportAgenda">
-                      <div class="p-0 m-0 add-button" (click)="toggleShowTaskField(true,i)"><mat-icon class="card"
+                    *ngIf="(i == tasks.controls.length - 1 || !(hasTaskValue(i,'taskName'))) && (!(hasTaskValue(i,'taskName') && i == tasks.controls.length -1 && !showTaskField)) && !exportAgenda">
+                    <div class="p-0 m-0 add-button" (click)="toggleShowTaskField(true,i)"><mat-icon class="card"
                           [ngClass]="{'active': showTaskField}">add</mat-icon>
                       </div>
                       <div class="p-0 m-0 add-button" (click)="toggleShowTaskField(false,i)"><mat-icon class="card"
@@ -112,7 +133,9 @@
             <div class="container mt-2 mx-4 d-flex mb-3"
               *ngIf="hasTaskValue(i,'taskDescription') || (i == tasks.controls.length -1 && !showTaskField) && !(i == 0 && !showTaskField)">
               <input class="form-control date-input description-input w-75 small"
-                style="margin-left: 106.5px; color: #4A4A4A; margin-right: -82.6px;" type="text"
+                style="margin-left: 106.5px; color: #4A4A4A;"
+                [ngStyle]="{'margin-right': (isLogin) ? '-0.145vw': '-82.6px'}"
+                 type="text"
                 placeholder="Task description" #taskInput formControlName="taskDescription"
                 (keypress)="handleEnterKey($event, i)">
               <div class="d-flex gap-2" *ngIf="i === tasks.controls.length - 1 && !exportAgenda">
@@ -142,5 +165,10 @@
     <app-primary-button [loading]="exportButtonLoading" (click)="generatePdf()"
       [button]="ExportButton"></app-primary-button>
   </div>
+</div>
+<div *ngIf="eventLoading" class="spinner-container d-flex flex-column" style="margin-top: 100px;">
+  <p>Please wait</p>
+  <mat-spinner diameter="32"></mat-spinner>
+</div>
 
 </div>

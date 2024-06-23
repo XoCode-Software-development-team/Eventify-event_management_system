@@ -113,3 +113,23 @@ export interface ExtendedCategory extends Category {
     taskName: string;
     taskDescription: string;
   }
+
+  export interface Agenda {
+    date: Date;
+    title: string;
+    description: string;
+    tasks: AgendaTask[];
+  }
+  
+  export interface AgendaTask {
+    time: string;
+    taskName: string;
+    taskDescription: string;
+  }
+
+  export interface Event {
+    eventId: number;
+    name: string;
+    isInVendorSr: boolean;
+    isPending: boolean;
+  }

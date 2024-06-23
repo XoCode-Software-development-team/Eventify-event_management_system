@@ -3,27 +3,23 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Button, Checklist, Task } from 'src/app/Interfaces/interfaces';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Agenda,
+  AgendaTask,
+  Button,
+  Checklist,
+  Event,
+  Task,
+} from 'src/app/Interfaces/interfaces';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { ChecklistAgendaService } from 'src/app/Services/checklist-agenda.service';
 import { PdfGeneratorService } from 'src/app/Services/pdf-generator.service';
 import { ToastService } from 'src/app/Services/toast.service';
-
-export interface Agenda {
-  date: Date;
-  title: string;
-  description: string;
-  tasks: AgendaTask[];
-}
-
-export interface AgendaTask {
-  time: string;
-  taskName: string;
-  taskDescription: string;
-}
 
 @Component({
   selector: 'app-agenda',
@@ -36,6 +32,12 @@ export class AgendaComponent {
   agendaForm!: FormGroup;
   timeForm!: FormGroup;
   agenda!: Agenda;
+  events: Event[] = [];
+  eventForm!: FormGroup;
+  isLogin: boolean = false;
+  eventId!: number;
+  agendaId!: number;
+  titleName: string = 'Create';
 
   showTaskField: boolean = true;
   saveButtonLoading: boolean = false;
@@ -43,6 +45,8 @@ export class AgendaComponent {
   taskNameErr: boolean = true;
   hasSavedAgenda: boolean = false;
   exportAgenda: boolean = false;
+  eventLoading: boolean = false;
+  noAgenda: boolean = false;
 
   saveButton: Button = {
     url: '',
@@ -79,16 +83,36 @@ export class AgendaComponent {
     private _agenda: ChecklistAgendaService,
     private _toast: ToastService,
     private _auth: AuthenticationService,
-    private _pdfGenerate: PdfGeneratorService
+    private _pdfGenerate: PdfGeneratorService,
+    private _router: Router,
+    private _activateRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    if (this._auth.isLoggedIn()) {
+      this.isLogin = true;
+      this.checkUrl();
+    }
   }
 
   ngAfterViewInit(): void {
-    if (!this._auth.isLoggedIn()) {
-      this.getAgendaFromLocal();
+    this.getAgendaFromLocal();
+  }
+
+  checkUrl() {
+    const url = this._router.url;
+    if (url === '/event/agenda') {
+      this.getAllAgendaEvents();
+    } else {
+      this._activateRoute.paramMap.subscribe((params) => {
+        const id = params.get('id');
+        this.eventId = id ? +id : 0; // Converts the string to number and handles null
+        // console.log(this.eventId);
+        if (this.eventId != 0) {
+          this.getAgendaFromDatabase();
+        }
+      });
     }
   }
 
@@ -114,6 +138,12 @@ export class AgendaComponent {
       tasks: this.fb.array([this.createTask(0)]),
     });
 
+    this.eventForm = this.fb.group({
+      selectedEventId: new FormControl(null, Validators.required),
+    });
+
+    this.setStartTime();
+
     this.agendaForm.valueChanges.subscribe(() => {
       if (
         this.tasks.controls.length === 1 &&
@@ -126,12 +156,16 @@ export class AgendaComponent {
     });
 
     this.timeForm.valueChanges.subscribe(() => {
-      if (this.timeForm.get('startTime')?.valid) {
-        const startTime = this.timeForm.value.startTime;
-        const formattedStartTime = this.convertToAmPm(startTime);
-        this.tasks.at(0).get('time')?.setValue(formattedStartTime);
-      }
+      this.setStartTime();
     });
+  }
+
+  setStartTime() {
+    if (this.timeForm.get('startTime')?.valid) {
+      const startTime = this.timeForm.value.startTime;
+      const formattedStartTime = this.convertToAmPm(startTime);
+      this.tasks.at(0).get('time')?.setValue(formattedStartTime);
+    }
   }
 
   convertToAmPm(time: string): string {
@@ -189,7 +223,7 @@ export class AgendaComponent {
           this.toggleShowTaskField(true, index);
           this.moveToNextInput(index + 1);
         } else if (this.hasTaskValue(index, 'taskName')) {
-          this.tasks.push(this.createTask(index + 1));
+          this.tasks.push(this.createTask(index+1));
           this.moveToNextInput(index + 1);
         }
       }
@@ -260,21 +294,123 @@ export class AgendaComponent {
     }
   }
 
+  processTasks(tasks: Task[]) {
+    for (let i = 0; i < tasks.length - 1; i++) {
+      if (
+        tasks[i].taskDescription === '' &&
+        tasks[i + 1].taskName === '' &&
+        tasks[i + 1].taskDescription !== ''
+      ) {
+        tasks[i].taskDescription = tasks[i + 1].taskDescription;
+        tasks.splice(i + 1, 1);
+        i--; // Adjust index after removing an element
+      }
+    }
+  }
+
   saveAgenda() {
     this.saveButtonLoading = true;
+
     if (this.agendaForm.valid) {
       if (
         this.tasks.controls.length === 1 &&
         !this.hasTaskValue(0, 'taskName')
       ) {
+        this.saveButtonLoading = false;
         return;
       }
+      this.processTasks(this.agendaForm.value.tasks);
+
       this.deleteEmptyTasks();
-      console.log(this.agendaForm.value);
       this._agenda.removeAgenda();
-      this._agenda.saveAgenda(this.agendaForm.value);
-      this._toast.showMessage('Agenda saved successful!', 'success');
-      this.saveButtonLoading = false;
+
+      if (this._auth.isLoggedIn()) {
+        if (this.events.length > 0) {
+          if (this.eventForm.invalid) {
+            this.markAllFieldsAsTouched(this.eventForm);
+            this.saveButtonLoading = false;
+            return;
+          }
+
+          console.log(this.eventForm.value);
+          console.log(this.agendaForm.value);
+
+          this._agenda
+            .saveChecklistInDatabase(
+              this.agendaForm.value,
+              this.eventForm.value.selectedEventId
+            )
+            .subscribe({
+              next: (res: any) => {
+                // console.log(res);
+                this._toast.showMessage(res.message, 'success');
+                this.getAllAgendaEvents();
+                this._router.navigate([`event/view/${this.eventForm.value.selectedEventId}/agenda`])
+                this.reset();
+                this.saveButtonLoading = false;
+              },
+              error: (err: any) => {
+                this._toast.showMessage('Failed to save agenda', 'error');
+                // console.log(err);
+                this.saveButtonLoading = false;
+              },
+            });
+        } else {
+
+          if(this.hasSavedAgenda) {
+
+            this._agenda
+            .UpdateAgendaInDatabase(
+              this.agendaForm.value,
+              this.agendaId
+            )
+            .subscribe({
+              next: (res: any) => {
+                // console.log(res);
+                this._toast.showMessage(res.message, 'success');
+                this.getAgendaFromDatabase();
+                this.saveButtonLoading = false;
+              },
+              error: (err: any) => {
+                this._toast.showMessage('Failed to update agenda', 'error');
+                // console.log(err);
+                this.saveButtonLoading = false;
+              },
+            });
+
+          } else {
+            if(this.noAgenda) {
+              this._agenda.saveChecklistInDatabase(this.agendaForm.value,this.eventId).subscribe({
+                next:(res:any) => {
+                  this._toast.showMessage(res.message,'success');
+                  this.getAgendaFromDatabase();
+                  this.saveButtonLoading = false;
+                },
+                error:(err:any) => {
+                  if(err) {
+                    this._toast.showMessage(err.message,'error');
+                    
+                  }
+                  this.saveButtonLoading = false;
+                }
+              })
+              return
+            }
+
+            this._agenda.saveAgenda(this.agendaForm.value);
+            this._toast.showMessage(
+              'Create an event to add a agenda.',
+              'info'
+            );
+            this.saveButtonLoading = false;
+          }
+
+        }
+      } else {
+        this._agenda.saveAgenda(this.agendaForm.value);
+        this._toast.showMessage('Agenda saved successful!', 'success');
+        this.saveButtonLoading = false;
+      }
     } else {
       this.markAllFieldsAsTouched(this.agendaForm);
       this._toast.showMessage('Please fill the required field!', 'error');
@@ -309,6 +445,7 @@ export class AgendaComponent {
 
   getAgendaFromLocal() {
     const agenda = this._agenda.getAgenda();
+    console.log(agenda)
     if (agenda) {
       this.agenda = agenda;
       this.hasSavedAgenda = true;
@@ -331,17 +468,64 @@ export class AgendaComponent {
     }
   }
 
+  getAgendaFromDatabase() {
+    this.eventLoading = true;
+    this._agenda.getAgendaFromDatabase(this.eventId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res) {
+          this.hasSavedAgenda = true;
+          this.saveButton.text = 'Update';
+          this.titleName = res.eventName;
+          this.agendaId = res.agendaId;
+          this.agenda = res.agenda;
+          this.agendaForm.patchValue({
+            date: this.agenda.date,
+            title: this.agenda.title,
+            description: this.agenda.description,
+          });
+
+          this.tasks.clear();
+          this.agenda.tasks.forEach((task: AgendaTask) => {
+            this.tasks.push(
+              this.fb.group({
+                time: task.time,
+                taskName: task.taskName,
+                taskDescription: task.taskDescription,
+              })
+            );
+          });
+        }
+        this.eventLoading = false;
+      },
+      error: (err: any) => {
+        if (err) {
+          this.noAgenda = true;
+          // console.error(err);
+          this._toast.showMessage(err.message, 'info');
+          if (err.eventName) this.titleName = err.eventName;
+        }
+        this.eventLoading = false;
+      },
+    });
+  }
+
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   async generatePdf() {
+    if (!this.agendaForm.valid) {
+      this.markAllFieldsAsTouched(this.agendaForm);
+      this._toast.showMessage('Please fill the required field!', 'error');
+      return;
+    }
     this.exportAgenda = true;
     this.exportButtonLoading = true;
 
     await this.delay(1000);
 
-    const pdfName = `${this.agenda.title}`;
+    const pdfName = `${this.agendaForm.get('title')?.value}`;
 
     // Perform the PDF generation
     await this._pdfGenerate.generatePdfFromHtml('pdfContent', pdfName);
@@ -405,5 +589,19 @@ export class AgendaComponent {
     return `${hours.toString().padStart(2, '0')}:${minutes
       .toString()
       .padStart(2, '0')} ${newPeriod}`;
+  }
+
+  getAllAgendaEvents() {
+    this.eventLoading = true;
+    this._agenda.getAgendaEvents().subscribe({
+      next: (res: any) => {
+        this.events = res;
+        this.eventLoading = false;
+      },
+      error: (err: any) => {
+        // console.log(err);
+        this.eventLoading = false;
+      },
+    });
   }
 }

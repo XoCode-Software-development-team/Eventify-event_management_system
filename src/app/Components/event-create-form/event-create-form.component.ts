@@ -234,6 +234,7 @@ export class EventCreateFormComponent implements OnInit {
         next: (res: any) => {
           this._toast.showMessage('Event update successfully!', 'success');
           this.form.reset();
+          this.eventService.announceEventAdded();
           this.isUpdateFormActive = false;
           this.router
             .navigate(['/event/view', this.currentEventID])

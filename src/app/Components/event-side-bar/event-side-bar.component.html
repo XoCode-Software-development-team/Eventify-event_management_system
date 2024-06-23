@@ -1,12 +1,13 @@
 <div class="container d-flex flex-column align-items-center">
-  <div class="dropdown-icon" (click)="toggleEventsList()">
-    <img src="../../../assets/Images/calendar.png" width="20px" height="24px" class="icons"/> Events
+  <div class="dropdown-icon p-2 py-0" style="border-radius: 6px;" (click)="toggleEventsList()">
+    <img src="../../../assets/Images/calendar.png" width="20px" height="24px" class="icons" /> Events
     <i [class]="showEventsList ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
   </div>
   <div *ngIf="showEventsList && !eventsLoading" class="expand-list">
     <ng-container *ngIf="eventArray.length > 0 && !eventsLoading; else noEvents">
       <div *ngFor="let event of eventArray" class="event-area">
-        <a routerLinkActive="active-link" routerLink="/event/view/{{event.eventId}}" (click)="goToEventDetails()">{{ event.name }}</a>
+        <a routerLinkActive="active-link" routerLink="/event/view/{{event.eventId}}" (click)="goToEventDetails()">{{
+          event.name }}</a>
       </div>
     </ng-container>
     <ng-template #noEvents>
@@ -16,9 +17,19 @@
   <div *ngIf="eventsLoading && showEventsList" class="spinner-container d-flex flex-column mt-3">
     <!-- Loading Spinner -->
     <mat-spinner diameter="24"></mat-spinner>
-</div>  <br/><br/>
-  <div class="mat-line"><mat-divider></mat-divider></div>
-  <div class="text-area" routerLink="/event/create" routerLinkActive="active-link-topic">
-    <a (click)="onCreateButtonClick()"><img src="../../../assets/Images/create.png" width="20px" height="24px" class="icons"/> Create Event</a>
+  </div>
+  <div class="d-flex flex-column align-items-center my-3 py-0 gap-3">
+      <div class="text-area my-0 p-2 py-0" style="border-radius: 6px;" routerLink="/event/create" routerLinkActive="active-link-topic">
+    <a (click)="onCreateButtonClick()"><img src="../../../assets/Images/create.png" width="20px" height="24px"
+        class="icons" /> Create event</a>
+  </div>
+    <div class="text-area my-0 p-2 py-0" style="border-radius: 6px;" routerLink="/event/checklist" routerLinkActive="active-link-topic">
+      <a (click)="onCreateButtonClick()"><img src="../../../assets/Images/create.png" width="20px" height="24px"
+          class="icons" /> Create checklist</a>
+    </div>
+    <div class="text-area my-0 p-2 py-0" style="border-radius: 6px;"  routerLink="/event/agenda" routerLinkActive="active-link-topic">
+      <a (click)="onCreateButtonClick()"><img src="../../../assets/Images/create.png" width="20px" height="24px"
+          class="icons" /> Create agenda</a>
+    </div>
   </div>
 </div>

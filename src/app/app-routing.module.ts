@@ -55,8 +55,12 @@ const routes: Routes = [
           {path: 'event', component:EventComponent, 
             children: [
             { path: 'create', component: EventCreateFormComponent},
+            { path: 'checklist', component: ChecklistComponent},
+            { path: 'agenda', component: AgendaComponent},
             { path: 'update/:id', component: EventCreateFormComponent },
             { path: 'view/:id', component: EventViewComponent },
+            { path: 'view/:id/checklist', component: ChecklistComponent },
+            { path: 'view/:id/agenda', component: AgendaComponent },
             { path: '', redirectTo: 'create', pathMatch: 'full' },
           ],canActivate:[ClientGuard]},
           {path: 'dashboard', component:DashboardComponent},

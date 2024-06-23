@@ -6,8 +6,15 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Button, Checklist, Task } from 'src/app/Interfaces/interfaces';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  Validators,
+  FormControl,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Button, Checklist, Event, Task } from 'src/app/Interfaces/interfaces';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { ChecklistAgendaService } from 'src/app/Services/checklist-agenda.service';
 import { PdfGeneratorService } from 'src/app/Services/pdf-generator.service';
@@ -23,13 +30,20 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
 
   checkListForm!: FormGroup;
   checklist!: Checklist;
+  events: Event[] = [];
+  eventForm!: FormGroup;
+  eventId!: number;
+  checklistId!:number;
+  titleName: string = 'Create';
 
   showTaskField: boolean = true;
   saveButtonLoading: boolean = false;
   exportButtonLoading: boolean = false;
   taskNameErr: boolean = true;
   hasSavedChecklist: boolean = false;
+  NoChecklist:boolean = false;
   exportChecklist: boolean = false;
+  eventLoading: boolean = false;
 
   saveButton: Button = {
     url: '',
@@ -66,16 +80,35 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
     private _checklist: ChecklistAgendaService,
     private _toast: ToastService,
     private _auth: AuthenticationService,
-    private _pdfGenerate: PdfGeneratorService
+    private _pdfGenerate: PdfGeneratorService,
+    private _router: Router,
+    private _activateRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    if (this._auth.isLoggedIn()) {
+      this.checkUrl();
+    }
   }
 
   ngAfterViewInit(): void {
-    if (!this._auth.isLoggedIn()) {
-      this.getChecklistFromLocal();
+    this.getChecklistFromLocal();
+  }
+
+  checkUrl() {
+    const url = this._router.url;
+    if (url === '/event/checklist') {
+      this.getAllChecklistEvents();
+    } else {
+      this._activateRoute.paramMap.subscribe((params) => {
+        const id = params.get('id');
+        this.eventId = id ? +id : 0; // Converts the string to number and handles null
+        // console.log(this.eventId);
+        if (this.eventId != 0) {
+          this.getChecklistFromDatabase();
+        }
+      });
     }
   }
 
@@ -94,6 +127,10 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
       title: ['Untitled checklist', Validators.required],
       description: ['', Validators.required],
       tasks: this.fb.array([this.createTask()]),
+    });
+
+    this.eventForm = this.fb.group({
+      selectedEventId: new FormControl(null, Validators.required),
     });
 
     this.checkListForm.valueChanges.subscribe(() => {
@@ -202,21 +239,123 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
     }
   }
 
+  processTasks(tasks: Task[]) {
+    for (let i = 0; i < tasks.length - 1; i++) {
+      if (
+        tasks[i].taskDescription === '' &&
+        tasks[i + 1].taskName === '' &&
+        tasks[i + 1].taskDescription !== ''
+      ) {
+        tasks[i].taskDescription = tasks[i + 1].taskDescription;
+        tasks.splice(i + 1, 1);
+        i--; // Adjust index after removing an element
+      }
+    }
+  }
+
   saveChecklist() {
     this.saveButtonLoading = true;
+
     if (this.checkListForm.valid) {
       if (
         this.tasks.controls.length === 1 &&
         !this.hasTaskValue(0, 'taskName')
       ) {
+        this.saveButtonLoading = false;
         return;
       }
+      this.processTasks(this.checkListForm.value.tasks);
+
       this.deleteEmptyTasks();
-      console.log(this.checkListForm.value);
       this._checklist.removeChecklist();
-      this._checklist.saveChecklist(this.checkListForm.value);
-      this._toast.showMessage('Checklist saved successful!', 'success');
-      this.saveButtonLoading = false;
+
+      if (this._auth.isLoggedIn()) {
+        if (this.events.length > 0) {
+          if (this.eventForm.invalid) {
+            this.markAllFieldsAsTouched(this.eventForm);
+            this.saveButtonLoading = false;
+            return;
+          }
+
+          console.log(this.eventForm.value);
+          console.log(this.checkListForm.value);
+
+          this._checklist
+            .saveChecklistInDatabase(
+              this.checkListForm.value,
+              this.eventForm.value.selectedEventId
+            )
+            .subscribe({
+              next: (res: any) => {
+                // console.log(res);
+                this._toast.showMessage(res.message, 'success');
+                this.getAllChecklistEvents();
+                this._router.navigate([`event/view/${this.eventForm.value.selectedEventId}/checklist`])
+                this.reset();
+                this.saveButtonLoading = false;
+              },
+              error: (err: any) => {
+                this._toast.showMessage('Failed to save checklist', 'error');
+                // console.log(err);
+                this.saveButtonLoading = false;
+              },
+            });
+        } else {
+
+          if(this.hasSavedChecklist) {
+
+            this._checklist
+            .UpdateChecklistInDatabase(
+              this.checkListForm.value,
+              this.checklistId
+            )
+            .subscribe({
+              next: (res: any) => {
+                // console.log(res);
+                this._toast.showMessage(res.message, 'success');
+                this.getChecklistFromDatabase();
+                this.saveButtonLoading = false;
+              },
+              error: (err: any) => {
+                this._toast.showMessage('Failed to update checklist', 'error');
+                // console.log(err);
+                this.saveButtonLoading = false;
+              },
+            });
+
+          } else {
+            if(this.NoChecklist) {
+              this._checklist.saveChecklistInDatabase(this.checkListForm.value,this.eventId).subscribe({
+                next:(res:any) => {
+                  this._toast.showMessage(res.message,'success');
+                  this.getChecklistFromDatabase();
+                  this.saveButtonLoading = false;
+                },
+                error:(err:any) => {
+                  if(err) {
+                    this._toast.showMessage(err.message,'error');
+                    
+                  }
+                  this.saveButtonLoading = false;
+                }
+              })
+              return
+            }
+
+            this._checklist.saveChecklist(this.checkListForm.value);
+            this._toast.showMessage(
+              'Create an event to add a checklist.',
+              'info'
+            );
+            this.saveButtonLoading = false;
+          }
+
+        }
+      } else {
+        this._checklist.saveChecklist(this.checkListForm.value);
+        this._toast.showMessage('Checklist saved successful!', 'success');
+        this.saveButtonLoading = false;
+      }
     } else {
       this.markAllFieldsAsTouched(this.checkListForm);
       this._toast.showMessage('Please fill the required field!', 'error');
@@ -224,9 +363,10 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
     }
   }
 
+
   reset() {
-      this.checkListForm.reset();
-      this.initializeForm();
+    this.checkListForm.reset();
+    this.initializeForm();
   }
 
   markAllFieldsAsTouched(formGroup: FormGroup | FormArray) {
@@ -251,9 +391,9 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
 
   getChecklistFromLocal() {
     const checklist = this._checklist.getChecklist();
+    // console.log(checklist)
     if (checklist) {
       this.checklist = checklist;
-      this.hasSavedChecklist = true;
       this.checkListForm.patchValue({
         date: checklist.date,
         title: checklist.title,
@@ -272,23 +412,87 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
       });
     }
   }
+
+  getChecklistFromDatabase() {
+    this.eventLoading = true;
+    this._checklist.getChecklistFromDatabase(this.eventId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res) {
+          this.hasSavedChecklist = true;
+          this.saveButton.text = 'Update';
+          this.titleName = res.eventName;
+          this.checklistId = res.checklistId;
+          this.checklist = res.checklist;
+          this.checkListForm.patchValue({
+            date: this.checklist.date,
+            title: this.checklist.title,
+            description: this.checklist.description,
+          });
+
+          this.tasks.clear();
+          this.checklist.tasks.forEach((task: Task) => {
+            this.tasks.push(
+              this.fb.group({
+                checked: task.checked,
+                taskName: task.taskName,
+                taskDescription: task.taskDescription,
+              })
+            );
+          });
+        }
+        this.eventLoading = false;
+      },
+      error: (err: any) => {
+        if(err) {
+          this.NoChecklist = true;
+          // console.error(err);
+          this._toast.showMessage(err.message,'info');
+          if(err.eventName)
+            this.titleName = err.eventName;
+        }
+        this.eventLoading = false;
+      },
+    });
+  }
+
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   async generatePdf() {
+    if (!this.checkListForm.valid) {
+      this.markAllFieldsAsTouched(this.checkListForm);
+      this._toast.showMessage('Please fill the required field!', 'error');
+      return;
+    }
     this.exportChecklist = true;
     this.exportButtonLoading = true;
 
     await this.delay(1000);
 
-    const pdfName = `${this.checklist.title}`
+    const pdfName = `${this.checkListForm.get('title')?.value}`;
 
     // Perform the PDF generation
-    await this._pdfGenerate.generatePdfFromHtml('pdfContent',pdfName);
+    await this._pdfGenerate.generatePdfFromHtml('pdfContent', pdfName);
 
     // Update the loading state after the PDF generation is done
     this.exportButtonLoading = false;
     this.exportChecklist = false;
+  }
+
+  getAllChecklistEvents() {
+    this.eventLoading = true;
+    this._checklist.getChecklistEvents().subscribe({
+      next: (res: any) => {
+        // console.log(res);
+        this.events = res;
+        this.eventLoading = false;
+      },
+      error: (err: any) => {
+        // console.log(err);
+        this.eventLoading = false;
+      },
+    });
   }
 }

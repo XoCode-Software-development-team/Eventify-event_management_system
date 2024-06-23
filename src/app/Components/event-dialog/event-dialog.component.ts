@@ -2,18 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Event } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
 import { EventService } from 'src/app/Services/event.service';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { ToastService } from 'src/app/Services/toast.service';
-
-interface Event {
-  eventId: number;
-  name: string;
-  isInVendorSr: boolean;
-  isPending: boolean;
-}
 
 @Component({
   selector: 'app-event-dialog',
@@ -70,7 +64,7 @@ export class EventDialogComponent implements OnInit {
       Added: addedEventIds,
       Removed: removedEventIds
     };
-    console.log(updateEventServiceResource)
+    // console.log(updateEventServiceResource)
 
     if (addedEventIds.length > 0 || removedEventIds.length > 0) {
       this.eventService.addServiceResourceToEvent(this.data.soRId,updateEventServiceResource).subscribe({

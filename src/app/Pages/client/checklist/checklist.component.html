@@ -1,18 +1,41 @@
 <div class="container p-3">
-  <h2 class="mb-2">Create checklist</h2>
+  <div *ngIf="!eventLoading">
+    <h2 class="mb-2">{{titleName}} checklist</h2>
 
   <form [formGroup]="checkListForm" id="pdfContent">
-    <div class="d-flex mb-2 mx-5" style="align-items: center; justify-content: end;" [ngClass]="exportChecklist ? 'p-5': ''">
-      <p class="p-0 m-0 px-2">Date</p>
-      <input formControlName="date" style="border: none; width: 85px;" class="date-input"
-      type="datetime" [ngStyle]="{'border-bottom': (exportChecklist) ? 'none': '1px solid #ccc ' }">
-      <!-- Add error message for date -->
-      <div *ngIf="checkListForm.get('date')?.invalid && checkListForm.get('date')?.touched" class="text-danger small">
-        Date is required</div>
+    <div class="d-flex mb-2 mx-5" style="align-items: end;" [ngClass]="{
+      'p-5': exportChecklist,
+      'justify-content-between': (events.length > 0 && !exportChecklist),
+      'justify-content-end': (events.length === 0 || exportChecklist)
+    }">
+      <div *ngIf="!exportChecklist && events.length>0">
+        <form [formGroup]="eventForm" class="position-relative">
+          <mat-form-field class="mt-4 p-0" appearance="outline">
+            <mat-label>Select Event</mat-label>
+            <mat-select formControlName="selectedEventId">
+              <mat-option *ngFor="let event of events" [value]="event.eventId">
+                {{ event.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="eventForm.get('selectedEventId')?.invalid && eventForm.get('selectedEventId')?.touched"
+          class="text-danger small p-0 position-absolute" style="top: 81px;">Event is required</div>
+        </form>
+        
+      </div>
+      <div class="d-flex align-items-center justify-content-end">
+        <p class="p-0 m-0 px-2">Date</p>
+        <input formControlName="date" style="border: none; width: 85px;" class="date-input" type="datetime"
+          [ngStyle]="{'border-bottom': (exportChecklist) ? 'none': '1px solid #ccc ' }">
+        <!-- Add error message for date -->
+        <div *ngIf="checkListForm.get('date')?.invalid && checkListForm.get('date')?.touched" class="text-danger small">
+          Date is required</div>
+      </div>
     </div>
 
     <div class="mb-4">
-      <div class="mx-5 p-5" style="min-height: 39vh;" [ngClass]="exportChecklist ? '' : 'card'">
+      <div class="mx-5 p-5" [ngStyle]="{ 'min-height': (events.length > 0) ? '22vh' : '39vh' }"
+        [ngClass]="exportChecklist ? '' : 'card'">
         <div class="container mt-2 mb-4">
           <!-- Title input field with larger placeholder -->
           <input class="form-control date-input title-input mb-2 w-50"
@@ -98,5 +121,11 @@
     <app-primary-button [loading]="exportButtonLoading" (click)="generatePdf()"
       [button]="ExportButton"></app-primary-button>
   </div>
+</div>
+<div *ngIf="eventLoading" class="spinner-container d-flex flex-column" style="margin-top: 100px;">
+  <p>Please wait</p>
+  <mat-spinner diameter="32"></mat-spinner>
+</div>
+
 
 </div>

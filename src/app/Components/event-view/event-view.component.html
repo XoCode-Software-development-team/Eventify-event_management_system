@@ -41,11 +41,10 @@
     </div>
 
 
-    <section>
-        <div class="buttons">
-            <button class="btn btn-primary mt-4" (click)="viewAgenda"><i class="fas fa-list"></i> Agenda</button>
-            <button class="btn btn-primary mt-4" (click)="viewChecklist"><i class="fas fa-tasks"></i> View
-                Checklist</button>
+    <section >
+        <div class="buttons d-flex align-items-center justify-content-around gap-2 mx-2">
+            <button class="btn btn-primary"routerLink="checklist" ><i class="fas fa-tasks"></i> Checklist</button>
+            <button class="btn btn-primary" routerLink="agenda"><i class="fas fa-list"></i> Agenda</button>
         </div>
 
     </section>

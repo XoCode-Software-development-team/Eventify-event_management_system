@@ -62,14 +62,12 @@ export class EventViewComponent implements OnInit {
         this._toast.showMessage(res.message, 'success');
         if (res.nextEventId != 0) {
           this.router.navigate(['/event/view', res.nextEventId]).then(() => {
-            this.location.back();
             window.scrollTo(0, 0);
             this.eventService.announceEventAdded();
             this.isLoading = false;
           });
         } else {
           this.router.navigate(['event/create']).then(() => {
-            this.location.back();
             this.isLoading = false;
           });
         }
@@ -79,14 +77,6 @@ export class EventViewComponent implements OnInit {
         this.isLoading = false;
       }
     });
-  }
-
-  viewAgenda() {
-    console.log('View agenda!');
-  }
-
-  viewChecklist() {
-    console.log('View checklist!');
   }
 
   hasEventServiceCards(): boolean {
