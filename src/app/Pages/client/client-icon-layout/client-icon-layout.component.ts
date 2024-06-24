@@ -130,7 +130,7 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy, AfterViewIn
 
     if (
       currentUrl === '/profile' ||
-      currentUrl === '/password' || currentUrl === '/dashboard' || currentUrl === '/checklist' || currentUrl === '/agenda' ||
+      currentUrl === '/password' || currentUrl === '/dashboard' || currentUrl === '/checklist' || currentUrl === '/agenda' || currentUrl === '/userGuide' ||
       currentUrl.startsWith('/event')
     ) {
       // Hide button if the URL is exactly '/vendor/updateProfile' or '/vendor/updatePassword'

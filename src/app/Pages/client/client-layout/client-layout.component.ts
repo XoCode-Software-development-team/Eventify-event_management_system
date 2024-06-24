@@ -14,6 +14,7 @@ export class ClientLayoutComponent implements OnInit {
     { text: 'Resource', url: 'resources' },
     { text: 'Checklist', url: 'checklist' },
     { text: 'Agenda', url: 'agenda' },
+    { text: 'UserGuide', url: 'userGuide' }
   ];
 
   afterLogNavList = [
@@ -22,6 +23,7 @@ export class ClientLayoutComponent implements OnInit {
     { text: 'Resource', url: 'resources' },
     { text: 'Event', url: 'event' },
     { text: 'Dashboard', url: 'dashboard' },
+    { text: 'UserGuide', url: 'userGuide' }
   ];
 
   navList: any[] = [];

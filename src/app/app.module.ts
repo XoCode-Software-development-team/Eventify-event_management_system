@@ -75,6 +75,7 @@ import { CompareViewComponent } from './Pages/client/compare-view/compare-view.c
 import { ChecklistComponent } from './Pages/client/checklist/checklist.component';
 import { AgendaComponent } from './Pages/client/agenda/agenda.component';
 import { MaterialModule } from './Core/material.module';
+import { UserGuideComponent } from './Pages/client/user-guide/user-guide.component';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { MaterialModule } from './Core/material.module';
     CompareViewComponent,
     ChecklistComponent,
     AgendaComponent,
+    UserGuideComponent,
   ],
   imports: [
     BrowserModule,

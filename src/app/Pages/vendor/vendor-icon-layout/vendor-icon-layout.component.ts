@@ -120,7 +120,7 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
       this.button.class = ['hideButton'];
     } else if (
       currentUrl === '/vendor/profile' ||
-      currentUrl === '/vendor/password'
+      currentUrl === '/vendor/password' || currentUrl === '/vendor/userGuide'
     ) {
       // Hide button if the URL is exactly 'http://localhost:4200/vendor/updateProfile'
       this.button.class = ['hideButton'];

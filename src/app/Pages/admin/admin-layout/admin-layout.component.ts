@@ -11,6 +11,6 @@ export class AdminLayoutComponent {
     { text: "Home", url: "home" },
     { text: "Service", url: "services" },
     { text: "Resource", url: "resources" },
-    { text: "Users", url: "users" },
+    { text: "UserGuide", url: "userGuide" },
   ];
 }

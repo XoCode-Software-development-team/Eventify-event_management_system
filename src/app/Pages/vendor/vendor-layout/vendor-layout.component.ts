@@ -19,6 +19,10 @@ export class VendorLayoutComponent {
     {
       text: "Resource",
       url: "resources"
+    },
+    {
+      text: "UserGuide",
+      url: "userGuide"
     }
   ]
 }

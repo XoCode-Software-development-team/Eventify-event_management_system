@@ -37,6 +37,7 @@ import { CompareViewComponent } from './Pages/client/compare-view/compare-view.c
 import { QueryParamsGuard } from './Guards/query-params.guard';
 import { ChecklistComponent } from './Pages/client/checklist/checklist.component';
 import { AgendaComponent } from './Pages/client/agenda/agenda.component';
+import { UserGuideComponent } from './Pages/client/user-guide/user-guide.component';
 
 const routes: Routes = [
   {path: 'forgotPassword', component:ForgotPasswordComponent,canActivate:[AuthGuard]},
@@ -52,6 +53,7 @@ const routes: Routes = [
           {path: '', redirectTo: '/home', pathMatch: 'full'},
           {path: 'checklist', component:ChecklistComponent,canActivate:[AuthGuard]},
           {path: 'agenda',component:AgendaComponent,canActivate:[AuthGuard]},
+          {path: 'userGuide', component:UserGuideComponent},
           {path: 'event', component:EventComponent, 
             children: [
             { path: 'create', component: EventCreateFormComponent},
@@ -86,6 +88,7 @@ const routes: Routes = [
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'profile', component:EditProfileComponent,canActivate:[VendorGuard]},
           {path: 'password', component:EditProfileComponent,canActivate:[VendorGuard]},
+          {path: 'userGuide', component:UserGuideComponent},
           {path: '',component: VendorSidenavLayoutComponent,
             children: [
               {path: 'services', redirectTo: 'services/all', pathMatch: 'full'},
@@ -116,6 +119,7 @@ const routes: Routes = [
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'profile', component:EditProfileComponent,canActivate:[AdminGuard]},
           {path: 'password', component:EditProfileComponent,canActivate:[AdminGuard]},
+          {path: 'userGuide', component:UserGuideComponent},
           {path: '',component: AdminSidenavLayoutComponent,
             children: [
               {path: 'services', redirectTo: 'services/all', pathMatch: 'full'},
