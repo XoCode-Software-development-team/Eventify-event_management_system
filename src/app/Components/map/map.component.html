@@ -1,0 +1,37 @@
+<ng-container *ngIf="apiLoaded">
+  <google-map #googleMap *ngIf="!mapLoading" height="554px" width="100%" [center]="center" [zoom]="zoom">
+    <map-marker *ngFor="let location of locations;let i = index"
+      [position]="{ lat: location.latitude, lng: location.longitude }" [title]="location.name"
+      (mapClick)="openInfoWindow(marker, location)" #marker="mapMarker">
+    </map-marker>
+    <map-info-window #infoWindow>
+      <div class="container" *ngIf="selectedLocation">
+        <div class="image-container">
+          <img class="m-2 flex-grow-3 serviceImage"
+            [src]="selectedLocation.image ? selectedLocation.image : '../../assets/defaultService.jpg'"
+            alt="{{ selectedLocation.name }} image">
+        </div>
+        <div class="p-2" style="min-width: 300px;">
+          <!-- Link to service/resource details page -->
+          <h4><a class="text-decoration-none"
+              [routerLink]="this.checkIsServiceOrResource()+'/' + selectedLocation.soRId + '/' + selectedLocation.name">{{
+              selectedLocation.name }}</a></h4>
+          <p class="h6">from {{ selectedLocation.vendorName }}</p>
+          <p>{{selectedLocation.district}}</p>
+          <!-- Display rating with NgbRating component -->
+          <p class="">{{ selectedLocation.rating | number: '1.1-1' }}
+            <span style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5" [rate]="selectedLocation.rating"
+                [readonly]="true"></ngb-rating>
+            </span>
+          </p>
+        </div>
+      </div>
+    </map-info-window>
+  </google-map>
+  <div *ngIf="mapLoading" style="width: 100%; height: 554px;background-color: #ccc;"
+    class="spinner-container d-flex flex-column">
+    <p>Please wait</p>
+    <!-- Loading Spinner -->
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
+</ng-container>

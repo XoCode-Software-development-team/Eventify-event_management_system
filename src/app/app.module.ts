@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SideNavBarComponent } from './Components/side-nav-bar/side-nav-bar.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AdminServiceAndResourceComponent } from './Pages/admin/admin-serviceAndResource/admin-serviceAndResource.component';
 import { TabCardComponent } from './Components/tab-card/tab-card.component';
 import { FooterComponent } from './Components/footer/footer.component';
@@ -76,6 +75,8 @@ import { ChecklistComponent } from './Pages/client/checklist/checklist.component
 import { AgendaComponent } from './Pages/client/agenda/agenda.component';
 import { MaterialModule } from './Core/material.module';
 import { UserGuideComponent } from './Pages/client/user-guide/user-guide.component';
+import { MapComponent } from './Components/map/map.component';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   declarations: [
@@ -140,6 +141,7 @@ import { UserGuideComponent } from './Pages/client/user-guide/user-guide.compone
     ChecklistComponent,
     AgendaComponent,
     UserGuideComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
@@ -148,7 +150,6 @@ import { UserGuideComponent } from './Pages/client/user-guide/user-guide.compone
     MatIconModule,
     HttpClientModule,
     MaterialModule,
-    FlexLayoutModule,
     NgbModule,
     AppRoutingModule,
     ConfirmationPopoverModule.forRoot({
@@ -159,6 +160,7 @@ import { UserGuideComponent } from './Pages/client/user-guide/user-guide.compone
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
+    GoogleMapsModule
   ],
   providers: [{
     provide:HTTP_INTERCEPTORS,

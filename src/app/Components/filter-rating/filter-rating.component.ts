@@ -23,6 +23,7 @@ export class FilterRatingComponent implements OnInit {
   ];
 
   selectedModel: number = this.allRate.rate;
+  ratingLoading:boolean = false;
 
   constructor(private _serviceAndResource: ServiceAndResourceService) {}
 
@@ -37,12 +38,14 @@ export class FilterRatingComponent implements OnInit {
   }
 
   countRatingCount() {
+    this.ratingLoading = true;
     this._serviceAndResource.getRatingCount().subscribe({
       next:(res:any) => {
         this.allRate.count = res[0]
         this.ratings.forEach(r => {
           r.count = res[r.rate];
         })
+        this.ratingLoading = false;
       },
       error:(err:any)=> {
         console.error(err);

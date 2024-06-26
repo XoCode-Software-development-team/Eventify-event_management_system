@@ -1,6 +1,6 @@
 <div class="container">
     <h5>Category</h5>
-    <ul>
+    <ul *ngIf="!categoryLoading">
         <li>
             <mat-checkbox color="primary" [(ngModel)]="firstCategory" (change)="firstCheckboxChange($event)">
                 All
@@ -13,4 +13,9 @@
             </mat-checkbox>
         </li>
     </ul>
+    <div *ngIf="categoryLoading" class="spinner-container d-flex flex-column" style="height: 150px;">
+        <p>Please wait</p>
+        <!-- Loading Spinner -->
+        <mat-spinner diameter="20"></mat-spinner>
+    </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 
@@ -9,6 +9,7 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.s
 })
 export class SortComponent {  
   @Output() sortChange = new EventEmitter<string>();
+  @Input() mapStart:boolean = false;
   selectedSort: string;
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString());

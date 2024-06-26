@@ -13,3 +13,9 @@ export const environment = {
         measurementId: "G-0126Z1V2MM"
       }
 }
+
+export const mapEnvironment = {
+    production: false,
+    googleMapsApiKey: 'AIzaSyB0sAO-pDp_nivGlGRLjrvN-Mjo4rfcy5Q'
+  };
+  

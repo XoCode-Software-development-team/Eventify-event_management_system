@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { servicesAndResourcesCard } from 'src/app/Interfaces/interfaces';
 import { PageEvent } from '@angular/material/paginator';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
@@ -11,6 +11,8 @@ import { ToastService } from 'src/app/Services/toast.service';
 })
 export class AllServiceAndResourceComponent implements OnInit {
   pageSize = 4;
+  mapStart:boolean = false;
+  query:string = '';
   currentPage = 0;
   isLoading = false;
   servicesAndResources: servicesAndResourcesCard[] = [];
@@ -32,7 +34,8 @@ export class AllServiceAndResourceComponent implements OnInit {
 
   constructor(
     private _serviceAndResource: ServiceAndResourceService,
-    private _toastService: ToastService
+    private _toastService: ToastService,
+    private _cdr:ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -110,4 +113,11 @@ export class AllServiceAndResourceComponent implements OnInit {
   checkUrlString(): string {
     return this._serviceAndResource.checkUrlString();
   }
+
+  hideAll($event: { started: boolean, data?: string }) {
+    this.query = $event.data || '';
+    this.mapStart = $event.started;
+    this._cdr.detectChanges();
+  }
+  
 }

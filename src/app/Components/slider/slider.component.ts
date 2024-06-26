@@ -17,6 +17,7 @@ export class SliderComponent implements OnInit {
   modelId: number | null = null;
   priceModelSelected: boolean = false;
   selectedModel: any;
+  priceModelLoading:boolean = false;
 
   @Output() priceFilteredDataSource: any = new EventEmitter<any>();
 
@@ -33,12 +34,14 @@ export class SliderComponent implements OnInit {
   }
 
   getPriceModel() {
+    this.priceModelLoading = true;
     this._serviceAndResource.getPriceModelsListOfServicesAndResources().subscribe({
       next: (res: any) => {
         this.priceModels = res.map((item: any) => ({
           id: item.modelId,
           priceModelName: item.modelName,
         }));
+        this.priceModelLoading = false;
       },
       error: (err: any) => {
         console.error('Error fetching price models:', err);

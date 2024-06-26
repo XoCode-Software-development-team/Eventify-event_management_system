@@ -1,7 +1,7 @@
 <div class="container">
   <div>
     <h5>Filter price model</h5>
-    <mat-radio-group [(ngModel)]="selectedPriceModel" (change)="onPriceModelChange()" class="radio-group">
+    <mat-radio-group *ngIf="!priceModelLoading" [(ngModel)]="selectedPriceModel" (change)="onPriceModelChange()" class="radio-group">
       <mat-radio-button class="radio-button" [color]="'primary'" value="All">
         All
       </mat-radio-button>
@@ -9,7 +9,13 @@
         {{price.priceModelName}}
       </mat-radio-button>
     </mat-radio-group>
+
   </div>
+  <div *ngIf="priceModelLoading" class="spinner-container d-flex flex-column" style="height: 150px;">
+    <p>Please wait</p>
+    <!-- Loading Spinner -->
+    <mat-spinner diameter="20"></mat-spinner>
+</div>
 
   <div *ngIf="priceModelSelected" class="mt-2">
     <h5>Price range</h5>

@@ -16,6 +16,7 @@ export class CategoryComponent implements OnInit {
     private _toastService: ToastService
   ) {}
 
+  categoryLoading:boolean = false;
   firstCategory: boolean = true;
   selectedCategory: boolean = true;
   extendedCategory: ExtendedCategory[] = [];
@@ -44,6 +45,7 @@ export class CategoryComponent implements OnInit {
   }
 
   getAllCategories() {
+    this.categoryLoading = true;
     this._serviceAndResource.getCategoriesList().subscribe({
       next: (res: any) => {
         this.extendedCategory = res.map((item: any) => ({
@@ -55,6 +57,7 @@ export class CategoryComponent implements OnInit {
               : item.resourceCategoryName,
         }));
         this.filterCategory();
+        this.categoryLoading = false;
       },
       error: (err: any) => {
         console.error(err);

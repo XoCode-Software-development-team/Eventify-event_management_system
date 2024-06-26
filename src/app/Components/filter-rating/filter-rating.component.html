@@ -1,6 +1,6 @@
 <div class="container mt-4">
   <h5>Rating</h5>
-  <mat-radio-group class="radio-group" [(ngModel)]="selectedModel">
+  <mat-radio-group *ngIf="!ratingLoading" class="radio-group" [(ngModel)]="selectedModel">
     <mat-radio-button class="radio-button" [value]="allRate.rate" (change)="selectedRate($event)">
       All ratings ({{ allRate.count }})
     </mat-radio-button>
@@ -10,4 +10,9 @@
       </span> & up ({{ rating.count }})
     </mat-radio-button>
   </mat-radio-group>
+  <div *ngIf="ratingLoading" class="spinner-container d-flex flex-column" style="height: 150px;">
+    <p>Please wait</p>
+    <!-- Loading Spinner -->
+    <mat-spinner diameter="20"></mat-spinner>
+</div>
 </div>
