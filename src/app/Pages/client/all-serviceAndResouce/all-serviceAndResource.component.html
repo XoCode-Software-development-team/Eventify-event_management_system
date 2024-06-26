@@ -23,7 +23,7 @@
             <app-search (mapStart)="hideAll($event)"></app-search>
         </div>
 
-        <div *ngIf="mapStart" style="border-radius: 6px;">
+        <div *ngIf="mapStart">
             <app-map [query]="query"></app-map>
         </div>
 

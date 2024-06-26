@@ -39,5 +39,9 @@ export class MapService {
     const params = { query }; // Create an object with query parameter
     return this._http.get(`${this.apiUrl}/${item}`, { params });
   }
+
+  getServiceResourceDetailsLocation(soRId:number) {
+    return this._http.get(`${this.apiUrl}/${soRId}`);
+  }
   
 }

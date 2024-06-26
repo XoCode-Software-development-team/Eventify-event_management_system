@@ -1,5 +1,7 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { ActivatedRoute } from '@angular/router';
 import { MapService } from 'src/app/Services/map.service';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { ToastService } from 'src/app/Services/toast.service';
@@ -22,6 +24,7 @@ interface ServiceResourceLocation {
 })
 export class MapComponent implements OnInit, OnChanges {
   @Input() query?: string;
+  @Input() hight?: string;
   @ViewChild('googleMap', { static: false }) googleMap: any;
   @ViewChild(MapInfoWindow, { static: false }) infoWindow!: MapInfoWindow;
 
@@ -32,24 +35,42 @@ export class MapComponent implements OnInit, OnChanges {
   zoom = 8; // Adjusted zoom level
   apiLoaded: boolean = false;
   mapLoading: boolean = false;
+  soRId: number = 0;
+  soRName: string = '';
+  isServiceDetailsPage: boolean = false;
 
   constructor(
     private _map: MapService,
     private _serviceResource: ServiceAndResourceService,
-    private _toast: ToastService
+    private _toast: ToastService,
+    private _route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.getRouterParams();
     this.initializeMap();
   }
 
   ngOnChanges(): void {
-    this.mapLoading = true;
-    setTimeout(() => {
-      if (this.apiLoaded) {
-        this.getLocations(this.query);
+    if (!this.isServiceDetailsPage) {
+      this.mapLoading = true;
+      setTimeout(() => {
+        if (this.apiLoaded) {
+          this.getLocations(this.query);
+        }
+      }, 1000);
+    }
+  }
+
+  getRouterParams() {
+    this._route.params.subscribe((params) => {
+      if (params) {
+        this.isServiceDetailsPage = true;
+        this.soRId = params['soRId'];
+        this.soRName = params['name'];
+        // console.log(this.soRId)
       }
-    }, 1000);
+    });
   }
 
   initializeMap() {
@@ -59,7 +80,11 @@ export class MapComponent implements OnInit, OnChanges {
       .then(() => {
         this.apiLoaded = true;
         // console.log('Google Maps API loaded successfully');
-        this.getLocations();
+        if (!this.isServiceDetailsPage) {
+          this.getLocations();
+        } else {
+          this.getServiceResourceDetailsLocation();
+        }
         this.mapLoading = false;
       })
       .catch((error) => {
@@ -113,6 +138,41 @@ export class MapComponent implements OnInit, OnChanges {
       },
       error: (err: any) => {
         console.error('Error fetching locations:', err);
+      },
+    });
+  }
+
+  getServiceResourceDetailsLocation() {
+    this.mapLoading = true;
+    this.locations = [];
+    this._map.getServiceResourceDetailsLocation(this.soRId).subscribe({
+      next: (res: any) => {
+        // console.log(res);
+        if (res) {
+          if (res.locations && res.locations.length > 0) {
+            res.locations.forEach((location: any) => {
+              if (location.latitude && location.longitude) {
+                const itemLocation: ServiceResourceLocation = {
+                  soRId: res.soRid,
+                  name: res.name, // Adjusted to match casing
+                  rating: res.overallRating, // Adjusted to match casing
+                  vendorName: res.vendorName, // Adjusted to match casing
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                  district: location.district,
+                  image: '', // Adjusted to match casing
+                };
+                this.locations.push(itemLocation); // Moved inside the if block
+              }
+            });
+          }
+        }
+        // console.log(this.locations);
+        this.adjustZoom();
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.mapLoading = false;
       },
     });
   }

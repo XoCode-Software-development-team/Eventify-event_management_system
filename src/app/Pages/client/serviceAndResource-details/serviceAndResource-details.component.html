@@ -1,4 +1,4 @@
-<div class="row mb-5 w-100">
+<div class="row w-100">
     <!-- Spinner container displayed when loading -->
     <div *ngIf="isLoading" class="spinner-container d-flex flex-column">
         <p>Please wait</p>
@@ -86,4 +86,7 @@
             </div>
         </div>
     </div>
+</div>
+<div *ngIf="!isLoading" style="margin-top: 100px;">
+    <app-map [hight]="'400px'"></app-map>
 </div>

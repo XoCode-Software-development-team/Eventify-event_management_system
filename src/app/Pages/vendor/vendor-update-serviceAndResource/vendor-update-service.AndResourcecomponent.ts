@@ -205,7 +205,7 @@ export class VendorUpdateServiceAndResourceComponent
         serviceFeatures: new FormControl([]),
         serviceLocations: new FormArray([
           new FormGroup({
-            country: new FormControl(null),
+            country: new FormControl('Sri Lanka'),
             stateProvinceRegion: new FormControl(null),
             district: new FormControl(null),
             cityTownArea: new FormControl(null),
@@ -234,7 +234,7 @@ export class VendorUpdateServiceAndResourceComponent
         resourceFeatures: new FormControl([]),
         resourceLocations: new FormArray([
           new FormGroup({
-            country: new FormControl(null),
+            country: new FormControl('Sri Lanka'),
             stateProvinceRegion: new FormControl(null),
             district: new FormControl(null),
             cityTownArea: new FormControl(null),
@@ -269,7 +269,7 @@ export class VendorUpdateServiceAndResourceComponent
     ) as FormArray;
     control.push(
       new FormGroup({
-        country: new FormControl(null),
+        country: new FormControl('Sri Lanka'),
         stateProvinceRegion: new FormControl(null),
         cityTownArea: new FormControl(null),
         district: new FormControl(null),

@@ -1,12 +1,12 @@
 <ng-container *ngIf="apiLoaded">
-  <google-map #googleMap *ngIf="!mapLoading" height="554px" width="100%" [center]="center" [zoom]="zoom">
+  <google-map #googleMap *ngIf="!mapLoading" [height]="hight? hight : '554px'" width="100%" [center]="center" [zoom]="zoom">
     <map-marker *ngFor="let location of locations;let i = index"
       [position]="{ lat: location.latitude, lng: location.longitude }" [title]="location.name"
       (mapClick)="openInfoWindow(marker, location)" #marker="mapMarker">
     </map-marker>
     <map-info-window #infoWindow>
       <div class="container" *ngIf="selectedLocation">
-        <div class="image-container">
+        <div class="image-container" *ngIf="selectedLocation.image">
           <img class="m-2 flex-grow-3 serviceImage"
             [src]="selectedLocation.image ? selectedLocation.image : '../../assets/defaultService.jpg'"
             alt="{{ selectedLocation.name }} image">
@@ -14,7 +14,7 @@
         <div class="p-2" style="min-width: 300px;">
           <!-- Link to service/resource details page -->
           <h4><a class="text-decoration-none"
-              [routerLink]="this.checkIsServiceOrResource()+'/' + selectedLocation.soRId + '/' + selectedLocation.name">{{
+              [routerLink]="'/'+checkIsServiceOrResource()+'s/'+this.checkIsServiceOrResource()+'/' + selectedLocation.soRId + '/' + selectedLocation.name">{{
               selectedLocation.name }}</a></h4>
           <p class="h6">from {{ selectedLocation.vendorName }}</p>
           <p>{{selectedLocation.district}}</p>
