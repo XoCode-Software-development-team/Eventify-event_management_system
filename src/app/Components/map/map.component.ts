@@ -64,14 +64,18 @@ export class MapComponent implements OnInit, OnChanges {
 
   getRouterParams() {
     this._route.params.subscribe((params) => {
-      if (params) {
+      if (params['soRId'] && params['name']) {
+        // console.log(params);
         this.isServiceDetailsPage = true;
         this.soRId = params['soRId'];
         this.soRName = params['name'];
-        // console.log(this.soRId)
+      } else {
+        this.isServiceDetailsPage = false;
       }
+      // console.log(this.isServiceDetailsPage);
     });
   }
+  
 
   initializeMap() {
     this.mapLoading = true;

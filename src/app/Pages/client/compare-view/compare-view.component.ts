@@ -431,6 +431,10 @@ export class CompareViewComponent implements OnInit, OnDestroy {
     return Math.max(...this.dataSource.map((data) => data.prices.length));
   }
 
+  calculateMaxLocationsLength(): number {
+    return Math.max(...this.dataSource.map((data) => data.locations.length));
+  }
+
   isService(): boolean {
     let is = this._serviceResource.checkUrlString();
     if (is === 'service') {

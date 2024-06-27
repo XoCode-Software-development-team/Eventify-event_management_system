@@ -333,16 +333,20 @@
                     </td>
                 </tr>
                 <ng-container *ngIf="!locationLoading">
-                    <tr *ngFor="let j of [].constructor(3); let rowIndex = index;">
+                    <tr *ngFor="let j of [].constructor(calculateMaxLocationsLength()); let rowIndex = index;">
                         <td *ngFor="let i of [0,1,2]" [ngClass]="{'td-border': i == 1}">
                             <div class="card p-2 m-2 mb-0 pb-0 d-flex align-items-start" [ngClass]="!(dataSource[i].locations[rowIndex]) ? 'no-border' : ''">
-                                <ng-container class=""
+                                <ng-container
                                     *ngIf="dataSource[i]?.locations && dataSource[i].locations.length > rowIndex;">
-                                    <p>HouseNo= {{dataSource[i].locations[rowIndex].houseNo}}</p>
-                                    <p>Area = {{dataSource[i].locations[rowIndex].area}}</p>
-                                    <p>District = {{dataSource[i].locations[rowIndex].district}}</p>
-                                    <p>State = {{dataSource[i].locations[rowIndex].state}}</p>
-                                    <p>Country = {{dataSource[i].locations[rowIndex].country}}</p>
+                                    <ul>
+                                        <li>
+                                        <span *ngIf="dataSource[i].locations[rowIndex].houseNo">{{dataSource[i].locations[rowIndex].houseNo}}, </span>
+                                        <span *ngIf="dataSource[i].locations[rowIndex].area">{{dataSource[i].locations[rowIndex].area}}, </span>
+                                        <span *ngIf="dataSource[i].locations[rowIndex].district">{{dataSource[i].locations[rowIndex].district}}, </span>
+                                        <span *ngIf="dataSource[i].locations[rowIndex].state">{{dataSource[i].locations[rowIndex].state}}, </span>
+                                        <span *ngIf="dataSource[i].locations[rowIndex].country">{{dataSource[i].locations[rowIndex].country}}.</span>
+                                        </li>
+                                    </ul>
                                 </ng-container>
                             </div>
                         </td>
