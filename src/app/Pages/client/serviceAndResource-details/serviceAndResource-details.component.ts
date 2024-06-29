@@ -5,6 +5,7 @@ import { EventDialogComponent } from 'src/app/Components/event-dialog/event-dial
 import { Button, CompareList, ServiceResourceDetails, servicesAndResourcesCard } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
 import { AuthenticationService } from 'src/app/Services/authentication.service';
+import { ChatService } from 'src/app/Services/chat.service';
 import { CompareService } from 'src/app/Services/compare.service';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { ToastService } from 'src/app/Services/toast.service';
@@ -24,7 +25,8 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     private _dialog:MatDialog,
     private _auth:AuthenticationService,
     private _vendorFollow:VendorFollowService,
-    private _compare:CompareService
+    private _compare:CompareService,
+    private _chat:ChatService
   ) {}
 
   capitalizedTag = new CapitalizePipe().transform(this.checkUrlString()); //Capitalize text
@@ -33,6 +35,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
   isAdmin: boolean = false; // Flag to indicate admin
   isLoading: boolean = false; // Flag to indicate loading state
   soRId: number = 0;
+  phone: string = '';
   serviceResourceName: string = '';
   isFollow!:boolean
   btnLoading!:boolean;
@@ -45,6 +48,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     icon: 'compare',
     display: 'inline',
   };
+
   followButton: Button = {
     url: '',
     type: 'button',
@@ -64,6 +68,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     iconClass: [],
     disable: false,
   };
+
   chatButton = {
     url: '',
     type: 'button',
@@ -71,11 +76,13 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     icon: 'chat',
     display: 'inline',
   };
+
   bookButton = {
     url: '',
     type: 'button',
     text: 'Book Now',
   };
+
   updateButton = {
     url: '',
     type: 'button',
@@ -118,6 +125,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
     if(this._auth.isLoggedIn()) {
       this.checkFollow(this.soRId);
     }
+    this.getPhone();
   }
 
   // Function to fetch service/resource details from the service/resource
@@ -294,4 +302,31 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
   addResourceToCompare(item: CompareList) {
     this._compare.addResourceToCompare(item);
   }
+
+  getPhone() {
+    this._chat.getPhoneNumber(this.soRId).subscribe({
+      next:(res:any) => {
+        // console.log(res);
+        if(res) {
+          this.phone = res.phone
+          // console.log(this.phone)
+        }
+      },
+      error:(err:any) => {
+        console.log(err);
+      }
+    })
+  }
+
+  openWhatsapp() {
+    if (this.phone !== '') {
+      const message = encodeURIComponent('Hello there!');
+      const chatUrl = `https://wa.me/94${this.phone.slice(1)}?text=${message}`;
+      window.open(chatUrl, '_blank');
+    }
+  }
+  
+  
+  
+  
 }

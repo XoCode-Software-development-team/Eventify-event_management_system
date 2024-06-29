@@ -14,7 +14,7 @@ export class HomeComponent {
   cards = [
     { image: 'assets/Images/Security.png', title: 'Secure Login', description: ' Clients and vendors can securely log in using unique credentials, ensuring data privacy and access control' },
     { image: 'assets/Images/User.png', title: 'Good Customer Experience', description: 'Efficiently manage vendors with Create, Read, Update, and Delete operations, ensuring accurate and up-to-date information' },
-    { image: 'assets/Images/Location 2.png', title: 'Maps with location', description: 'Provide a visual representation of vendor locations through interactive maps, helping clients make informed decisions' },
+    { image: 'assets/Images/Location.png', title: 'Maps with location', description: 'Provide a visual representation of vendor locations through interactive maps, helping clients make informed decisions' },
     { image: 'assets/Images/calendar_month.png', title: 'Calendar Integration', description: ' Integrate a customizable calendar feature to manage appointments, meetings, and events.' },
   ];
   currentIndex = 0;

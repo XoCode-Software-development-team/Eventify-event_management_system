@@ -25,7 +25,7 @@
                 <!-- Vendor information and action button -->
                 <div class="d-flex justify-content-between gap-5">
                     <p class="fs-2">from {{serviceResourceDetails.vendor.companyName}}</p>
-                    <app-primary-button *ngIf="!isAdmin && !isVendor" [button]="chatButton"></app-primary-button>
+                    <app-primary-button (click)="openWhatsapp()" *ngIf="!isAdmin && !isVendor" [button]="chatButton"></app-primary-button>
                 </div>
                 <!-- Price, capacity, and description -->
                 <div class="d-flex gap-4 col-9 align-items-center">
@@ -42,7 +42,7 @@
                 </div>
                 <!-- Button to book the service -->
                 <app-secondary-button (click)="openDialog()" *ngIf="!isAdmin && !isVendor" [button]="bookButton"></app-secondary-button>
-                <app-primary-button *ngIf="isAdmin" [button]="chatButton"></app-primary-button>
+                <app-primary-button *ngIf="isAdmin" (click)="openWhatsapp()" [button]="chatButton"></app-primary-button>
                 <app-primary-button *ngIf="isVendor" [button]="updateButton"></app-primary-button>
             </div>
         </div>
