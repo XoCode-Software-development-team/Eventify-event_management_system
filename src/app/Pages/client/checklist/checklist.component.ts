@@ -52,7 +52,7 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
     icon: '',
     iconClass: ['hideIcon'], // Scss class list
     class: [],
-    disable: false,
+    disable: true,
   };
 
   ResetButton: Button = {
@@ -62,7 +62,7 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
     icon: '',
     iconClass: ['hideIcon'], // Scss class list
     class: [],
-    disable: false,
+    disable: true,
   };
 
   ExportButton: Button = {
@@ -72,7 +72,7 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
     icon: '',
     iconClass: ['hideIcon'], // Scss class list
     class: [],
-    disable: false,
+    disable: true,
   };
 
   constructor(
@@ -134,6 +134,7 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
     });
 
     this.checkListForm.valueChanges.subscribe(() => {
+      this.ResetButton.disable = false;
       if (
         this.tasks.controls.length === 1 &&
         !this.hasTaskValue(0, 'taskName')
@@ -141,6 +142,22 @@ export class ChecklistComponent implements OnInit, AfterViewInit {
         this.taskNameErr = true;
       } else {
         this.taskNameErr = false;
+      }
+
+      if(this.checkListForm.invalid) {
+        this.saveButton.disable = true;
+        this.ExportButton.disable = true;
+      } else {
+        if (
+          this.tasks.controls.length === 1 &&
+          !this.hasTaskValue(0, 'taskName')
+        ) {
+          this.saveButton.disable = true;
+          this.ExportButton.disable = true;
+        } else {
+          this.saveButton.disable = false;
+          this.ExportButton.disable = false;
+        }
       }
     });
   }

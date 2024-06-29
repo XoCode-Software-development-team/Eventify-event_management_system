@@ -157,7 +157,7 @@
           <div>
             <div class="button d-flex gap-3">
               <app-primary-button [loading]="isSaveButtonLoading" *ngIf="!isReadOnly" [button]="saveButton"></app-primary-button>
-              <app-delete-button [isLoading]="isDeletingAccount" [button]="deleteAccount" mwlConfirmationPopover popoverTitle="Account Delete confirmation"
+              <app-delete-button *ngIf="false" [isLoading]="isDeletingAccount" [button]="deleteAccount" mwlConfirmationPopover popoverTitle="Account Delete confirmation"
               popoverMessage="Do you really want to delete?" placement="right" confirmButtonType="danger"
               (confirm)="deleteUser()" (cancel)="true"></app-delete-button>
             </div>

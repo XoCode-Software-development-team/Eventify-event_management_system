@@ -11,6 +11,7 @@ import { Button, CompareList } from 'src/app/Interfaces/interfaces';
 import { VendorFollowService } from 'src/app/Services/vendor-follow.service';
 import { Observable, catchError, map, of, tap, filter } from 'rxjs';
 import { CompareService } from 'src/app/Services/compare.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-item-card',
@@ -29,7 +30,8 @@ export class ItemCardComponent implements OnInit, OnChanges {
     private _auth: AuthenticationService,
     private _vendorFollow: VendorFollowService,
     private _toast: ToastService,
-    private _compare: CompareService
+    private _compare: CompareService,
+    private _router:Router
   ) {}
 
   // Button configuration for Compare action
@@ -126,6 +128,7 @@ export class ItemCardComponent implements OnInit, OnChanges {
         }
       });
     } else {
+      this._router.navigate(['/login']);
       this._toast.showMessage("Please login to follow!", 'info');
       this.isLoading = false;
     }

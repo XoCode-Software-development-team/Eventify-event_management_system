@@ -55,7 +55,7 @@ export class AgendaComponent {
     icon: '',
     iconClass: ['hideIcon'], // Scss class list
     class: [],
-    disable: false,
+    disable: true,
   };
 
   ResetButton: Button = {
@@ -65,7 +65,7 @@ export class AgendaComponent {
     icon: '',
     iconClass: ['hideIcon'], // Scss class list
     class: [],
-    disable: false,
+    disable: true,
   };
 
   ExportButton: Button = {
@@ -75,7 +75,7 @@ export class AgendaComponent {
     icon: '',
     iconClass: ['hideIcon'], // Scss class list
     class: [],
-    disable: false,
+    disable: true,
   };
 
   constructor(
@@ -145,6 +145,7 @@ export class AgendaComponent {
     this.setStartTime();
 
     this.agendaForm.valueChanges.subscribe(() => {
+      this.ResetButton.disable = false;
       if (
         this.tasks.controls.length === 1 &&
         !this.hasTaskValue(0, 'taskName')
@@ -152,6 +153,23 @@ export class AgendaComponent {
         this.taskNameErr = true;
       } else {
         this.taskNameErr = false;
+      }
+
+      
+      if(this.agendaForm.invalid) {
+        this.saveButton.disable = true;
+        this.ExportButton.disable = true;
+      } else {
+        if (
+          this.tasks.controls.length === 1 &&
+          !this.hasTaskValue(0, 'taskName')
+        ) {
+          this.saveButton.disable = true;
+          this.ExportButton.disable = true;
+        } else {
+          this.saveButton.disable = false;
+          this.ExportButton.disable = false;
+        }
       }
     });
 

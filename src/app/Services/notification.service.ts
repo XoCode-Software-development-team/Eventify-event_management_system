@@ -9,6 +9,7 @@ import { NotificationBoxComponent } from 'src/app/Components/notification-box/no
 import { UserStoreService } from './user-store.service';
 import { AuthenticationService } from './authentication.service';
 import { ToastService } from './toast.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,8 @@ export class NotificationService {
     private _http: HttpClient,
     private _userStore: UserStoreService,
     private _auth: AuthenticationService,
-    private _toast: ToastService
+    private _toast: ToastService,
+    private _router:Router
   ) {
     if (this._auth.isLoggedIn()) {
       this._userStore.getIdFromStore().subscribe((val) => {
@@ -149,6 +151,7 @@ export class NotificationService {
         this.notificationClosedSubject.next();
       }
     } else {
+      this._router.navigate(['/login']);
       this._toast.showMessage("Please login to show notifications",'info');
     }
     }

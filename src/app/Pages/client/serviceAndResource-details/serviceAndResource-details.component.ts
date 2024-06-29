@@ -19,7 +19,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
   constructor(
     private _route: ActivatedRoute,
     private _serviceAndResource: ServiceAndResourceService,
-    private router: Router,
+    private _router: Router,
     private _toastService: ToastService,
     private _dialog:MatDialog,
     private _auth:AuthenticationService,
@@ -182,7 +182,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
 
   checkUser() {
     // Get the current URL
-    const currentUrl = this.router.url;
+    const currentUrl = this._router.url;
 
     const vendorUrl = `/vendor/${this.checkUrlString()}s/${this.checkUrlString()}/`;
     const adminUrl = `/admin/${this.checkUrlString()}s/${this.checkUrlString()}/`;
@@ -223,6 +223,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
         data: { soRId: this.soRId }
       });
     } else {
+      this._router.navigate(['login']);
       this._toastService.showMessage("Please login first!",'info');
       return;
     }
@@ -260,6 +261,7 @@ export class ServiceAndResourceDetailsComponent implements OnInit {
         }
       });
     } else {
+      this._router.navigate(['login']);
       this._toastService.showMessage("Please login to follow!", 'info');
       this.isLoading = false;
     }
