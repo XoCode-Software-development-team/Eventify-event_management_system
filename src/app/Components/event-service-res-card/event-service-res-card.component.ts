@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EventService } from 'src/app/Services/event.service';
+import { ReviewRatingService } from 'src/app/Services/review-rating.service';
 import { ToastService } from 'src/app/Services/toast.service';
 
 @Component({
@@ -7,16 +8,21 @@ import { ToastService } from 'src/app/Services/toast.service';
   templateUrl: './event-service-res-card.component.html',
   styleUrls: ['./event-service-res-card.component.scss'],
 })
-export class EventServiceResCardComponent {
+export class EventServiceResCardComponent implements OnInit {
   @Input() dataSource: any;
+  @Input() pastEventView:boolean = false;
   @Input() eventId: number = 0;
   @Output() refreshEvent: EventEmitter<any> = new EventEmitter<any>();
   isLoading: { [key: number]: boolean } = {};
 
   constructor(
     private _eventService: EventService,
-    private _toast: ToastService
+    private _toast: ToastService,
+    private _review:ReviewRatingService
   ) {}
+
+  ngOnInit(): void {
+  }
 
   remove(serviceResourceId: number) {
     this.isLoading[serviceResourceId] = true;
@@ -38,5 +44,9 @@ export class EventServiceResCardComponent {
           this.isLoading[serviceResourceId] = false; // Reset loading state on error
         },
       });
+  }
+
+  openRating(soRId:number) {
+    this._review.openPopup(soRId,this.eventId);
   }
 }

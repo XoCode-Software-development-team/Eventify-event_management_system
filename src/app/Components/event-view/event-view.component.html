@@ -60,15 +60,15 @@
             Services ({{ Scards.length }})
         </ng-container>
         <div class="Card" *ngIf="Scards != null && Scards.length > 0">
-            <app-event-service-res-card (refreshEvent)="ngOnInit()" [eventId]="eventId" [dataSource]="Scards"></app-event-service-res-card>
+            <app-event-service-res-card [pastEventView]="pastEventView" (refreshEvent)="ngOnInit()" [eventId]="eventId" [dataSource]="Scards"></app-event-service-res-card>
         </div>
-        <div class="add">
+        <div class="add" *ngIf="!pastEventView">
             <a mat-button routerLink="../../../services">Add {{Scards.length > 0 ? 'more' : null}} services <b>
                     +</b></a>
         </div>
     </div>
 
-    <div class="mat-line"><mat-divider></mat-divider></div>
+    <div class="mat-line" *ngIf="Rcards.length > 0 && Rcards != null" ><mat-divider></mat-divider></div>
 
     <div class="resourcecards">
 
@@ -77,17 +77,17 @@
             Resources ({{ Rcards.length }})
         </ng-container>
         <div class="Card" *ngIf="Rcards.length > 0 && Rcards != null">
-            <app-event-service-res-card (refreshEvent)="ngOnInit()" [eventId]="eventId" [dataSource]="Rcards"></app-event-service-res-card>
+            <app-event-service-res-card [pastEventView]="pastEventView" (refreshEvent)="ngOnInit()" [eventId]="eventId" [dataSource]="Rcards"></app-event-service-res-card>
         </div>
-        <div class="add">
+        <div class="add" *ngIf="!pastEventView">
             <a mat-button routerLink="../../../resources">Add {{Rcards.length > 0 ? 'more' : null}} resources <b>
                     +</b></a>
         </div>
     </div>
 
 
-    <div class="mat-line"><mat-divider></mat-divider></div>
-    <div class="del-up-button">
+    <div class="mat-line" *ngIf="!pastEventView"><mat-divider></mat-divider></div>
+    <div class="del-up-button" *ngIf="!pastEventView">
         <button class="btn btn-danger mt-4" mwlConfirmationPopover popoverTitle="Event delete Confirmation"
             popoverMessage="Do you really want to delete?" placement="top" confirmButtonType="danger"
             (confirm)="setDelete(selectedEvent.eventId)" (cancel)="true"> <i class="fas fa-trash-alt"></i>

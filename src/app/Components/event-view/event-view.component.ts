@@ -16,6 +16,7 @@ export class EventViewComponent implements OnInit {
   isUpdateFormActive = false;
   isLoading: boolean = false;
   eventId!:number;
+  pastEventView:boolean = false;
 
   Scards: any[] = [];
   Rcards: any[] = [];
@@ -33,6 +34,17 @@ export class EventViewComponent implements OnInit {
       this.eventId = Number(params.get('id'));
       this.getEventById(this.eventId);
     });
+
+    // Combine route segments into a single string
+    const fullPath = this.route.snapshot.pathFromRoot
+      .map(segment => segment.routeConfig?.path)
+      .filter(path => !!path)
+      .join('/');
+
+    // Check if the current URL matches /pastEvent/view/1
+    if (fullPath.startsWith('pastEvent/view')) {
+      this.pastEventView = true;
+    }
   }
 
   getEventById(eventId: number): void {
@@ -92,4 +104,5 @@ export class EventViewComponent implements OnInit {
       window.scrollTo(0, 0);
     });
   }
+
 }

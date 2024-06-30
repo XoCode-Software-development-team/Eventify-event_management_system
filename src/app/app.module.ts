@@ -77,6 +77,7 @@ import { MaterialModule } from './Core/material.module';
 import { UserGuideComponent } from './Pages/client/user-guide/user-guide.component';
 import { MapComponent } from './Components/map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { ReviewRatingModelComponent } from './Components/review-rating-model/review-rating-model.component';
 
 @NgModule({
   declarations: [
@@ -142,6 +143,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     AgendaComponent,
     UserGuideComponent,
     MapComponent,
+    ReviewRatingModelComponent,
   ],
   imports: [
     BrowserModule,

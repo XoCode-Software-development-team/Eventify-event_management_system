@@ -54,6 +54,9 @@ const routes: Routes = [
           {path: 'checklist', component:ChecklistComponent,canActivate:[AuthGuard]},
           {path: 'agenda',component:AgendaComponent,canActivate:[AuthGuard]},
           {path: 'userGuide', component:UserGuideComponent},
+          {path: 'pastEvent', component:EventComponent,children: [
+            { path: 'view/:id', component: EventViewComponent },
+          ],canActivate:[ClientGuard]},
           {path: 'event', component:EventComponent, 
             children: [
             { path: 'create', component: EventCreateFormComponent},

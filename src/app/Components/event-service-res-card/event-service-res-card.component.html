@@ -13,8 +13,9 @@
           </span>
         </mat-card-subtitle>
         <mat-card-content>
-          <mat-card-title *ngIf="item.isApprove; else pendingSubtitle">
+          <mat-card-title class="position-relative" *ngIf="item.isApprove; else pendingSubtitle">
             <img src="../../../assets/Images/accepted.png" alt="Accepted">
+            <a *ngIf="pastEventView" class="position-absolute" (click)="openRating(item.serviceId)" style="right: 10px; top: 80px;">Review</a>
           </mat-card-title>
           <ng-template #pendingSubtitle>
             <mat-card-subtitle class="pending">Pending...</mat-card-subtitle>

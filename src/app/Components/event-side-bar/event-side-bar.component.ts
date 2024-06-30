@@ -11,10 +11,13 @@ import { Subscription } from 'rxjs';
 export class EventSideBarComponent implements OnInit, OnDestroy {
 
   showEventsList: boolean = false;
+  showPastEventList:boolean = false;
   panelOpenState = false;
   eventArray: any[] = [];
+  pastEventArray: any[] = [];
   isResultLoaded = false;
   eventsLoading:boolean = false;
+  pastEventsLoading:boolean = false;
   private eventSubscription!: Subscription;
 
 
@@ -25,6 +28,7 @@ export class EventSideBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAllEvents();
+    this.getPastEvents();
 
     this.eventSubscription = this.eventService.eventAdded$.subscribe(() => {
       this.getAllEvents();
@@ -45,8 +49,22 @@ export class EventSideBarComponent implements OnInit, OnDestroy {
     });
   }
 
+  getPastEvents() {
+    this.eventsLoading = true;
+    this.eventService.getPastEvents().subscribe((resultData: any[]) => {
+      this.isResultLoaded = true;
+      this.pastEventArray = resultData;
+      // console.log(resultData)
+      this.eventsLoading = false;
+    });
+  }
+
   toggleEventsList(): void {
     this.showEventsList = !this.showEventsList;
+  }
+
+  togglePastEventsList(): void {
+    this.showPastEventList = !this.showPastEventList;
   }
 
   goToEventDetails(): void {

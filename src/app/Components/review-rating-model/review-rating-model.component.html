@@ -1,0 +1,47 @@
+<div class="container p-5" *ngIf="!isLoading">
+    <div class="d-flex flex-row justify-content-between align-items-start pb-3">
+      <h4>Add Review and Rating</h4>
+      <button (click)="closeDialog()" class="btn m-0" style="cursor: pointer;">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <form #reviewForm="ngForm" (ngSubmit)="save(reviewForm)" class="d-flex flex-column justify-content-between align-items-baseline gap-2">
+      <div class="d-flex gap-3 align-items-center">
+        <mat-label>Rate</mat-label>
+        <input matInput [(ngModel)]="review.rate" name="rate" min="0" max="5" step="0.1" class="w-50" type="number" style="outline: none; border: 1px solid #ccc;" required>
+        <mat-error *ngIf="reviewForm.controls['rate']?.touched">
+          <span *ngIf="reviewForm.controls['rate']?.hasError('required')">
+            Rating is required
+          </span>
+          <span *ngIf="reviewForm.controls['rate']?.hasError('min') || reviewForm.controls['rate']?.hasError('max')">
+            Rating must be between 0 and 5
+          </span>
+        </mat-error>
+      </div>
+      <div class="d-flex gap-3 align-items-center">
+        <p class="m-0 mx-1">
+          <span style="color: #FDCC0D; font-size: 25px;">
+            <ngb-rating [(rate)]="review.rate" [max]="5" [readonly]="false"></ngb-rating>
+          </span>
+          <span style="font-size: 16px;">
+            ({{ parseRate(review.rate) || 0 | number: '1.1-1'}})
+          </span>
+        </p>
+      </div>
+      <div class="w-100">
+        <mat-label class="py=2">Review</mat-label>
+        <textarea style="border: 1px solid #ccc;" matInput [(ngModel)]="review.review" name="review" rows="5" class="w-100" required></textarea>
+        <mat-error *ngIf="reviewForm.controls['review']?.touched && reviewForm.controls['review']?.hasError('required')">
+          Review is required
+        </mat-error>
+      </div>
+      <div class="w-100 d-flex justify-content-end">
+        <app-primary-button [button]="okButton"></app-primary-button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="isLoading" class="spinner-container d-flex flex-column p-5">
+    <p>Please wait</p>
+    <mat-spinner diameter="32"></mat-spinner>
+  </div>
+  
