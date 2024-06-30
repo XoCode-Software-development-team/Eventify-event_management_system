@@ -1,0 +1,55 @@
+.chat-container {
+    width: 280px;
+    max-height: 400px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scroll */
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-family: Lato;
+  }
+  
+  .user {
+    font-family: Lato;
+    text-align: right;
+    margin: 5px;
+    padding: 10px;
+    background-color: #898989;
+    border-radius: 10px;
+  }
+  
+  .bot {
+    font-family: Lato;
+    text-align: left;
+    margin: 5px;
+    padding: 10px;
+    background-color: #2C98AD;
+    border-radius: 10px;
+  }
+  
+  .error {
+    text-align: left;
+    margin: 5px;
+    padding: 10px;
+    background-color: #f8d7da;
+    border-radius: 10px;
+    color: #721c24;
+  }
+  
+  .loading {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #aaa;
+  }
+  
+  input {
+    width: calc(80% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  

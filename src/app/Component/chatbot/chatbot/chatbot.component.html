@@ -1,0 +1,10 @@
+<div class="chat-container">
+    <div *ngFor="let msg of messages">
+      <div [ngClass]="msg.type">{{ msg.text }}</div>
+    </div>
+    <div *ngIf="isLoading" class="loading">
+      <span>Loading...</span>
+    </div>
+    <input [(ngModel)]="userMessage" (keydown.enter)="sendMessage()" placeholder="Get an idea" />
+  </div>
+  
