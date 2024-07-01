@@ -119,8 +119,8 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy, AfterViewIn
       this.popUpItem = item;
       this._notificationService.openPopup();
     } else if (item === 'compare') {
-      this.popUpItem = item;
       this.openComparePopUp();
+      this.popUpItem = item;
     } else if (item === 'chat') {
       const chatUrl = 'https://wa.me/';
       window.open(chatUrl, '_blank'); // Opens WhatsApp Web in a new tab      

@@ -50,7 +50,6 @@ export class AllServiceAndResourceComponent implements OnInit {
 
   getServicesAndResources() {
     this.isLoading = true;
-    this.servicesAndResources = [];
     if (
       this.filters.categories == null ||
       this.filters.categories.length == 0
@@ -60,6 +59,7 @@ export class AllServiceAndResourceComponent implements OnInit {
       }, 5000);
       return;
     }
+    this.servicesAndResources = [];
     this._serviceAndResource
       .getServicesAndResourcesForClients({
         page: this.currentPage,
