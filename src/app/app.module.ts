@@ -81,6 +81,7 @@ import { ProfileWidgetComponent } from './Components/profile-widget/profile-widg
 import { EventCalenderComponent } from './Components/event-calender/event-calender.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { MaterialModule } from './Core/material.module';
+import { AdminDashboardComponent } from './Pages/admin/admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +150,7 @@ import { MaterialModule } from './Core/material.module';
     ReviewRatingModelComponent,
     ProfileWidgetComponent,
     EventCalenderComponent,
+    AdminDashboardComponent,
   ],
   imports: [
     BrowserModule,

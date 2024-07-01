@@ -71,11 +71,15 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
 
   popUp(item: string) {
     if (item === 'notification') {
+      this.popUpItem = item;
       this._notificationService.openPopup();
+    } else if (item === 'compare') {
+      this.popUpItem = '';
     } else if (item === 'chat') {
-      console.log(item);
+      const chatUrl = 'https://wa.me/';
+      window.open(chatUrl, '_blank'); // Opens WhatsApp Web in a new tab      
+      this.popUpItem = '';
     }
-    this.popUpItem = item;
   }
 
 

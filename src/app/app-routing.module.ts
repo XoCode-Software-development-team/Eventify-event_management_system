@@ -38,6 +38,7 @@ import { QueryParamsGuard } from './Guards/query-params.guard';
 import { ChecklistComponent } from './Pages/client/checklist/checklist.component';
 import { AgendaComponent } from './Pages/client/agenda/agenda.component';
 import { UserGuideComponent } from './Pages/client/user-guide/user-guide.component';
+import { AdminDashboardComponent } from './Pages/admin/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   {path: 'forgotPassword', component:ForgotPasswordComponent,canActivate:[AuthGuard]},
@@ -122,6 +123,7 @@ const routes: Routes = [
           {path: 'resources/resource/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'profile', component:EditProfileComponent,canActivate:[AdminGuard]},
           {path: 'password', component:EditProfileComponent,canActivate:[AdminGuard]},
+          {path: 'dashboard', component:AdminDashboardComponent,canActivate:[AdminGuard]},
           {path: 'userGuide', component:UserGuideComponent},
           {path: '',component: AdminSidenavLayoutComponent,
             children: [
