@@ -354,7 +354,7 @@ export class AgendaComponent {
           console.log(this.agendaForm.value);
 
           this._agenda
-            .saveChecklistInDatabase(
+            .saveAgendaInDatabase(
               this.agendaForm.value,
               this.eventForm.value.selectedEventId
             )

@@ -70,6 +70,7 @@ export class AllServiceAndResourceComponent implements OnInit {
       .subscribe({
         next: (res: any) => {
           this.servicesAndResources = res.data;
+          console.log(res)
           this.totalItems = res.totalItems;
           // console.log(this.servicesAndResources)
         },
