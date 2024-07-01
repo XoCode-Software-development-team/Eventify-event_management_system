@@ -94,7 +94,6 @@
                   <div class="d-flex">
                     <div style="width: 37.5vw;">
                       <input class="form-control date-input task-input w-100" style="border: none;"
-                        [ngStyle]="{'border-bottom': (i == tasks.controls.length - 1) ? '1px solid #ccc': 'none' }"
                         type="text" placeholder="Task" formControlName="taskName" (keypress)="handleEnterKey($event, i)"
                         [id]="'taskNameInput' + i" #taskInput>
                     </div>

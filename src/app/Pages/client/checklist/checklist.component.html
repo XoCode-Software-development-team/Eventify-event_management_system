@@ -62,7 +62,7 @@
               <input type="checkbox" formControlName="checked" class="custom-checkbox">
 
               <input class="form-control date-input task-input w-75"
-                [ngStyle]="{'border-bottom': (i == tasks.controls.length - 1) ? '1px solid #ccc': 'none' }" type="text"
+                type="text"
                 placeholder="Task" formControlName="taskName" (keypress)="handleEnterKey($event, i)"
                 [id]="'taskNameInput' + i" #taskInput>
 
