@@ -1,28 +1,40 @@
 <div class="home-elements">
 
-    <div class="cover-image">
-            <img src="../../../../assets/Images/home-cover-img.jpg" alt="Cover Image" >
-            <div class="cover-text">
-                <h2>Elevate your event with</h2>
-                <h1>EVENTIFY</h1>
-                <h1>EVENTIFY</h1>
-                <h6>Create, manage, and promote unforgettable events effortlessly with our user-friendly platform designed to streamline every aspect of event planning.</h6>
-            </div>
-        </div>
+  <div class="cover-image">
+    <img src="../../../../assets/Images/home-cover-img.jpg" alt="Cover Image">
+    <div class="cover-text">
+      <h2>Elevate your event with</h2>
+      <h1>EVENTIFY</h1>
+      <h1>EVENTIFY</h1>
+      <h6>Create, manage, and promote unforgettable events effortlessly with our user-friendly platform designed to
+        streamline every aspect of event planning.</h6>
+    </div>
+  </div>
 
 
 
-    <div class="slider-container">
-        <div class="slider" #slider>
-          <div class="card" *ngFor="let card of cards">
-            <img [src]="card.image" alt="Card Image" />
-            <h3>{{ card.title }}</h3>
-            <p>{{ card.description }}</p>
-          </div>
-        </div>
-        <div class="dots">
-          <span class="dot" *ngFor="let card of cards; let i = index" (click)="goToCard(i)" [class.active]="i === currentIndex"></span>
-        </div>
+  <div class="slider-container">
+    <div class="slider" #slider>
+      <div class="card" *ngFor="let card of cards">
+        <img [src]="card.image" alt="Card Image" />
+        <h3>{{ card.title }}</h3>
+        <p>{{ card.description }}</p>
       </div>
-      
+    </div>
+    <div class="dots">
+      <span class="dot" *ngFor="let card of cards; let i = index" (click)="goToCard(i)"
+        [class.active]="i === currentIndex"></span>
+    </div>
+  </div>
+
+</div>
+
+<div class="videoSection mb-2">
+  <p class="videoDescription">Your ultimate event management solution. Watch this video to learn how Eventify simplifies
+    your event planning.</p>
+  <video id="eventifyVideo" autoplay [muted]="true" loop controls
+    poster="../../../../assets/images/intro video thumbnail.png">
+    <source src="../../../../assets/videos/Eventify intro video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 </div>
