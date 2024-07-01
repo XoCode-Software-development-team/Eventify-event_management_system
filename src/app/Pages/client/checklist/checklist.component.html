@@ -61,8 +61,7 @@
               *ngIf="hasTaskValue(i,'taskName') || (i == tasks.controls.length-1 && showTaskField && !hasTaskValue(i,'taskDescription')) || (i == 0 && !showTaskField)">
               <input type="checkbox" formControlName="checked" class="custom-checkbox">
 
-              <input class="form-control date-input task-input w-75"
-                type="text"
+              <input class="form-control date-input task-input w-75" style="border: none;" type="text"
                 placeholder="Task" formControlName="taskName" (keypress)="handleEnterKey($event, i)"
                 [id]="'taskNameInput' + i" #taskInput>
 
