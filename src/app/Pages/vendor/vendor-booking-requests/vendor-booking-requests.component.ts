@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { TabCardComponent } from 'src/app/Components/tab-card/tab-card.component';
 import { Category } from 'src/app/Interfaces/interfaces';
 import { CapitalizePipe } from 'src/app/Pipes/capitalize.pipe';
+import { EventService } from 'src/app/Services/event.service';
 import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.service';
 import { ToastService } from 'src/app/Services/toast.service';
 
@@ -13,9 +14,10 @@ import { ToastService } from 'src/app/Services/toast.service';
 export class VendorBookingRequestsComponent {
   @ViewChild('tabCard') tabCardComponent!: TabCardComponent; // Reference to the TabCardComponent
 
-  constructor(private _serviceAndResource: ServiceAndResourceService, private _toastService: ToastService) {}
+  constructor(private _serviceAndResource: ServiceAndResourceService, private _toastService: ToastService,private _event:EventService) {}
 
   noData: boolean = false;
+  CheckOverlap:boolean = false;
   dataSource = []; // Holds data source for the table
   categories: Category[] = []; // Holds categories for booking requests
 
@@ -119,6 +121,9 @@ RejectServiceAndResource(eventId: string, soRId: string) {
 
 // Books a service/resource requested by a vendor
 bookServiceAndResource(eventId: string, soRId: string) {
+  if(this.CheckOverlap) {
+    return
+  }
   this.dataSource = [];
   this._serviceAndResource.bookServiceAndResourceByVendor(eventId, soRId).subscribe({
     next: (res: any) => {
@@ -142,5 +147,19 @@ bookServiceAndResource(eventId: string, soRId: string) {
     // Identify whether service or resource
     checkUrlString(): string {
       return this._serviceAndResource.checkUrlString();
+    }
+
+    checkForOtherEvents(soRId:number,eventId:number) {
+      this.CheckOverlap = true;
+      this._event.checkForEvents(soRId,eventId).subscribe({
+        next:(res:any) => {
+          // console.log(res)
+          this.CheckOverlap = false;
+        },
+        error:(err:any) => {
+          // console.log(err)
+          this.CheckOverlap = false;
+        }
+      })
     }
 }

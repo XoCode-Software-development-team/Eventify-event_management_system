@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Button } from 'src/app/Interfaces/interfaces';
@@ -11,12 +11,14 @@ import { ServiceAndResourceService } from 'src/app/Services/serviceAndResource.s
   templateUrl: './vendor-icon-layout.component.html',
   styleUrls: ['./vendor-icon-layout.component.scss'],
 })
-export class VendorIconLayoutComponent implements OnInit, OnDestroy {
+export class VendorIconLayoutComponent implements OnInit, OnDestroy,AfterViewInit {
   notificationBadgeSubscription: Subscription | undefined;
   private routerSubscription!: Subscription;
+  private notificationClosedSubscription!:Subscription;
+
   soRId: string = '';
   name: string = '';
-  popUpItem!: string;
+  popUpItem: string = '';
   
 
   // Array containing icon data
@@ -57,6 +59,10 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
     this.updateNotificationBadge();
   }
 
+  ngAfterViewInit(): void {
+    this.notificationClosedSubscribe();
+  }
+
   ngOnDestroy(): void {
     // Unsubscribe from router events to prevent memory leaks
     if (this.routerSubscription) {
@@ -68,6 +74,13 @@ export class VendorIconLayoutComponent implements OnInit, OnDestroy {
       this.notificationBadgeSubscription.unsubscribe();
     }
   }
+
+  notificationClosedSubscribe() {
+    this.notificationClosedSubscription = this._notificationService.notificationClosed$.subscribe(() => {
+      this.popUpItem = '';
+    });
+  }
+
 
   popUp(item: string) {
     if (item === 'notification') {

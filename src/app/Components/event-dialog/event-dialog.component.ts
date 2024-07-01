@@ -97,6 +97,7 @@ export class EventDialogComponent implements OnInit {
     this.eventService.getAllEventBySoRId(this.data.soRId).subscribe({
       next: (res: any) => {
         this.eventList = res;
+        console.log(res)
         const selectedEvents = this.eventList
           .filter(event => event.isInVendorSr || event.isPending)
           .map(event => event.eventId);

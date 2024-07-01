@@ -69,7 +69,7 @@
             <!-- Header cell for actions -->
             <td class="action" mat-cell *matCellDef="let element">
                 <!-- Data cell for actions -->
-                <div class="accept" mwlConfirmationPopover popoverTitle="{{this.capitalizedTag}} booking accept confirmation"
+                <div (click)="checkForOtherEvents(element.soRId,element.eventId)" class="accept" mwlConfirmationPopover popoverTitle="{{this.capitalizedTag}} booking accept confirmation"
                     popoverMessage="Do you really want to add {{this.checkUrlString()}}?" placement="left" confirmButtonType="primary"
                     (confirm)="bookServiceAndResource(element.eventId,element.soRId)">
                     <!-- Button to accept booking -->

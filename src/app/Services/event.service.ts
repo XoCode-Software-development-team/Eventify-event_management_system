@@ -51,4 +51,8 @@ export class EventService {
   addServiceResourceToEvent(soRId:number,eventList:any) {
     return this.http.post<any>(`${this.apiUrl}/AddServiceResource/${soRId}`, eventList);
   }
+
+  checkForEvents(soRId:number,eventId:number) {
+    return this.http.get(`${this.Url}/api/event/checkEvent/${soRId}/${eventId}`);
+  }
 }

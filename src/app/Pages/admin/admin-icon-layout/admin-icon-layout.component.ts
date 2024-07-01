@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NotificationService } from 'src/app/Services/notification.service';
 
@@ -7,9 +7,11 @@ import { NotificationService } from 'src/app/Services/notification.service';
   templateUrl: './admin-icon-layout.component.html',
   styleUrls: ['./admin-icon-layout.component.scss']
 })
-export class AdminIconLayoutComponent implements OnInit, OnDestroy {
+export class AdminIconLayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   notificationBadgeSubscription: Subscription | undefined;
-  popUpItem!: string;
+  private notificationClosedSubscription!:Subscription;
+
+  popUpItem: string = '';
 
 
   constructor(private _notificationService: NotificationService, private _cdr: ChangeDetectorRef) {}
@@ -23,12 +25,22 @@ export class AdminIconLayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
      this.updateNotificationBadge(); 
   }
+
+  ngAfterViewInit(): void {
+    this.notificationClosedSubscribe();
+  }
   
   ngOnDestroy(): void {
     // Unsubscribe from the subscription to prevent memory leaks
     if (this.notificationBadgeSubscription) {
       this.notificationBadgeSubscription.unsubscribe();
     }
+  }
+
+  notificationClosedSubscribe() {
+    this.notificationClosedSubscription = this._notificationService.notificationClosed$.subscribe(() => {
+      this.popUpItem = '';
+    });
   }
 
   popUp(item: string) {
