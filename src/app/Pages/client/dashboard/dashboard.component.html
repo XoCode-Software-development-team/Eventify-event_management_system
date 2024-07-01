@@ -1,6 +1,6 @@
 <div class="sections container">
     <div class="title">
-      <h2>Dashboard</h2>
+      <h2 class="py-2">Dashboard</h2>
       <div class="mat-line"><mat-divider></mat-divider></div>
     </div>
     <div class="section1">
@@ -37,7 +37,7 @@
                 <!-- Review content -->
                 <div class="d-flex align-items-center gap-3">
                     <!-- User avatar -->
-                    <img class="rounded-circle avatar" [src]="re.profilePic" [alt]="re.companyName">
+                    <img class="rounded-circle avatar" [src]="re.profilePic || '../../../../assets/default/user.png'" [alt]="re.companyName">
                     <!-- Review details -->
                     <div class="d-flex flex-column gap-0">
                         <!-- User's full name -->

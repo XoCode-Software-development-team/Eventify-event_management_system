@@ -68,7 +68,7 @@ const routes: Routes = [
             { path: 'view/:id/agenda', component: AgendaComponent },
             { path: '', redirectTo: 'create', pathMatch: 'full' },
           ],canActivate:[ClientGuard]},
-          {path: 'dashboard', component:DashboardComponent},
+          {path: 'dashboard', component:DashboardComponent,canActivate:[ClientGuard]},
           {path: 'services', component:AllServiceAndResourceComponent},
           {path: 'services/service/:soRId/:name', component:ServiceAndResourceDetailsComponent},
           {path: 'services/compare', component:CompareViewComponent,canActivate:[QueryParamsGuard]},

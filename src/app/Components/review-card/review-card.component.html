@@ -4,7 +4,7 @@
         <!-- Review content -->
         <div class="d-flex align-items-center gap-3">
             <!-- User avatar -->
-            <img class="rounded-circle avatar" [src]="re.avatar" [alt]="re.name">
+            <img class="rounded-circle avatar" [src]="re.avatar || '../../../assets/default/user.png'" [alt]="re.name">
             <!-- Review details -->
             <div class="d-flex flex-column gap-0">
                 <!-- User's full name -->
