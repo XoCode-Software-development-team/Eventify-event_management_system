@@ -1,1 +1,59 @@
-<p>dashboard works!</p>
+<div class="sections container">
+    <div class="title">
+      <h2>Dashboard</h2>
+      <div class="mat-line"><mat-divider></mat-divider></div>
+    </div>
+    <div class="section1">
+      <app-profile-widget></app-profile-widget>
+      <app-event-calender></app-event-calender>
+  
+      <div class="upcoming">
+        <h3>Upcoming Events</h3>
+        <div class="mat-line"><mat-divider></mat-divider></div>
+        <div class="events-container" [class.scrollable]="allEvents.length > 3" *ngIf="!isLoading; else loading">
+          <div *ngIf="allEvents.length > 0; else noEvents" class="event-list">
+            <div *ngFor="let event of allEvents" class="event-card">
+                <a [routerLink]="'/event/view/' + event.id">
+                    <h5>{{ event.name }}</h5>
+                </a>
+              <p>{{ event.location }}</p>
+              <p>{{ event.date | date: 'medium' }}</p>
+            </div>
+          </div>
+        </div>
+        <ng-template #loading>
+          <p>Loading events...</p>
+        </ng-template>
+        <ng-template #noEvents>
+          <p>No upcoming events found.</p>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="p-3 mt-5 mb-5" *ngIf="topRatedVendors.length > 0">
+        <h5 class="py-3">Top rated vendors</h5>
+        <div class="d-flex justify-content-start gap-2">
+            <div class="card p-3 card-wrapper" style="width: 20%;" *ngFor="let re of topRatedVendors">
+                <!-- Review content -->
+                <div class="d-flex align-items-center gap-3">
+                    <!-- User avatar -->
+                    <img class="rounded-circle avatar" [src]="re.profilePic" [alt]="re.companyName">
+                    <!-- Review details -->
+                    <div class="d-flex flex-column gap-0">
+                        <!-- User's full name -->
+                        <p class="m-0 fw-medium">{{re.companyName}}</p>
+                        <!-- User's rating -->
+                        <p class="m-0 mx-1" value="5">{{ parseRate(re.averageRating) | number: '1.1-1'}} <span style="color: #FDCC0D; font-size: medium;"> <ngb-rating [max]="5"
+                                    [rate]="re.averageRating" [readonly]="true"></ngb-rating>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+  

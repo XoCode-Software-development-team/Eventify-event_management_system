@@ -73,11 +73,14 @@ import { CompareBoxComponent } from './Components/compare-box/compare-box.compon
 import { CompareViewComponent } from './Pages/client/compare-view/compare-view.component';
 import { ChecklistComponent } from './Pages/client/checklist/checklist.component';
 import { AgendaComponent } from './Pages/client/agenda/agenda.component';
-import { MaterialModule } from './Core/material.module';
 import { UserGuideComponent } from './Pages/client/user-guide/user-guide.component';
 import { MapComponent } from './Components/map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ReviewRatingModelComponent } from './Components/review-rating-model/review-rating-model.component';
+import { ProfileWidgetComponent } from './Components/profile-widget/profile-widget.component';
+import { EventCalenderComponent } from './Components/event-calender/event-calender.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { MaterialModule } from './Core/material.module';
 
 @NgModule({
   declarations: [
@@ -144,6 +147,8 @@ import { ReviewRatingModelComponent } from './Components/review-rating-model/rev
     UserGuideComponent,
     MapComponent,
     ReviewRatingModelComponent,
+    ProfileWidgetComponent,
+    EventCalenderComponent,
   ],
   imports: [
     BrowserModule,
@@ -162,7 +167,8 @@ import { ReviewRatingModelComponent } from './Components/review-rating-model/rev
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    FullCalendarModule
   ],
   providers: [{
     provide:HTTP_INTERCEPTORS,

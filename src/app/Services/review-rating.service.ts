@@ -43,4 +43,8 @@ export class ReviewRatingService {
   addReviewAndRating(data:any) {
     return this._http.post(`${this.apiUrl}/add`,data);
   }
+
+  getTopRatedVendors() {
+    return this._http.get(`${this.apiUrl}/top`);
+  }
 }
