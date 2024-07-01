@@ -398,7 +398,7 @@ export class AgendaComponent {
 
           } else {
             if(this.noAgenda) {
-              this._agenda.saveChecklistInDatabase(this.agendaForm.value,this.eventId).subscribe({
+              this._agenda.saveAgendaInDatabase(this.agendaForm.value,this.eventId).subscribe({
                 next:(res:any) => {
                   this._toast.showMessage(res.message,'success');
                   this.getAgendaFromDatabase();
