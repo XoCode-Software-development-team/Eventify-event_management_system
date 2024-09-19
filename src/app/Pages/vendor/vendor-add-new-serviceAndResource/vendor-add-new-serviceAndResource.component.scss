@@ -1,0 +1,70 @@
+// Each section container
+.part {
+    background-color: rgba($color: #ECEAEA, $alpha: 0.2);
+    padding: 30px;
+    border-radius: 6px;
+}
+
+// complete form
+.service-form {
+    width: 100%;
+}
+
+
+/* Styles for form fields */
+.form-field {
+    border-radius: 6px;
+    width: 100%;
+}
+
+// structure of each section
+.form-table {
+    width: 100%;
+}
+
+// input field
+td .input-data {
+    width: 100%;
+}
+
+// first element of the each row
+.first-td {
+    width: 50%;
+    padding-right: 20px;
+}
+
+// style for add new button of location section and price section and inner paragraph of dropzone
+.btn1 {
+    font-family: Lato;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.54px;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* Styles for a container for spinner */
+.spinner-container {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// When form is processing hide the form
+.hideForm {
+    display: none;
+}
+
+.hint-text {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+}

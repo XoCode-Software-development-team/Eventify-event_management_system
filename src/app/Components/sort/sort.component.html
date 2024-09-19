@@ -1,0 +1,14 @@
+<div class="container d-flex flex-row align-items-center gap-3" style="width: 400px;" *ngIf="!mapStart">
+    <div class="d-flex flex-row gap-3 w-50">
+        <mat-icon>sort</mat-icon>
+        <p>Sort By:</p>
+    </div>
+    
+    <mat-form-field class="w-100">
+        <mat-select [(ngModel)]="selectedSort">
+            <mat-option *ngFor="let item of sortBy" [value]="item.value" (click)="sortService(selectedSort)">
+                {{ item.viewValue }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

@@ -1,0 +1,44 @@
+<div class="d-flex">
+    <div class="container" style="margin-left: 130px;">
+        <div class="header-text">
+            <h1>Eventify User Guides</h1>
+            <br>
+            <h4>What is Eventify?</h4>
+            <p class="p-3 px-0">Eventify is an easy-to-use event management system that helps clients and vendors plan
+                and manage events efficiently. Clients can compare vendors, create event plans, and communicate
+                directly, while vendors can showcase their services and interact with clients.</p>
+        </div>
+    </div>
+    <div class="position-relative w-100" style="margin-right: 130px;">
+        <img class="w-100" src="../../../../assets/Images/user-guide-cover.jpg">
+    </div>
+</div>
+
+
+<div class="user-guide-container">
+    <div class="sidebar">
+        <ul>
+            <li *ngFor="let section of guideSections; let i = index" (click)="selectSection(section, i)"
+                [class.selected]="i === selectedSectionIndex">
+                {{ section.title }}
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2>{{ selectedSection.title }}</h2>
+        <div *ngIf="isContentString; else subSections">
+            <p>{{ selectedSection.content }}</p>
+        </div>
+        <ng-template #subSections>
+            <div *ngFor="let sub of getSubSections(selectedSection.content)">
+                <h4>{{ sub.subtitle }}</h4>
+                <p>{{ sub.content }}</p>
+            </div>
+        </ng-template>
+    </div>
+
+    <a href="../../../../assets/common/Eventify User-guide.pdf" class="download-link" download> <i
+            class="fas fa-download"></i> <span>Download User Guide PDF</span></a>
+
+</div>

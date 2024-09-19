@@ -1,0 +1,31 @@
+.user-image {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    vertical-align: middle;
+}
+
+.btn {
+    background: none;
+}
+
+/* New styles for the log out button */
+.logout-btn {
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.54px;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 6px;
+    color: #ff1a1a;
+    opacity: 0.5;
+    border: none;
+}
+
+.logout-btn:hover {
+    color: #ff1a1a;
+    opacity: 1;
+}

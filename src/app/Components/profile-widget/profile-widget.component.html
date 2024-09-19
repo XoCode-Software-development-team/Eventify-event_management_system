@@ -1,0 +1,20 @@
+<div class="user-profile">
+    <h5>Hello, {{ firstName }}</h5>
+    <p>Have a nice day!</p>
+    <div class="user-profile-widget d-flex flex-column card align-items-center justify-content-center">
+      <div class="avatar-container">
+        <img [src]="userImage || defaultImage" alt="User Avatar" class="avatar">
+      </div>
+      <h4 style="text-align: center;cursor: pointer;" routerLink="../profile">{{userName}}</h4>
+    </div>
+  
+    <div class="numofevents">
+      <h6>Number Of Events</h6>
+      <div class="circle">
+        <h3>{{ numberOfEvents }}</h3>
+      </div>
+    </div>
+  
+    
+  </div>
+  

@@ -1,0 +1,90 @@
+.time {
+    font-size: 12px;
+}
+
+.container {
+    min-height: 450px;
+}
+
+.title {
+    background-color: #AFDFE9;
+}
+
+// .container::before {
+//     content: "";
+//     position: absolute;
+//     border: 15px solid;
+//     top: -25px;
+//     left: 50%;
+//     border-color: transparent transparent black transparent;
+//     transform: translateX(-50%);
+//     z-index: 10;
+// }
+
+.p-button {
+    cursor: pointer;
+    opacity: 1;
+}
+
+.main-container {
+    background-color: rgba(250, 250, 250, 0.5);
+}
+
+.unread {
+    font-weight: bold;
+    background-color: #f8f9fa;
+    /* Light gray background for unread notifications */
+    border-left: 4px solid #007bff;
+    /* Blue border on the left to indicate unread */
+}
+
+.no-notifications-message {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hide {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.notification-box {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.scroll-anchor {
+    height: 1px;
+}
+
+.unread {
+    font-weight: bold;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 10px;
+}
+
+.make-center {
+    justify-content: center !important;
+}
+
+/* Styles for a container for spinner */
+.spinner-container {
+    position: relative;
+    width: 100%;
+    height: 70%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+.delete-button:hover {
+    transform: scale(1.1);
+}

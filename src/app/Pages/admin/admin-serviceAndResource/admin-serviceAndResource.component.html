@@ -1,0 +1,76 @@
+<!-- Container for displaying service/resource categories -->
+<div class="container">
+    <div *ngIf="categories && categories.length > 0">
+        <h4 class="pb-3">All {{checkUrlString() | capitalize }} Categories</h4>
+        <!-- Tab card component to display categories -->
+        <app-tab-card #tabCard [card]="categories" (childEvent)="getServicesAndResources($event)"></app-tab-card>
+    </div>
+</div>
+
+<!-- Table for displaying services/resources -->
+<div class="table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table"
+        *ngIf="dataSource && dataSource.length > 0">
+        <!-- Column definition for service/resource number -->
+        <ng-container matColumnDef="No">
+            <th mat-header-cell *matHeaderCellDef>No</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{i+1}}</td>
+        </ng-container>
+
+        <!-- Column definition for service/resource name -->
+        <ng-container matColumnDef="{{this.capitalizedTag}}">
+            <th mat-header-cell *matHeaderCellDef>{{this.capitalizedTag}}</th>
+            <td mat-cell *matCellDef="let element"
+                routerLink="/admin/{{this.checkUrlString()}}s/{{this.checkUrlString()}}/{{element.soRId}}/{{element[this.checkUrlString()]}}">
+                {{element[this.checkUrlString()]}}
+            </td>
+        </ng-container>
+
+        <!-- Column definition for service/resource rating -->
+        <ng-container matColumnDef="Rating">
+            <th mat-header-cell *matHeaderCellDef class="rating">Rating</th>
+            <td mat-cell *matCellDef="let element" class="rating">
+                {{element.rating | number: '1.1-1'}}&nbsp;
+                <!-- Rating component -->
+                <span style="color: #FDCC0D; font-size: medium;">
+                    <ngb-rating [max]="5" [rate]="element.rating" [readonly]="true"></ngb-rating>
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Column definition for service/resource action -->
+        <ng-container matColumnDef="Action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td class="action" mat-cell *matCellDef="let element">
+                <!-- Suspend button with confirmation popover -->
+                <div class="suspend" [ngClass]="{'sus':element.isSuspend}" mwlConfirmationPopover
+                    popoverTitle="{{this.capitalizedTag}} Confirmation"
+                    popoverMessage="Do you really want to {{element.isSuspend ? 'Resume': 'suspend'}}?" placement="left"
+                    confirmButtonType="{{element.isSuspend ? 'primary' : 'danger'}}"
+                    (confirm)="changeSuspendState(element.soRId)" (cancel)="true">
+                    {{!element.isSuspend? 'Suspend' : 'Resume'}}</div>
+                <!-- Delete button with confirmation popover -->
+                <span style="margin-left: 5px;"></span>
+                <div class="delete" mwlConfirmationPopover popoverTitle="{{this.capitalizedTag}} Delete Confirmation"
+                    popoverMessage="Do you really want to delete?" placement="left"
+                    (confirm)="deleteServiceAndResource(element.soRId)" (cancel)="true">
+                    Delete
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Header row definition -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- Data row definition -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<!-- Display message when no services available -->
+<div class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+    <div *ngIf="dataSource.length == 0 && !noData" class="spinner-container d-flex flex-column">
+        <p>Please wait</p>
+        <!-- Loading Spinner -->
+        <mat-spinner diameter="32"></mat-spinner>
+    </div>
+    <p *ngIf="noData">No available {{checkUrlString()}}s found</p>
+</div>

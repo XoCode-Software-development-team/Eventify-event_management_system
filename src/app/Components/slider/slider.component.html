@@ -1,0 +1,32 @@
+<div class="container">
+  <div>
+    <h5>Filter price model</h5>
+    <mat-radio-group *ngIf="!priceModelLoading" [(ngModel)]="selectedPriceModel" (change)="onPriceModelChange()" class="radio-group">
+      <mat-radio-button class="radio-button" [color]="'primary'" value="All">
+        All
+      </mat-radio-button>
+      <mat-radio-button *ngFor="let price of priceModels" class="radio-button" [color]="'primary'" [value]="price.id">
+        {{price.priceModelName}}
+      </mat-radio-button>
+    </mat-radio-group>
+
+  </div>
+  <div *ngIf="priceModelLoading" class="spinner-container d-flex flex-column" style="height: 150px;">
+    <p>Please wait</p>
+    <!-- Loading Spinner -->
+    <mat-spinner diameter="20"></mat-spinner>
+</div>
+
+  <div *ngIf="priceModelSelected" class="mt-2">
+    <h5>Price range</h5>
+    <div class="label-container">
+      <label class="value-label">0$</label>
+      <label class="value-label">{{maxPrice}}$</label>
+    </div>
+    <mat-slider class="slider mt-0 mx-0" [disabled]="!priceModelSelected" [max]="maxPrice" [min]="0" [step]="calculateStep(maxPrice)"
+        [discrete]="true" [showTickMarks]="true" (input)="updateSliderValue()">
+        <input [(ngModel)]="minValue" matSliderStartThumb [value]="minValue">
+        <input [(ngModel)]="maxValue" matSliderEndThumb [value]="maxPrice">
+    </mat-slider>
+  </div>
+</div>

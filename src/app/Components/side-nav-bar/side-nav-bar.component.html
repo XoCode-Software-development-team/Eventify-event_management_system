@@ -1,0 +1,9 @@
+<div class="container">
+    <!-- Container for the list of navigation tabs -->
+    <div class="list-container">
+        <!-- Container for the list of navigation tabs -->
+        <a *ngFor="let item of navigationTabs" routerLinkActive="active-link" class="element" mat-button
+            routerLink='{{item.Url}}'>{{ item.Tag }}</a>
+        <!-- Iterates over navigationTabs array, creates a button for each item -->
+    </div>
+</div>

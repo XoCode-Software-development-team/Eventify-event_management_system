@@ -1,0 +1,44 @@
+.section1{
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+.upcoming{
+    border: solid rgb(222, 222, 222) 1px;
+    width: 320px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(139, 139, 139, 0.2);
+    max-height: 510px; 
+}
+.upcoming h5{
+    color: rgb(63, 92, 92);
+}
+.upcoming p{
+    color: rgb(101, 145, 145);
+}
+.upcoming a{
+    text-decoration: none;
+}
+.upcoming a:hover {
+    text-decoration: underline;
+    color: rgb(53, 207, 218);
+  }
+.events-container{
+    margin-top: 15px;
+    overflow-y: auto; 
+    max-height: 400px;
+}
+
+.event-card{
+    border: rgb(174, 174, 174) solid 1px;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 7px;
+}
+
+.avatar {
+    border: 1px solid #ccc;
+    width: 60px;
+    height: 60px;
+  }

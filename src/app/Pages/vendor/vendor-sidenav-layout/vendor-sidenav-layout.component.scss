@@ -1,0 +1,20 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 112px;
+    margin: 0;
+    flex-grow: 1;
+
+}
+// Left side
+.side {
+
+    flex: 20%;
+    padding: 20px;
+}
+
+.main {
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+}

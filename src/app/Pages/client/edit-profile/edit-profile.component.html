@@ -1,0 +1,255 @@
+<div class="row" style="width: 100%; min-height: 64.7vh;">
+  <!-- Side navigation bar -->
+  <div class="side">
+    <app-side-nav-bar [navigationTabs]="navbar"></app-side-nav-bar>
+  </div>
+  <!-- Main content area -->
+  <div class="main">
+    <div class="form-container d-flex flex-column">
+
+      <h4 class="pb-3">{{isReadOnly ? role : 'Edit'}} Profile</h4>
+
+
+      <div class="d-flex flex-row justify-content-start align-items-center gap-5 pb-4">
+        <img class="avatar" [ngClass]="!userImage ? 'avatar-padding' : null"
+          [src]="userImage ? userImage : '../../../../assets/default/user.png'">
+
+        <div class="d-flex justify-content-between align-items-center gap-5">
+
+          <app-primary-button *ngIf="!isLoading" [loading]="isUpdatingAvatar" [button]="updateImageButton" (click)="fileInput.click()"></app-primary-button>
+          <input type="file" (change)="onFileSelected($event)" style="display: none;" #fileInput>
+
+          <app-delete-button *ngIf="!deleteButton.disable" [isLoading]="isDeletingAvatar" mwlConfirmationPopover popoverTitle="Avatar Delete confirmation"
+            popoverMessage="Do you really want to delete?" placement="bottom" confirmButtonType="danger"
+            (confirm)="deleteProfilePicture()" (cancel)="true" [button]="deleteButton"></app-delete-button>
+
+        </div>
+      </div>
+
+      <div *ngIf="isLoading" class="spinner-container d-flex flex-column mt-5">
+        <p>Please wait</p>
+        <mat-spinner diameter="32"></mat-spinner>
+      </div>
+
+      <div *ngIf="isProfile && !isLoading">
+        <div class="my-3 mt-5">
+          <app-secondary-button *ngIf="isReadOnly" (click)="toggleReadOnly()"
+            [button]="editButton"></app-secondary-button>
+        </div>
+        
+
+        <form class="edit-profile-form" [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
+
+          <table class="form-table" cellspacing="0">
+            <!-- Client fields -->
+            <tr *ngIf="role === 'Client'">
+              <td class="first-td" colspan="3">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>First Name</mat-label>
+                  <input matInput class="input-data" required [readonly]="isReadOnly" formControlName="firstName"
+                    placeholder="Add First Name">
+                  <mat-hint
+                    *ngIf="editProfileForm.controls['firstName'].invalid && editProfileForm.controls['firstName'].touched">
+                    <span class="small text-danger"> First name cannot be left blank! </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td colspan="3">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Last Name</mat-label>
+                  <input matInput class="input-data" required [readonly]="isReadOnly" formControlName="lastName"
+                    placeholder="Add Last Name">
+                  <mat-hint
+                    *ngIf="editProfileForm.controls['lastName'].invalid && editProfileForm.controls['lastName'].touched">
+                    <span class="small text-danger">Last name cannot be left blank! </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr *ngIf="role === 'Vendor'">
+              <td class="first-td" colspan="3">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Company Name</mat-label>
+                  <input matInput class="input-data" required [readonly]="isReadOnly" formControlName="companyName"
+                    placeholder="Add Company Name">
+                  <mat-hint
+                    *ngIf="editProfileForm.controls['companyName'].invalid && editProfileForm.controls['companyName'].touched">
+                    <span class="small text-danger"> Company name cannot be left blank! </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td colspan="3">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Contact Person Name</mat-label>
+                  <input matInput class="input-data" required [readonly]="isReadOnly"
+                    formControlName="contactPersonName" placeholder="Add Contact Person Name">
+                  <mat-hint
+                    *ngIf="editProfileForm.controls['contactPersonName'].invalid && editProfileForm.controls['contactPersonName'].touched">
+                    <span class="small text-danger">Contact person name cannot be left blank! </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+            </tr>
+            <!-- Admin and other common fields -->
+            <tr>
+              <td class="first-td" colspan="3">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput class="input-data" required [readonly]="isReadOnly" formControlName="email"
+                    placeholder="Add Email">
+                  <mat-hint
+                    *ngIf="editProfileForm.controls['email'].invalid && editProfileForm.controls['email'].touched">
+                    <span *ngIf="editProfileForm.get('email')?.errors?.['required']" class="small text-danger">Email
+                      address cannot be left blank! </span>
+                    <span *ngIf="editProfileForm.get('email')?.errors?.['email']" class="small text-danger">Please enter
+                      a valid email address! </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td colspan="3">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Phone Number</mat-label>
+                  <input matInput class="input-data" required [readonly]="isReadOnly" formControlName="phoneNumber"
+                    placeholder="Add Phone Number">
+                  <mat-hint
+                    *ngIf="editProfileForm.controls['phoneNumber'].invalid && editProfileForm.controls['phoneNumber'].touched">
+                    <span *ngIf="editProfileForm.controls['phoneNumber'].hasError('required')"
+                      class="small text-danger">Phone number cannot be left blank!</span>
+                    <span *ngIf="editProfileForm.controls['phoneNumber'].hasError('pattern')"
+                      class="small text-danger">Invalid phone number!</span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td class="first-td" colspan="2">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>House No</mat-label>
+                  <input matInput class="input-data" [readonly]="isReadOnly" formControlName="houseNo"
+                    placeholder="Add House No">
+                </mat-form-field>
+              </td>
+              <td class="first-td" colspan="2">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Street</mat-label>
+                  <input matInput class="input-data" [readonly]="isReadOnly" formControlName="street"
+                    placeholder="Add Street">
+                </mat-form-field>
+              </td>
+              <td colspan="2">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Road</mat-label>
+                  <input matInput class="input-data" [readonly]="isReadOnly" formControlName="road"
+                    placeholder="Add Road">
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td class="first-td">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>City</mat-label>
+                  <input matInput class="input-data" [readonly]="isReadOnly" formControlName="city"
+                    placeholder="Add City">
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+          <div>
+            <div class="button d-flex gap-3">
+              <app-primary-button [loading]="isSaveButtonLoading" *ngIf="!isReadOnly" [button]="saveButton"></app-primary-button>
+              <app-delete-button *ngIf="false" [isLoading]="isDeletingAccount" [button]="deleteAccount" mwlConfirmationPopover popoverTitle="Account Delete confirmation"
+              popoverMessage="Do you really want to delete?" placement="right" confirmButtonType="danger"
+              (confirm)="deleteUser()" (cancel)="true"></app-delete-button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="!isProfile && !isLoading">
+      <div class="form-container d-flex flex-column">
+        <div class="my-3 mt-5">
+          <h4 class="pb-3">Update password</h4>
+        </div>
+        <form class="w-50" [formGroup]="updatePasswordForm" (ngSubmit)="updatePassword()">
+          <table class="form-table" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Current password</mat-label>
+                  <input matInput class="input-data" required formControlName="currentPassword"
+                    placeholder="Add Password" [type]="isText ? 'text' : 'password'">
+                  <mat-icon *ngIf="isText" matSuffix (click)="hideShowPass()">visibility</mat-icon>
+                  <mat-icon *ngIf="!isText" matSuffix (click)="hideShowPass()">visibility_off</mat-icon>
+                  <mat-hint
+                    *ngIf="updatePasswordForm.controls['currentPassword'].invalid && updatePasswordForm.controls['currentPassword'].touched">
+                    <span *ngIf="updatePasswordForm.get('currentPassword')?.errors?.['required']"
+                      class="small text-danger">Current password can not be left blank!</span>
+                    <span class="small text-danger"
+                      *ngIf="updatePasswordForm.get('password')?.errors?.['passwordStrength']">Password must
+                      be at least 8 characters long and include at least one uppercase letter, one
+                      lowercase letter, one number, and one special character.
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>New Password</mat-label>
+                  <input matInput class="input-data" required formControlName="newPassword"
+                    placeholder="Add New Password" [type]="isText ? 'text' : 'password'">
+                  <mat-icon *ngIf="isText && updatePasswordForm.controls['currentPassword'].valid" matSuffix
+                    (click)="hideShowPass()">visibility</mat-icon>
+                  <mat-icon *ngIf="!isText && updatePasswordForm.controls['currentPassword'].valid" matSuffix
+                    (click)="hideShowPass()">visibility_off</mat-icon>
+                  <mat-hint
+                    *ngIf="updatePasswordForm.controls['newPassword'].invalid && updatePasswordForm.controls['newPassword'].touched">
+                    <span *ngIf="updatePasswordForm.get('newPassword')?.errors?.['required']"
+                      class="small text-danger">New password can not be left blank! </span>
+                      <span class="small text-danger" style="white-space: nowrap;"
+                      *ngIf="updatePasswordForm.get('newPassword')?.errors?.['passwordStrength']">Password must
+                      be at least 8 characters long and include at least one uppercase letter, one
+                      lowercase letter, one number, and one special character.
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Confirm Password</mat-label>
+                  <input matInput class="input-data" required formControlName="confirmPassword"
+                    placeholder="Add Confirm Password" [type]="isText ? 'text' : 'password'">
+                  <mat-icon *ngIf="isText && updatePasswordForm.controls['newPassword'].valid" matSuffix
+                    (click)="hideShowPass()">visibility</mat-icon>
+                  <mat-icon *ngIf="!isText && updatePasswordForm.controls['newPassword'].valid" matSuffix
+                    (click)="hideShowPass()">visibility_off</mat-icon>
+                  <mat-hint
+                    *ngIf="updatePasswordForm.controls['confirmPassword'].invalid && updatePasswordForm.controls['confirmPassword'].touched">
+                    <span *ngIf="updatePasswordForm.get('confirmPassword')?.errors?.['required']"
+                      class="small text-danger">Confirm password can not be left blank! </span>
+                    <span *ngIf="updatePasswordForm.get('confirmPassword')?.errors?.['passwordMismatch']"
+                      class="small text-danger">
+                      Confirm password must match the new password.
+                    </span>
+                  </mat-hint>
+                </mat-form-field>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="signUp-button">
+                <app-primary-button [loading]="isSaveButtonLoading" [button]="saveButton"></app-primary-button>
+              </td>
+              <td></td>
+            </tr>
+          </table>
+
+        </form>
+      </div>
+    </div>
+  </div>

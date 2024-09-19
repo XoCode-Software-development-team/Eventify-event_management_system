@@ -1,0 +1,24 @@
+.text-justify {
+    text-align: justify;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    color: #1C5864;
+}
+
+.icon-container mat-icon {
+    font-size: 24px;
+    /* Adjust size if necessary */
+    color: #000;
+    /* Adjust color if necessary */
+    cursor: pointer;
+}
+
+.list-item {
+    min-width: 358px !important;
+}

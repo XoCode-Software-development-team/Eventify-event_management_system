@@ -1,0 +1,71 @@
+.date-input:focus {
+  border-bottom: 1px solid #ccc !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.title-input {
+  height: 20px;
+  height: 50px;
+  /* Set height */
+  box-sizing: border-box;
+  /* Ensure padding is included in height */
+  border-bottom: none !important;
+  font-size: 24px;
+}
+
+.title-input:focus {
+  border: none !important;
+}
+
+.time-input:focus {
+  border: 1px solid #ccc;
+  outline: none !important;
+}
+
+.time-input {
+  border: 1px solid #ccc;
+}
+
+.title-input::placeholder {
+  font-size: 24px;
+}
+
+.add-button {
+  outline: none !important;
+  border: none !important;
+  cursor: pointer;
+}
+
+.mat-icon:hover {
+  background-color: #ccc;
+}
+
+.active {
+  background-color: #ccccccaf;
+}
+
+.task-input {
+  outline: none !important; 
+  border: none ; 
+  border-radius: 0 !important;  
+  border-bottom: 1px solid #ccc;
+}
+
+.description-input {
+  outline: none !important; 
+  border: none ; 
+  border-radius: 0 !important;  
+}
+
+.spinner-container {
+  position: relative;
+  width: 100%;
+  height: 60%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

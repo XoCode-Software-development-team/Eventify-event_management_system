@@ -1,0 +1,13 @@
+// Container for icons
+.icons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 112px;
+}
+// Right side of the icon container
+.right-side {
+    flex: 50%;
+    align-items: center;
+    margin: 0;
+}

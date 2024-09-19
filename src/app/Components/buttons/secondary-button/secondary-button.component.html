@@ -1,0 +1,5 @@
+<button [disabled]="button.disable" (click)="navigate()" [ngClass]="button.class" mat-button style="color: #fff;"
+    class="btn btn-outline secondary-button px-4">
+    <mat-icon *ngIf="button.icon" [ngClass]="button.iconClass">{{button.icon}}</mat-icon>
+    {{button.text}}
+</button>

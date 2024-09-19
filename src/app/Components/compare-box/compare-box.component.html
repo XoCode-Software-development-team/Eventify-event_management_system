@@ -1,0 +1,19 @@
+<div class="container pt-3">
+    <div style="z-index: 999;">
+        <h5 class="title p-3 px-3 pb-1">Vendor comparison</h5>
+    </div>
+    <p class="px-3 mb-4 small text-justify">Add upto 3 {{isServiceOrResource()}}s of same category to see how they compare. You can use compare
+        buttons while browsing.</p>
+
+        <div *ngFor="let i of [0,1,2]" class="m-3 icon-container" style="background-color: #D9D9D9; height: 50px; border: 1px dotted black;">
+            <mat-icon (click)="navigate()" *ngIf="getCurrentCompareList()[i]==null">add</mat-icon>
+            <div *ngIf="getCurrentCompareList()[i]"  style="background-color: white; border-radius: 6px;" class="d-flex justify-content-between align-items-center py-2 px-2 list-item">
+                <span>{{getCurrentCompareList()[i].name}}</span>
+                <mat-icon (click)="remove(i)">close</mat-icon>
+            </div>
+        </div>        
+
+    <div class="mx-3 mt-4">
+        <app-primary-button (click)="compare()" [button]="compareButton"></app-primary-button>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="row" style="width: 100%; min-height: 64.7%;">
+    <!-- Sidebar -->
+    <div class="side" style="max-width: 280px;" *ngIf="!mapStart">
+        <!-- Slider Component -->
+        <app-slider (priceFilteredDataSource)="priceFilter($event)"></app-slider>
+
+        <!-- Category Component -->
+        <app-category (categoryFilterDataSource)="categoryFilter($event)"></app-category>
+
+        <!-- Filter Rating Component -->
+        <app-filter-rating (rateFilteredDataSource)="rateFilter($event)"></app-filter-rating>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Sort and Search Box -->
+        <div class="d-flex flex-row justify-content-between sort-search-box" [ngStyle]="{'border': mapStart ? 'none' : '1px solid rgba(0, 0, 0, 0.20)'}">
+            <h2 *ngIf="mapStart">District Search for {{checkUrlString() | capitalize}}s</h2>
+
+            <!-- Sort Component -->
+            <app-sort [mapStart]="mapStart" (sortChange)="sortServicesAndResources($event)"></app-sort>
+            <!-- Search Component -->
+            <app-search (mapStart)="hideAll($event)"></app-search>
+        </div>
+
+        <div *ngIf="mapStart">
+            <app-map [query]="query"></app-map>
+        </div>
+
+        <!-- Display message when no services/resources available -->
+        <div *ngIf="servicesAndResources.length == 0 && !mapStart" class="empty my-5 w-100 d-flex flex-column" style="align-items: center;">
+            <p *ngIf="servicesAndResources.length == 0 && !isLoading">No available {{this.checkUrlString()}}s found</p>
+            <div *ngIf="isLoading" class="spinner-container d-flex flex-column">
+                <p>Please wait</p>
+                <!-- Loading Spinner -->
+                <mat-spinner diameter="32"></mat-spinner>
+            </div>
+        </div>
+
+        <!-- Item Cards -->
+        <div *ngIf="!isLoading && !mapStart">
+            <app-item-card [dataSource]="servicesAndResources"></app-item-card>
+        </div>
+
+        <!-- Paginator -->
+        <mat-paginator class="card mt-4" *ngIf="totalItems > pageSize && servicesAndResources.length !=0 && !isLoading && !mapStart" [length]="totalItems"
+            [pageSize]="pageSize" [pageIndex]="currentPage" (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+</div>

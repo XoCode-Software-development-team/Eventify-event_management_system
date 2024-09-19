@@ -1,0 +1,104 @@
+<div class="event-cover" *ngIf="selectedEvent && !isLoading">
+    <p class="event-name">{{ selectedEvent.name | capitalize }}</p>
+    <div><mat-divider></mat-divider></div><br /><br />
+
+    <img [src]="selectedEvent.thumbnail ? selectedEvent.thumbnail : '../../../assets/Images/eventify_cover.jpg'"
+        class="cover-img" />
+
+    <div class="event-detail-panel">
+        <div class="section">
+            <div class="d-flex justify-content-center align-items-center"><img src="../../../assets/Images/calendar.png"
+                    class="count" height="27px" width="28px" />
+                <span class="text">{{ selectedEvent.startDateTime | date }} - {{ selectedEvent.endDateTime | date
+                    }}</span>
+            </div>
+        </div>
+        <div class="section">
+            <div class="d-flex justify-content-center align-items-center"><img src="../../../assets/Images/Time.png"
+                    class="count" height="27px" width="28px" />
+                <span class="text">{{ selectedEvent.startDateTime | date: 'shortTime' }} - {{ selectedEvent.endDateTime
+                    | date: 'shortTime' }}</span>
+            </div>
+        </div>
+        <div class="section">
+            <div class="d-flex justify-content-center align-items-center"><img src="../../../assets/Images/Location.png"
+                    class="count" height="30px" width="20px" />
+                <span class="text"> {{ selectedEvent.location }}</span>
+            </div>
+        </div>
+        <div class="section">
+            <div class="d-flex justify-content-center align-items-center"><img src="../../../assets/Images/users.jpg"
+                    class="count" height="30px" width="30px" />
+                <span class="text">{{ selectedEvent.guestCount }}</span>
+            </div>
+        </div>
+
+        <div class="discription">
+            <p class="topic">Description</p>
+            <p class="des-text">{{ selectedEvent.description }}</p>
+        </div>
+
+    </div>
+
+
+    <section >
+        <div class="buttons d-flex align-items-center justify-content-around gap-2 mx-2">
+            <button class="btn btn-primary"routerLink="checklist" ><i class="fas fa-tasks"></i> Checklist</button>
+            <button class="btn btn-primary" routerLink="agenda"><i class="fas fa-list"></i> Agenda</button>
+        </div>
+
+    </section>
+
+    <div class="mat-line"><mat-divider></mat-divider></div>
+
+
+    <div class="servicecards">
+
+
+
+        <ng-container *ngIf="hasEventServiceCards()">
+            Services ({{ Scards.length }})
+        </ng-container>
+        <div class="Card" *ngIf="Scards != null && Scards.length > 0">
+            <app-event-service-res-card [pastEventView]="pastEventView" (refreshEvent)="ngOnInit()" [eventId]="eventId" [dataSource]="Scards"></app-event-service-res-card>
+        </div>
+        <div class="add" *ngIf="!pastEventView">
+            <a mat-button routerLink="../../../services">Add {{Scards.length > 0 ? 'more' : null}} services <b>
+                    +</b></a>
+        </div>
+    </div>
+
+    <div class="mat-line" *ngIf="Rcards.length > 0 && Rcards != null" ><mat-divider></mat-divider></div>
+
+    <div class="resourcecards">
+
+
+        <ng-container *ngIf="hasEventResourceCards()">
+            Resources ({{ Rcards.length }})
+        </ng-container>
+        <div class="Card" *ngIf="Rcards.length > 0 && Rcards != null">
+            <app-event-service-res-card [pastEventView]="pastEventView" (refreshEvent)="ngOnInit()" [eventId]="eventId" [dataSource]="Rcards"></app-event-service-res-card>
+        </div>
+        <div class="add" *ngIf="!pastEventView">
+            <a mat-button routerLink="../../../resources">Add {{Rcards.length > 0 ? 'more' : null}} resources <b>
+                    +</b></a>
+        </div>
+    </div>
+
+
+    <div class="mat-line" *ngIf="!pastEventView"><mat-divider></mat-divider></div>
+    <div class="del-up-button" *ngIf="!pastEventView">
+        <button class="btn btn-danger mt-4" mwlConfirmationPopover popoverTitle="Event delete Confirmation"
+            popoverMessage="Do you really want to delete?" placement="top" confirmButtonType="danger"
+            (confirm)="setDelete(selectedEvent.eventId)" (cancel)="true"> <i class="fas fa-trash-alt"></i>
+            Delete event</button>
+        <button class="btn btn-primary mt-4" (click)="updateEvent(selectedEvent.eventId)"> <i
+                class="fas fa-edit update-icon"></i> Update event</button>
+    </div>
+</div>
+
+<div *ngIf="isLoading" class="spinner-container d-flex flex-column">
+    <p>Please wait</p>
+    <!-- Loading Spinner -->
+    <mat-spinner diameter="32"></mat-spinner>
+</div>

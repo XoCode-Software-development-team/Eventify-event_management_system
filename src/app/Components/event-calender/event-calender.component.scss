@@ -1,0 +1,15 @@
+.calendar-wrapper{
+    width: 600px;
+    height: auto;
+    border: #e6e6e6 solid 1px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(128, 128, 128, 0.2);
+}
+.fc-header-toolbar {
+    background-color: #f0f0f0;
+}
+
+.fc-daygrid-event {
+    background-color: #4CAF50;
+    color: white;
+}

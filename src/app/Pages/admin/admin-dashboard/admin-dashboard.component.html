@@ -1,0 +1,96 @@
+<div class="container">
+    <h2 class="py-3">Admin dashboard</h2>
+
+    <!-- Clients Section -->
+    <div class="p-3">
+        <p class="element">Clients</p>
+        <div *ngIf="!isClientsLoading">
+            <table mat-table [dataSource]="clients" class="mat-elevation-z8 demo-table" *ngIf="clients && clients.length > 0">
+                <!-- Column definition for service/resource number -->
+                <ng-container matColumnDef="No">
+                    <th mat-header-cell *matHeaderCellDef class="no-column">No</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="no-column">{{i + 1}}</td>
+                </ng-container>
+
+                <!-- Column definition for first name -->
+                <ng-container matColumnDef="FirstName">
+                    <th mat-header-cell *matHeaderCellDef>First Name</th>
+                    <td mat-cell *matCellDef="let element">{{element.firstName}}</td>
+                </ng-container>
+
+                <!-- Column definition for last name -->
+                <ng-container matColumnDef="LastName">
+                    <th mat-header-cell *matHeaderCellDef>Last Name</th>
+                    <td mat-cell *matCellDef="let element">{{element.lastName}}</td>
+                </ng-container>
+
+                <!-- Column definition for email -->
+                <ng-container matColumnDef="Email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let element">{{element.email}}</td>
+                </ng-container>
+
+                <!-- Header row definition -->
+                <tr mat-header-row *matHeaderRowDef="displayedClientColumns"></tr>
+                <!-- Data row definition -->
+                <tr mat-row *matRowDef="let row; columns: displayedClientColumns;"></tr>
+            </table>
+        </div>
+
+        <!-- Spinner for Clients Loading -->
+        <div *ngIf="isClientsLoading" class="spinner-container d-flex flex-column">
+            <p>Please wait</p>
+            <!-- Loading Spinner -->
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+    </div>
+
+    <!-- Vendors Section -->
+    <div class="p-3 mt-5">
+        <p class="element">Vendors</p>
+        <div *ngIf="!isVendorsLoading">
+            <table mat-table [dataSource]="vendors" class="mat-elevation-z8 demo-table" *ngIf="vendors && vendors.length > 0">
+                <!-- Column definition for service/resource number -->
+                <ng-container matColumnDef="No">
+                    <th mat-header-cell *matHeaderCellDef class="no-column">No</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="no-column">{{i + 1}}</td>
+                </ng-container>
+
+                <!-- Column definition for company name -->
+                <ng-container matColumnDef="CompanyName">
+                    <th mat-header-cell *matHeaderCellDef>Company Name</th>
+                    <td mat-cell *matCellDef="let element">{{element.companyName}}</td>
+                </ng-container>
+
+                <!-- Column definition for vendor rate -->
+                <ng-container matColumnDef="VendorRate">
+                    <th mat-header-cell *matHeaderCellDef>Vendor Rate</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.rate | number: '1.1-1'}}
+                        <span style="color: #FDCC0D; font-size: 20px;">
+                            <ngb-rating [max]="5" [rate]="element.rate" [readonly]="true"></ngb-rating>
+                        </span>
+                    </td>
+                </ng-container>
+
+                <!-- Column definition for email -->
+                <ng-container matColumnDef="Email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let element">{{element.email}}</td>
+                </ng-container>
+
+                <!-- Header row definition -->
+                <tr mat-header-row *matHeaderRowDef="displayedVendorColumns"></tr>
+                <!-- Data row definition -->
+                <tr mat-row *matRowDef="let row; columns: displayedVendorColumns;"></tr>
+            </table>
+        </div>
+
+        <!-- Spinner for Vendors Loading -->
+        <div *ngIf="isVendorsLoading" class="spinner-container d-flex flex-column">
+            <p>Please wait</p>
+            <!-- Loading Spinner -->
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+    </div>
+</div>

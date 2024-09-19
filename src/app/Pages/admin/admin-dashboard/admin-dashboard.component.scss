@@ -1,0 +1,58 @@
+
+
+.container {
+    .element {
+        font-size: 1.25rem;
+    }
+
+    .p-3 {
+        margin-bottom: 1.5rem;
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            overflow: auto;
+
+            .no-column {
+                width: 50px; // Adjust width as necessary
+                text-align: center;
+            }
+
+            th,
+            td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: left;
+                white-space: nowrap;
+            }
+
+            th.mat-header-cell,
+            td.mat-cell {
+                width: calc(100% / 4); // Equal width for 4 columns (No, Company Name, Vendor Rate, Email)
+            }
+        }
+    }
+
+    .spinner-container {
+        position: relative;
+        width: 100%;
+        height: 70%;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .element {
+        font-family: Lato;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.54px;
+        text-decoration: none;
+    }
+}
