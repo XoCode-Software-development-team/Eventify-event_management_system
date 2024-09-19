@@ -1,0 +1,13 @@
+name: Build Angular Application
+
+on:
+    push:
+        branches: [main]
+
+jobs:
+    build-angular:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Greetings
+              run: echo "Hello world"
