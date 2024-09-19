@@ -38,7 +38,7 @@ import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
 import { HomeComponent } from './Pages/client/home/home.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 import { VendorUpdateServiceAndResourceComponent } from './Pages/vendor/vendor-update-serviceAndResource/vendor-update-service.AndResourcecomponent';
 import { ClientLayoutComponent } from './Pages/client/client-layout/client-layout.component';
 import { ClientIconLayoutComponent } from './Pages/client/client-icon-layout/client-icon-layout.component';

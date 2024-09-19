@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as signalR from '@aspnet/signalr';
 import { Notification } from 'src/app/Interfaces/interfaces';
-import { baseApiUrl } from 'src/environments/environment';
+import { baseApiUrl } from 'environments/environment';
 import { NotificationBoxComponent } from 'src/app/Components/notification-box/notification-box.component';
 import { UserStoreService } from './user-store.service';
 import { AuthenticationService } from './authentication.service';

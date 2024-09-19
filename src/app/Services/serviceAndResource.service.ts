@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Category } from 'src/app/Interfaces/interfaces';
-import { baseApiUrl } from 'src/environments/environment';
+import { baseApiUrl } from 'environments/environment';
 import { Location } from '@angular/common';
 
 

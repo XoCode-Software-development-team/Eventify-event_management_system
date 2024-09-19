@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { baseApiUrl } from 'src/environments/environment';
+import { baseApiUrl } from 'environments/environment';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenApiModel } from '../Models/token-api.model';

@@ -3,7 +3,7 @@ import { Agenda, Checklist } from '../Interfaces/interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { EventDialogComponent } from '../Components/event-dialog/event-dialog.component';
 import { HttpClient } from '@angular/common/http';
-import { baseApiUrl } from 'src/environments/environment';
+import { baseApiUrl } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { baseApiUrl } from 'src/environments/environment';
+import { baseApiUrl } from 'environments/environment';
 import { UserCardComponent } from '../Components/user-card/user-card.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 

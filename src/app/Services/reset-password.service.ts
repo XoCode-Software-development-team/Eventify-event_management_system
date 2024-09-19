@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { baseApiUrl } from 'src/environments/environment';
+import { baseApiUrl } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { ResetPassword } from '../Models/reset-password.model';

@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ToastService } from './toast.service';
 import { CompareList } from '../Interfaces/interfaces';
 import { HttpClient } from '@angular/common/http';
-import { baseApiUrl } from 'src/environments/environment';
+import { baseApiUrl } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root',

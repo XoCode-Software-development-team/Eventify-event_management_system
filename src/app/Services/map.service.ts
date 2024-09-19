@@ -1,6 +1,6 @@
 // src/app/services/map.service.ts
 import { Injectable } from '@angular/core';
-import { baseApiUrl, environment, mapEnvironment } from '../../environments/environment';
+import { baseApiUrl, environment, mapEnvironment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
