@@ -22,10 +22,16 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Build Angular App
-        run: npm run build
+        run: npm run build --if-present
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist
+
+      - name: Clean up Cache
+        run: npm cache clean --force
+
+      - name: List Files in dist
+        run: ls -la dist # Verify the contents of the dist directory
