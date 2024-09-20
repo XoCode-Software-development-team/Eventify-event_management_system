@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'  # Ensure you're using a compatible Node.js version
+          node-version: '18.x'
 
       - name: Install Dependencies
         run: npm ci --legacy-peer-deps  # This installs dependencies based on package-lock.json
