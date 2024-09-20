@@ -10,19 +10,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3  # Corrected the version
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci --legacy-peer-deps  # Keep this only if you have dependency issues
 
       - name: Build application
         run: npm run build
 
       - name: Archive production artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3  # Corrected the version
         with:
           name: dist
-          path: dist/eventify-frontend
+          path: dist/eventify-frontend  # Make sure the path matches the actual output folder
 
   deploy-application:
     name: Deploy
@@ -31,10 +31,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3  # Corrected the version
 
       - name: Download artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3  # Corrected the version
         with:
           name: dist
           path: dist/eventify-frontend
@@ -46,4 +46,4 @@ jobs:
         run: |
           firebase deploy
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}  # Ensure your Firebase token is correctly set in secrets
