@@ -11,19 +11,32 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v2
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.0.4
-        
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.x' # Ensure the version matches your local environment
+
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli@16.2.11 # Replace with the Angular CLI version you're using
+
       - name: Install Dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build the Angular Application
-        run: npm run build
+      - name: Build Angular App
+        run: npm run build -- --configuration=production
 
-      - name: Archive the Build Artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: dist
           path: dist
