@@ -2,48 +2,30 @@ name: Build Angular Application
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build-application:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3  # Corrected the version
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps  # Keep this only if you have dependency issues
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'  # Ensure you're using a compatible Node.js version
 
-      - name: Build application
-        run: npm run watch
+      - name: Install Dependencies
+        run: npm ci --legacy-peer-deps  # This installs dependencies based on package-lock.json
 
-      - name: Archive production artifact
-        uses: actions/upload-artifact@v3  # Corrected the version
+      - name: Build the Angular Application
+        run: npm run build -- --configuration=production
+
+      - name: Archive the Build Artifacts
+        uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: dist/eventify-frontend  # Make sure the path matches the actual output folder
-
-  deploy-application:
-    name: Deploy
-    needs: build-application
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3  # Corrected the version
-
-      - name: Download artifact
-        uses: actions/download-artifact@v3  # Corrected the version
-        with:
-          name: dist
-          path: dist/eventify-frontend
-
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
-      - name: Deploy to Firebase
-        run: |
-          firebase deploy
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}  # Ensure your Firebase token is correctly set in secrets
+          path: dist
