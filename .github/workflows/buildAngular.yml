@@ -12,11 +12,24 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1  # Shallow clone
+
+      - name: Increase Git Buffer Size
+        run: git config --global http.postBuffer 524288000  # 500 MB
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.x' # Ensure the version matches your local environment
+          node-version: '18.x'
+
+      - name: Cache Node.js Modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
@@ -29,9 +42,3 @@ jobs:
         with:
           name: dist
           path: dist
-
-      - name: Clean up Cache
-        run: npm cache clean --force
-
-      - name: List Files in dist
-        run: ls -la dist # Verify the contents of the dist directory
