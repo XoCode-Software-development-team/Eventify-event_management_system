@@ -6,7 +6,6 @@
 /out-tsc
 /bazel-out
 
-/environments
 /.firebase
 
 # Node
