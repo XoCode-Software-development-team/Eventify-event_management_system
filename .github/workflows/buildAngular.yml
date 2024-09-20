@@ -16,7 +16,7 @@ jobs:
         run: npm ci --legacy-peer-deps  # Keep this only if you have dependency issues
 
       - name: Build application
-        run: npm run build
+        run: npm run watch
 
       - name: Archive production artifact
         uses: actions/upload-artifact@v3  # Corrected the version
