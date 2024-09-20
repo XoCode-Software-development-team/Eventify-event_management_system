@@ -27,7 +27,7 @@ jobs:
                 
     deploy-application:
         name: Deploy
-        needs: build
+        needs: build-application
         runs-on: ubuntu-latest
         steps:
           - name: Checkout repository
