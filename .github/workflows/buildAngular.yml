@@ -19,7 +19,7 @@ jobs:
           node-version: '18.x' # Ensure the version matches your local environment
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build Angular App
         run: npm run build
