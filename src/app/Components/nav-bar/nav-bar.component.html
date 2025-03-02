@@ -15,9 +15,8 @@
     <app-secondary-button [button]="login"></app-secondary-button>
   </div>
 
-  <!-- User Image (Shown when user is logged in) -->
   <div class="d-flex justify-content-center" *ngIf="isLogin" [ngClass]="isToggled() ? 'active-image': ''">
     <a (click)="openProfileCard()" style="cursor: pointer;"><img class="user-image"
-        src="{{userImage ? userImage: '../../../assets/default/user.png'}}" alt=""></a>
+        src="{{userImage ? userImage: '../../../assets/default/user.png'}}" alt="user-image"></a>
   </div>
 </div>

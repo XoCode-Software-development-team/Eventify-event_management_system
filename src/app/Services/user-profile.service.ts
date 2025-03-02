@@ -51,8 +51,8 @@ export class UserProfileService {
   openPopup() {
     if (!this.popupToggle) {
       this.dialogRef = this._matDialog.open(UserCardComponent, {
-        // width: '18%',
-        height: '12%',
+        height: '14%',
+        minWidth:'16%',
         position: { top: '90px', right: '100px' },
       });
       this.popupToggle = true;

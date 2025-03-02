@@ -136,7 +136,7 @@ export class NotificationService {
       if (!this.popupToggle) {
         this.dialogRef = this._matDialog.open(NotificationBoxComponent, {
           width: '500px',
-          height: '50%',
+          height: '500px',
           position: { top: '165px', right: '130px' },
         });
         this.popupToggle = true;

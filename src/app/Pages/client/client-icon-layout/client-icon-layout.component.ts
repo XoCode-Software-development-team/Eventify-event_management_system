@@ -153,7 +153,7 @@ export class ClientIconLayoutComponent implements OnInit, OnDestroy, AfterViewIn
     if (this.popUpItem != 'compare') {
       this.dialogRef = this._matDialog.open(CompareBoxComponent, {
         width: '425px',
-        height: '45%',
+        height: '55%',
         position: { top: '165px', right: '130px' },
       });
       this.popUpItem = 'compare';
